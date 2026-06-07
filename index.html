@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>Vordex NFT Market | Telegram Gifts API</title>
+    <title>Vordex NFT Market | Telegram Gifts</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -96,7 +96,7 @@
     <div class="header">
         <div class="logo-area">
             <h1><i class="fas fa-cube"></i> Vordex</h1>
-            <p>Telegram Gifts API | Реальные данные</p>
+            <p>Telegram Gifts | Только лучшие коллекции</p>
         </div>
         <div class="right-header">
             <div class="lang-switch" id="langSwitch">
@@ -123,7 +123,7 @@
             </div>
             <button class="refresh-btn" id="refreshBtn"><i class="fas fa-sync-alt"></i></button>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="empty-state"><div class="loading-spinner"></div>Загрузка данных из Telegram Gifts API...</div></div>
+        <div id="marketList" class="gifts-grid"><div class="empty-state"><div class="loading-spinner"></div>Загрузка коллекций Telegram Gifts...</div></div>
     </div>
     <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"></div></div>
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"></div></div>
@@ -140,132 +140,66 @@
     let allGifts = [], filteredGifts = [], myGifts = [], cartItems = [];
     let collectionsMetadata = [];
     let lottieInstances = new Map();
+    let miniLottieInstances = new Map();
     let currentLang = 'ru';
     let isLoading = false;
     
-    // API Base URL (замените на ваш реальный endpoint)
-    const API_BASE = "https://portals-market.vercel.app/"; // Примерный API endpoint
+    // Коллекции, которые исключены (не показываются)
+    const EXCLUDED_COLLECTIONS = ["dragon", "cybergift", "moonrabbit", "crystalheart", "neoncat", "tonpenguin"];
     
-    // ========== РЕАЛЬНЫЕ API ВЫЗОВЫ ==========
-    
-    // Получение метаданных всех коллекций
-    async function fetchCollectionsMetadata() {
-        try {
-            const response = await fetch(`${API_BASE}/api/v1/gifts/get_collections_metadata`);
-            if (!response.ok) throw new Error('API error');
-            const data = await response.json();
-            return data.collections || data;
-        } catch (error) {
-            console.warn('API недоступен, использую локальные данные:', error);
-            return getLocalCollectionsMetadata();
-        }
-    }
-    
-    // Локальные данные коллекций (резерв)
+    // ========== ЛОКАЛЬНЫЕ ДАННЫЕ КОЛЛЕКЦИЙ ==========
     function getLocalCollectionsMetadata() {
         return [
             { shortname: "plushpepe", name: "Plush Pepe", floor_price: 45, total_supply: 2000, image: "🐸", color: "#22c55e" },
             { shortname: "homemadecake", name: "Homemade Cakes", floor_price: 12, total_supply: 19775, image: "🎂", color: "#f59e0b" },
             { shortname: "hexpot", name: "Hex Pot", floor_price: 18.5, total_supply: 1500, image: "⚗️", color: "#14b8a6" },
             { shortname: "bdaycandle", name: "B-Day Candle", floor_price: 2.5, total_supply: 307632, image: "🕯️", color: "#ef4444" },
-            { shortname: "dragon", name: "Dragon Soul", floor_price: 89.9, total_supply: 500, image: "🐉", color: "#dc2626" },
-            { shortname: "cybergift", name: "Cyber Gift", floor_price: 22.4, total_supply: 800, image: "🤖", color: "#06b6d4" },
-            { shortname: "moonrabbit", name: "Moon Rabbit", floor_price: 15.2, total_supply: 600, image: "🐰", color: "#8b5cf6" },
-            { shortname: "crystalheart", name: "Crystal Heart", floor_price: 7.5, total_supply: 1800, image: "💎", color: "#ec4899" },
-            { shortname: "neoncat", name: "Neon Cat", floor_price: 27.3, total_supply: 750, image: "🐱", color: "#d946ef" },
+            { shortname: "astralshard", name: "Astral Shards", floor_price: 15.8, total_supply: 1550, image: "✨", color: "#c084fc" },
             { shortname: "witchhat", name: "Witch Hat", floor_price: 9.5, total_supply: 1450, image: "🧙", color: "#7c3aed" },
             { shortname: "gingercookie", name: "Ginger Cookie", floor_price: 3.8, total_supply: 3500, image: "🍪", color: "#d97706" },
             { shortname: "crystalball", name: "Crystal Ball", floor_price: 22, total_supply: 980, image: "🔮", color: "#a855f7" },
             { shortname: "santahat", name: "Santa Hat", floor_price: 14, total_supply: 2100, image: "🎅", color: "#dc2626" },
-            { shortname: "icecream", name: "Ice Cream", floor_price: 9, total_supply: 3050, image: "🍦", color: "#fbcfe8" },
-            { shortname: "tonpenguin", name: "TON Penguin", floor_price: 28.5, total_supply: 3333, image: "🐧", color: "#3b82f6" }
+            { shortname: "icecream", name: "Ice Cream", floor_price: 9, total_supply: 3050, image: "🍦", color: "#fbcfe8" }
         ];
     }
     
-    // Получение цены подарков через API
-    async function fetchGiftPriceList() {
+    async function fetchCollectionsMetadata() {
         try {
-            const response = await fetch(`${API_BASE}/api/v1/gifts/get_gifts_price_list`);
+            const response = await fetch(`https://api.gifts.tonanalytics.com/api/v1/gifts/get_collections_metadata`);
             if (!response.ok) throw new Error('API error');
             const data = await response.json();
-            return data.prices || data;
+            let collections = data.collections || data;
+            // Фильтруем исключенные коллекции
+            collections = collections.filter(c => !EXCLUDED_COLLECTIONS.includes(c.shortname) && !EXCLUDED_COLLECTIONS.includes(c.slug));
+            return collections;
         } catch (error) {
-            console.warn('Price API недоступен');
-            return null;
+            console.warn('API недоступен, использую локальные данные:', error);
+            return getLocalCollectionsMetadata();
         }
     }
     
-    // Получение уникальных предложений
-    async function fetchUniqueDeals(collectionName, limit = 50) {
-        try {
-            const response = await fetch(`${API_BASE}/api/v1/gifts/get_unique_deals?collection=${encodeURIComponent(collectionName)}&limit=${limit}`);
-            if (!response.ok) throw new Error('API error');
-            const data = await response.json();
-            return data.deals || [];
-        } catch (error) {
-            return [];
-        }
-    }
-    
-    // Получение информации о конкретном подарке по имени
-    async function fetchGiftByName(giftName) {
-        try {
-            const response = await fetch(`${API_BASE}/api/v1/gifts/get_gift_by_name?name=${encodeURIComponent(giftName)}`);
-            if (!response.ok) throw new Error('API error');
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            return null;
-        }
-    }
-    
-    // Получение статистики по коллекциям (объемы продаж)
-    async function fetchCollectionsVolumes() {
-        try {
-            const response = await fetch(`${API_BASE}/api/v1/gifts/get_collections_volumes`);
-            if (!response.ok) throw new Error('API error');
-            const data = await response.json();
-            return data.volumes || {};
-        } catch (error) {
-            return {};
-        }
-    }
-    
-    // Генерация подарков из API данных
     async function loadGiftsFromAPI() {
         isLoading = true;
         document.getElementById("marketList").innerHTML = '<div class="empty-state"><div class="loading-spinner"></div>Загрузка из Telegram Gifts API...</div>';
         
-        // Получаем метаданные коллекций
         const collections = await fetchCollectionsMetadata();
         collectionsMetadata = collections;
-        
-        // Получаем цены и объемы
-        const priceData = await fetchGiftPriceList();
-        const volumesData = await fetchCollectionsVolumes();
         
         const gifts = [];
         const tonToUsd = 3.45;
         
-        // Для каждой коллекции генерируем подарки на основе реальных данных
         for (const collection of collections) {
             const colName = collection.shortname || collection.slug;
             const colDisplayName = collection.name || collection.collection_name;
             const floorPrice = collection.floor_price || collection.floorPrice || 10;
             const totalSupply = collection.total_supply || collection.count || 1000;
             
-            // Получаем уникальные предложения для этой коллекции
-            const deals = await fetchUniqueDeals(colName, 10);
-            
-            // Генерируем от 5 до 15 подарков на коллекцию
-            const itemsCount = Math.min(15, Math.max(5, Math.floor(totalSupply / 5000) + 3));
+            const itemsCount = Math.min(12, Math.max(5, Math.floor(totalSupply / 5000) + 3));
             
             for (let i = 1; i <= itemsCount; i++) {
                 const itemNumber = Math.floor(Math.random() * Math.min(totalSupply, 99999)) + 1;
                 const priceVariation = 0.85 + Math.random() * 0.5;
                 const priceTON = parseFloat((floorPrice * priceVariation).toFixed(2));
-                
-                // Реальный URL Lottie анимации через Fragment
                 const lottieUrl = `https://nft.fragment.com/gift/${colName}-${itemNumber}.lottie.json`;
                 
                 gifts.push({
@@ -275,23 +209,18 @@
                     collection_name: colDisplayName,
                     item_number: String(itemNumber),
                     priceTON: priceTON,
-                    starsPrice: Math.floor(priceTON * 100),
                     usdPrice: parseFloat((priceTON * tonToUsd).toFixed(2)),
                     lottieUrl: lottieUrl,
                     color: collection.color || `#${Math.floor(Math.random()*16777215).toString(16)}`,
-                    icon: collection.image || "🎁",
-                    volume24h: volumesData[colName]?.volume_24h || 0
+                    icon: collection.image || "🎁"
                 });
             }
         }
         
-        // Сортируем по объему торгов (более популярные вверху)
-        gifts.sort((a, b) => (b.volume24h || 0) - (a.volume24h || 0));
-        
+        gifts.sort(() => Math.random() - 0.5);
         return gifts;
     }
     
-    // Загрузка Lottie анимации
     async function loadLottieAnimation(containerId, lottieUrl, color, icon) {
         const container = document.getElementById(containerId);
         if (!container) return false;
@@ -345,9 +274,8 @@
     function getIconClass(icon) {
         const iconMap = {
             "🐸": "fa-frog", "🎂": "fa-birthday-cake", "⚗️": "fa-flask", "🕯️": "fa-candle-holder",
-            "🐉": "fa-dragon", "🤖": "fa-robot", "🐰": "fa-rabbit", "💎": "fa-gem",
-            "🐱": "fa-cat", "🧙": "fa-hat-wizard", "🍪": "fa-cookie-bite", "🔮": "fa-moon",
-            "🎅": "fa-santa", "🍦": "fa-ice-cream", "🐧": "fa-penguin", "🎁": "fa-gift"
+            "✨": "fa-star", "🧙": "fa-hat-wizard", "🍪": "fa-cookie-bite", "🔮": "fa-moon",
+            "🎅": "fa-santa", "🍦": "fa-ice-cream", "🎁": "fa-gift"
         };
         return iconMap[icon] || "fa-gift";
     }
@@ -641,6 +569,12 @@
         const container = document.getElementById(containerId);
         if (!container) return;
         
+        if (miniLottieInstances.has(containerId)) {
+            const old = miniLottieInstances.get(containerId);
+            if (old?.destroy) old.destroy();
+            miniLottieInstances.delete(containerId);
+        }
+        
         const timeout = setTimeout(() => {
             if (container) container.innerHTML = `<i class="fas ${getIconClass(icon)}" style="font-size:20px; color:${color};"></i>`;
         }, 4000);
@@ -653,7 +587,10 @@
                 autoplay: true,
                 path: lottieUrl
             });
-            anim.addEventListener('DOMLoaded', () => clearTimeout(timeout));
+            anim.addEventListener('DOMLoaded', () => {
+                clearTimeout(timeout);
+                miniLottieInstances.set(containerId, anim);
+            });
             anim.addEventListener('error', () => {
                 clearTimeout(timeout);
                 if (container) container.innerHTML = `<i class="fas ${getIconClass(icon)}" style="font-size:20px; color:${color};"></i>`;
@@ -665,7 +602,7 @@
     }
     
     async function refreshData() {
-        showToast("🔄 Обновление данных из API...");
+        showToast("🔄 Обновление данных...");
         allGifts = await loadGiftsFromAPI();
         filteredGifts = selectedCollections.size ? 
             allGifts.filter(g => selectedCollections.has(g.collection_slug)) : 
@@ -673,7 +610,7 @@
         
         const totalGifts = allGifts.length;
         const totalCollections = collectionsMetadata.length;
-        document.getElementById("apiStatus").innerHTML = `🎁 API DATA: ${totalGifts} NFT | ${totalCollections} коллекций | Telegram Gifts Real-time`;
+        document.getElementById("apiStatus").innerHTML = `🎁 ${totalGifts} NFT | ${totalCollections} коллекций | Telegram Gifts`;
         
         renderMarket();
         await renderFilterModal();
@@ -708,7 +645,7 @@
         
         const totalGifts = allGifts.length;
         const totalCollections = collectionsMetadata.length;
-        document.getElementById("apiStatus").innerHTML = `🎁 REAL API: ${totalGifts} NFT | ${totalCollections} коллекций | Telegram Gifts`;
+        document.getElementById("apiStatus").innerHTML = `🎁 ${totalGifts} NFT | ${totalCollections} коллекций | Telegram Gifts`;
         
         updateCartCount();
         await renderFilterModal();
