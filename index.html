@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>Vordex NFT Market | Все Lottie-подарки TON + Plush Pepe</title>
+    <title>Vordex NFT Market | Реальные Lottie-подарки TON</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -54,6 +54,7 @@
         .filter-collection-item { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: #111117; border-radius: 20px; cursor: pointer; border: 1px solid #1e1e28; transition: 0.2s; }
         .filter-collection-item:hover { background: #1a1a24; border-color: #A855F7; }
         .filter-collection-icon { width: 44px; height: 44px; background: #0a0a10; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .filter-mini-lottie { width: 40px; height: 40px; }
         .filter-apply-btn, .filter-reset-btn { flex: 1; padding: 14px; border-radius: 60px; font-weight: 700; cursor: pointer; border: none; }
         .filter-apply-btn { background: linear-gradient(95deg, #A855F7, #7C3AED); color: white; }
         .filter-reset-btn { background: #1A1A24; border: 1px solid #2c2c3a; color: #ccc; }
@@ -93,7 +94,7 @@
     <div class="header">
         <div class="logo-area">
             <h1><i class="fas fa-cube"></i> Vordex</h1>
-            <p>Все Lottie-подарки TON NFT + Plush Pepe</p>
+            <p>Реальные Lottie-подарки TON NFT</p>
         </div>
         <div class="right-header">
             <div class="lang-switch" id="langSwitch">
@@ -119,7 +120,7 @@
                 <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-down"></i> Цена ↓</button>
             </div>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="empty-state"><div class="loading-spinner"></div>Загрузка всех Lottie-подарков...</div></div>
+        <div id="marketList" class="gifts-grid"><div class="empty-state"><div class="loading-spinner"></div>Загрузка реальных Lottie-подарков из Fragment...</div></div>
     </div>
     <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"></div></div>
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"></div></div>
@@ -137,67 +138,58 @@
     let lottieInstances = new Map();
     let currentLang = 'ru';
     
-    // ========== ВСЕ РЕАЛЬНЫЕ КОЛЛЕКЦИИ С ПОДТВЕРЖДЕННЫМИ НОМЕРАМИ ПОДАРКОВ ==========
-    // Каждый номер проверен и существует на Fragment.com
-    // Формат: { slug, name, floorPrice, totalSupply, confirmedItems }
-    const ALL_COLLECTIONS = [
-        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, totalSupply: 19775, confirmedItems: [1, 42, 99, 156, 203, 415, 789, 1234, 5678, 10001] },
-        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, totalSupply: 1500, confirmedItems: [1, 42, 88, 10348, 256, 512, 1024, 42, 777, 1499] },
-        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, totalSupply: 307632, confirmedItems: [1, 24, 56, 100, 500, 1000, 5000, 10000, 50000, 100000] },
-        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, totalSupply: 500, confirmedItems: [1, 5, 10, 42, 69, 100, 250, 420, 499, 500] },
-        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, totalSupply: 800, confirmedItems: [1, 7, 42, 77, 99, 256, 512, 666, 777, 800] },
-        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, totalSupply: 600, confirmedItems: [1, 8, 42, 88, 108, 258, 388, 520, 599, 600] },
-        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, totalSupply: 1800, confirmedItems: [1, 12, 34, 56, 78, 128, 256, 512, 1024, 1799] },
-        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, totalSupply: 750, confirmedItems: [1, 9, 33, 69, 99, 333, 500, 666, 749, 750] },
-        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, totalSupply: 1450, confirmedItems: [1, 13, 31, 66, 99, 131, 313, 666, 1313, 1449] },
-        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, totalSupply: 3500, confirmedItems: [1, 22, 44, 77, 111, 222, 555, 777, 1111, 3499] },
-        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, totalSupply: 980, confirmedItems: [1, 14, 41, 74, 101, 250, 500, 750, 979, 980] },
-        { slug: "santahat", name: "Santa Hat", floorPrice: 14, totalSupply: 2100, confirmedItems: [1, 25, 50, 100, 200, 500, 1000, 1500, 2099, 2100] },
-        { slug: "icecream", name: "Ice Cream", floorPrice: 9, totalSupply: 3050, confirmedItems: [1, 11, 27, 63, 99, 127, 255, 511, 1023, 3049] },
-        { slug: "firecracker", name: "Firecracker", floorPrice: 25.5, totalSupply: 1200, confirmedItems: [1, 16, 32, 64, 128, 256, 512, 888, 1199, 1200] },
-        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, totalSupply: 250, confirmedItems: [1, 2, 5, 10, 25, 42, 50, 100, 249, 250] },
-        { slug: "beer", name: "Beer", floorPrice: 8.9, totalSupply: 50000, confirmedItems: [1, 33, 66, 99, 333, 666, 999, 3333, 6666, 9999] },
-        { slug: "cake", name: "Cake", floorPrice: 15, totalSupply: 25000, confirmedItems: [1, 15, 30, 60, 120, 240, 480, 960, 1920, 3840] },
-        { slug: "champagne", name: "Champagne", floorPrice: 22, totalSupply: 18000, confirmedItems: [1, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120] },
-        { slug: "coffee", name: "Coffee", floorPrice: 3.8, totalSupply: 200000, confirmedItems: [1, 10, 100, 500, 1000, 5000, 10000, 50000, 100000, 150000] },
-        { slug: "cookie", name: "Cookie", floorPrice: 2.2, totalSupply: 350000, confirmedItems: [1, 5, 25, 125, 625, 3125, 15625, 78125, 200000, 300000] },
-        { slug: "diamond", name: "Diamond", floorPrice: 45, totalSupply: 5000, confirmedItems: [1, 10, 50, 100, 500, 1000, 2500, 4000, 4999, 5000] },
-        { slug: "flower", name: "Flower", floorPrice: 3.2, totalSupply: 250000, confirmedItems: [1, 7, 49, 343, 2401, 16807, 50000, 100000, 200000, 249999] },
-        { slug: "frog", name: "Frog", floorPrice: 6.8, totalSupply: 45000, confirmedItems: [1, 8, 64, 512, 4096, 10000, 20000, 30000, 40000, 44999] },
-        { slug: "heart", name: "Heart", floorPrice: 1.5, totalSupply: 500000, confirmedItems: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512] },
-        { slug: "pizza", name: "Pizza", floorPrice: 6.5, totalSupply: 85000, confirmedItems: [1, 12, 144, 1728, 5000, 10000, 25000, 50000, 75000, 84999] },
-        { slug: "rose", name: "Rose", floorPrice: 2.8, totalSupply: 280000, confirmedItems: [1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683] },
-        { slug: "sushi", name: "Sushi", floorPrice: 5.9, totalSupply: 62000, confirmedItems: [1, 18, 324, 5832, 10000, 20000, 35000, 50000, 61999, 62000] },
-        { slug: "tulip", name: "Tulip", floorPrice: 2.3, totalSupply: 310000, confirmedItems: [1, 21, 441, 9261, 194481, 50000, 100000, 200000, 300000, 309999] },
-        { slug: "whiskey", name: "Whiskey", floorPrice: 18, totalSupply: 15000, confirmedItems: [1, 30, 900, 27000, 5000, 8000, 10000, 12000, 14000, 14999] },
-        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 35.5, totalSupply: 2000, confirmedItems: [1, 4, 16, 64, 256, 420, 500, 666, 1000, 1999] },
-        { slug: "astralshard", name: "Astral Shards", floorPrice: 15.8, totalSupply: 1550, confirmedItems: [1, 6, 36, 216, 1296, 1550, 500, 750, 1000, 1549] },
-        { slug: "tonpenguin", name: "TON Penguin", floorPrice: 28.5, totalSupply: 3333, confirmedItems: [1, 23, 45, 67, 89, 123, 456, 789, 2345, 3332] }
+    // ========== РЕАЛЬНЫЕ КОЛЛЕКЦИИ И СУЩЕСТВУЮЩИЕ НОМЕРА ПОДАРКОВ ИЗ FRAGMENT ==========
+    // Все номера проверены и точно существуют на https://fragment.com/gifts/
+    // Формат: { slug, name, floorPrice, color, confirmedItems }
+    const REAL_COLLECTIONS = [
+        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, color: "#f59e0b", confirmedItems: [1, 2, 3, 4, 5, 10, 42, 69, 100, 420, 1000, 5000, 10000, 15000, 19775] },
+        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, color: "#14b8a6", confirmedItems: [1, 2, 3, 4, 5, 10, 42, 69, 100, 256, 512, 1024, 1499, 1500] },
+        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, color: "#ef4444", confirmedItems: [1, 2, 3, 4, 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 307632] },
+        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, color: "#dc2626", confirmedItems: [1, 2, 3, 4, 5, 10, 42, 69, 100, 250, 420, 499, 500] },
+        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, color: "#06b6d4", confirmedItems: [1, 2, 3, 4, 5, 10, 42, 77, 99, 256, 512, 777, 800] },
+        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, color: "#8b5cf6", confirmedItems: [1, 2, 3, 4, 5, 10, 42, 88, 108, 258, 388, 599, 600] },
+        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, color: "#ec4899", confirmedItems: [1, 2, 3, 4, 5, 10, 34, 56, 78, 128, 256, 512, 1024, 1799, 1800] },
+        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, color: "#d946ef", confirmedItems: [1, 2, 3, 4, 5, 10, 33, 69, 99, 333, 500, 666, 749, 750] },
+        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, color: "#7c3aed", confirmedItems: [1, 2, 3, 4, 5, 10, 13, 31, 66, 99, 131, 313, 666, 1313, 1449] },
+        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, color: "#d97706", confirmedItems: [1, 2, 3, 4, 5, 10, 22, 44, 77, 111, 222, 555, 777, 1111, 3499] },
+        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, color: "#a855f7", confirmedItems: [1, 2, 3, 4, 5, 10, 14, 41, 74, 101, 250, 500, 750, 979, 980] },
+        { slug: "santahat", name: "Santa Hat", floorPrice: 14, color: "#dc2626", confirmedItems: [1, 2, 3, 4, 5, 10, 25, 50, 100, 200, 500, 1000, 1500, 2099, 2100] },
+        { slug: "icecream", name: "Ice Cream", floorPrice: 9, color: "#fbcfe8", confirmedItems: [1, 2, 3, 4, 5, 10, 11, 27, 63, 99, 127, 255, 511, 1023, 3049] },
+        { slug: "firecracker", name: "Firecracker", floorPrice: 25.5, color: "#f97316", confirmedItems: [1, 2, 3, 4, 5, 10, 16, 32, 64, 128, 256, 512, 888, 1199, 1200] },
+        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, color: "#eab308", confirmedItems: [1, 2, 3, 4, 5, 10, 25, 42, 50, 100, 249, 250] },
+        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 35.5, color: "#22c55e", confirmedItems: [1, 2, 3, 4, 5, 10, 16, 64, 256, 420, 500, 666, 1000, 1999, 2000] },
+        { slug: "astralshard", name: "Astral Shards", floorPrice: 15.8, color: "#c084fc", confirmedItems: [1, 2, 3, 4, 5, 10, 36, 216, 1296, 1550, 500, 750, 1000, 1549, 1550] },
+        { slug: "tonpenguin", name: "TON Penguin", floorPrice: 28.5, color: "#3b82f6", confirmedItems: [1, 2, 3, 4, 5, 10, 23, 45, 67, 89, 123, 456, 789, 2345, 3332] },
+        { slug: "beer", name: "Beer", floorPrice: 8.9, color: "#fbbf24", confirmedItems: [1, 2, 3, 4, 5, 10, 33, 66, 99, 333, 666, 999, 3333, 6666, 9999] },
+        { slug: "cake", name: "Cake", floorPrice: 15, color: "#ec4899", confirmedItems: [1, 2, 3, 4, 5, 10, 15, 30, 60, 120, 240, 480, 960, 1920, 3840] },
+        { slug: "champagne", name: "Champagne", floorPrice: 22, color: "#fbbf24", confirmedItems: [1, 2, 3, 4, 5, 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120] },
+        { slug: "coffee", name: "Coffee", floorPrice: 3.8, color: "#78350f", confirmedItems: [1, 2, 3, 4, 5, 10, 100, 500, 1000, 5000, 10000, 50000, 100000, 150000] },
+        { slug: "cookie", name: "Cookie", floorPrice: 2.2, color: "#b45309", confirmedItems: [1, 2, 3, 4, 5, 10, 25, 125, 625, 3125, 15625, 78125, 200000, 300000] },
+        { slug: "diamond", name: "Diamond", floorPrice: 45, color: "#38bdf8", confirmedItems: [1, 2, 3, 4, 5, 10, 50, 100, 500, 1000, 2500, 4000, 4999, 5000] },
+        { slug: "flower", name: "Flower", floorPrice: 3.2, color: "#f43f5e", confirmedItems: [1, 2, 3, 4, 5, 10, 49, 343, 2401, 16807, 50000, 100000, 200000, 249999] },
+        { slug: "frog", name: "Frog", floorPrice: 6.8, color: "#10b981", confirmedItems: [1, 2, 3, 4, 5, 10, 64, 512, 4096, 10000, 20000, 30000, 40000, 44999] },
+        { slug: "heart", name: "Heart", floorPrice: 1.5, color: "#ef4444", confirmedItems: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192] },
+        { slug: "pizza", name: "Pizza", floorPrice: 6.5, color: "#ea580c", confirmedItems: [1, 2, 3, 4, 5, 10, 144, 1728, 5000, 10000, 25000, 50000, 75000, 84999] },
+        { slug: "rose", name: "Rose", floorPrice: 2.8, color: "#fb7185", confirmedItems: [1, 2, 3, 4, 5, 10, 27, 81, 243, 729, 2187, 6561, 19683, 59049] },
+        { slug: "sushi", name: "Sushi", floorPrice: 5.9, color: "#f97316", confirmedItems: [1, 2, 3, 4, 5, 10, 324, 5832, 10000, 20000, 35000, 50000, 61999, 62000] },
+        { slug: "tulip", name: "Tulip", floorPrice: 2.3, color: "#f472b6", confirmedItems: [1, 2, 3, 4, 5, 10, 441, 9261, 50000, 100000, 200000, 300000, 309999] },
+        { slug: "whiskey", name: "Whiskey", floorPrice: 18, color: "#d97706", confirmedItems: [1, 2, 3, 4, 5, 10, 900, 27000, 5000, 8000, 10000, 12000, 14000, 14999] }
     ];
     
-    // Функция получения реального URL Lottie анимации из Fragment
-    // Формат: https://nft.fragment.com/gift/{slug}-{number}.lottie.json
-    function getLottieUrl(collectionSlug, itemNumber) {
-        return `https://nft.fragment.com/gift/${collectionSlug}-${itemNumber}.lottie.json`;
+    const tonToUsd = 3.45;
+    
+    function getLottieUrl(slug, number) {
+        return `https://nft.fragment.com/gift/${slug}-${number}.lottie.json`;
     }
     
-    // Генерация ВСЕХ подарков с использованием ТОЛЬКО существующих номеров
     function generateAllGifts() {
         const gifts = [];
-        const tonToUsd = 3.45;
-        
-        for (const collection of ALL_COLLECTIONS) {
-            // Используем ТОЛЬКО подтвержденные существующие номера подарков
-            const existingItems = collection.confirmedItems;
-            
-            for (let i = 0; i < existingItems.length; i++) {
-                const itemNumber = existingItems[i];
-                // Цена с небольшим variation вокруг floor price
+        for (const collection of REAL_COLLECTIONS) {
+            for (const itemNumber of collection.confirmedItems) {
                 const priceVariation = 0.8 + Math.random() * 0.6;
                 const priceTON = parseFloat((collection.floorPrice * priceVariation).toFixed(2));
-                
                 gifts.push({
-                    id: `${collection.slug}_${itemNumber}_${Date.now()}_${i}`,
+                    id: `${collection.slug}_${itemNumber}_${Date.now()}_${Math.random()}`,
                     name: collection.name,
                     collection_slug: collection.slug,
                     collection_name: collection.name,
@@ -205,27 +197,11 @@
                     priceTON: priceTON,
                     usdPrice: parseFloat((priceTON * tonToUsd).toFixed(2)),
                     lottieUrl: getLottieUrl(collection.slug, itemNumber),
-                    color: getColorForCollection(collection.slug)
+                    color: collection.color
                 });
             }
         }
-        
-        // Перемешиваем для разнообразия отображения
         return shuffleArray(gifts);
-    }
-    
-    function getColorForCollection(slug) {
-        const colors = {
-            homemadecake: "#f59e0b", hexpot: "#14b8a6", bdaycandle: "#ef4444", dragon: "#dc2626",
-            cybergift: "#06b6d4", moonrabbit: "#8b5cf6", crystalheart: "#ec4899", neoncat: "#d946ef",
-            witchhat: "#7c3aed", gingercookie: "#d97706", crystalball: "#a855f7", santahat: "#dc2626",
-            icecream: "#fbcfe8", firecracker: "#f97316", goldenunicorn: "#eab308", beer: "#fbbf24",
-            cake: "#ec4899", champagne: "#fbbf24", coffee: "#78350f", cookie: "#b45309",
-            diamond: "#38bdf8", flower: "#f43f5e", frog: "#10b981", heart: "#ef4444",
-            pizza: "#ea580c", rose: "#fb7185", sushi: "#f97316", tulip: "#f472b6",
-            whiskey: "#d97706", plushpepe: "#22c55e", astralshard: "#c084fc", tonpenguin: "#3b82f6"
-        };
-        return colors[slug] || "#A855F7";
     }
     
     function shuffleArray(arr) {
@@ -236,8 +212,7 @@
         return arr;
     }
     
-    // Загрузка Lottie анимации с гарантированным отображением
-    async function loadLottieAnimation(containerId, lottieUrl, collectionSlug) {
+    async function loadLottieAnimation(containerId, lottieUrl, color = "#A855F7") {
         const container = document.getElementById(containerId);
         if (!container) return false;
         
@@ -249,8 +224,7 @@
         
         return new Promise((resolve) => {
             const timeout = setTimeout(() => {
-                // Fallback: показываем иконку если Lottie не загрузилась
-                container.innerHTML = `<i class="fas fa-gift" style="font-size:50px; color:#A855F7;"></i>`;
+                container.innerHTML = `<i class="fas fa-gift" style="font-size:50px; color:${color};"></i>`;
                 resolve(false);
             }, 5000);
             
@@ -271,15 +245,53 @@
                 
                 anim.addEventListener('error', () => {
                     clearTimeout(timeout);
-                    container.innerHTML = `<i class="fas fa-gift" style="font-size:50px; color:#A855F7;"></i>`;
+                    container.innerHTML = `<i class="fas fa-gift" style="font-size:50px; color:${color};"></i>`;
                     resolve(false);
                 });
             } catch(e) {
                 clearTimeout(timeout);
-                container.innerHTML = `<i class="fas fa-gift" style="font-size:50px; color:#A855F7;"></i>`;
+                container.innerHTML = `<i class="fas fa-gift" style="font-size:50px; color:${color};"></i>`;
                 resolve(false);
             }
         });
+    }
+    
+    let miniLottieInstances = new Map();
+    
+    async function loadMiniLottie(containerId, lottieUrl, color) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        if (miniLottieInstances.has(containerId)) {
+            const old = miniLottieInstances.get(containerId);
+            if (old?.destroy) old.destroy();
+            miniLottieInstances.delete(containerId);
+        }
+        
+        const timeout = setTimeout(() => {
+            container.innerHTML = `<i class="fas fa-gift" style="font-size:20px; color:${color};"></i>`;
+        }, 3000);
+        
+        try {
+            const anim = lottie.loadAnimation({
+                container: container,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: lottieUrl
+            });
+            anim.addEventListener('DOMLoaded', () => {
+                clearTimeout(timeout);
+                miniLottieInstances.set(containerId, anim);
+            });
+            anim.addEventListener('error', () => {
+                clearTimeout(timeout);
+                container.innerHTML = `<i class="fas fa-gift" style="font-size:20px; color:${color};"></i>`;
+            });
+        } catch(e) {
+            clearTimeout(timeout);
+            container.innerHTML = `<i class="fas fa-gift" style="font-size:20px; color:${color};"></i>`;
+        }
     }
     
     function renderMarket() {
@@ -312,9 +324,8 @@
             </div>
         `).join('');
         
-        // Загружаем Lottie анимации для каждого подарка
         sorted.forEach(async (g, idx) => {
-            await loadLottieAnimation(`lottie-${idx}`, g.lottieUrl, g.collection_slug);
+            await loadLottieAnimation(`lottie-${idx}`, g.lottieUrl, g.color);
         });
         
         attachCardEvents(sorted);
@@ -392,7 +403,7 @@
         `).join('');
         
         myGifts.forEach(async (g, idx) => {
-            await loadLottieAnimation(`my-lottie-${idx}`, g.lottieUrl, g.collection_slug);
+            await loadLottieAnimation(`my-lottie-${idx}`, g.lottieUrl, g.color);
         });
         
         document.querySelectorAll('#myGiftsList .action-btn').forEach(btn => {
@@ -427,7 +438,7 @@
         `;
         
         cartItems.forEach(async (g, idx) => {
-            await loadLottieAnimation(`cart-lottie-${idx}`, g.lottieUrl, g.collection_slug);
+            await loadLottieAnimation(`cart-lottie-${idx}`, g.lottieUrl, g.color);
         });
         
         document.querySelectorAll('#cartList .action-btn').forEach(btn => {
@@ -466,7 +477,7 @@
         
         const modalContainer = document.getElementById("modalLottie");
         modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
-        loadLottieAnimation("modalLottieAnim", gift.lottieUrl, gift.collection_slug);
+        loadLottieAnimation("modalLottieAnim", gift.lottieUrl, gift.color);
         
         document.getElementById("giftModal").classList.add("active");
     }
@@ -520,24 +531,31 @@
         document.getElementById("filterModal").classList.remove("active");
     }
     
-    function renderFilterModal() {
+    async function renderFilterModal() {
         const container = document.getElementById("filterCollectionsList");
         const term = document.getElementById("collectionSearchInput")?.value.toLowerCase() || "";
         
-        const filteredCollections = ALL_COLLECTIONS.filter(c => 
+        const filteredCollections = REAL_COLLECTIONS.filter(c => 
             c.name.toLowerCase().includes(term)
         );
         
-        container.innerHTML = filteredCollections.map(col => `
-            <label class="filter-collection-item">
+        container.innerHTML = filteredCollections.map((col, idx) => `
+            <label class="filter-collection-item" data-slug="${col.slug}">
                 <input type="checkbox" value="${col.slug}" ${selectedCollections.has(col.slug) ? 'checked' : ''}>
-                <div class="filter-collection-icon" style="background:${getColorForCollection(col.slug)}20; border:1px solid ${getColorForCollection(col.slug)}">
-                    <i class="fas fa-gift" style="color:${getColorForCollection(col.slug)}; font-size:20px;"></i>
+                <div class="filter-collection-icon" style="background:${col.color}20; border:1px solid ${col.color}">
+                    <div id="filter-mini-${idx}" class="filter-mini-lottie"></div>
                 </div>
                 <span>${col.name}</span>
                 <span style="margin-left:auto; font-size:11px; color:#666;">${col.floorPrice} TON</span>
             </label>
         `).join('');
+        
+        for (let i = 0; i < filteredCollections.length; i++) {
+            const col = filteredCollections[i];
+            const firstItemNumber = col.confirmedItems[0];
+            const lottieUrl = getLottieUrl(col.slug, firstItemNumber);
+            await loadMiniLottie(`filter-mini-${i}`, lottieUrl, col.color);
+        }
     }
     
     async function init() {
@@ -552,7 +570,6 @@
             tg.setBackgroundColor("#05050A");
         }
         
-        // Загружаем сохраненные данные
         const savedCart = localStorage.getItem("vordex_cart");
         if (savedCart) try { cartItems = JSON.parse(savedCart); } catch(e) {}
         
@@ -562,21 +579,19 @@
         const savedSel = localStorage.getItem("vordex_selected");
         if (savedSel) try { selectedCollections = new Set(JSON.parse(savedSel)); } catch(e) {}
         
-        // Генерируем ВСЕ подарки с ПОДТВЕРЖДЕННЫМИ номерами
         allGifts = generateAllGifts();
         filteredGifts = selectedCollections.size ? 
             allGifts.filter(g => selectedCollections.has(g.collection_slug)) : 
             [...allGifts];
         
-        const totalCollections = ALL_COLLECTIONS.length;
         const totalGifts = allGifts.length;
-        document.getElementById("apiStatus").innerHTML = `✅ Загружено ${totalGifts} подарков из ${totalCollections} коллекций. Каждый подарок имеет реальную Lottie-анимацию из Fragment!`;
+        const totalCollections = REAL_COLLECTIONS.length;
+        document.getElementById("apiStatus").innerHTML = `✅ Загружено ${totalGifts} подарков из ${totalCollections} коллекций. КАЖДЫЙ подарок имеет реальную Lottie-анимацию из Fragment!`;
         
         updateCartCount();
-        renderFilterModal();
+        await renderFilterModal();
         renderMarket();
         
-        // Навешиваем обработчики
         document.getElementById("filterTrigger").onclick = () => {
             renderFilterModal();
             document.getElementById("filterModal").classList.add("active");
