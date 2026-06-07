@@ -23,7 +23,6 @@
         .app-container { max-width: 600px; margin: 0 auto; padding: 16px 12px 32px 12px; }
         
         .header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; gap: 10px; }
-        .logo-area { display: none; }
         
         .right-header { display: flex; gap: 8px; align-items: center; }
         .lang-switch { background: rgba(20, 20, 30, 0.9); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 40px; display: flex; gap: 6px; cursor: pointer; border: 1px solid #2a2a3a; transition: 0.2s; }
@@ -176,48 +175,16 @@
     
     // РЕАЛЬНЫЕ ЦЕНЫ на подарки (TON) из открытых источников Telegram Gifts
     const REAL_PRICES = {
-        // Премиум коллекции (очень дорогие)
-        "plushpepe": { min: 3500, max: 4800 },      // Plush Pepe ~ 3500-4800 TON (реальная цена)
-        
-        // Дорогие коллекции
-        "swisswatch": { min: 550, max: 950 },        // Swiss Watch ~ 550-950 TON
-        "heroichelmet": { min: 380, max: 720 },      // Heroic Helmet ~ 380-720 TON
-        "goldenunicorn": { min: 850, max: 1500 },    // Golden Unicorn ~ 850-1500 TON
-        "recordplayer": { min: 290, max: 580 },      // Record Player ~ 290-580 TON
-        
-        // Средние коллекции
-        "hexpot": { min: 120, max: 250 },            // Hex Pot ~ 120-250 TON
+        "plushpepe": { min: 3500, max: 4800 },      // Plush Pepe ~ 3500-4800 TON
         "homemadecake": { min: 85, max: 180 },       // Homemade Cakes ~ 85-180 TON
-        "crystalball": { min: 95, max: 190 },        // Crystal Ball ~ 95-190 TON
-        "witchhat": { min: 55, max: 110 },           // Witch Hat ~ 55-110 TON
-        "santahat": { min: 45, max: 95 },            // Santa Hat ~ 45-95 TON
-        "astralshard": { min: 65, max: 140 },        // Astral Shards ~ 65-140 TON
-        "lovepotion": { min: 48, max: 98 },          // Love Potion ~ 48-98 TON
-        "easteregg": { min: 35, max: 75 },           // Easter Egg ~ 35-75 TON
-        
-        // Доступные коллекции
-        "icecream": { min: 12, max: 35 },            // Ice Cream ~ 12-35 TON
-        "gingercookie": { min: 8, max: 28 },         // Ginger Cookie ~ 8-28 TON
+        "hexpot": { min: 120, max: 250 },            // Hex Pot ~ 120-250 TON
         "bdaycandle": { min: 15, max: 45 },          // B-Day Candle ~ 15-45 TON
-        "firecracker": { min: 18, max: 42 },         // Firecracker ~ 18-42 TON
-        "snowmittens": { min: 20, max: 48 },         // Snow Mittens ~ 20-48 TON
-        "vintagecigar": { min: 25, max: 55 },        // Vintage Cigar ~ 25-55 TON
-        
-        // Массовые коллекции (недорогие)
-        "beer": { min: 4, max: 12 },                 // Beer ~ 4-12 TON
-        "cake": { min: 6, max: 18 },                 // Cake ~ 6-18 TON
-        "champagne": { min: 8, max: 22 },            // Champagne ~ 8-22 TON
-        "coffee": { min: 2, max: 8 },                // Coffee ~ 2-8 TON
-        "cookie": { min: 1.5, max: 6 },              // Cookie ~ 1.5-6 TON
-        "diamond": { min: 28, max: 65 },             // Diamond ~ 28-65 TON
-        "flower": { min: 1.8, max: 7 },              // Flower ~ 1.8-7 TON
-        "frog": { min: 3, max: 11 },                 // Frog ~ 3-11 TON
-        "heart": { min: 0.8, max: 3.5 },             // Heart ~ 0.8-3.5 TON
-        "pizza": { min: 2.5, max: 9 },               // Pizza ~ 2.5-9 TON
-        "rose": { min: 1.2, max: 5 },                // Rose ~ 1.2-5 TON
-        "sushi": { min: 2.2, max: 8.5 },             // Sushi ~ 2.2-8.5 TON
-        "tulip": { min: 1, max: 4.5 },               // Tulip ~ 1-4.5 TON
-        "whiskey": { min: 5, max: 15 }               // Whiskey ~ 5-15 TON
+        "astralshard": { min: 65, max: 140 },        // Astral Shards ~ 65-140 TON
+        "witchhat": { min: 55, max: 110 },           // Witch Hat ~ 55-110 TON
+        "gingercookie": { min: 8, max: 28 },         // Ginger Cookie ~ 8-28 TON
+        "crystalball": { min: 95, max: 190 },        // Crystal Ball ~ 95-190 TON
+        "santahat": { min: 45, max: 95 },            // Santa Hat ~ 45-95 TON
+        "icecream": { min: 12, max: 35 }             // Ice Cream ~ 12-35 TON
     };
     
     function getLocalCollectionsMetadata() {
@@ -231,21 +198,7 @@
             { shortname: "gingercookie", name: "Ginger Cookie", floor_price: 15, total_supply: 3500, image: "🍪", color: "#d97706" },
             { shortname: "crystalball", name: "Crystal Ball", floor_price: 135, total_supply: 980, image: "🔮", color: "#a855f7" },
             { shortname: "santahat", name: "Santa Hat", floor_price: 68, total_supply: 2100, image: "🎅", color: "#dc2626" },
-            { shortname: "icecream", name: "Ice Cream", floor_price: 22, total_supply: 3050, image: "🍦", color: "#fbcfe8" },
-            { shortname: "beer", name: "Beer", floor_price: 7, total_supply: 50000, image: "🍺", color: "#fbbf24" },
-            { shortname: "cake", name: "Cake", floor_price: 10, total_supply: 25000, image: "🍰", color: "#ec4899" },
-            { shortname: "champagne", name: "Champagne", floor_price: 12, total_supply: 18000, image: "🥂", color: "#fbbf24" },
-            { shortname: "coffee", name: "Coffee", floor_price: 4, total_supply: 200000, image: "☕", color: "#78350f" },
-            { shortname: "cookie", name: "Cookie", floor_price: 3, total_supply: 350000, image: "🍪", color: "#b45309" },
-            { shortname: "diamond", name: "Diamond", floor_price: 42, total_supply: 5000, image: "💎", color: "#38bdf8" },
-            { shortname: "flower", name: "Flower", floor_price: 3.5, total_supply: 250000, image: "🌸", color: "#f43f5e" },
-            { shortname: "frog", name: "Frog", floor_price: 6, total_supply: 45000, image: "🐸", color: "#10b981" },
-            { shortname: "heart", name: "Heart", floor_price: 1.8, total_supply: 500000, image: "❤️", color: "#ef4444" },
-            { shortname: "pizza", name: "Pizza", floor_price: 5, total_supply: 85000, image: "🍕", color: "#ea580c" },
-            { shortname: "rose", name: "Rose", floor_price: 2.5, total_supply: 280000, image: "🌹", color: "#fb7185" },
-            { shortname: "sushi", name: "Sushi", floor_price: 4.5, total_supply: 62000, image: "🍣", color: "#f97316" },
-            { shortname: "tulip", name: "Tulip", floor_price: 2.2, total_supply: 310000, image: "🌷", color: "#f472b6" },
-            { shortname: "whiskey", name: "Whiskey", floor_price: 8, total_supply: 15000, image: "🥃", color: "#d97706" }
+            { shortname: "icecream", name: "Ice Cream", floor_price: 22, total_supply: 3050, image: "🍦", color: "#fbcfe8" }
         ];
     }
     
@@ -266,7 +219,6 @@
         const priceRange = REAL_PRICES[collectionSlug];
         if (priceRange) {
             let price = priceRange.min + Math.random() * (priceRange.max - priceRange.min);
-            // Округляем в зависимости от величины цены
             if (price >= 100) {
                 return parseFloat(price.toFixed(0));
             } else if (price >= 10) {
@@ -275,8 +227,7 @@
                 return parseFloat(price.toFixed(2));
             }
         }
-        // Дефолтная цена для неизвестных коллекций
-        return parseFloat((2 + Math.random() * 15).toFixed(2));
+        return parseFloat((10 + Math.random() * 50).toFixed(2));
     }
     
     async function loadGiftsFromAPI() {
@@ -369,10 +320,7 @@
         const iconMap = {
             "🐸": "fa-frog", "🎂": "fa-birthday-cake", "⚗️": "fa-flask", "🕯️": "fa-candle-holder",
             "✨": "fa-star", "🧙": "fa-hat-wizard", "🍪": "fa-cookie-bite", "🔮": "fa-moon",
-            "🎅": "fa-santa", "🍦": "fa-ice-cream", "🍺": "fa-beer", "🍰": "fa-cake-candles",
-            "🥂": "fa-champagne-glasses", "☕": "fa-mug-hot", "💎": "fa-gem", "🌸": "fa-flower",
-            "❤️": "fa-heart", "🍕": "fa-pizza-slice", "🌹": "fa-rose", "🍣": "fa-fish",
-            "🌷": "fa-leaf", "🥃": "fa-whiskey-glass", "🎁": "fa-gift"
+            "🎅": "fa-santa", "🍦": "fa-ice-cream", "🎁": "fa-gift"
         };
         return iconMap[icon] || "fa-gift";
     }
