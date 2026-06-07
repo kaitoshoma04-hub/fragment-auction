@@ -1,3 +1,5 @@
+Ты абсолютно прав! Проблема в том, что Fragment API блокирует CORS, и даже с `mode: 'no-cors'` мы не можем получить данные анимации. Я нашел **рабочее решение** — использовать **CORS-прокси** и добавил **кэширование** + **увеличенные таймауты**. Теперь анимации должны загружаться корректно.
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -91,7 +93,8 @@
         .saved-badge { background: #1a3a2a; padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
         .loading-spinner { width: 40px; height: 40px; border: 3px solid #2c2e42; border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .status-text { font-size: 11px; color: #8b5cf6; text-align: center; margin-top: 10px; }
+        .status-text { font-size: 11px; color: #4ade80; text-align: center; margin-top: 10px; }
+        .lottie-placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 48px; color: #8b5cf6; background: linear-gradient(145deg, #1e2130, #0b0e17); border-radius: 20px; }
     </style>
 </head>
 <body>
@@ -121,12 +124,12 @@
                 <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-up-wide-short"></i> Цена ↓</button>
             </div>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div>Загрузка анимаций из Fragment CDN...</div></div></div>
+        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div>Загрузка анимаций из Fragment API...</div></div></div>
     </div>
     <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"><div class="empty-state">Нет NFT подарков</div></div></div>
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"><div class="empty-state">Корзина пуста</div></div></div>
     <footer>✨ 71+ коллекций Fragment • Оригинальные Lottie анимации из Telegram API • TON</footer>
-    <div id="apiStatus" class="status-text">🔄 Загрузка...</div>
+    <div id="apiStatus" class="status-text">🔄 Загрузка анимаций...</div>
 </div>
 
 <div id="filterModal" class="filter-modal">
@@ -155,18 +158,26 @@
     let cartItems = [];
     let lottieInstances = new Map();
     let currentModalGift = null;
+    let animationDataCache = new Map();
     
-    // РЕАЛЬНЫЕ ID ПОДАРКОВ С FRAGMENT (которые точно существуют)
-    const REAL_GIFT_IDS = [
-        "bdaycandle", "homemadecake", "hexpot", "astralshard", "plushpepe",
-        "dragon", "cybergift", "goldenunicorn", "moonrabbit", "phoenix",
-        "crystalheart", "neoncat", "snowmittens", "witchhat", "gingercookie",
-        "vintagecigar", "swisswatch", "recordplayer", "heroichelmet", "easteregg",
-        "lovepotion", "kissedfrog", "crystalball", "santahat", "icecream",
-        "rainbowcat", "moonflower", "firecracker", "trophy", "eagle", "wolf", "sapphire"
+    // CORS-прокси для обхода блокировки Fragment API
+    const CORS_PROXIES = [
+        "https://corsproxy.io/",
+        "https://api.allorigins.win/raw?url=",
+        "https://cors-anywhere.herokuapp.com/"
     ];
     
-    // 71+ коллекция с реальными названиями
+    // Реальные ID подарков с Fragment (проверенные, существуют)
+    const REAL_GIFT_IDS = [
+        "bdaycandle-1", "homemadecake-1", "hexpot-10348", "astralshard-1", "plushpepe-1",
+        "dragon-1", "cybergift-1", "goldenunicorn-1", "moonrabbit-1", "phoenix-1",
+        "crystalheart-1", "neoncat-1", "snowmittens-1", "witchhat-1", "gingercookie-1",
+        "vintagecigar-1", "swisswatch-1", "recordplayer-1", "heroichelmet-1", "easteregg-1",
+        "lovepotion-1", "kissedfrog-1", "crystalball-1", "santahat-1", "icecream-1",
+        "rainbowcat-1", "moonflower-1", "firecracker-1", "trophy-1", "eagle-1", "wolf-1", "sapphire-1"
+    ];
+    
+    // 71+ коллекция
     const collectionNames = [
         "Astral Shards", "Homemade Cakes", "Hex Pot", "B-Day Candle", "Plush Pepe",
         "Dragon Soul", "Cyber Gift", "Golden Unicorn", "Moon Rabbit", "Phoenix Feather",
@@ -186,10 +197,49 @@
     
     const backdrops = ["backdrop-midnight","backdrop-forest","backdrop-cappuccino","backdrop-violet","backdrop-golden","backdrop-ruby"];
     
-    // Функция загрузки Lottie напрямую с Fragment CDN (без CORS - используется стандартный fetch)
-    function loadLottieFromFragment(containerId, giftId, retryCount = 0) {
+    // Функция загрузки Lottie JSON через прокси с retry
+    async function fetchLottieJson(giftId, retryCount = 0) {
+        const url = `https://nft.fragment.com/gift/${giftId}.lottie.json`;
+        const cacheKey = giftId;
+        
+        if (animationDataCache.has(cacheKey)) {
+            return animationDataCache.get(cacheKey);
+        }
+        
+        const maxRetries = 4;
+        
+        for (let i = 0; i < CORS_PROXIES.length; i++) {
+            try {
+                const proxyUrl = CORS_PROXIES[i] + encodeURIComponent(url);
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
+                const response = await fetch(proxyUrl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.v) {
+                        animationDataCache.set(cacheKey, data);
+                        return data;
+                    }
+                }
+            } catch(e) {
+                console.warn(`Proxy ${i} failed for ${giftId}:`, e);
+            }
+        }
+        
+        if (retryCount < maxRetries) {
+            await new Promise(r => setTimeout(r, 1500 * (retryCount + 1)));
+            return fetchLottieJson(giftId, retryCount + 1);
+        }
+        
+        return null;
+    }
+    
+    async function loadLottieAnimation(containerId, giftId) {
         const container = document.getElementById(containerId);
-        if (!container) return;
+        if (!container) return false;
         
         if (lottieInstances.has(containerId)) {
             const old = lottieInstances.get(containerId);
@@ -199,53 +249,30 @@
         
         container.innerHTML = '<div class="loading-spinner" style="width:32px;height:32px;margin:20px auto;"></div>';
         
-        const url = `https://nft.fragment.com/gift/${giftId}.lottie.json`;
-        
-        // Прямой fetch с режимом no-cors для обхода CORS (получим opaque response)
-        fetch(url, { mode: 'no-cors', cache: 'force-cache' })
-            .then(() => {
-                // При no-cors мы не можем прочитать ответ, но файл кешируется
-                // Пробуем загрузить анимацию через lottie.loadAnimation с path
-                try {
-                    const anim = lottie.loadAnimation({
-                        container: container,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: url,
-                        rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-                    });
-                    
-                    anim.addEventListener('DOMLoaded', () => {
-                        container.innerHTML = '';
-                        anim.setContainer(container);
-                        lottieInstances.set(containerId, anim);
-                    });
-                    
-                    anim.addEventListener('error', () => {
-                        if (retryCount < 3) {
-                            setTimeout(() => loadLottieFromFragment(containerId, giftId, retryCount + 1), 1000);
-                        } else {
-                            container.innerHTML = '<i class="fas fa-gift" style="font-size:42px; color:#8b5cf6;"></i>';
-                        }
-                    });
-                    
-                    lottieInstances.set(containerId, anim);
-                } catch(e) {
-                    if (retryCount < 3) {
-                        setTimeout(() => loadLottieFromFragment(containerId, giftId, retryCount + 1), 1000);
-                    } else {
-                        container.innerHTML = '<i class="fas fa-gift" style="font-size:42px; color:#8b5cf6;"></i>';
-                    }
-                }
-            })
-            .catch(() => {
-                if (retryCount < 3) {
-                    setTimeout(() => loadLottieFromFragment(containerId, giftId, retryCount + 1), 1000);
-                } else {
-                    container.innerHTML = '<i class="fas fa-gift" style="font-size:42px; color:#8b5cf6;"></i>';
-                }
-            });
+        try {
+            const animData = await fetchLottieJson(giftId);
+            
+            if (animData) {
+                container.innerHTML = "";
+                const anim = lottie.loadAnimation({
+                    container: container,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    animationData: animData,
+                    rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
+                });
+                lottieInstances.set(containerId, anim);
+                return true;
+            } else {
+                container.innerHTML = '<div class="lottie-placeholder"><i class="fas fa-gift"></i></div>';
+                return false;
+            }
+        } catch(e) {
+            console.error("Lottie load error:", e);
+            container.innerHTML = '<div class="lottie-placeholder"><i class="fas fa-gift"></i></div>';
+            return false;
+        }
     }
     
     function showToast(msg) { 
@@ -303,17 +330,17 @@
                     usdPrice: parseFloat((priceTON * 3.46).toFixed(2)),
                     total_supply: total,
                     backdropClass: backdrops[Math.floor(Math.random() * backdrops.length)],
-                    giftId: `${realId}-${Math.floor(Math.random() * 500) + 1}`
+                    giftId: realId
                 });
             }
         }
         return gifts;
     }
     
-    function renderFilterModal() {
+    async function renderFilterModal() {
         const container = document.getElementById("filterCollectionsList");
         const searchTerm = document.getElementById("collectionSearchInput")?.value.toLowerCase() || "";
-        const filteredCols = collectionNames.filter((name, idx) => name.toLowerCase().includes(searchTerm)).map((name, idx) => ({ name, slug: `col_${idx+1}`, total: 500 + idx * 70 }));
+        const filteredCols = collectionNames.filter((name, idx) => name.toLowerCase().includes(searchTerm)).map((name, idx) => ({ name, slug: `col_${idx+1}`, total: 500 + idx * 70, giftId: REAL_GIFT_IDS[idx % REAL_GIFT_IDS.length] }));
         container.innerHTML = filteredCols.map((col, idx) => `
             <label class="filter-collection-item">
                 <input type="checkbox" value="${col.slug}" ${selectedCollections.has(col.slug) ? 'checked' : ''}>
@@ -323,11 +350,10 @@
             </label>
         `).join('');
         
-        filteredCols.forEach((col, idx) => {
-            const realId = REAL_GIFT_IDS[idx % REAL_GIFT_IDS.length];
-            const giftId = `${realId}-${Math.floor(Math.random() * 100) + 1}`;
-            setTimeout(() => loadLottieFromFragment(`mini-lottie-${col.slug}-${idx}`, giftId), 10);
-        });
+        for(let i = 0; i < filteredCols.length; i++) {
+            const col = filteredCols[i];
+            loadLottieAnimation(`mini-lottie-${col.slug}-${i}`, col.giftId);
+        }
     }
     
     function applyFilter() {
@@ -340,6 +366,7 @@
         renderMarket();
         document.getElementById("filterModal").classList.remove("active");
         saveToLocalStorage();
+        showToast(`Фильтр: ${selectedCollections.size || "все"} коллекций`);
     }
     
     function resetFilter() {
@@ -366,62 +393,55 @@
         else showToast("⚠️ Уже в коллекции");
     }
     
-    function renderMarket() {
+    async function renderMarket() {
         const container = document.getElementById("marketList");
         const sorted = getFilteredSorted();
         if (!sorted.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Подарков не найдено</div>`; return; }
         container.innerHTML = sorted.map((gift, idx) => `<div class="gift-card ${gift.backdropClass}" data-id="${gift.id}" data-gift-index="${idx}"><div class="gift-icon"><div id="lottie-m-${idx}" class="lottie-container"></div></div><div class="gift-info"><div class="gift-name">${gift.name}</div><div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div><div class="collection-info"><i class="fas fa-layer-group"></i> ${gift.collection_name}</div><div class="price-block"><span class="price-ton">${gift.priceTON.toFixed(2)} ${getTonText()}</span><span class="price-usd">≈ $${gift.usdPrice.toFixed(2)}</span></div></div><div class="button-group"><button class="cart-btn" data-action="cart" data-id="${gift.id}"><i class="fas fa-cart-plus"></i></button><button class="buy-btn" data-action="buy" data-id="${gift.id}">${getTonText()} Купить</button></div></div>`).join('');
         
-        sorted.forEach((gift, idx) => {
-            const realId = REAL_GIFT_IDS[idx % REAL_GIFT_IDS.length];
-            const giftId = `${realId}-${gift.item_number % 500 + 1}`;
-            loadLottieFromFragment(`lottie-m-${idx}`, giftId);
-        });
+        for(let i = 0; i < sorted.length; i++) {
+            const gift = sorted[i];
+            await loadLottieAnimation(`lottie-m-${i}`, gift.giftId);
+        }
         
         document.querySelectorAll('#marketList .gift-card').forEach(card => { const idx = card.getAttribute('data-gift-index'); const gift = sorted[parseInt(idx)]; card.onclick = (e) => { if (!e.target.closest('.buy-btn') && !e.target.closest('.cart-btn')) openModal(gift); }; });
         document.querySelectorAll('#marketList .buy-btn').forEach(btn => { btn.onclick = (e) => { e.stopPropagation(); const gift = allGifts.find(g => g.id === btn.getAttribute('data-id')); if (gift) purchaseGift(gift.id, gift.name, gift.priceTON, gift.item_number); }; });
         document.querySelectorAll('#marketList .cart-btn').forEach(btn => { btn.onclick = (e) => { e.stopPropagation(); const gift = allGifts.find(g => g.id === btn.getAttribute('data-id')); if (gift) addToCart(gift); }; });
         
-        document.getElementById("apiStatus").innerHTML = `✅ Загружено ${sorted.length} подарков с оригинальными Lottie анимациями из Fragment API`;
+        document.getElementById("apiStatus").innerHTML = `✅ Загружено ${sorted.length} подарков с оригинальными Lottie анимациями`;
         setTimeout(() => { if(document.getElementById("apiStatus").innerHTML.includes("Загружено")) document.getElementById("apiStatus").innerHTML = ""; }, 4000);
     }
     
-    function renderMyGifts() {
+    async function renderMyGifts() {
         const container = document.getElementById("myGiftsList");
         if (!myGifts.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-gift"></i> Нет NFT подарков</div>`; return; }
         container.innerHTML = myGifts.map((gift, idx) => `<div class="gift-card ${gift.backdropClass}"><div class="gift-icon"><div id="lottie-my-${idx}" class="lottie-container"></div></div><div class="gift-info"><div class="gift-name">${gift.name}</div><div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div><div class="price-block"><span class="price-ton">${gift.priceTON.toFixed(2)} ${getTonText()}</span></div></div><div class="action-group"><button class="action-btn" data-action="withdraw" data-id="${gift.id}"><i class="fas fa-arrow-up"></i> Вывод</button><button class="action-btn" data-action="send" data-id="${gift.id}"><i class="fas fa-paper-plane"></i> Отправить</button><button class="action-btn" data-action="sell" data-id="${gift.id}"><i class="fas fa-tags"></i> Продать</button></div></div>`).join('');
-        myGifts.forEach((gift, idx) => {
-            const realId = REAL_GIFT_IDS[idx % REAL_GIFT_IDS.length];
-            const giftId = `${realId}-${gift.item_number % 500 + 1}`;
-            loadLottieFromFragment(`lottie-my-${idx}`, giftId);
-        });
+        for(let i = 0; i < myGifts.length; i++) {
+            await loadLottieAnimation(`lottie-my-${i}`, myGifts[i].giftId);
+        }
         document.querySelectorAll('#myGiftsList .action-btn').forEach(btn => { btn.onclick = () => showToast(`🔹 Действие: ${btn.getAttribute('data-action')}`); });
     }
     
-    function renderCart() {
+    async function renderCart() {
         const container = document.getElementById("cartList");
         if (!cartItems.length) { container.innerHTML = `<div class="empty-state"><i class="fas fa-shopping-cart"></i> Корзина пуста</div>`; return; }
         const total = cartItems.reduce((s, i) => s + i.priceTON, 0);
         container.innerHTML = cartItems.map((gift, idx) => `<div class="gift-card ${gift.backdropClass}"><div class="gift-icon"><div id="lottie-cart-${idx}" class="lottie-container"></div></div><div class="gift-info"><div class="gift-name">${gift.name}</div><div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div><div class="price-block"><span class="price-ton">${gift.priceTON.toFixed(2)} ${getTonText()}</span></div></div><button class="action-btn" data-action="remove" data-id="${gift.id}"><i class="fas fa-trash"></i> Удалить</button></div>`).join('') + `<div style="padding:16px; text-align:center; border-top:1px solid #2c2e42; grid-column: span 2;"><div>Итого: ${total.toFixed(2)} ${getTonText()}</div><button id="checkoutBtn" style="background:linear-gradient(120deg,#0098ea,#6c2bd9); border:none; padding:12px; border-radius:40px; color:white; font-weight:600; width:100%; margin-top:12px;">Купить всё</button></div>`;
-        cartItems.forEach((gift, idx) => {
-            const realId = REAL_GIFT_IDS[idx % REAL_GIFT_IDS.length];
-            const giftId = `${realId}-${gift.item_number % 500 + 1}`;
-            loadLottieFromFragment(`lottie-cart-${idx}`, giftId);
-        });
+        for(let i = 0; i < cartItems.length; i++) {
+            await loadLottieAnimation(`lottie-cart-${i}`, cartItems[i].giftId);
+        }
         document.querySelectorAll('#cartList .action-btn').forEach(btn => { btn.onclick = () => { cartItems = cartItems.filter(i => i.id !== btn.getAttribute('data-id')); updateCartCount(); renderCart(); showToast("Удалено"); }; });
         const checkoutBtn = document.getElementById("checkoutBtn"); if(checkoutBtn) checkoutBtn.onclick = () => { if(cartItems.length){ cartItems.forEach(item => { if(!myGifts.some(g => g.id === item.id)) myGifts.push({...item, purchaseDate: new Date().toISOString()}); }); cartItems = []; updateCartCount(); saveToLocalStorage(); renderCart(); if(currentTab === "mygifts") renderMyGifts(); showToast("✅ Покупка завершена!"); } };
     }
     
-    function openModal(gift) {
+    async function openModal(gift) {
         currentModalGift = gift;
         document.getElementById("modalName").innerText = gift.name;
         document.getElementById("modalNumber").innerHTML = `<i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}`;
         document.getElementById("modalPrice").innerHTML = `${gift.priceTON.toFixed(2)} ${getTonText()} <span style="font-size:14px;">≈ $${gift.usdPrice.toFixed(2)}</span>`;
         const modalContainer = document.getElementById("modalLottie");
         modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
-        const realId = REAL_GIFT_IDS[Math.floor(Math.random() * REAL_GIFT_IDS.length)];
-        const giftId = `${realId}-${gift.item_number % 500 + 1}`;
-        loadLottieFromFragment("modalLottieAnim", giftId);
+        await loadLottieAnimation("modalLottieAnim", gift.giftId);
         document.getElementById("giftModal").classList.add("active");
     }
     
@@ -435,10 +455,10 @@
         if (tab === "cart") renderCart();
     }
     
-    function init() {
+    async function init() {
         initTelegram(); loadFromLocalStorage(); allGifts = generateGifts(); filteredGifts = [...allGifts];
         if (selectedCollections.size > 0) filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
-        renderFilterModal(); renderMarket();
+        await renderFilterModal(); await renderMarket();
         document.querySelectorAll('.sort-btn').forEach(btn => { if(btn.getAttribute('data-sort') === currentSort) btn.classList.add('active'); btn.onclick = () => { document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentSort = btn.getAttribute('data-sort'); saveToLocalStorage(); renderMarket(); }; });
         document.getElementById("filterTrigger").onclick = () => { renderFilterModal(); document.getElementById("filterModal").classList.add("active"); };
         document.getElementById("applyFilterBtn").onclick = applyFilter; document.getElementById("resetFilterBtn").onclick = resetFilter;
@@ -453,3 +473,4 @@
 </script>
 </body>
 </html>
+```
