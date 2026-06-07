@@ -44,7 +44,7 @@
         .filter-collection-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #131520; border-radius: 16px; cursor: pointer; transition: 0.2s; }
         .filter-collection-item:hover { background: #1e2035; }
         .filter-collection-item input { width: 18px; height: 18px; accent-color: #8b5cf6; cursor: pointer; }
-        .filter-collection-icon { width: 36px; height: 36px; background: #1e2130; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .filter-collection-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #1e2130, #0b0e17); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .lottie-mini { width: 32px; height: 32px; }
         .filter-collection-name { flex: 1; font-size: 14px; font-weight: 500; }
         .filter-modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
@@ -71,7 +71,7 @@
         .collection-info { font-size: 11px; color: #8b5cf6; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
         .price-block { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
         .price-ton { font-weight: 800; font-size: 18px; color: #f0eefc; display: flex; align-items: center; gap: 4px; }
-        .ton-symbol { font-weight: 700; color: #0098ea; font-size: 16px; }
+        .ton-symbol { font-weight: 700; color: #0098ea; font-size: 14px; background: rgba(0,152,234,0.15); padding: 2px 8px; border-radius: 20px; }
         .price-usd { font-size: 11px; color: #6c729e; }
         .button-group { display: flex; gap: 8px; z-index: 2; position: relative; flex-shrink: 0; }
         .buy-btn, .cart-btn { border-radius: 50px; padding: 10px 14px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px; border: none; }
@@ -91,9 +91,10 @@
         @media (max-width: 480px) { .gift-icon { width: 56px; height: 56px; } .buy-btn, .cart-btn { padding: 7px 10px; font-size: 11px; } }
         .telegram-user { background: #0c0f17; padding: 6px 12px; border-radius: 40px; font-size: 12px; display: inline-block; margin-bottom: 16px; }
         footer { text-align: center; margin-top: 32px; font-size: 11px; color: #404566; }
+        .saved-badge { background: #1a3a2a; padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
         .loading-spinner { width: 40px; height: 40px; border: 3px solid #2c2e42; border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .saved-badge { background: #1a3a2a; padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
+        .preload-status { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; z-index: 999; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -123,12 +124,13 @@
                 <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-up-wide-short"></i> Цена ↓</button>
             </div>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div style="margin-top: 12px;">Загрузка NFT подарков из Fragment API...</div></div></div>
+        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div>Загрузка NFT подарков...</div></div></div>
     </div>
     <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"><div class="empty-state">Нет NFT подарков</div></div></div>
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"><div class="empty-state">Корзина пуста</div></div></div>
     <footer>✨ Все коллекции Fragment.com • Оригинальные Lottie анимации • TON</footer>
 </div>
+<div id="preloadStatus" class="preload-status"></div>
 
 <div id="filterModal" class="filter-modal">
     <div class="filter-modal-content">
@@ -155,13 +157,11 @@
     let myGifts = [];
     let cartItems = [];
     let lottieInstances = new Map();
-    let collectionLottieInstances = new Map();
     let currentModalGift = null;
     let modalLottieAnim = null;
     let lottieCache = new Map();
-    let loadingQueue = [];
-    let activeLoads = 0;
-    const MAX_CONCURRENT = 8;
+    let preloadProgress = 0;
+    let totalToPreload = 0;
 
     function showToast(msg) { 
         const t = document.getElementById("toastMessage"); 
@@ -222,43 +222,42 @@
 
     // Оригинальные коллекции из Fragment API
     const allCollections = [
-        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550 },
-        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775 },
-        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500 },
-        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632 },
-        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000 },
-        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500 },
-        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800 },
-        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250 },
-        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600 },
-        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300 },
-        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800 },
-        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750 },
-        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100 },
-        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450 },
-        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500 },
-        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400 },
-        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350 },
-        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550 },
-        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480 },
-        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200 },
-        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900 },
-        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200 },
-        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980 },
-        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100 },
-        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050 },
-        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720 },
-        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890 }
+        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550, sample: "astralshard-1" },
+        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775, sample: "homemadecake-1" },
+        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500, sample: "hexpot-10348" },
+        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632, sample: "bdaycandle-1" },
+        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000, sample: "plushpepe-1" },
+        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500, sample: "dragon-1" },
+        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800, sample: "cybergift-1" },
+        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250, sample: "goldenunicorn-1" },
+        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600, sample: "moonrabbit-1" },
+        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300, sample: "phoenix-1" },
+        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800, sample: "crystalheart-1" },
+        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750, sample: "neoncat-1" },
+        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100, sample: "snowmittens-1" },
+        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450, sample: "witchhat-1" },
+        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500, sample: "gingercookie-1" },
+        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400, sample: "vintagecigar-1" },
+        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350, sample: "swisswatch-1" },
+        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550, sample: "recordplayer-1" },
+        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480, sample: "heroichelmet-1" },
+        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200, sample: "easteregg-1" },
+        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900, sample: "lovepotion-1" },
+        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200, sample: "kissedfrog-1" },
+        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980, sample: "crystalball-1" },
+        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100, sample: "santahat-1" },
+        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050, sample: "icecream-1" },
+        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720, sample: "rainbowcat-1" },
+        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890, sample: "moonflower-1" }
     ];
 
     function generateGifts() {
-        const backdrops = ["Midnight Blue", "Forest Green", "Cappuccino", "Violet Veil", "Golden Dawn", "Ruby Glow"];
-        const backdropClasses = ["backdrop-midnight", "backdrop-forest", "backdrop-cappuccino", "backdrop-violet", "backdrop-golden", "backdrop-ruby"];
+        const backdrops = ["Midnight Blue","Forest Green","Cappuccino","Violet Veil","Golden Dawn","Ruby Glow"];
+        const backdropClasses = ["backdrop-midnight","backdrop-forest","backdrop-cappuccino","backdrop-violet","backdrop-golden","backdrop-ruby"];
         const gifts = [];
-        
-        for (const col of allCollections) {
-            const itemsCount = Math.min(6, Math.floor(col.total / 300) + 2);
-            for (let i = 0; i < itemsCount; i++) {
+        for(const col of allCollections){
+            const itemsCount = Math.min(4, Math.floor(col.total/500) + 1);
+            for(let i = 0; i < itemsCount; i++){
                 const itemNumber = Math.floor(Math.random() * col.total) + 1;
                 const priceVariation = 0.85 + Math.random() * 0.6;
                 const priceTON = col.floorPrice * priceVariation;
@@ -272,7 +271,7 @@
                     usdPrice: parseFloat((priceTON * 3.46).toFixed(2)),
                     total_supply: col.total,
                     lottieUrl: `https://nft.fragment.com/gift/${col.slug}-${itemNumber}.lottie.json`,
-                    fallbackUrl: `https://nft.fragment.com/gift/${col.slug}-1.lottie.json`,
+                    fallbackUrl: `https://nft.fragment.com/gift/${col.sample}.lottie.json`,
                     backdrop: backdrops[bIdx],
                     backdropClass: backdropClasses[bIdx]
                 });
@@ -281,15 +280,10 @@
         return gifts;
     }
 
-    function loadAnimationWithRetry(containerId, url, retryCount = 0, maxRetries = 5) {
+    function loadLottieWithPromise(containerId, url, retryCount = 0, maxRetries = 4) {
         return new Promise((resolve) => {
             const container = document.getElementById(containerId);
             if (!container) { resolve(false); return; }
-            
-            // Показываем спиннер
-            if (retryCount === 0) {
-                container.innerHTML = '<div class="loading-spinner" style="width:40px;height:40px;"></div>';
-            }
             
             if (lottieInstances.has(containerId)) {
                 let old = lottieInstances.get(containerId);
@@ -297,7 +291,6 @@
                 lottieInstances.delete(containerId);
             }
             
-            // Проверяем кэш
             if (lottieCache.has(url)) {
                 try {
                     const anim = lottie.loadAnimation({
@@ -313,12 +306,12 @@
             
             const timeout = setTimeout(() => {
                 if (retryCount < maxRetries) {
-                    loadAnimationWithRetry(containerId, url, retryCount + 1, maxRetries).then(resolve);
+                    loadLottieWithPromise(containerId, url, retryCount + 1, maxRetries).then(resolve);
                 } else {
-                    container.innerHTML = '<div style="font-size:32px; color:#8b5cf6;"><i class="fas fa-gift"></i></div>';
+                    container.innerHTML = '<i class="fas fa-gift" style="font-size:32px; color:#8b5cf6;"></i>';
                     resolve(false);
                 }
-            }, 3000);
+            }, 4000);
             
             try {
                 const anim = lottie.loadAnimation({
@@ -337,10 +330,10 @@
                     clearTimeout(timeout);
                     if (retryCount < maxRetries) {
                         setTimeout(() => {
-                            loadAnimationWithRetry(containerId, url, retryCount + 1, maxRetries).then(resolve);
+                            loadLottieWithPromise(containerId, url, retryCount + 1, maxRetries).then(resolve);
                         }, 500);
                     } else {
-                        container.innerHTML = '<div style="font-size:32px; color:#8b5cf6;"><i class="fas fa-gift"></i></div>';
+                        container.innerHTML = '<i class="fas fa-gift" style="font-size:32px; color:#8b5cf6;"></i>';
                         resolve(false);
                     }
                 });
@@ -348,28 +341,66 @@
                 clearTimeout(timeout);
                 if (retryCount < maxRetries) {
                     setTimeout(() => {
-                        loadAnimationWithRetry(containerId, url, retryCount + 1, maxRetries).then(resolve);
+                        loadLottieWithPromise(containerId, url, retryCount + 1, maxRetries).then(resolve);
                     }, 500);
                 } else {
-                    container.innerHTML = '<div style="font-size:32px; color:#8b5cf6;"><i class="fas fa-gift"></i></div>';
+                    container.innerHTML = '<i class="fas fa-gift" style="font-size:32px; color:#8b5cf6;"></i>';
                     resolve(false);
                 }
             }
         });
     }
 
+    async function preloadAllAnimations(gifts) {
+        const statusDiv = document.getElementById("preloadStatus");
+        totalToPreload = gifts.length;
+        preloadProgress = 0;
+        statusDiv.style.display = "block";
+        
+        const promises = gifts.map(async (gift, idx) => {
+            const tempId = `preload-${idx}`;
+            const tempDiv = document.createElement('div');
+            tempDiv.id = tempId;
+            tempDiv.style.display = 'none';
+            document.body.appendChild(tempDiv);
+            
+            await loadLottieWithPromise(tempId, gift.lottieUrl, 0, 3);
+            
+            preloadProgress++;
+            statusDiv.innerHTML = `📦 Предзагрузка: ${preloadProgress}/${totalToPreload} анимаций`;
+            
+            const oldAnim = lottieInstances.get(tempId);
+            if (oldAnim && oldAnim.destroy) oldAnim.destroy();
+            lottieInstances.delete(tempId);
+            tempDiv.remove();
+        });
+        
+        await Promise.allSettled(promises);
+        statusDiv.innerHTML = `✅ Все анимации загружены!`;
+        setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
+    }
+
     function loadMiniLottie(containerId, slug, retryCount = 0) {
         const container = document.getElementById(containerId);
         if (!container) return;
         
-        if (collectionLottieInstances.has(containerId)) {
-            let old = collectionLottieInstances.get(containerId);
-            if (old && old.destroy) old.destroy();
-            collectionLottieInstances.delete(containerId);
-        }
-        
-        container.innerHTML = '<div class="loading-spinner" style="width:24px;height:24px;"></div>';
         const url = `https://nft.fragment.com/gift/${slug}.lottie.json`;
+        
+        if (lottieCache.has(url)) {
+            try {
+                const anim = lottie.loadAnimation({
+                    container, renderer: 'svg', loop: true, autoplay: true,
+                    animationData: lottieCache.get(url),
+                    rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
+                });
+                if (collectionLottieInstances.has(containerId)) {
+                    let old = collectionLottieInstances.get(containerId);
+                    if (old && old.destroy) old.destroy();
+                }
+                collectionLottieInstances.set(containerId, anim);
+                return;
+            } catch(e) {}
+        }
         
         const timeout = setTimeout(() => {
             if (retryCount < 3) {
@@ -377,7 +408,7 @@
             } else {
                 container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
             }
-        }, 2500);
+        }, 3000);
         
         try {
             const anim = lottie.loadAnimation({
@@ -386,6 +417,11 @@
             });
             anim.addEventListener('DOMLoaded', () => {
                 clearTimeout(timeout);
+                try { if (anim.animationData) lottieCache.set(url, anim.animationData); } catch(e) {}
+                if (collectionLottieInstances.has(containerId)) {
+                    let old = collectionLottieInstances.get(containerId);
+                    if (old && old.destroy) old.destroy();
+                }
                 collectionLottieInstances.set(containerId, anim);
             });
             anim.addEventListener('error', () => {
@@ -418,7 +454,7 @@
                 <span style="font-size:11px; color:#6c729e;">${col.total.toLocaleString()}</span>
             </label>
         `).join('');
-        filteredCols.forEach((col, idx) => loadMiniLottie(`mini-lottie-${col.slug}-${idx}`, `${col.slug}-1`, 0));
+        filteredCols.forEach((col, idx) => loadMiniLottie(`mini-lottie-${col.slug}-${idx}`, col.sample, 0));
     }
 
     function applyFilter() {
@@ -458,7 +494,6 @@
         if (!cartItems.some(i => i.id === gift.id)) {
             cartItems.push({...gift});
             updateCartCount();
-            saveToLocalStorage();
             showToast(`🛒 ${gift.name} #${gift.item_number} в корзине`);
             if (currentTab === "cart") renderCart();
         } else showToast("⚠️ Уже в корзине");
@@ -498,12 +533,10 @@
             </div>
         `).join('');
         
-        // Загружаем все анимации параллельно с отложенной загрузкой
         const loadPromises = sorted.map((gift, idx) => 
-            loadAnimationWithRetry(`lottie-m-${idx}`, gift.lottieUrl, 0, 5)
+            loadLottieWithPromise(`lottie-m-${idx}`, gift.lottieUrl, 0, 4)
         );
         
-        // Ждем загрузку всех анимаций
         Promise.allSettled(loadPromises).then(() => {
             console.log('Все анимации загружены');
         });
@@ -551,7 +584,7 @@
             </div>
         `).join('');
         
-        myGifts.forEach((gift, idx) => loadAnimationWithRetry(`lottie-my-${idx}`, gift.lottieUrl, 0, 5));
+        myGifts.forEach((gift, idx) => loadLottieWithPromise(`lottie-my-${idx}`, gift.lottieUrl, 0, 4));
         
         document.querySelectorAll('#myGiftsList .action-btn').forEach(btn => {
             btn.onclick = () => showToast(`🔹 Действие: ${btn.getAttribute('data-action')}`);
@@ -577,7 +610,7 @@
             </div>
         `).join('') + `<div style="padding:16px; text-align:center; border-top:1px solid #2c2e42;"><div style="margin-bottom:12px;">Итого: ${total.toFixed(2)} ${getTonText()}</div><button id="checkoutBtn" style="background:linear-gradient(120deg,#0098ea,#6c2bd9); border:none; padding:12px; border-radius:40px; color:white; font-weight:600; width:100%;">Купить всё</button></div>`;
         
-        cartItems.forEach((gift, idx) => loadAnimationWithRetry(`lottie-cart-${idx}`, gift.lottieUrl, 0, 5));
+        cartItems.forEach((gift, idx) => loadLottieWithPromise(`lottie-cart-${idx}`, gift.lottieUrl, 0, 4));
         
         document.querySelectorAll('#cartList .action-btn').forEach(btn => {
             btn.onclick = () => {
@@ -613,7 +646,7 @@
         modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
         if (modalLottieAnim && modalLottieAnim.destroy) modalLottieAnim.destroy();
         
-        loadAnimationWithRetry('modalLottieAnim', gift.lottieUrl, 0, 5);
+        loadLottieWithPromise('modalLottieAnim', gift.lottieUrl, 0, 4);
         document.getElementById("giftModal").classList.add("active");
     }
 
@@ -632,6 +665,11 @@
         loadFromLocalStorage();
         allGifts = generateGifts();
         filteredGifts = [...allGifts];
+        
+        document.getElementById("preloadStatus").style.display = "block";
+        document.getElementById("preloadStatus").innerHTML = "🎬 Предзагрузка анимаций Fragment...";
+        
+        await preloadAllAnimations(allGifts);
         
         if (selectedCollections.size > 0) {
             filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
