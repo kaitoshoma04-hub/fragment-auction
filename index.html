@@ -103,8 +103,37 @@
             .toast-msg { font-size: 11px; padding: 8px 14px; max-width: 90%; white-space: normal; word-break: break-word; }
         }
         
-        .add-gift-btn { background: linear-gradient(95deg, #22c55e, #16a34a); border: none; border-radius: 40px; padding: 10px; font-weight: 600; font-size: 14px; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-top: 16px; transition: 0.2s; }
-        .add-gift-btn:hover { transform: scale(1.02); opacity: 0.9; }
+        .add-gift-btn { 
+            background: linear-gradient(95deg, #22c55e, #16a34a); 
+            border: none; 
+            border-radius: 60px; 
+            padding: 18px 24px; 
+            font-weight: 700; 
+            font-size: 18px; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 12px; 
+            cursor: pointer; 
+            margin: 24px auto; 
+            width: 90%;
+            max-width: 320px;
+            transition: 0.2s; 
+            box-shadow: 0 4px 15px rgba(34,197,94,0.3);
+        }
+        .add-gift-btn:hover { 
+            transform: scale(1.02); 
+            opacity: 0.95;
+            box-shadow: 0 6px 20px rgba(34,197,94,0.4);
+        }
+        .add-gift-btn i { font-size: 22px; }
+        
+        .mygifts-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 60vh;
+        }
     </style>
 </head>
 <body>
@@ -149,8 +178,12 @@
     </div>
     
     <div id="myGiftsPanel" style="display: none;">
-        <div id="myGiftsList" class="gifts-grid"></div>
-        <button class="add-gift-btn" id="addGiftBtn"><i class="fas fa-plus-circle"></i> Добавить подарок</button>
+        <div class="mygifts-container">
+            <div id="myGiftsList" class="gifts-grid"></div>
+            <button class="add-gift-btn" id="addGiftBtn">
+                <i class="fas fa-plus-circle"></i> Добавить подарок
+            </button>
+        </div>
     </div>
     
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"></div></div>
@@ -175,16 +208,16 @@
     
     // РЕАЛЬНЫЕ ЦЕНЫ на подарки (TON) из открытых источников Telegram Gifts
     const REAL_PRICES = {
-        "plushpepe": { min: 3500, max: 4800 },      // Plush Pepe ~ 3500-4800 TON
-        "homemadecake": { min: 85, max: 180 },       // Homemade Cakes ~ 85-180 TON
-        "hexpot": { min: 120, max: 250 },            // Hex Pot ~ 120-250 TON
-        "bdaycandle": { min: 15, max: 45 },          // B-Day Candle ~ 15-45 TON
-        "astralshard": { min: 65, max: 140 },        // Astral Shards ~ 65-140 TON
-        "witchhat": { min: 55, max: 110 },           // Witch Hat ~ 55-110 TON
-        "gingercookie": { min: 8, max: 28 },         // Ginger Cookie ~ 8-28 TON
-        "crystalball": { min: 95, max: 190 },        // Crystal Ball ~ 95-190 TON
-        "santahat": { min: 45, max: 95 },            // Santa Hat ~ 45-95 TON
-        "icecream": { min: 12, max: 35 }             // Ice Cream ~ 12-35 TON
+        "plushpepe": { min: 3500, max: 4800 },
+        "homemadecake": { min: 85, max: 180 },
+        "hexpot": { min: 120, max: 250 },
+        "bdaycandle": { min: 15, max: 45 },
+        "astralshard": { min: 65, max: 140 },
+        "witchhat": { min: 55, max: 110 },
+        "gingercookie": { min: 8, max: 28 },
+        "crystalball": { min: 95, max: 190 },
+        "santahat": { min: 45, max: 95 },
+        "icecream": { min: 12, max: 35 }
     };
     
     function getLocalCollectionsMetadata() {
