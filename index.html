@@ -6,8 +6,6 @@
     <title>Portals Market | NFT Подарки Telegram</title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    <!-- Lottie Web -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -44,8 +42,7 @@
         .filter-collection-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #131520; border-radius: 16px; cursor: pointer; transition: 0.2s; }
         .filter-collection-item:hover { background: #1e2035; }
         .filter-collection-item input { width: 18px; height: 18px; accent-color: #8b5cf6; cursor: pointer; }
-        .filter-collection-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #1e2130, #0b0e17); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .lottie-mini { width: 32px; height: 32px; }
+        .filter-collection-icon { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .filter-collection-name { flex: 1; font-size: 14px; font-weight: 500; }
         .filter-modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
         .filter-apply-btn, .filter-reset-btn { flex: 1; padding: 12px; border-radius: 40px; font-weight: 600; cursor: pointer; border: none; }
@@ -54,17 +51,9 @@
         
         .gifts-grid { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
         .gift-card { background: #11131e; border-radius: 28px; padding: 14px; display: flex; align-items: center; gap: 16px; backdrop-filter: blur(2px); border: 1px solid #232636; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4); position: relative; overflow: hidden; cursor: pointer; }
-        .gift-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.08; pointer-events: none; z-index: 0; }
-        .gift-card.backdrop-midnight::before { background: linear-gradient(135deg, #1a1a3e, #0a0a2a); }
-        .gift-card.backdrop-forest::before { background: linear-gradient(135deg, #1a3e1a, #0a2a0a); }
-        .gift-card.backdrop-cappuccino::before { background: linear-gradient(135deg, #3e2e1a, #2a1e0a); }
-        .gift-card.backdrop-violet::before { background: linear-gradient(135deg, #3e1a3e, #2a0a2a); }
-        .gift-card.backdrop-golden::before { background: linear-gradient(135deg, #3e3e1a, #2a2a0a); }
-        .gift-card.backdrop-ruby::before { background: linear-gradient(135deg, #3e1a1a, #2a0a0a); }
+        .gift-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.1; pointer-events: none; z-index: 0; }
         .gift-card:hover { transform: translateY(-3px); border-color: #4f46e5; box-shadow: 0 12px 25px -8px rgba(107, 43, 217, 0.4); }
-        .gift-icon { width: 70px; height: 70px; background: linear-gradient(145deg, #1e2130, #0b0e17); border-radius: 24px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; z-index: 1; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 6px 12px rgba(0,0,0,0.3); flex-shrink: 0; }
-        .lottie-container { width: 100%; height: 100%; }
-        .lottie-container svg { width: 100% !important; height: 100% !important; }
+        .gift-icon { width: 70px; height: 70px; border-radius: 24px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), 0 6px 12px rgba(0,0,0,0.3); flex-shrink: 0; font-size: 36px; transition: all 0.2s ease; background-size: cover; background-position: center; }
         .gift-info { flex: 1; z-index: 1; position: relative; min-width: 0; }
         .gift-name { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .nft-number { font-size: 11px; color: #ffd966; font-family: monospace; font-weight: 600; margin-bottom: 4px; }
@@ -86,15 +75,13 @@
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content { max-width: 320px; width: 85%; background: linear-gradient(145deg, #1a1c2e, #0f111f); border-radius: 48px; padding: 24px; text-align: center; border: 1px solid rgba(107,43,217,0.5); transform: scale(0.9); transition: 0.3s; }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-icon { width: 180px; height: 180px; margin: 0 auto 20px; background: linear-gradient(145deg, #1e2130, #0b0e17); border-radius: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .modal-lottie { width: 100%; height: 100%; }
-        @media (max-width: 480px) { .gift-icon { width: 56px; height: 56px; } .buy-btn, .cart-btn { padding: 7px 10px; font-size: 11px; } }
+        .modal-icon { width: 180px; height: 180px; margin: 0 auto 20px; border-radius: 40px; display: flex; align-items: center; justify-content: center; font-size: 80px; box-shadow: 0 0 0 2px rgba(255,255,255,0.1), 0 10px 30px rgba(0,0,0,0.5); background-size: cover; background-position: center; }
+        @media (max-width: 480px) { .gift-icon { width: 56px; height: 56px; font-size: 28px; } .buy-btn, .cart-btn { padding: 7px 10px; font-size: 11px; } }
         .telegram-user { background: #0c0f17; padding: 6px 12px; border-radius: 40px; font-size: 12px; display: inline-block; margin-bottom: 16px; }
         footer { text-align: center; margin-top: 32px; font-size: 11px; color: #404566; }
         .saved-badge { background: #1a3a2a; padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
-        .loading-spinner { width: 40px; height: 40px; border: 3px solid #2c2e42; border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .preload-status { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; z-index: 999; font-family: monospace; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .gift-card { animation: fadeIn 0.3s ease; }
     </style>
 </head>
 <body>
@@ -124,13 +111,12 @@
                 <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-up-wide-short"></i> Цена ↓</button>
             </div>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div>Загрузка NFT подарков...</div></div></div>
+        <div id="marketList" class="gifts-grid"></div>
     </div>
-    <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"><div class="empty-state">Нет NFT подарков</div></div></div>
-    <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"><div class="empty-state">Корзина пуста</div></div></div>
-    <footer>✨ Все коллекции Fragment.com • Оригинальные Lottie анимации • TON</footer>
+    <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"><div class="empty-state"><i class="fas fa-gift"></i> Нет NFT подарков</div></div></div>
+    <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"><div class="empty-state"><i class="fas fa-shopping-cart"></i> Корзина пуста</div></div></div>
+    <footer>✨ Все коллекции Fragment.com • TON</footer>
 </div>
-<div id="preloadStatus" class="preload-status"></div>
 
 <div id="filterModal" class="filter-modal">
     <div class="filter-modal-content">
@@ -144,7 +130,7 @@
     </div>
 </div>
 
-<div id="giftModal" class="modal-overlay"><div class="modal-content"><div class="modal-icon"><div id="modalLottie" class="modal-lottie"></div></div><div class="modal-name" id="modalName"></div><div class="modal-number" id="modalNumber"></div><div class="modal-price" id="modalPrice"></div><button class="filter-reset-btn" style="width:100%; margin-top:12px;" id="modalCloseBtn">Закрыть</button><button id="modalBuyBtn" style="width:100%; margin-top:8px; background:linear-gradient(95deg,#1a3a5c,#0e2a4a); border:1px solid #0098ea; border-radius:60px; padding:12px; font-weight:600; color:white;">Купить</button></div></div>
+<div id="giftModal" class="modal-overlay"><div class="modal-content"><div class="modal-icon" id="modalIcon"></div><div class="modal-name" id="modalName"></div><div class="modal-number" id="modalNumber"></div><div class="modal-price" id="modalPrice"></div><button class="filter-reset-btn" style="width:100%; margin-top:12px;" id="modalCloseBtn">Закрыть</button><button id="modalBuyBtn" style="width:100%; margin-top:8px; background:linear-gradient(95deg,#1a3a5c,#0e2a4a); border:1px solid #0098ea; border-radius:60px; padding:12px; font-weight:600; color:white;">Купить</button></div></div>
 <div id="toastMessage" class="toast-msg"></div>
 
 <script>
@@ -156,12 +142,7 @@
     let filteredGifts = [];
     let myGifts = [];
     let cartItems = [];
-    let lottieInstances = new Map();
     let currentModalGift = null;
-    let modalLottieAnim = null;
-    let lottieCache = new Map();
-    let preloadProgress = 0;
-    let totalToPreload = 0;
 
     function showToast(msg) { 
         const t = document.getElementById("toastMessage"); 
@@ -220,48 +201,52 @@
         }
     }
 
-    // Оригинальные коллекции из Fragment API
+    // Оригинальные коллекции Fragment
     const allCollections = [
-        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550, sample: "astralshard-1" },
-        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775, sample: "homemadecake-1" },
-        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500, sample: "hexpot-10348" },
-        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632, sample: "bdaycandle-1" },
-        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000, sample: "plushpepe-1" },
-        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500, sample: "dragon-1" },
-        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800, sample: "cybergift-1" },
-        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250, sample: "goldenunicorn-1" },
-        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600, sample: "moonrabbit-1" },
-        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300, sample: "phoenix-1" },
-        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800, sample: "crystalheart-1" },
-        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750, sample: "neoncat-1" },
-        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100, sample: "snowmittens-1" },
-        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450, sample: "witchhat-1" },
-        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500, sample: "gingercookie-1" },
-        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400, sample: "vintagecigar-1" },
-        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350, sample: "swisswatch-1" },
-        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550, sample: "recordplayer-1" },
-        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480, sample: "heroichelmet-1" },
-        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200, sample: "easteregg-1" },
-        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900, sample: "lovepotion-1" },
-        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200, sample: "kissedfrog-1" },
-        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980, sample: "crystalball-1" },
-        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100, sample: "santahat-1" },
-        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050, sample: "icecream-1" },
-        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720, sample: "rainbowcat-1" },
-        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890, sample: "moonflower-1" }
+        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550, icon: "fa-star", gradient: "linear-gradient(135deg, #6366f1, #a855f7)" },
+        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775, icon: "fa-cake-candles", gradient: "linear-gradient(135deg, #f59e0b, #f97316)" },
+        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500, icon: "fa-flask", gradient: "linear-gradient(135deg, #10b981, #14b8a6)" },
+        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632, icon: "fa-candle-holder", gradient: "linear-gradient(135deg, #ef4444, #f97316)" },
+        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000, icon: "fa-frog", gradient: "linear-gradient(135deg, #22c55e, #16a34a)" },
+        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500, icon: "fa-dragon", gradient: "linear-gradient(135deg, #ef4444, #dc2626)" },
+        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800, icon: "fa-microchip", gradient: "linear-gradient(135deg, #06b6d4, #0891b2)" },
+        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250, icon: "fa-unicorn", gradient: "linear-gradient(135deg, #eab308, #facc15)" },
+        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600, icon: "fa-moon", gradient: "linear-gradient(135deg, #8b5cf6, #6d28d9)" },
+        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300, icon: "fa-fire", gradient: "linear-gradient(135deg, #f97316, #ea580c)" },
+        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800, icon: "fa-heart", gradient: "linear-gradient(135deg, #ec4899, #db2777)" },
+        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750, icon: "fa-cat", gradient: "linear-gradient(135deg, #d946ef, #c026d3)" },
+        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100, icon: "fa-snowman", gradient: "linear-gradient(135deg, #94a3b8, #64748b)" },
+        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450, icon: "fa-hat-wizard", gradient: "linear-gradient(135deg, #8b5cf6, #7c3aed)" },
+        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500, icon: "fa-cookie-bite", gradient: "linear-gradient(135deg, #d97706, #b45309)" },
+        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400, icon: "fa-smoking", gradient: "linear-gradient(135deg, #78350f, #451a03)" },
+        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350, icon: "fa-clock", gradient: "linear-gradient(135deg, #475569, #334155)" },
+        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550, icon: "fa-record-vinyl", gradient: "linear-gradient(135deg, #1e293b, #0f172a)" },
+        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480, icon: "fa-helmet-battle", gradient: "linear-gradient(135deg, #4b5563, #374151)" },
+        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200, icon: "fa-egg", gradient: "linear-gradient(135deg, #facc15, #eab308)" },
+        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900, icon: "fa-heartbeat", gradient: "linear-gradient(135deg, #f43f5e, #e11d48)" },
+        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200, icon: "fa-kiss-wink-heart", gradient: "linear-gradient(135deg, #84cc16, #65a30d)" },
+        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980, icon: "fa-crystal-ball", gradient: "linear-gradient(135deg, #c084fc, #a855f7)" },
+        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100, icon: "fa-santa", gradient: "linear-gradient(135deg, #dc2626, #b91c1c)" },
+        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050, icon: "fa-ice-cream", gradient: "linear-gradient(135deg, #fbcfe8, #f9a8d4)" },
+        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720, icon: "fa-rainbow", gradient: "linear-gradient(135deg, #ec4899, #06b6d4)" },
+        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890, icon: "fa-seedling", gradient: "linear-gradient(135deg, #22c55e, #84cc16)" }
+    ];
+
+    // Генерация цветов фона
+    const backgroundColors = [
+        "#1a1a3e", "#1a3e1a", "#3e2e1a", "#3e1a3e", "#3e3e1a", "#3e1a1a",
+        "#1a2a3e", "#2a1a3e", "#1a3e2a", "#3e1a2a", "#2a3e1a", "#3e2a1a"
     ];
 
     function generateGifts() {
-        const backdrops = ["Midnight Blue","Forest Green","Cappuccino","Violet Veil","Golden Dawn","Ruby Glow"];
-        const backdropClasses = ["backdrop-midnight","backdrop-forest","backdrop-cappuccino","backdrop-violet","backdrop-golden","backdrop-ruby"];
         const gifts = [];
         for(const col of allCollections){
-            const itemsCount = Math.min(4, Math.floor(col.total/500) + 1);
+            const itemsCount = Math.min(5, Math.floor(col.total / 500) + 2);
             for(let i = 0; i < itemsCount; i++){
                 const itemNumber = Math.floor(Math.random() * col.total) + 1;
                 const priceVariation = 0.85 + Math.random() * 0.6;
                 const priceTON = col.floorPrice * priceVariation;
-                const bIdx = Math.floor(Math.random() * backdrops.length);
+                const bgColor = backgroundColors[Math.floor(Math.random() * backgroundColors.length)];
                 gifts.push({
                     id: `${col.slug}-${itemNumber}`,
                     name: col.name,
@@ -270,176 +255,22 @@
                     priceTON: parseFloat(priceTON.toFixed(2)),
                     usdPrice: parseFloat((priceTON * 3.46).toFixed(2)),
                     total_supply: col.total,
-                    lottieUrl: `https://nft.fragment.com/gift/${col.slug}-${itemNumber}.lottie.json`,
-                    fallbackUrl: `https://nft.fragment.com/gift/${col.sample}.lottie.json`,
-                    backdrop: backdrops[bIdx],
-                    backdropClass: backdropClasses[bIdx]
+                    icon: col.icon,
+                    gradient: col.gradient,
+                    bgColor: bgColor,
+                    backdropClass: "backdrop-midnight"
                 });
             }
         }
         return gifts;
     }
 
-    function loadLottieWithPromise(containerId, url, retryCount = 0, maxRetries = 4) {
-        return new Promise((resolve) => {
-            const container = document.getElementById(containerId);
-            if (!container) { resolve(false); return; }
-            
-            if (lottieInstances.has(containerId)) {
-                let old = lottieInstances.get(containerId);
-                if (old && old.destroy) old.destroy();
-                lottieInstances.delete(containerId);
-            }
-            
-            if (lottieCache.has(url)) {
-                try {
-                    const anim = lottie.loadAnimation({
-                        container, renderer: 'svg', loop: true, autoplay: true,
-                        animationData: lottieCache.get(url),
-                        rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-                    });
-                    lottieInstances.set(containerId, anim);
-                    resolve(true);
-                    return;
-                } catch(e) {}
-            }
-            
-            const timeout = setTimeout(() => {
-                if (retryCount < maxRetries) {
-                    loadLottieWithPromise(containerId, url, retryCount + 1, maxRetries).then(resolve);
-                } else {
-                    container.innerHTML = '<i class="fas fa-gift" style="font-size:32px; color:#8b5cf6;"></i>';
-                    resolve(false);
-                }
-            }, 4000);
-            
-            try {
-                const anim = lottie.loadAnimation({
-                    container, renderer: 'svg', loop: true, autoplay: true, path: url,
-                    rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-                });
-                
-                anim.addEventListener('DOMLoaded', () => {
-                    clearTimeout(timeout);
-                    try { if (anim.animationData) lottieCache.set(url, anim.animationData); } catch(e) {}
-                    lottieInstances.set(containerId, anim);
-                    resolve(true);
-                });
-                
-                anim.addEventListener('error', () => {
-                    clearTimeout(timeout);
-                    if (retryCount < maxRetries) {
-                        setTimeout(() => {
-                            loadLottieWithPromise(containerId, url, retryCount + 1, maxRetries).then(resolve);
-                        }, 500);
-                    } else {
-                        container.innerHTML = '<i class="fas fa-gift" style="font-size:32px; color:#8b5cf6;"></i>';
-                        resolve(false);
-                    }
-                });
-            } catch(e) {
-                clearTimeout(timeout);
-                if (retryCount < maxRetries) {
-                    setTimeout(() => {
-                        loadLottieWithPromise(containerId, url, retryCount + 1, maxRetries).then(resolve);
-                    }, 500);
-                } else {
-                    container.innerHTML = '<i class="fas fa-gift" style="font-size:32px; color:#8b5cf6;"></i>';
-                    resolve(false);
-                }
-            }
-        });
-    }
-
-    async function preloadAllAnimations(gifts) {
-        const statusDiv = document.getElementById("preloadStatus");
-        totalToPreload = gifts.length;
-        preloadProgress = 0;
-        statusDiv.style.display = "block";
-        
-        const promises = gifts.map(async (gift, idx) => {
-            const tempId = `preload-${idx}`;
-            const tempDiv = document.createElement('div');
-            tempDiv.id = tempId;
-            tempDiv.style.display = 'none';
-            document.body.appendChild(tempDiv);
-            
-            await loadLottieWithPromise(tempId, gift.lottieUrl, 0, 3);
-            
-            preloadProgress++;
-            statusDiv.innerHTML = `📦 Предзагрузка: ${preloadProgress}/${totalToPreload} анимаций`;
-            
-            const oldAnim = lottieInstances.get(tempId);
-            if (oldAnim && oldAnim.destroy) oldAnim.destroy();
-            lottieInstances.delete(tempId);
-            tempDiv.remove();
-        });
-        
-        await Promise.allSettled(promises);
-        statusDiv.innerHTML = `✅ Все анимации загружены!`;
-        setTimeout(() => { statusDiv.style.display = 'none'; }, 3000);
-    }
-
-    function loadMiniLottie(containerId, slug, retryCount = 0) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        const url = `https://nft.fragment.com/gift/${slug}.lottie.json`;
-        
-        if (lottieCache.has(url)) {
-            try {
-                const anim = lottie.loadAnimation({
-                    container, renderer: 'svg', loop: true, autoplay: true,
-                    animationData: lottieCache.get(url),
-                    rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-                });
-                if (collectionLottieInstances.has(containerId)) {
-                    let old = collectionLottieInstances.get(containerId);
-                    if (old && old.destroy) old.destroy();
-                }
-                collectionLottieInstances.set(containerId, anim);
-                return;
-            } catch(e) {}
-        }
-        
-        const timeout = setTimeout(() => {
-            if (retryCount < 3) {
-                loadMiniLottie(containerId, slug, retryCount + 1);
-            } else {
-                container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
-            }
-        }, 3000);
-        
-        try {
-            const anim = lottie.loadAnimation({
-                container, renderer: 'svg', loop: true, autoplay: true, path: url,
-                rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-            });
-            anim.addEventListener('DOMLoaded', () => {
-                clearTimeout(timeout);
-                try { if (anim.animationData) lottieCache.set(url, anim.animationData); } catch(e) {}
-                if (collectionLottieInstances.has(containerId)) {
-                    let old = collectionLottieInstances.get(containerId);
-                    if (old && old.destroy) old.destroy();
-                }
-                collectionLottieInstances.set(containerId, anim);
-            });
-            anim.addEventListener('error', () => {
-                clearTimeout(timeout);
-                if (retryCount < 3) {
-                    setTimeout(() => loadMiniLottie(containerId, slug, retryCount + 1), 500);
-                } else {
-                    container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
-                }
-            });
-        } catch(e) {
-            clearTimeout(timeout);
-            if (retryCount < 3) {
-                setTimeout(() => loadMiniLottie(containerId, slug, retryCount + 1), 500);
-            } else {
-                container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
-            }
-        }
+    function getIconHTML(gift) {
+        const randomHue = (gift.item_number * 37) % 360;
+        const gradient = gift.gradient || `linear-gradient(135deg, hsl(${randomHue}, 70%, 50%), hsl(${randomHue + 40}, 70%, 40%))`;
+        return `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: ${gradient}; border-radius: 24px;">
+                    <i class="fas ${gift.icon}" style="font-size: 36px; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
+                </div>`;
     }
 
     function renderFilterModal() {
@@ -449,12 +280,13 @@
         container.innerHTML = filteredCols.map((col, idx) => `
             <label class="filter-collection-item">
                 <input type="checkbox" value="${col.slug}" ${selectedCollections.has(col.slug) ? 'checked' : ''}>
-                <div class="filter-collection-icon"><div id="mini-lottie-${col.slug}-${idx}" class="lottie-mini"></div></div>
+                <div class="filter-collection-icon" style="background: ${col.gradient}; color: white;">
+                    <i class="fas ${col.icon}"></i>
+                </div>
                 <span class="filter-collection-name">${col.name}</span>
                 <span style="font-size:11px; color:#6c729e;">${col.total.toLocaleString()}</span>
             </label>
         `).join('');
-        filteredCols.forEach((col, idx) => loadMiniLottie(`mini-lottie-${col.slug}-${idx}`, col.sample, 0));
     }
 
     function applyFilter() {
@@ -509,7 +341,7 @@
         } else showToast("⚠️ Уже в коллекции");
     }
 
-    async function renderMarket() {
+    function renderMarket() {
         const container = document.getElementById("marketList");
         const sorted = getFilteredSorted();
         if (!sorted.length) {
@@ -517,9 +349,14 @@
             return;
         }
         
-        container.innerHTML = sorted.map((gift, idx) => `
-            <div class="gift-card ${gift.backdropClass}" data-id="${gift.id}" data-gift-index="${idx}">
-                <div class="gift-icon"><div id="lottie-m-${idx}" class="lottie-container"></div></div>
+        container.innerHTML = sorted.map((gift, idx) => {
+            const randomHue = (gift.item_number * 37) % 360;
+            const gradient = gift.gradient || `linear-gradient(135deg, hsl(${randomHue}, 70%, 50%), hsl(${randomHue + 40}, 70%, 40%))`;
+            return `
+            <div class="gift-card" data-id="${gift.id}" data-gift-index="${idx}">
+                <div class="gift-icon" style="background: ${gradient};">
+                    <i class="fas ${gift.icon}" style="font-size: 36px; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
+                </div>
                 <div class="gift-info">
                     <div class="gift-name">${gift.name}</div>
                     <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div>
@@ -531,15 +368,7 @@
                     <button class="buy-btn" data-action="buy" data-id="${gift.id}">${getTonText()} Купить</button>
                 </div>
             </div>
-        `).join('');
-        
-        const loadPromises = sorted.map((gift, idx) => 
-            loadLottieWithPromise(`lottie-m-${idx}`, gift.lottieUrl, 0, 4)
-        );
-        
-        Promise.allSettled(loadPromises).then(() => {
-            console.log('Все анимации загружены');
-        });
+        `}).join('');
         
         document.querySelectorAll('#marketList .gift-card').forEach(card => {
             const idx = card.getAttribute('data-gift-index');
@@ -572,9 +401,14 @@
             container.innerHTML = `<div class="empty-state"><i class="fas fa-gift"></i> Нет NFT подарков</div>`;
             return;
         }
-        container.innerHTML = myGifts.map((gift, idx) => `
-            <div class="gift-card ${gift.backdropClass}">
-                <div class="gift-icon"><div id="lottie-my-${idx}" class="lottie-container"></div></div>
+        container.innerHTML = myGifts.map((gift, idx) => {
+            const randomHue = (gift.item_number * 37) % 360;
+            const gradient = gift.gradient || `linear-gradient(135deg, hsl(${randomHue}, 70%, 50%), hsl(${randomHue + 40}, 70%, 40%))`;
+            return `
+            <div class="gift-card">
+                <div class="gift-icon" style="background: ${gradient};">
+                    <i class="fas ${gift.icon}" style="font-size: 36px; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
+                </div>
                 <div class="gift-info">
                     <div class="gift-name">${gift.name}</div>
                     <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div>
@@ -582,9 +416,7 @@
                 </div>
                 <div class="action-group"><button class="action-btn" data-action="withdraw" data-id="${gift.id}"><i class="fas fa-arrow-up"></i> Вывод</button><button class="action-btn" data-action="send" data-id="${gift.id}"><i class="fas fa-paper-plane"></i> Отправить</button><button class="action-btn" data-action="sell" data-id="${gift.id}"><i class="fas fa-tags"></i> Продать</button></div>
             </div>
-        `).join('');
-        
-        myGifts.forEach((gift, idx) => loadLottieWithPromise(`lottie-my-${idx}`, gift.lottieUrl, 0, 4));
+        `}).join('');
         
         document.querySelectorAll('#myGiftsList .action-btn').forEach(btn => {
             btn.onclick = () => showToast(`🔹 Действие: ${btn.getAttribute('data-action')}`);
@@ -598,9 +430,14 @@
             return;
         }
         const total = cartItems.reduce((s, i) => s + i.priceTON, 0);
-        container.innerHTML = cartItems.map((gift, idx) => `
-            <div class="gift-card ${gift.backdropClass}">
-                <div class="gift-icon"><div id="lottie-cart-${idx}" class="lottie-container"></div></div>
+        container.innerHTML = cartItems.map((gift, idx) => {
+            const randomHue = (gift.item_number * 37) % 360;
+            const gradient = gift.gradient || `linear-gradient(135deg, hsl(${randomHue}, 70%, 50%), hsl(${randomHue + 40}, 70%, 40%))`;
+            return `
+            <div class="gift-card">
+                <div class="gift-icon" style="background: ${gradient};">
+                    <i class="fas ${gift.icon}" style="font-size: 36px; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
+                </div>
                 <div class="gift-info">
                     <div class="gift-name">${gift.name}</div>
                     <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div>
@@ -608,9 +445,7 @@
                 </div>
                 <button class="action-btn" data-action="remove" data-id="${gift.id}"><i class="fas fa-trash"></i> Удалить</button>
             </div>
-        `).join('') + `<div style="padding:16px; text-align:center; border-top:1px solid #2c2e42;"><div style="margin-bottom:12px;">Итого: ${total.toFixed(2)} ${getTonText()}</div><button id="checkoutBtn" style="background:linear-gradient(120deg,#0098ea,#6c2bd9); border:none; padding:12px; border-radius:40px; color:white; font-weight:600; width:100%;">Купить всё</button></div>`;
-        
-        cartItems.forEach((gift, idx) => loadLottieWithPromise(`lottie-cart-${idx}`, gift.lottieUrl, 0, 4));
+        `}).join('') + `<div style="padding:16px; text-align:center; border-top:1px solid #2c2e42;"><div style="margin-bottom:12px;">Итого: ${total.toFixed(2)} ${getTonText()}</div><button id="checkoutBtn" style="background:linear-gradient(120deg,#0098ea,#6c2bd9); border:none; padding:12px; border-radius:40px; color:white; font-weight:600; width:100%;">Купить всё</button></div>`;
         
         document.querySelectorAll('#cartList .action-btn').forEach(btn => {
             btn.onclick = () => {
@@ -639,14 +474,13 @@
 
     function openModal(gift) {
         currentModalGift = gift;
+        const randomHue = (gift.item_number * 37) % 360;
+        const gradient = gift.gradient || `linear-gradient(135deg, hsl(${randomHue}, 70%, 55%), hsl(${randomHue + 40}, 70%, 45%))`;
+        document.getElementById("modalIcon").style.background = gradient;
+        document.getElementById("modalIcon").innerHTML = `<i class="fas ${gift.icon}" style="font-size: 80px; color: white; text-shadow: 0 4px 8px rgba(0,0,0,0.3);"></i>`;
         document.getElementById("modalName").innerText = gift.name;
         document.getElementById("modalNumber").innerHTML = `<i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}`;
         document.getElementById("modalPrice").innerHTML = `${gift.priceTON.toFixed(2)} ${getTonText()} <span style="font-size:14px;">≈ $${gift.usdPrice.toFixed(2)}</span>`;
-        const modalContainer = document.getElementById("modalLottie");
-        modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
-        if (modalLottieAnim && modalLottieAnim.destroy) modalLottieAnim.destroy();
-        
-        loadLottieWithPromise('modalLottieAnim', gift.lottieUrl, 0, 4);
         document.getElementById("giftModal").classList.add("active");
     }
 
@@ -666,11 +500,6 @@
         allGifts = generateGifts();
         filteredGifts = [...allGifts];
         
-        document.getElementById("preloadStatus").style.display = "block";
-        document.getElementById("preloadStatus").innerHTML = "🎬 Предзагрузка анимаций Fragment...";
-        
-        await preloadAllAnimations(allGifts);
-        
         if (selectedCollections.size > 0) {
             filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
             document.getElementById("filterCount").style.display = "inline-block";
@@ -678,7 +507,7 @@
         }
         
         renderFilterModal();
-        await renderMarket();
+        renderMarket();
         
         document.querySelectorAll('.sort-btn').forEach(btn => {
             if (btn.getAttribute('data-sort') === currentSort) btn.classList.add('active');
