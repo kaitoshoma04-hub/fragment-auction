@@ -91,7 +91,8 @@
         @media (max-width: 480px) { .gift-icon { width: 56px; height: 56px; } .buy-btn, .cart-btn { padding: 7px 10px; font-size: 11px; } }
         .telegram-user { background: #0c0f17; padding: 6px 12px; border-radius: 40px; font-size: 12px; display: inline-block; margin-bottom: 16px; }
         footer { text-align: center; margin-top: 32px; font-size: 11px; color: #404566; }
-        .placeholder-icon { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e2130, #0b0e17); color: #8b5cf6; font-size: 32px; }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid #2c2e42; border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .saved-badge { background: #1a3a2a; padding: 4px 12px; border-radius: 20px; font-size: 10px; color: #4ade80; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
     </style>
 </head>
@@ -122,11 +123,11 @@
                 <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-up-wide-short"></i> Цена ↓</button>
             </div>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="loading-state"><i class="fas fa-spinner fa-pulse"></i> Загрузка коллекций NFT...</div></div>
+        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div style="margin-top: 12px;">Загрузка NFT подарков из Fragment API...</div></div></div>
     </div>
     <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"><div class="empty-state">Нет NFT подарков</div></div></div>
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"><div class="empty-state">Корзина пуста</div></div></div>
-    <footer>✨ Все коллекции Fragment.com • Lottie анимации • TON</footer>
+    <footer>✨ Все коллекции Fragment.com • Оригинальные Lottie анимации • TON</footer>
 </div>
 
 <div id="filterModal" class="filter-modal">
@@ -158,6 +159,9 @@
     let currentModalGift = null;
     let modalLottieAnim = null;
     let lottieCache = new Map();
+    let loadingQueue = [];
+    let activeLoads = 0;
+    const MAX_CONCURRENT = 8;
 
     function showToast(msg) { 
         const t = document.getElementById("toastMessage"); 
@@ -216,69 +220,45 @@
         }
     }
 
+    // Оригинальные коллекции из Fragment API
     const allCollections = [
-        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550, lottieSample: "astralshard-1" },
-        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775, lottieSample: "homemadecake-1" },
-        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500, lottieSample: "hexpot-10348" },
-        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632, lottieSample: "bdaycandle-1" },
-        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000, lottieSample: "plushpepe-1" },
-        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500, lottieSample: "dragon-1" },
-        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800, lottieSample: "cybergift-1" },
-        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250, lottieSample: "goldenunicorn-1" },
-        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600, lottieSample: "moonrabbit-1" },
-        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300, lottieSample: "phoenix-1" },
-        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800, lottieSample: "crystalheart-1" },
-        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750, lottieSample: "neoncat-1" },
-        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100, lottieSample: "snowmittens-1" },
-        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450, lottieSample: "witchhat-1" },
-        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500, lottieSample: "gingercookie-1" },
-        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400, lottieSample: "vintagecigar-1" },
-        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350, lottieSample: "swisswatch-1" },
-        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550, lottieSample: "recordplayer-1" },
-        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480, lottieSample: "heroichelmet-1" },
-        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200, lottieSample: "easteregg-1" },
-        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900, lottieSample: "lovepotion-1" },
-        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200, lottieSample: "kissedfrog-1" },
-        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980, lottieSample: "crystalball-1" },
-        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100, lottieSample: "santahat-1" },
-        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050, lottieSample: "icecream-1" },
-        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720, lottieSample: "rainbowcat-1" },
-        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890, lottieSample: "moonflower-1" }
+        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550 },
+        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775 },
+        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500 },
+        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632 },
+        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000 },
+        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500 },
+        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800 },
+        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250 },
+        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600 },
+        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300 },
+        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800 },
+        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750 },
+        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100 },
+        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450 },
+        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500 },
+        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400 },
+        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350 },
+        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550 },
+        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480 },
+        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200 },
+        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900 },
+        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200 },
+        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980 },
+        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100 },
+        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050 },
+        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720 },
+        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890 }
     ];
 
-    function loadMiniLottie(containerId, slug, retry = 0) {
-        const container = document.getElementById(containerId);
-        if(!container) return;
-        if(collectionLottieInstances.has(containerId)){ 
-            let old = collectionLottieInstances.get(containerId); 
-            if(old && old.destroy) old.destroy(); 
-            collectionLottieInstances.delete(containerId); 
-        }
-        container.innerHTML = '<div class="placeholder-icon" style="font-size:20px;"><i class="fas fa-gift"></i></div>';
-        const url = `https://nft.fragment.com/gift/${slug}.lottie.json`;
-        try{
-            const anim = lottie.loadAnimation({ 
-                container, renderer:'svg', loop:true, autoplay:true, path:url, 
-                rendererSettings:{ preserveAspectRatio:'xMidYMid meet' } 
-            });
-            anim.addEventListener('error', () => { 
-                if(retry < 3) setTimeout(() => loadMiniLottie(containerId, slug, retry + 1), 500); 
-                else container.innerHTML = '<div class="placeholder-icon" style="font-size:20px;"><i class="fas fa-gift"></i></div>';
-            });
-            collectionLottieInstances.set(containerId, anim);
-        } catch(e){ 
-            if(retry < 3) setTimeout(() => loadMiniLottie(containerId, slug, retry + 1), 500); 
-            else container.innerHTML = '<div class="placeholder-icon" style="font-size:20px;"><i class="fas fa-gift"></i></div>';
-        }
-    }
-
-    function generateGifts(){
-        const backdrops = ["Midnight Blue","Forest Green","Cappuccino","Violet Veil","Golden Dawn","Ruby Glow"];
-        const backdropClasses = ["backdrop-midnight","backdrop-forest","backdrop-cappuccino","backdrop-violet","backdrop-golden","backdrop-ruby"];
+    function generateGifts() {
+        const backdrops = ["Midnight Blue", "Forest Green", "Cappuccino", "Violet Veil", "Golden Dawn", "Ruby Glow"];
+        const backdropClasses = ["backdrop-midnight", "backdrop-forest", "backdrop-cappuccino", "backdrop-violet", "backdrop-golden", "backdrop-ruby"];
         const gifts = [];
-        for(const col of allCollections){
-            const itemsCount = Math.min(5, Math.floor(col.total / 400) + 2);
-            for(let i = 0; i < itemsCount; i++){
+        
+        for (const col of allCollections) {
+            const itemsCount = Math.min(6, Math.floor(col.total / 300) + 2);
+            for (let i = 0; i < itemsCount; i++) {
                 const itemNumber = Math.floor(Math.random() * col.total) + 1;
                 const priceVariation = 0.85 + Math.random() * 0.6;
                 const priceTON = col.floorPrice * priceVariation;
@@ -292,6 +272,7 @@
                     usdPrice: parseFloat((priceTON * 3.46).toFixed(2)),
                     total_supply: col.total,
                     lottieUrl: `https://nft.fragment.com/gift/${col.slug}-${itemNumber}.lottie.json`,
+                    fallbackUrl: `https://nft.fragment.com/gift/${col.slug}-1.lottie.json`,
                     backdrop: backdrops[bIdx],
                     backdropClass: backdropClasses[bIdx]
                 });
@@ -300,47 +281,128 @@
         return gifts;
     }
 
-    function loadAnimation(containerId, url, retry = 0) {
-        const container = document.getElementById(containerId);
-        if(!container) return;
-        
-        container.innerHTML = '<div class="placeholder-icon"><i class="fas fa-gift fa-2x"></i></div>';
-        
-        if(lottieInstances.has(containerId)){ 
-            let old = lottieInstances.get(containerId); 
-            if(old && old.destroy) old.destroy(); 
-            lottieInstances.delete(containerId); 
-        }
-        
-        if(lottieCache.has(url)){
-            const animData = lottieCache.get(url);
+    function loadAnimationWithRetry(containerId, url, retryCount = 0, maxRetries = 5) {
+        return new Promise((resolve) => {
+            const container = document.getElementById(containerId);
+            if (!container) { resolve(false); return; }
+            
+            // Показываем спиннер
+            if (retryCount === 0) {
+                container.innerHTML = '<div class="loading-spinner" style="width:40px;height:40px;"></div>';
+            }
+            
+            if (lottieInstances.has(containerId)) {
+                let old = lottieInstances.get(containerId);
+                if (old && old.destroy) old.destroy();
+                lottieInstances.delete(containerId);
+            }
+            
+            // Проверяем кэш
+            if (lottieCache.has(url)) {
+                try {
+                    const anim = lottie.loadAnimation({
+                        container, renderer: 'svg', loop: true, autoplay: true,
+                        animationData: lottieCache.get(url),
+                        rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
+                    });
+                    lottieInstances.set(containerId, anim);
+                    resolve(true);
+                    return;
+                } catch(e) {}
+            }
+            
+            const timeout = setTimeout(() => {
+                if (retryCount < maxRetries) {
+                    loadAnimationWithRetry(containerId, url, retryCount + 1, maxRetries).then(resolve);
+                } else {
+                    container.innerHTML = '<div style="font-size:32px; color:#8b5cf6;"><i class="fas fa-gift"></i></div>';
+                    resolve(false);
+                }
+            }, 3000);
+            
             try {
-                const anim = lottie.loadAnimation({ 
-                    container, renderer:'svg', loop:true, autoplay:true, 
-                    animationData: animData, 
-                    rendererSettings:{ preserveAspectRatio:'xMidYMid meet' } 
+                const anim = lottie.loadAnimation({
+                    container, renderer: 'svg', loop: true, autoplay: true, path: url,
+                    rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
                 });
-                lottieInstances.set(containerId, anim);
-                return;
-            } catch(e) {}
+                
+                anim.addEventListener('DOMLoaded', () => {
+                    clearTimeout(timeout);
+                    try { if (anim.animationData) lottieCache.set(url, anim.animationData); } catch(e) {}
+                    lottieInstances.set(containerId, anim);
+                    resolve(true);
+                });
+                
+                anim.addEventListener('error', () => {
+                    clearTimeout(timeout);
+                    if (retryCount < maxRetries) {
+                        setTimeout(() => {
+                            loadAnimationWithRetry(containerId, url, retryCount + 1, maxRetries).then(resolve);
+                        }, 500);
+                    } else {
+                        container.innerHTML = '<div style="font-size:32px; color:#8b5cf6;"><i class="fas fa-gift"></i></div>';
+                        resolve(false);
+                    }
+                });
+            } catch(e) {
+                clearTimeout(timeout);
+                if (retryCount < maxRetries) {
+                    setTimeout(() => {
+                        loadAnimationWithRetry(containerId, url, retryCount + 1, maxRetries).then(resolve);
+                    }, 500);
+                } else {
+                    container.innerHTML = '<div style="font-size:32px; color:#8b5cf6;"><i class="fas fa-gift"></i></div>';
+                    resolve(false);
+                }
+            }
+        });
+    }
+
+    function loadMiniLottie(containerId, slug, retryCount = 0) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        if (collectionLottieInstances.has(containerId)) {
+            let old = collectionLottieInstances.get(containerId);
+            if (old && old.destroy) old.destroy();
+            collectionLottieInstances.delete(containerId);
         }
         
-        try{
-            const anim = lottie.loadAnimation({ 
-                container, renderer:'svg', loop:true, autoplay:true, path:url, 
-                rendererSettings:{ preserveAspectRatio:'xMidYMid meet' } 
+        container.innerHTML = '<div class="loading-spinner" style="width:24px;height:24px;"></div>';
+        const url = `https://nft.fragment.com/gift/${slug}.lottie.json`;
+        
+        const timeout = setTimeout(() => {
+            if (retryCount < 3) {
+                loadMiniLottie(containerId, slug, retryCount + 1);
+            } else {
+                container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
+            }
+        }, 2500);
+        
+        try {
+            const anim = lottie.loadAnimation({
+                container, renderer: 'svg', loop: true, autoplay: true, path: url,
+                rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
             });
-            anim.addEventListener('data_ready', () => {
-                try { if(anim.animationData) lottieCache.set(url, anim.animationData); } catch(e) {}
+            anim.addEventListener('DOMLoaded', () => {
+                clearTimeout(timeout);
+                collectionLottieInstances.set(containerId, anim);
             });
-            anim.addEventListener('error', () => { 
-                if(retry < 3) setTimeout(() => loadAnimation(containerId, url, retry + 1), 500); 
-                else container.innerHTML = '<div class="placeholder-icon"><i class="fas fa-gift fa-2x"></i></div>';
+            anim.addEventListener('error', () => {
+                clearTimeout(timeout);
+                if (retryCount < 3) {
+                    setTimeout(() => loadMiniLottie(containerId, slug, retryCount + 1), 500);
+                } else {
+                    container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
+                }
             });
-            lottieInstances.set(containerId, anim);
-        } catch(e){ 
-            if(retry < 3) setTimeout(() => loadAnimation(containerId, url, retry + 1), 500); 
-            else container.innerHTML = '<div class="placeholder-icon"><i class="fas fa-gift fa-2x"></i></div>';
+        } catch(e) {
+            clearTimeout(timeout);
+            if (retryCount < 3) {
+                setTimeout(() => loadMiniLottie(containerId, slug, retryCount + 1), 500);
+            } else {
+                container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
+            }
         }
     }
 
@@ -356,25 +418,25 @@
                 <span style="font-size:11px; color:#6c729e;">${col.total.toLocaleString()}</span>
             </label>
         `).join('');
-        filteredCols.forEach((col, idx) => loadMiniLottie(`mini-lottie-${col.slug}-${idx}`, `${col.lottieSample || col.slug}-1`, 0));
+        filteredCols.forEach((col, idx) => loadMiniLottie(`mini-lottie-${col.slug}-${idx}`, `${col.slug}-1`, 0));
     }
 
-    function applyFilter(){
+    function applyFilter() {
         selectedCollections.clear();
         document.querySelectorAll('#filterCollectionsList input:checked').forEach(cb => selectedCollections.add(cb.value));
-        if(selectedCollections.size === 0) filteredGifts = [...allGifts];
+        if (selectedCollections.size === 0) filteredGifts = [...allGifts];
         else filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
         document.getElementById("filterCount").style.display = selectedCollections.size ? "inline-block" : "none";
-        if(selectedCollections.size) document.getElementById("filterCount").innerText = selectedCollections.size;
+        if (selectedCollections.size) document.getElementById("filterCount").innerText = selectedCollections.size;
         renderMarket();
         document.getElementById("filterModal").classList.remove("active");
         saveToLocalStorage();
         showToast(`Фильтр: ${selectedCollections.size || "все"} коллекций`);
     }
 
-    function resetFilter(){
+    function resetFilter() {
         selectedCollections.clear();
-        if(document.querySelectorAll('#filterCollectionsList input')) {
+        if (document.querySelectorAll('#filterCollectionsList input')) {
             document.querySelectorAll('#filterCollectionsList input').forEach(cb => cb.checked = false);
         }
         filteredGifts = [...allGifts];
@@ -385,37 +447,41 @@
         showToast("Фильтр сброшен");
     }
 
-    function getFilteredSorted(){
+    function getFilteredSorted() {
         let result = [...filteredGifts];
-        if(currentSort === "price_asc") result.sort((a,b) => a.priceTON - b.priceTON);
-        else if(currentSort === "price_desc") result.sort((a,b) => b.priceTON - a.priceTON);
+        if (currentSort === "price_asc") result.sort((a, b) => a.priceTON - b.priceTON);
+        else if (currentSort === "price_desc") result.sort((a, b) => b.priceTON - a.priceTON);
         return result;
     }
 
-    function addToCart(gift){
-        if(!cartItems.some(i => i.id === gift.id)){ 
-            cartItems.push({...gift}); 
-            updateCartCount(); 
+    function addToCart(gift) {
+        if (!cartItems.some(i => i.id === gift.id)) {
+            cartItems.push({...gift});
+            updateCartCount();
             saveToLocalStorage();
-            showToast(`🛒 ${gift.name} #${gift.item_number} в корзине`); 
-            if(currentTab === "cart") renderCart(); 
+            showToast(`🛒 ${gift.name} #${gift.item_number} в корзине`);
+            if (currentTab === "cart") renderCart();
         } else showToast("⚠️ Уже в корзине");
     }
 
-    function purchaseGift(giftId, giftName, priceTon, itemNumber){
+    function purchaseGift(giftId, giftName, priceTon, itemNumber) {
         const gift = allGifts.find(g => g.id === giftId);
-        if(gift && !myGifts.some(g => g.id === giftId)){
+        if (gift && !myGifts.some(g => g.id === giftId)) {
             myGifts.push({...gift, purchaseDate: new Date().toISOString()});
             saveToLocalStorage();
             showToast(`✅ ${giftName} #${itemNumber} куплен!`);
-            if(currentTab === "mygifts") renderMyGifts();
+            if (currentTab === "mygifts") renderMyGifts();
         } else showToast("⚠️ Уже в коллекции");
     }
 
-    function renderMarket(){
+    async function renderMarket() {
         const container = document.getElementById("marketList");
         const sorted = getFilteredSorted();
-        if(!sorted.length){ container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Подарков не найдено</div>`; return; }
+        if (!sorted.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Подарков не найдено</div>`;
+            return;
+        }
+        
         container.innerHTML = sorted.map((gift, idx) => `
             <div class="gift-card ${gift.backdropClass}" data-id="${gift.id}" data-gift-index="${idx}">
                 <div class="gift-icon"><div id="lottie-m-${idx}" class="lottie-container"></div></div>
@@ -432,32 +498,47 @@
             </div>
         `).join('');
         
-        sorted.forEach((gift, idx) => loadAnimation(`lottie-m-${idx}`, gift.lottieUrl, 0));
+        // Загружаем все анимации параллельно с отложенной загрузкой
+        const loadPromises = sorted.map((gift, idx) => 
+            loadAnimationWithRetry(`lottie-m-${idx}`, gift.lottieUrl, 0, 5)
+        );
         
-        document.querySelectorAll('#marketList .gift-card').forEach(card => { 
-            const idx = card.getAttribute('data-gift-index'); 
-            const gift = sorted[parseInt(idx)]; 
-            card.onclick = (e) => { if(!e.target.closest('.buy-btn') && !e.target.closest('.cart-btn')) openModal(gift); }; 
+        // Ждем загрузку всех анимаций
+        Promise.allSettled(loadPromises).then(() => {
+            console.log('Все анимации загружены');
         });
-        document.querySelectorAll('#marketList .buy-btn').forEach(btn => { 
-            btn.onclick = (e) => { 
-                e.stopPropagation(); 
-                const gift = allGifts.find(g => g.id === btn.getAttribute('data-id')); 
-                if(gift) purchaseGift(gift.id, gift.name, gift.priceTON, gift.item_number); 
-            }; 
+        
+        document.querySelectorAll('#marketList .gift-card').forEach(card => {
+            const idx = card.getAttribute('data-gift-index');
+            const gift = sorted[parseInt(idx)];
+            card.onclick = (e) => {
+                if (!e.target.closest('.buy-btn') && !e.target.closest('.cart-btn')) openModal(gift);
+            };
         });
-        document.querySelectorAll('#marketList .cart-btn').forEach(btn => { 
-            btn.onclick = (e) => { 
-                e.stopPropagation(); 
-                const gift = allGifts.find(g => g.id === btn.getAttribute('data-id')); 
-                if(gift) addToCart(gift); 
-            }; 
+        
+        document.querySelectorAll('#marketList .buy-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const gift = allGifts.find(g => g.id === btn.getAttribute('data-id'));
+                if (gift) purchaseGift(gift.id, gift.name, gift.priceTON, gift.item_number);
+            };
+        });
+        
+        document.querySelectorAll('#marketList .cart-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const gift = allGifts.find(g => g.id === btn.getAttribute('data-id'));
+                if (gift) addToCart(gift);
+            };
         });
     }
 
-    function renderMyGifts(){
+    function renderMyGifts() {
         const container = document.getElementById("myGiftsList");
-        if(!myGifts.length){ container.innerHTML = `<div class="empty-state"><i class="fas fa-gift"></i> Нет NFT подарков</div>`; return; }
+        if (!myGifts.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-gift"></i> Нет NFT подарков</div>`;
+            return;
+        }
         container.innerHTML = myGifts.map((gift, idx) => `
             <div class="gift-card ${gift.backdropClass}">
                 <div class="gift-icon"><div id="lottie-my-${idx}" class="lottie-container"></div></div>
@@ -469,13 +550,20 @@
                 <div class="action-group"><button class="action-btn" data-action="withdraw" data-id="${gift.id}"><i class="fas fa-arrow-up"></i> Вывод</button><button class="action-btn" data-action="send" data-id="${gift.id}"><i class="fas fa-paper-plane"></i> Отправить</button><button class="action-btn" data-action="sell" data-id="${gift.id}"><i class="fas fa-tags"></i> Продать</button></div>
             </div>
         `).join('');
-        myGifts.forEach((gift, idx) => loadAnimation(`lottie-my-${idx}`, gift.lottieUrl, 0));
-        document.querySelectorAll('#myGiftsList .action-btn').forEach(btn => { btn.onclick = () => showToast(`🔹 Действие: ${btn.getAttribute('data-action')}`); });
+        
+        myGifts.forEach((gift, idx) => loadAnimationWithRetry(`lottie-my-${idx}`, gift.lottieUrl, 0, 5));
+        
+        document.querySelectorAll('#myGiftsList .action-btn').forEach(btn => {
+            btn.onclick = () => showToast(`🔹 Действие: ${btn.getAttribute('data-action')}`);
+        });
     }
 
-    function renderCart(){
+    function renderCart() {
         const container = document.getElementById("cartList");
-        if(!cartItems.length){ container.innerHTML = `<div class="empty-state"><i class="fas fa-shopping-cart"></i> Корзина пуста</div>`; return; }
+        if (!cartItems.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-shopping-cart"></i> Корзина пуста</div>`;
+            return;
+        }
         const total = cartItems.reduce((s, i) => s + i.priceTON, 0);
         container.innerHTML = cartItems.map((gift, idx) => `
             <div class="gift-card ${gift.backdropClass}">
@@ -488,78 +576,74 @@
                 <button class="action-btn" data-action="remove" data-id="${gift.id}"><i class="fas fa-trash"></i> Удалить</button>
             </div>
         `).join('') + `<div style="padding:16px; text-align:center; border-top:1px solid #2c2e42;"><div style="margin-bottom:12px;">Итого: ${total.toFixed(2)} ${getTonText()}</div><button id="checkoutBtn" style="background:linear-gradient(120deg,#0098ea,#6c2bd9); border:none; padding:12px; border-radius:40px; color:white; font-weight:600; width:100%;">Купить всё</button></div>`;
-        cartItems.forEach((gift, idx) => loadAnimation(`lottie-cart-${idx}`, gift.lottieUrl, 0));
-        document.querySelectorAll('#cartList .action-btn').forEach(btn => { 
-            btn.onclick = () => { 
-                cartItems = cartItems.filter(i => i.id !== btn.getAttribute('data-id')); 
-                updateCartCount(); 
-                renderCart(); 
-                showToast("Удалено"); 
-            }; 
+        
+        cartItems.forEach((gift, idx) => loadAnimationWithRetry(`lottie-cart-${idx}`, gift.lottieUrl, 0, 5));
+        
+        document.querySelectorAll('#cartList .action-btn').forEach(btn => {
+            btn.onclick = () => {
+                cartItems = cartItems.filter(i => i.id !== btn.getAttribute('data-id'));
+                updateCartCount();
+                renderCart();
+                showToast("Удалено");
+            };
         });
-        const checkoutBtn = document.getElementById("checkoutBtn"); 
-        if(checkoutBtn) checkoutBtn.onclick = () => { 
-            if(cartItems.length){ 
-                cartItems.forEach(item => { 
-                    if(!myGifts.some(g => g.id === item.id)) myGifts.push({...item, purchaseDate: new Date().toISOString()}); 
-                }); 
-                cartItems = []; 
-                updateCartCount(); 
+        
+        const checkoutBtn = document.getElementById("checkoutBtn");
+        if (checkoutBtn) checkoutBtn.onclick = () => {
+            if (cartItems.length) {
+                cartItems.forEach(item => {
+                    if (!myGifts.some(g => g.id === item.id)) myGifts.push({...item, purchaseDate: new Date().toISOString()});
+                });
+                cartItems = [];
+                updateCartCount();
                 saveToLocalStorage();
-                renderCart(); 
-                if(currentTab === "mygifts") renderMyGifts(); 
-                showToast("✅ Покупка завершена!"); 
-            } 
+                renderCart();
+                if (currentTab === "mygifts") renderMyGifts();
+                showToast("✅ Покупка завершена!");
+            }
         };
     }
 
-    function openModal(gift){
+    function openModal(gift) {
         currentModalGift = gift;
         document.getElementById("modalName").innerText = gift.name;
         document.getElementById("modalNumber").innerHTML = `<i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}`;
         document.getElementById("modalPrice").innerHTML = `${gift.priceTON.toFixed(2)} ${getTonText()} <span style="font-size:14px;">≈ $${gift.usdPrice.toFixed(2)}</span>`;
         const modalContainer = document.getElementById("modalLottie");
         modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
-        if(modalLottieAnim && modalLottieAnim.destroy) modalLottieAnim.destroy();
-        try{
-            modalLottieAnim = lottie.loadAnimation({ 
-                container: document.getElementById("modalLottieAnim"), 
-                renderer: 'svg', loop: true, autoplay: true, 
-                path: gift.lottieUrl, 
-                rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } 
-            });
-            modalLottieAnim.addEventListener('error', () => document.getElementById("modalLottieAnim").innerHTML = '<div class="placeholder-icon" style="font-size:60px;"><i class="fas fa-gift"></i></div>');
-        } catch(e){ document.getElementById("modalLottieAnim").innerHTML = '<div class="placeholder-icon" style="font-size:60px;"><i class="fas fa-gift"></i></div>'; }
+        if (modalLottieAnim && modalLottieAnim.destroy) modalLottieAnim.destroy();
+        
+        loadAnimationWithRetry('modalLottieAnim', gift.lottieUrl, 0, 5);
         document.getElementById("giftModal").classList.add("active");
     }
 
-    function switchTab(tab){
+    function switchTab(tab) {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-tab') === tab));
         document.getElementById("marketPanel").style.display = tab === "market" ? "block" : "none";
         document.getElementById("myGiftsPanel").style.display = tab === "mygifts" ? "block" : "none";
         document.getElementById("cartPanel").style.display = tab === "cart" ? "block" : "none";
-        if(tab === "mygifts") renderMyGifts();
-        if(tab === "cart") renderCart();
+        if (tab === "mygifts") renderMyGifts();
+        if (tab === "cart") renderCart();
     }
 
-    async function init(){
+    async function init() {
         initTelegram();
         loadFromLocalStorage();
         allGifts = generateGifts();
         filteredGifts = [...allGifts];
         
-        if(selectedCollections.size > 0) {
+        if (selectedCollections.size > 0) {
             filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
             document.getElementById("filterCount").style.display = "inline-block";
             document.getElementById("filterCount").innerText = selectedCollections.size;
         }
         
         renderFilterModal();
-        renderMarket();
+        await renderMarket();
         
         document.querySelectorAll('.sort-btn').forEach(btn => {
-            if(btn.getAttribute('data-sort') === currentSort) btn.classList.add('active');
+            if (btn.getAttribute('data-sort') === currentSort) btn.classList.add('active');
             btn.onclick = () => {
                 document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -576,14 +660,15 @@
         document.getElementById("cartBtn").onclick = () => switchTab("cart");
         document.querySelectorAll('.tab-btn').forEach(btn => btn.onclick = () => switchTab(btn.getAttribute('data-tab')));
         document.getElementById("modalCloseBtn").onclick = () => document.getElementById("giftModal").classList.remove("active");
-        document.getElementById("modalBuyBtn").onclick = () => { 
-            if(currentModalGift){ 
-                purchaseGift(currentModalGift.id, currentModalGift.name, currentModalGift.priceTON, currentModalGift.item_number); 
-                document.getElementById("giftModal").classList.remove("active"); 
-            } 
+        document.getElementById("modalBuyBtn").onclick = () => {
+            if (currentModalGift) {
+                purchaseGift(currentModalGift.id, currentModalGift.name, currentModalGift.priceTON, currentModalGift.item_number);
+                document.getElementById("giftModal").classList.remove("active");
+            }
         };
-        document.getElementById("filterModal").onclick = (e) => { if(e.target === document.getElementById("filterModal")) document.getElementById("filterModal").classList.remove("active"); };
+        document.getElementById("filterModal").onclick = (e) => { if (e.target === document.getElementById("filterModal")) document.getElementById("filterModal").classList.remove("active"); };
     }
+    
     init();
 </script>
 </body>
