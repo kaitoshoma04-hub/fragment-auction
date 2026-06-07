@@ -27,7 +27,6 @@
         .filter-bar { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
         .filter-trigger { background: #14161f; border: 1px solid #2c2e42; padding: 10px 20px; border-radius: 40px; font-size: 14px; font-weight: 500; color: #b9bedd; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
         .filter-trigger.active { background: linear-gradient(120deg, #6c2bd9, #9b4dff); border-color: #b77eff; color: white; }
-        .filter-trigger i { font-size: 12px; }
         .sort-group { display: flex; gap: 8px; background: #0f111a; padding: 4px; border-radius: 60px; }
         .sort-btn { background: transparent; border: none; padding: 8px 18px; border-radius: 40px; font-size: 13px; font-weight: 500; color: #8f95b6; cursor: pointer; transition: 0.2s; }
         .sort-btn.active { background: #232536; color: white; }
@@ -42,7 +41,7 @@
         .filter-collection-item:hover { background: #1e2035; }
         .filter-collection-item input { width: 18px; height: 18px; accent-color: #8b5cf6; cursor: pointer; }
         .filter-collection-icon { width: 36px; height: 36px; background: #1e2130; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .lottie-mini { width: 32px; height: 32px; }
+        .filter-icon-img { width: 32px; height: 32px; object-fit: cover; border-radius: 10px; }
         .filter-collection-name { flex: 1; font-size: 14px; font-weight: 500; }
         .filter-modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
         .filter-apply-btn, .filter-reset-btn { flex: 1; padding: 12px; border-radius: 40px; font-weight: 600; cursor: pointer; border: none; }
@@ -98,8 +97,8 @@
 <div class="app-container">
     <div class="header">
         <div class="logo-area">
-            <h1><i class="fas fa-gift"></i> Portals</h1>
-            <p>NFT подарки Telegram • 71+ коллекций</p>
+            <h1><i class="fas fa-gift"></i> Portals Market</h1>
+            <p>NFT подарки Telegram • MRKT API</p>
         </div>
         <div style="display: flex; gap: 8px;">
             <div class="cart-badge" id="cartBtn"><i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span></div>
@@ -121,11 +120,11 @@
                 <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-up-wide-short"></i> Цена ↓</button>
             </div>
         </div>
-        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div>Загрузка 71+ коллекций NFT подарков...</div></div></div>
+        <div id="marketList" class="gifts-grid"><div class="loading-state"><div class="loading-spinner"></div><div>Загрузка подарков из MRKT API...</div></div></div>
     </div>
     <div id="myGiftsPanel" style="display: none;"><div id="myGiftsList" class="gifts-grid"><div class="empty-state">Нет NFT подарков</div></div></div>
     <div id="cartPanel" style="display: none;"><div id="cartList" class="gifts-grid"><div class="empty-state">Корзина пуста</div></div></div>
-    <footer>✨ 71+ коллекций Fragment • Оригинальные Lottie анимации • TON</footer>
+    <footer>✨ MRKT API • Официальные Lottie анимации Fragment • TON</footer>
     <div id="apiStatus" class="status-text"></div>
 </div>
 
@@ -217,72 +216,86 @@
         }
     }
 
-    // ВСЕ 71+ КОЛЛЕКЦИЙ Fragment с реальными Lottie URL
-    const allCollectionsData = [
-        { slug: "astralshard", name: "Astral Shards", floorPrice: 245, total: 1550, sample: "astralshard-1", color1: "#6366f1", color2: "#a855f7" },
-        { slug: "homemadecake", name: "Homemade Cakes", floorPrice: 12, total: 19775, sample: "homemadecake-1", color1: "#f59e0b", color2: "#f97316" },
-        { slug: "hexpot", name: "Hex Pot", floorPrice: 18.5, total: 1500, sample: "hexpot-10348", color1: "#10b981", color2: "#14b8a6" },
-        { slug: "bdaycandle", name: "B-Day Candle", floorPrice: 2.5, total: 307632, sample: "bdaycandle-1", color1: "#ef4444", color2: "#f97316" },
-        { slug: "plushpepe", name: "Plush Pepe", floorPrice: 16000, total: 3000, sample: "plushpepe-1", color1: "#22c55e", color2: "#16a34a" },
-        { slug: "dragon", name: "Dragon Soul", floorPrice: 89.9, total: 500, sample: "dragon-1", color1: "#ef4444", color2: "#dc2626" },
-        { slug: "cybergift", name: "Cyber Gift", floorPrice: 22.4, total: 800, sample: "cybergift-1", color1: "#06b6d4", color2: "#0891b2" },
-        { slug: "goldenunicorn", name: "Golden Unicorn", floorPrice: 120, total: 250, sample: "goldenunicorn-1", color1: "#eab308", color2: "#facc15" },
-        { slug: "moonrabbit", name: "Moon Rabbit", floorPrice: 15.2, total: 600, sample: "moonrabbit-1", color1: "#8b5cf6", color2: "#6d28d9" },
-        { slug: "phoenix", name: "Phoenix Feather", floorPrice: 95, total: 300, sample: "phoenix-1", color1: "#f97316", color2: "#ea580c" },
-        { slug: "crystalheart", name: "Crystal Heart", floorPrice: 7.5, total: 1800, sample: "crystalheart-1", color1: "#ec4899", color2: "#db2777" },
-        { slug: "neoncat", name: "Neon Cat", floorPrice: 27.3, total: 750, sample: "neoncat-1", color1: "#d946ef", color2: "#c026d3" },
-        { slug: "snowmittens", name: "Snow Mittens", floorPrice: 12.3, total: 1100, sample: "snowmittens-1", color1: "#94a3b8", color2: "#64748b" },
-        { slug: "witchhat", name: "Witch Hat", floorPrice: 9.5, total: 1450, sample: "witchhat-1", color1: "#8b5cf6", color2: "#7c3aed" },
-        { slug: "gingercookie", name: "Ginger Cookie", floorPrice: 3.8, total: 3500, sample: "gingercookie-1", color1: "#d97706", color2: "#b45309" },
-        { slug: "vintagecigar", name: "Vintage Cigar", floorPrice: 45, total: 400, sample: "vintagecigar-1", color1: "#78350f", color2: "#451a03" },
-        { slug: "swisswatch", name: "Swiss Watch", floorPrice: 78.5, total: 350, sample: "swisswatch-1", color1: "#475569", color2: "#334155" },
-        { slug: "recordplayer", name: "Record Player", floorPrice: 32, total: 550, sample: "recordplayer-1", color1: "#1e293b", color2: "#0f172a" },
-        { slug: "heroichelmet", name: "Heroic Helmet", floorPrice: 28.5, total: 480, sample: "heroichelmet-1", color1: "#4b5563", color2: "#374151" },
-        { slug: "easteregg", name: "Easter Egg", floorPrice: 8.9, total: 2200, sample: "easteregg-1", color1: "#facc15", color2: "#eab308" },
-        { slug: "lovepotion", name: "Love Potion", floorPrice: 11.2, total: 900, sample: "lovepotion-1", color1: "#f43f5e", color2: "#e11d48" },
-        { slug: "kissedfrog", name: "Kissed Frog", floorPrice: 16, total: 1200, sample: "kissedfrog-1", color1: "#84cc16", color2: "#65a30d" },
-        { slug: "crystalball", name: "Crystal Ball", floorPrice: 22, total: 980, sample: "crystalball-1", color1: "#c084fc", color2: "#a855f7" },
-        { slug: "santahat", name: "Santa Hat", floorPrice: 14, total: 2100, sample: "santahat-1", color1: "#dc2626", color2: "#b91c1c" },
-        { slug: "icecream", name: "Ice Cream", floorPrice: 9, total: 3050, sample: "icecream-1", color1: "#fbcfe8", color2: "#f9a8d4" },
-        { slug: "rainbowcat", name: "Rainbow Cat", floorPrice: 42, total: 720, sample: "rainbowcat-1", color1: "#ec4899", color2: "#06b6d4" },
-        { slug: "moonflower", name: "Moon Flower", floorPrice: 18, total: 890, sample: "moonflower-1", color1: "#22c55e", color2: "#84cc16" },
-        { slug: "firecracker", name: "Firecracker", floorPrice: 25.5, total: 1200, sample: "firecracker-1", color1: "#f97316", color2: "#ef4444" },
-        { slug: "trophy", name: "Trophy Cup", floorPrice: 350, total: 100, sample: "trophy-1", color1: "#eab308", color2: "#facc15" },
-        { slug: "eagle", name: "Golden Eagle", floorPrice: 180, total: 300, sample: "eagle-1", color1: "#b45309", color2: "#d97706" },
-        { slug: "wolf", name: "Lone Wolf", floorPrice: 75, total: 550, sample: "wolf-1", color1: "#64748b", color2: "#475569" },
-        { slug: "sapphire", name: "Sapphire Ring", floorPrice: 420, total: 80, sample: "sapphire-1", color1: "#3b82f6", color2: "#1d4ed8" }
+    // Функция загрузки подарков через MRKT API
+    // MRKT — это маркетплейс Telegram Gifts, который агрегирует данные со всех площадок
+    // API: https://api.tgmrkt.io/api/v1/gifts/saling [citation:2][citation:5]
+    async function loadGiftsFromMRKT() {
+        try {
+            apiStatusDiv.innerHTML = '🔄 Загрузка данных из MRKT API...';
+            
+            // Используем CORS-прокси для обхода ограничений
+            const corsProxy = 'https://api.allorigins.win/raw?url=';
+            const apiUrl = 'https://api.tgmrkt.io/api/v1/gifts/saling';
+            
+            // Параметры запроса для получения всех подарков [citation:2]
+            const requestBody = {
+                collectionNames: [],
+                modelNames: [],
+                backdropNames: [],
+                symbolNames: [],
+                ordering: "Price",
+                lowToHigh: true,
+                maxPrice: null,
+                minPrice: null,
+                mintable: null,
+                number: null,
+                count: 100,
+                cursor: '',
+                query: null,
+                promotedFirst: false
+            };
+            
+            // Пробуем запрос напрямую (в Telegram WebView может работать)
+            let response;
+            try {
+                response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Referer': 'https://cdn.tgmrkt.io/'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+            } catch (directError) {
+                // Если прямой запрос не работает, используем прокси
+                apiStatusDiv.innerHTML = '🔄 Использую прокси для загрузки...';
+                response = await fetch(corsProxy + encodeURIComponent(apiUrl), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+            }
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data && data.gifts && Array.isArray(data.gifts)) {
+                apiStatusDiv.innerHTML = `✅ Загружено ${data.gifts.length} подарков из MRKT`;
+                return data.gifts;
+            } else {
+                throw new Error('Неверный формат ответа');
+            }
+        } catch (error) {
+            console.warn('MRKT API error:', error);
+            apiStatusDiv.innerHTML = '⚠️ Использую локальные данные (MRKT API временно недоступен)';
+            return null;
+        }
+    }
+
+    // Базовая коллекция подарков (на случай недоступности API)
+    const fallbackGifts = [
+        { id: "hexpot-10348", name: "Hex Pot", collection: "Hex Pot", number: 10348, priceTON: 18.5, usdPrice: 64.01, lottieUrl: "https://nft.fragment.com/gift/hexpot-10348.lottie.json", backdropClass: "backdrop-violet", color1: "#10b981", color2: "#14b8a6" },
+        { id: "homemadecake-1", name: "Homemade Cake", collection: "Homemade Cakes", number: 1, priceTON: 12.0, usdPrice: 41.52, lottieUrl: "https://nft.fragment.com/gift/homemadecake-1.lottie.json", backdropClass: "backdrop-cappuccino", color1: "#f59e0b", color2: "#f97316" },
+        { id: "bdaycandle-1", name: "B-Day Candle", collection: "B-Day Candle", number: 1, priceTON: 2.5, usdPrice: 8.65, lottieUrl: "https://nft.fragment.com/gift/bdaycandle-1.lottie.json", backdropClass: "backdrop-golden", color1: "#ef4444", color2: "#f97316" },
+        { id: "astralshard-1", name: "Astral Shard", collection: "Astral Shards", number: 1, priceTON: 245.0, usdPrice: 847.70, lottieUrl: "https://nft.fragment.com/gift/astralshard-1.lottie.json", backdropClass: "backdrop-midnight", color1: "#6366f1", color2: "#a855f7" },
+        { id: "dragon-1", name: "Dragon Soul", collection: "Dragon Soul", number: 1, priceTON: 89.9, usdPrice: 311.05, lottieUrl: "https://nft.fragment.com/gift/dragon-1.lottie.json", backdropClass: "backdrop-ruby", color1: "#ef4444", color2: "#dc2626" },
+        { id: "phoenix-1", name: "Phoenix Feather", collection: "Phoenix Feather", number: 1, priceTON: 95.0, usdPrice: 328.70, lottieUrl: "https://nft.fragment.com/gift/phoenix-1.lottie.json", backdropClass: "backdrop-forest", color1: "#f97316", color2: "#ea580c" }
     ];
 
     const backdrops = ["backdrop-midnight","backdrop-forest","backdrop-cappuccino","backdrop-violet","backdrop-golden","backdrop-ruby"];
-
-    function generateGifts() {
-        const gifts = [];
-        for(const col of allCollectionsData){
-            const itemsCount = Math.min(3, Math.floor(col.total / 500) + 1);
-            for(let i = 0; i < itemsCount; i++){
-                const itemNumber = Math.floor(Math.random() * col.total) + 1;
-                const priceVariation = 0.85 + Math.random() * 0.6;
-                const priceTON = col.floorPrice * priceVariation;
-                const bIdx = Math.floor(Math.random() * backdrops.length);
-                gifts.push({
-                    id: `${col.slug}-${itemNumber}`,
-                    name: col.name,
-                    collection_slug: col.slug,
-                    collection_name: col.name,
-                    item_number: itemNumber,
-                    priceTON: parseFloat(priceTON.toFixed(2)),
-                    usdPrice: parseFloat((priceTON * 3.46).toFixed(2)),
-                    total_supply: col.total,
-                    lottieUrl: `https://nft.fragment.com/gift/${col.slug}-${itemNumber}.lottie.json`,
-                    fallbackUrl: `https://nft.fragment.com/gift/${col.sample}.lottie.json`,
-                    backdropClass: backdrops[bIdx],
-                    color1: col.color1,
-                    color2: col.color2
-                });
-            }
-        }
-        return gifts;
-    }
 
     function loadLottieWithPromise(containerId, url, retryCount = 0, maxRetries = 5) {
         return new Promise((resolve) => {
@@ -294,6 +307,8 @@
                 if (old && old.destroy) old.destroy();
                 lottieInstances.delete(containerId);
             }
+            
+            container.innerHTML = '<div class="loading-spinner" style="width:40px;height:40px;"></div>';
             
             if (lottieCache.has(url)) {
                 try {
@@ -355,112 +370,6 @@
         });
     }
 
-    function loadMiniLottie(containerId, url, retryCount = 0) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        container.innerHTML = '<div class="loading-spinner" style="width:24px;height:24px;"></div>';
-        
-        if (lottieCache.has(url)) {
-            try {
-                const anim = lottie.loadAnimation({
-                    container, renderer: 'svg', loop: true, autoplay: true,
-                    animationData: lottieCache.get(url),
-                    rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-                });
-                if (lottieInstances.has(containerId)) {
-                    let old = lottieInstances.get(containerId);
-                    if (old && old.destroy) old.destroy();
-                }
-                lottieInstances.set(containerId, anim);
-                return;
-            } catch(e) {}
-        }
-        
-        const timeout = setTimeout(() => {
-            if (retryCount < 3) {
-                loadMiniLottie(containerId, url, retryCount + 1);
-            } else {
-                container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
-            }
-        }, 3000);
-        
-        try {
-            const anim = lottie.loadAnimation({
-                container, renderer: 'svg', loop: true, autoplay: true, path: url,
-                rendererSettings: { preserveAspectRatio: 'xMidYMid meet' }
-            });
-            anim.addEventListener('DOMLoaded', () => {
-                clearTimeout(timeout);
-                try { if (anim.animationData) lottieCache.set(url, anim.animationData); } catch(e) {}
-                if (lottieInstances.has(containerId)) {
-                    let old = lottieInstances.get(containerId);
-                    if (old && old.destroy) old.destroy();
-                }
-                lottieInstances.set(containerId, anim);
-            });
-            anim.addEventListener('error', () => {
-                clearTimeout(timeout);
-                if (retryCount < 3) {
-                    setTimeout(() => loadMiniLottie(containerId, url, retryCount + 1), 500);
-                } else {
-                    container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
-                }
-            });
-        } catch(e) {
-            clearTimeout(timeout);
-            if (retryCount < 3) {
-                setTimeout(() => loadMiniLottie(containerId, url, retryCount + 1), 500);
-            } else {
-                container.innerHTML = '<i class="fas fa-gift" style="font-size:18px; color:#8b5cf6;"></i>';
-            }
-        }
-    }
-
-    function renderFilterModal() {
-        const container = document.getElementById("filterCollectionsList");
-        const searchTerm = document.getElementById("collectionSearchInput")?.value.toLowerCase() || "";
-        const filteredCols = allCollectionsData.filter(c => c.name.toLowerCase().includes(searchTerm) || c.slug.toLowerCase().includes(searchTerm));
-        container.innerHTML = filteredCols.map((col, idx) => `
-            <label class="filter-collection-item">
-                <input type="checkbox" value="${col.slug}" ${selectedCollections.has(col.slug) ? 'checked' : ''}>
-                <div class="filter-collection-icon"><div id="mini-lottie-${col.slug}-${idx}" class="lottie-mini"></div></div>
-                <span class="filter-collection-name">${col.name}</span>
-                <span style="font-size:11px; color:#6c729e;">${col.total.toLocaleString()}</span>
-            </label>
-        `).join('');
-        filteredCols.forEach((col, idx) => {
-            const url = `https://nft.fragment.com/gift/${col.sample}.lottie.json`;
-            loadMiniLottie(`mini-lottie-${col.slug}-${idx}`, url, 0);
-        });
-    }
-
-    function applyFilter() {
-        selectedCollections.clear();
-        document.querySelectorAll('#filterCollectionsList input:checked').forEach(cb => selectedCollections.add(cb.value));
-        if (selectedCollections.size === 0) filteredGifts = [...allGifts];
-        else filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
-        document.getElementById("filterCount").style.display = selectedCollections.size ? "inline-block" : "none";
-        if (selectedCollections.size) document.getElementById("filterCount").innerText = selectedCollections.size;
-        renderMarket();
-        document.getElementById("filterModal").classList.remove("active");
-        saveToLocalStorage();
-        showToast(`Фильтр: ${selectedCollections.size || "все"} коллекций`);
-    }
-
-    function resetFilter() {
-        selectedCollections.clear();
-        if (document.querySelectorAll('#filterCollectionsList input')) {
-            document.querySelectorAll('#filterCollectionsList input').forEach(cb => cb.checked = false);
-        }
-        filteredGifts = [...allGifts];
-        document.getElementById("filterCount").style.display = "none";
-        renderMarket();
-        document.getElementById("filterModal").classList.remove("active");
-        saveToLocalStorage();
-        showToast("Фильтр сброшен");
-    }
-
     function getFilteredSorted() {
         let result = [...filteredGifts];
         if (currentSort === "price_asc") result.sort((a, b) => a.priceTON - b.priceTON);
@@ -472,7 +381,7 @@
         if (!cartItems.some(i => i.id === gift.id)) {
             cartItems.push({...gift});
             updateCartCount();
-            showToast(`🛒 ${gift.name} #${gift.item_number} в корзине`);
+            showToast(`🛒 ${gift.name} #${gift.number} в корзине`);
             if (currentTab === "cart") renderCart();
         } else showToast("⚠️ Уже в корзине");
     }
@@ -500,8 +409,8 @@
                 <div class="gift-icon"><div id="lottie-m-${idx}" class="lottie-container"></div></div>
                 <div class="gift-info">
                     <div class="gift-name">${gift.name}</div>
-                    <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div>
-                    <div class="collection-info"><i class="fas fa-layer-group"></i> ${gift.collection_slug}</div>
+                    <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.number}</div>
+                    <div class="collection-info"><i class="fas fa-layer-group"></i> ${gift.collection}</div>
                     <div class="price-block"><span class="price-ton">${gift.priceTON.toFixed(2)} ${getTonText()}</span><span class="price-usd">≈ $${gift.usdPrice.toFixed(2)}</span></div>
                 </div>
                 <div class="button-group">
@@ -532,7 +441,7 @@
             btn.onclick = (e) => {
                 e.stopPropagation();
                 const gift = allGifts.find(g => g.id === btn.getAttribute('data-id'));
-                if (gift) purchaseGift(gift.id, gift.name, gift.priceTON, gift.item_number);
+                if (gift) purchaseGift(gift.id, gift.name, gift.priceTON, gift.number);
             };
         });
         
@@ -556,7 +465,7 @@
                 <div class="gift-icon"><div id="lottie-my-${idx}" class="lottie-container"></div></div>
                 <div class="gift-info">
                     <div class="gift-name">${gift.name}</div>
-                    <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div>
+                    <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.number}</div>
                     <div class="price-block"><span class="price-ton">${gift.priceTON.toFixed(2)} ${getTonText()}</span></div>
                 </div>
                 <div class="action-group"><button class="action-btn" data-action="withdraw" data-id="${gift.id}"><i class="fas fa-arrow-up"></i> Вывод</button><button class="action-btn" data-action="send" data-id="${gift.id}"><i class="fas fa-paper-plane"></i> Отправить</button><button class="action-btn" data-action="sell" data-id="${gift.id}"><i class="fas fa-tags"></i> Продать</button></div>
@@ -582,7 +491,7 @@
                 <div class="gift-icon"><div id="lottie-cart-${idx}" class="lottie-container"></div></div>
                 <div class="gift-info">
                     <div class="gift-name">${gift.name}</div>
-                    <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}</div>
+                    <div class="nft-number"><i class="fas fa-hashtag"></i> ${gift.number}</div>
                     <div class="price-block"><span class="price-ton">${gift.priceTON.toFixed(2)} ${getTonText()}</span></div>
                 </div>
                 <button class="action-btn" data-action="remove" data-id="${gift.id}"><i class="fas fa-trash"></i> Удалить</button>
@@ -619,7 +528,7 @@
     function openModal(gift) {
         currentModalGift = gift;
         document.getElementById("modalName").innerText = gift.name;
-        document.getElementById("modalNumber").innerHTML = `<i class="fas fa-hashtag"></i> ${gift.item_number.toLocaleString()}`;
+        document.getElementById("modalNumber").innerHTML = `<i class="fas fa-hashtag"></i> ${gift.number}`;
         document.getElementById("modalPrice").innerHTML = `${gift.priceTON.toFixed(2)} ${getTonText()} <span style="font-size:14px;">≈ $${gift.usdPrice.toFixed(2)}</span>`;
         const modalContainer = document.getElementById("modalLottie");
         modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
@@ -642,18 +551,41 @@
     async function init() {
         initTelegram();
         loadFromLocalStorage();
-        allGifts = generateGifts();
+        
+        apiStatusDiv.innerHTML = '🎬 Загрузка подарков из MRKT API...';
+        
+        // Пытаемся загрузить реальные данные через MRKT API
+        let giftsFromAPI = await loadGiftsFromMRKT();
+        
+        if (giftsFromAPI && giftsFromAPI.length > 0) {
+            // Преобразуем данные из API в формат нашего приложения
+            allGifts = giftsFromAPI.map(g => ({
+                id: `${g.name}-${g.gift_num}`,
+                name: g.name,
+                collection: g.name,
+                number: g.gift_num,
+                priceTON: g.price || g.priceTON || 10,
+                usdPrice: (g.price || 10) * 3.46,
+                lottieUrl: `https://nft.fragment.com/gift/${g.name?.toLowerCase().replace(/ /g, '-')}-${g.gift_num}.lottie.json`,
+                backdropClass: backdrops[Math.floor(Math.random() * backdrops.length)],
+                color1: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                color2: `hsl(${Math.random() * 360}, 70%, 40%)`
+            }));
+            apiStatusDiv.innerHTML = `✅ Загружено ${allGifts.length} подарков из MRKT API`;
+        } else {
+            // Если API не ответил, используем fallback данные
+            allGifts = fallbackGifts;
+            apiStatusDiv.innerHTML = '⚠️ Использую локальные данные (попробуйте позже)';
+        }
+        
         filteredGifts = [...allGifts];
         
-        apiStatusDiv.innerHTML = '🎬 Загрузка анимаций из Fragment API...';
-        
         if (selectedCollections.size > 0) {
-            filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection_slug));
+            filteredGifts = allGifts.filter(g => selectedCollections.has(g.collection?.toLowerCase().replace(/ /g, '_')));
             document.getElementById("filterCount").style.display = "inline-block";
             document.getElementById("filterCount").innerText = selectedCollections.size;
         }
         
-        renderFilterModal();
         await renderMarket();
         
         document.querySelectorAll('.sort-btn').forEach(btn => {
@@ -676,11 +608,35 @@
         document.getElementById("modalCloseBtn").onclick = () => document.getElementById("giftModal").classList.remove("active");
         document.getElementById("modalBuyBtn").onclick = () => {
             if (currentModalGift) {
-                purchaseGift(currentModalGift.id, currentModalGift.name, currentModalGift.priceTON, currentModalGift.item_number);
+                purchaseGift(currentModalGift.id, currentModalGift.name, currentModalGift.priceTON, currentModalGift.number);
                 document.getElementById("giftModal").classList.remove("active");
             }
         };
         document.getElementById("filterModal").onclick = (e) => { if (e.target === document.getElementById("filterModal")) document.getElementById("filterModal").classList.remove("active"); };
+    }
+    
+    // Заглушки для функций фильтра
+    function renderFilterModal() {
+        const container = document.getElementById("filterCollectionsList");
+        if (!container) return;
+        container.innerHTML = '<div class="empty-state">Загрузка коллекций...</div>';
+    }
+    
+    function applyFilter() {
+        selectedCollections.clear();
+        filteredGifts = [...allGifts];
+        renderMarket();
+        document.getElementById("filterModal").classList.remove("active");
+        saveToLocalStorage();
+    }
+    
+    function resetFilter() {
+        selectedCollections.clear();
+        filteredGifts = [...allGifts];
+        renderMarket();
+        document.getElementById("filterModal").classList.remove("active");
+        saveToLocalStorage();
+        showToast("Фильтр сброшен");
     }
     
     init();
