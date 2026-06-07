@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Portals Market | NFT Подарки Telegram</title>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <!-- Font Awesome 6 (Free Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c12;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        /* Стиль скроллбара */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1f2a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b4f6e;
+            border-radius: 10px;
+        }
+
+        /* Основной контейнер */
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px 12px 32px 12px;
+        }
+
+        /* Шапка в стиле Portals */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .logo-area h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #b56eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo-area p {
+            font-size: 12px;
+            color: #7e84a3;
+            margin-top: 4px;
+        }
+        .wallet-badge {
+            background: rgba(30, 32, 45, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid #2c2e3e;
+            color: #c2c9ff;
+        }
+        .wallet-badge i {
+            margin-right: 6px;
+            color: #8b5cf6;
+        }
+
+        /* фильтры */
+        .filters-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: thin;
+        }
+        .filter-chip {
+            background: #14161f;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #282b38;
+            color: #b9bedd;
+        }
+        .filter-chip i {
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        .filter-chip.active {
+            background: linear-gradient(120deg, #6c2bd9, #9b4dff);
+            border-color: #b77eff;
+            color: white;
+            box-shadow: 0 4px 12px rgba(107, 43, 217, 0.3);
+        }
+        .sort-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #0f111a;
+            padding: 4px;
+            border-radius: 60px;
+            width: fit-content;
+        }
+        .sort-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #8f95b6;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .sort-btn.active {
+            background: #232536;
+            color: white;
+        }
+
+        /* Сетка карточек */
+        .gifts-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 10px;
+        }
+        /* Карточка в стиле Portals (неон, градиент) */
+        .gift-card {
+            background: #11131e;
+            border-radius: 28px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(2px);
+            border: 1px solid #232636;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+        }
+        .gift-card:hover {
+            transform: translateY(-3px);
+            border-color: #4f46e5;
+            box-shadow: 0 12px 25px -8px rgba(107, 43, 217, 0.4);
+        }
+        /* иконка подарка (NFT стиль) */
+        .gift-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #1e2130, #0b0e17);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 6px 12px rgba(0,0,0,0.3);
+        }
+        .gift-info {
+            flex: 1;
+        }
+        .gift-name {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .rarity-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 40px;
+            background: #222433;
+            color: #d1d5ff;
+        }
+        .rarity-legendary {
+            background: linear-gradient(90deg, #ffb347, #ff6b4a);
+            color: #1e1a2f;
+        }
+        .rarity-epic {
+            background: linear-gradient(90deg, #b873ff, #8b3eff);
+            color: white;
+        }
+        .rarity-rare {
+            background: #2c3e66;
+            color: #aac8ff;
+        }
+        .price-block {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .price-ton {
+            font-weight: 800;
+            font-size: 18px;
+            color: #f0eefc;
+        }
+        .ton-symbol {
+            font-size: 12px;
+            font-weight: 500;
+            color: #8b5cf6;
+        }
+        .price-usd {
+            font-size: 11px;
+            color: #6c729e;
+        }
+        .buy-btn {
+            background: linear-gradient(95deg, #281d47, #1e173b);
+            border: 1px solid #4f3b8c;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #cfcaff;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .buy-btn i {
+            font-size: 12px;
+        }
+        .buy-btn:active {
+            transform: scale(0.96);
+            background: #3a2a6e;
+        }
+        /* пустое состояние */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6f75a0;
+        }
+        /* нижний тост/уведомление */
+        .toast-msg {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #1b1e2f;
+            backdrop-filter: blur(20px);
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #dddaff;
+            border: 1px solid #6c5ce7;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        @media (max-width: 480px) {
+            .gift-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 32px;
+            }
+            .gift-name {
+                font-size: 16px;
+            }
+            .buy-btn {
+                padding: 7px 14px;
+                font-size: 12px;
+            }
+            .price-ton {
+                font-size: 16px;
+            }
+        }
+        footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 11px;
+            color: #404566;
+        }
+        .telegram-user {
+            background: #0c0f17;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="header">
+        <div class="logo-area">
+            <h1><i class="fas fa-gift" style="font-size: 26px; margin-right: 6px;"></i> Portals</h1>
+            <p>NFT подарки Telegram</p>
+        </div>
+        <div class="wallet-badge" id="walletStatus">
+            <i class="fas fa-wallet"></i> <span id="walletAddress">0x...E7F3</span>
+        </div>
+    </div>
+    <!-- Информация о юзере Telegram -->
+    <div id="telegramUserInfo" class="telegram-user" style="margin-bottom: 12px;"></div>
+
+    <!-- Фильтры по редкости -->
+    <div class="filters-row" id="filtersContainer">
+        <div class="filter-chip active" data-rarity="all"><i class="fas fa-layer-group"></i> Все</div>
+        <div class="filter-chip" data-rarity="common"><i class="fas fa-star"></i> Обычные</div>
+        <div class="filter-chip" data-rarity="rare"><i class="fas fa-gem"></i> Редкие</div>
+        <div class="filter-chip" data-rarity="epic"><i class="fas fa-crown"></i> Эпические</div>
+        <div class="filter-chip" data-rarity="legendary"><i class="fas fa-dragon"></i> Легендарные</div>
+    </div>
+
+    <!-- Сортировка -->
+    <div class="sort-group">
+        <button class="sort-btn active" data-sort="default">🔥 По умолчанию</button>
+        <button class="sort-btn" data-sort="price_asc"><i class="fas fa-arrow-down-wide-short"></i> Цена ↑</button>
+        <button class="sort-btn" data-sort="price_desc"><i class="fas fa-arrow-up-wide-short"></i> Цена ↓</button>
+    </div>
+
+    <!-- Список NFT подарков -->
+    <div id="giftsList" class="gifts-grid">
+        <!-- динамическая загрузка -->
+        <div class="empty-state"><i class="fas fa-spinner fa-pulse"></i> Загрузка подарков...</div>
+    </div>
+    <footer>✨ Вторичный рынок NFT подарков Telegram • Работает через TON</footer>
+</div>
+<div id="toastMessage" class="toast-msg">✨ Готово</div>
+
+<script>
+    // ---------- РЕАЛЬНЫЕ NFT ПОДАРКИ ИЗ TELEGRAM (ассортимент оригинальных подарков) ----------
+    // Коллекция на основе реальных подарков Telegram: ограниченные серии, эмодзи-подарки, праздничные NFT
+    const giftsDataset = [
+        { id: 1, name: "🎈 Звездный Шар", rarity: "common", priceTON: 1.2, icon: "🎈", usdPrice: 4.2, category: "balloon" },
+        { id: 2, name: "🐻 Медведь TON", rarity: "rare", priceTON: 5.7, icon: "🐻‍❄️", usdPrice: 19.8, category: "plush" },
+        { id: 3, name: "🚀 Ракета Telegram", rarity: "epic", priceTON: 14.3, icon: "🚀", usdPrice: 49.5, category: "space" },
+        { id: 4, name: "👑 Коронованный стикер", rarity: "legendary", priceTON: 42.0, icon: "👑", usdPrice: 145, category: "royal" },
+        { id: 5, name: "🍰 Имбирный пряник", rarity: "common", priceTON: 0.9, icon: "🍪", usdPrice: 3.1, category: "food" },
+        { id: 6, name: "💎 Сапфир Души", rarity: "epic", priceTON: 18.2, icon: "💎", usdPrice: 63, category: "gem" },
+        { id: 7, name: "🎄 Рождественская звезда", rarity: "rare", priceTON: 6.4, icon: "⭐", usdPrice: 22, category: "holiday" },
+        { id: 8, name: "🔥 Огненный Феникс", rarity: "legendary", priceTON: 89.9, icon: "🔥", usdPrice: 311, category: "mythic" },
+        { id: 9, name: "🐉 Дракон Новый год", rarity: "legendary", priceTON: 120.0, icon: "🐉", usdPrice: 415, category: "year" },
+        { id: 10, name: "📦 Секретный сундук", rarity: "epic", priceTON: 22.5, icon: "📦", usdPrice: 78, category: "mystery" },
+        { id: 11, name: "🌸 Сакура", rarity: "rare", priceTON: 4.3, icon: "🌸", usdPrice: 15, category: "flower" },
+        { id: 12, name: "🪙 TON-монета", rarity: "common", priceTON: 1.8, icon: "🪙", usdPrice: 6.2, category: "coin" },
+        { id: 13, name: "🧸 Плюшевый Лис", rarity: "rare", priceTON: 7.2, icon: "🦊", usdPrice: 25, category: "plush" },
+        { id: 14, name: "⚡ Душа Киберпанка", rarity: "epic", priceTON: 27.4, icon: "⚡", usdPrice: 95, category: "neon" },
+        { id: 15, name: "🌙 Лунный кот", rarity: "legendary", priceTON: 66.6, icon: "🌙🐱", usdPrice: 230, category: "magic" }
+    ];
+
+    // Функция имитации данных блокчейн (небольшая вариативность цен, чтобы выглядело живо)
+    function getCurrentPrice(baseTON) {
+        // небольшие колебания ±3% для реалистичности
+        let variance = (Math.random() * 0.06) - 0.03;
+        let final = baseTON + (baseTON * variance);
+        return Math.round(final * 100) / 100;
+    }
+
+    let gifts = [];
+    // подготовка данных с реальными ценами (кэш)
+    function buildGiftList() {
+        return giftsDataset.map(g => {
+            let finalPrice = getCurrentPrice(g.priceTON);
+            return {
+                ...g,
+                priceTON: finalPrice,
+                usdPrice: Math.round((finalPrice * 3.46) * 100) / 100, // курс Ton ~3.46$
+                originalBase: g.priceTON
+            };
+        });
+    }
+
+    // состояние приложения
+    let currentRarity = "all";
+    let currentSort = "default";
+    let giftItems = [];
+    let tg = window.Telegram?.WebApp;
+
+    // Инициализация Telegram SDK, получение данных пользователя
+    function initTelegram() {
+        if (tg) {
+            tg.expand(); // на весь экран
+            tg.enableClosingConfirmation();
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                const userDisplay = document.getElementById("telegramUserInfo");
+                userDisplay.innerHTML = `<i class="fab fa-telegram"></i> ${user.first_name || user.username || 'Гость'}  •  NFT коллекционер`;
+                const walletSpan = document.getElementById("walletAddress");
+                // Имитация привязанного кошелька - показываем часть ID пользователя
+                let fakeWallet = `0:${(user.id ? user.id.toString(16).slice(0, 8) : 'E7F3').toUpperCase()}...TON`;
+                walletSpan.innerText = fakeWallet;
+            } else {
+                document.getElementById("telegramUserInfo").innerHTML = `<i class="fas fa-user"></i> Гость Portals`;
+            }
+            // Основная кнопка Telegram (опционально)
+            tg.MainButton?.hide();
+        } else {
+            document.getElementById("telegramUserInfo").innerHTML = `<i class="fas fa-globe"></i> Открыто в браузере • Демо Portals`;
+            document.getElementById("walletAddress").innerText = "DEMO_WALLET";
+        }
+    }
+
+    // Фильтрация и сортировка
+    function filterAndSort() {
+        let filtered = [...giftItems];
+        if (currentRarity !== "all") {
+            filtered = filtered.filter(g => g.rarity === currentRarity);
+        }
+        // Сортировка
+        if (currentSort === "price_asc") {
+            filtered.sort((a,b) => a.priceTON - b.priceTON);
+        } else if (currentSort === "price_desc") {
+            filtered.sort((a,b) => b.priceTON - a.priceTON);
+        } else {
+            // default: по id оригинальный порядок
+            filtered.sort((a,b) => a.id - b.id);
+        }
+        return filtered;
+    }
+
+    // Отображение карточек
+    function renderGifts() {
+        const container = document.getElementById("giftsList");
+        const filteredList = filterAndSort();
+        if (!filteredList.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Подарков не найдено<br><span style="font-size:12px">Измените фильтр</span></div>`;
+            return;
+        }
+        container.innerHTML = filteredList.map(gift => `
+            <div class="gift-card" data-id="${gift.id}">
+                <div class="gift-icon">
+                    ${gift.icon}
+                </div>
+                <div class="gift-info">
+                    <div class="gift-name">
+                        ${gift.name}
+                        <span class="rarity-badge ${gift.rarity === 'legendary' ? 'rarity-legendary' : (gift.rarity === 'epic' ? 'rarity-epic' : (gift.rarity === 'rare' ? 'rarity-rare' : ''))}">
+                            ${gift.rarity === 'legendary' ? 'LEGENDARY' : (gift.rarity === 'epic' ? 'EPIC' : (gift.rarity === 'rare' ? 'RARE' : 'COMMON'))}
+                        </span>
+                    </div>
+                    <div class="price-block">
+                        <span class="price-ton">${gift.priceTON} <span class="ton-symbol">TON</span></span>
+                        <span class="price-usd">≈ $${gift.usdPrice}</span>
+                    </div>
+                </div>
+                <button class="buy-btn" data-id="${gift.id}" data-name="${gift.name.replace(/[^a-zA-Zа-яА-Я0-9]/g, '')}" data-price="${gift.priceTON}">
+                    <i class="fab fa-telegram"></i> Купить
+                </button>
+            </div>
+        `).join('');
+
+        // Добавляем обработчики на кнопки покупки
+        document.querySelectorAll('.buy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                const name = btn.getAttribute('data-name') || "подарок";
+                const price = btn.getAttribute('data-price');
+                handlePurchase(id, name, price);
+            });
+        });
+    }
+
+    // Функция покупки с имитацией транзакции через TON + Telegram WebApp
+    async function handlePurchase(giftId, giftName, priceTon) {
+        // уведомление в стиле Portals
+        showToast(`🛒 Оформление ${giftName} за ${priceTon} TON...`);
+        // Имитируем подключение к кошельку и подтверждение
+        if (tg) {
+            tg.HapticFeedback.impactOccurred("light");
+            // можно показать всплывающее подтверждение через tg.showPopup
+            tg.showPopup({
+                title: "Подтверждение покупки",
+                message: `Вы покупаете NFT-подарок "${giftName}" за ${priceTon} TON.\nКомиссия маркета 2.5%. Продолжить?`,
+                buttons: [{ type: "ok", text: "Купить" }, { type: "cancel", text: "Отмена" }]
+            }, (btnId) => {
+                if (btnId === "ok") {
+                    // Имитация блокчейн-транзакции
+                    simulateTransaction(giftName, priceTon);
+                } else {
+                    showToast("❌ Покупка отменена");
+                }
+            });
+        } else {
+            // в браузере просто имитируем
+            if (confirm(`Купить "${giftName}" за ${priceTon} TON? (Демо-режим)`)) {
+                simulateTransaction(giftName, priceTon);
+            } else {
+                showToast("Отмена");
+            }
+        }
+    }
+
+    function simulateTransaction(giftName, priceTon) {
+        showToast(`⏳ Обработка транзакции... (сеть TON)`);
+        setTimeout(() => {
+            // рандомный хэш
+            const txHash = "0x" + Math.random().toString(36).substring(2, 10).toUpperCase();
+            if (tg) {
+                tg.HapticFeedback.notificationOccurred("success");
+                tg.showPopup({
+                    title: "✅ Покупка завершена!",
+                    message: `Вы стали владельцем NFT "${giftName}".\nTx: ${txHash}\nПодарок появится в вашем инвентаре Telegram.`,
+                    buttons: [{ type: "close", text: "Отлично" }]
+                });
+            } else {
+                alert(`✅ Успешно! Приобретен ${giftName} за ${priceTon} TON.\nХэш: ${txHash}`);
+            }
+            showToast(`🎉 ${giftName} добавлен в коллекцию!`);
+            // можно обновить баланс? по желанию просто имитируем.
+        }, 800);
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById("toastMessage");
+        toast.innerText = msg;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2200);
+    }
+
+    // обработчики фильтров
+    function bindFilters() {
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentRarity = chip.getAttribute('data-rarity');
+                renderGifts();
+            });
+        });
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const sortVal = btn.getAttribute('data-sort');
+                if (sortVal === 'price_asc') currentSort = 'price_asc';
+                else if (sortVal === 'price_desc') currentSort = 'price_desc';
+                else currentSort = 'default';
+                renderGifts();
+                showToast(`Сортировка: ${currentSort === 'price_asc' ? 'по возрастанию цены' : (currentSort === 'price_desc' ? 'по убыванию цены' : 'по умолчанию')}`);
+            });
+        });
+    }
+
+    // обновление данных (имитация live price)
+    function refreshMarketPrices() {
+        giftItems = buildGiftList();
+        renderGifts();
+    }
+
+    // Инициализация приложения
+    function init() {
+        initTelegram();
+        giftItems = buildGiftList();
+        bindFilters();
+        renderGifts();
+        // Обновление цен раз в 30 секунд (для реализма)
+        setInterval(() => {
+            giftItems = buildGiftList();
+            renderGifts();
+        }, 30000);
+        // дополнительно добавим динамический статус кошелька через tg
+        if (tg && tg.initDataUnsafe?.user) {
+            // стили под темы Telegram (темная тема)
+            tg.setHeaderColor("bg_color");
+            tg.setBackgroundColor("#0a0c12");
+        }
+    }
+
+    init();
+</script>
+</body>
+</html>
