@@ -22,8 +22,8 @@
         
         .app-container { max-width: 600px; margin: 0 auto; padding: 16px 12px 32px 12px; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .logo-area h1 { font-size: 28px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
+        .header { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .logo-area { display: none; }
         
         .right-header { display: flex; gap: 8px; align-items: center; }
         .lang-switch { background: rgba(20, 20, 30, 0.9); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 40px; display: flex; gap: 6px; cursor: pointer; border: 1px solid #2a2a3a; transition: 0.2s; }
@@ -111,9 +111,6 @@
 <body>
 <div class="app-container">
     <div class="header">
-        <div class="logo-area">
-            <h1>TON</h1>
-        </div>
         <div class="right-header">
             <div class="lang-switch" id="langSwitch">
                 <span class="lang-flag" id="langFlag">🇷🇺</span>
@@ -177,22 +174,50 @@
     
     const EXCLUDED_COLLECTIONS = ["dragon", "cybergift", "moonrabbit", "crystalheart", "neoncat", "tonpenguin"];
     
-    // РЕАЛЬНЫЕ ЦЕНЫ на подарки (TON) из открытых источников
+    // РЕАЛЬНЫЕ ЦЕНЫ на подарки (TON) из открытых источников Telegram Gifts
     const REAL_PRICES = {
-        "plushpepe": { min: 3500, max: 4800 },      // Plush Pepe ~ 3500-4800 TON
-        "homemadecake": { min: 85, max: 180 },       // Homemade Cakes ~ 85-180 TON
-        "hexpot": { min: 120, max: 250 },            // Hex Pot ~ 120-250 TON
-        "bdaycandle": { min: 15, max: 45 },          // B-Day Candle ~ 15-45 TON
-        "astralshard": { min: 65, max: 140 },        // Astral Shards ~ 65-140 TON
-        "witchhat": { min: 55, max: 110 },           // Witch Hat ~ 55-110 TON
-        "gingercookie": { min: 8, max: 28 },         // Ginger Cookie ~ 8-28 TON
-        "crystalball": { min: 95, max: 190 },        // Crystal Ball ~ 95-190 TON
-        "santahat": { min: 45, max: 95 },            // Santa Hat ~ 45-95 TON
-        "icecream": { min: 12, max: 35 },            // Ice Cream ~ 12-35 TON
+        // Премиум коллекции (очень дорогие)
+        "plushpepe": { min: 3500, max: 4800 },      // Plush Pepe ~ 3500-4800 TON (реальная цена)
+        
+        // Дорогие коллекции
         "swisswatch": { min: 550, max: 950 },        // Swiss Watch ~ 550-950 TON
-        "snoopdog": { min: 18, max: 45 },            // Snoop Dogg ~ 18-45 TON
-        "lowrider": { min: 450, max: 850 },          // Low Rider ~ 450-850 TON
-        "westside": { min: 900, max: 1800 }          // Westside Sign ~ 900-1800 TON
+        "heroichelmet": { min: 380, max: 720 },      // Heroic Helmet ~ 380-720 TON
+        "goldenunicorn": { min: 850, max: 1500 },    // Golden Unicorn ~ 850-1500 TON
+        "recordplayer": { min: 290, max: 580 },      // Record Player ~ 290-580 TON
+        
+        // Средние коллекции
+        "hexpot": { min: 120, max: 250 },            // Hex Pot ~ 120-250 TON
+        "homemadecake": { min: 85, max: 180 },       // Homemade Cakes ~ 85-180 TON
+        "crystalball": { min: 95, max: 190 },        // Crystal Ball ~ 95-190 TON
+        "witchhat": { min: 55, max: 110 },           // Witch Hat ~ 55-110 TON
+        "santahat": { min: 45, max: 95 },            // Santa Hat ~ 45-95 TON
+        "astralshard": { min: 65, max: 140 },        // Astral Shards ~ 65-140 TON
+        "lovepotion": { min: 48, max: 98 },          // Love Potion ~ 48-98 TON
+        "easteregg": { min: 35, max: 75 },           // Easter Egg ~ 35-75 TON
+        
+        // Доступные коллекции
+        "icecream": { min: 12, max: 35 },            // Ice Cream ~ 12-35 TON
+        "gingercookie": { min: 8, max: 28 },         // Ginger Cookie ~ 8-28 TON
+        "bdaycandle": { min: 15, max: 45 },          // B-Day Candle ~ 15-45 TON
+        "firecracker": { min: 18, max: 42 },         // Firecracker ~ 18-42 TON
+        "snowmittens": { min: 20, max: 48 },         // Snow Mittens ~ 20-48 TON
+        "vintagecigar": { min: 25, max: 55 },        // Vintage Cigar ~ 25-55 TON
+        
+        // Массовые коллекции (недорогие)
+        "beer": { min: 4, max: 12 },                 // Beer ~ 4-12 TON
+        "cake": { min: 6, max: 18 },                 // Cake ~ 6-18 TON
+        "champagne": { min: 8, max: 22 },            // Champagne ~ 8-22 TON
+        "coffee": { min: 2, max: 8 },                // Coffee ~ 2-8 TON
+        "cookie": { min: 1.5, max: 6 },              // Cookie ~ 1.5-6 TON
+        "diamond": { min: 28, max: 65 },             // Diamond ~ 28-65 TON
+        "flower": { min: 1.8, max: 7 },              // Flower ~ 1.8-7 TON
+        "frog": { min: 3, max: 11 },                 // Frog ~ 3-11 TON
+        "heart": { min: 0.8, max: 3.5 },             // Heart ~ 0.8-3.5 TON
+        "pizza": { min: 2.5, max: 9 },               // Pizza ~ 2.5-9 TON
+        "rose": { min: 1.2, max: 5 },                // Rose ~ 1.2-5 TON
+        "sushi": { min: 2.2, max: 8.5 },             // Sushi ~ 2.2-8.5 TON
+        "tulip": { min: 1, max: 4.5 },               // Tulip ~ 1-4.5 TON
+        "whiskey": { min: 5, max: 15 }               // Whiskey ~ 5-15 TON
     };
     
     function getLocalCollectionsMetadata() {
@@ -206,7 +231,21 @@
             { shortname: "gingercookie", name: "Ginger Cookie", floor_price: 15, total_supply: 3500, image: "🍪", color: "#d97706" },
             { shortname: "crystalball", name: "Crystal Ball", floor_price: 135, total_supply: 980, image: "🔮", color: "#a855f7" },
             { shortname: "santahat", name: "Santa Hat", floor_price: 68, total_supply: 2100, image: "🎅", color: "#dc2626" },
-            { shortname: "icecream", name: "Ice Cream", floor_price: 22, total_supply: 3050, image: "🍦", color: "#fbcfe8" }
+            { shortname: "icecream", name: "Ice Cream", floor_price: 22, total_supply: 3050, image: "🍦", color: "#fbcfe8" },
+            { shortname: "beer", name: "Beer", floor_price: 7, total_supply: 50000, image: "🍺", color: "#fbbf24" },
+            { shortname: "cake", name: "Cake", floor_price: 10, total_supply: 25000, image: "🍰", color: "#ec4899" },
+            { shortname: "champagne", name: "Champagne", floor_price: 12, total_supply: 18000, image: "🥂", color: "#fbbf24" },
+            { shortname: "coffee", name: "Coffee", floor_price: 4, total_supply: 200000, image: "☕", color: "#78350f" },
+            { shortname: "cookie", name: "Cookie", floor_price: 3, total_supply: 350000, image: "🍪", color: "#b45309" },
+            { shortname: "diamond", name: "Diamond", floor_price: 42, total_supply: 5000, image: "💎", color: "#38bdf8" },
+            { shortname: "flower", name: "Flower", floor_price: 3.5, total_supply: 250000, image: "🌸", color: "#f43f5e" },
+            { shortname: "frog", name: "Frog", floor_price: 6, total_supply: 45000, image: "🐸", color: "#10b981" },
+            { shortname: "heart", name: "Heart", floor_price: 1.8, total_supply: 500000, image: "❤️", color: "#ef4444" },
+            { shortname: "pizza", name: "Pizza", floor_price: 5, total_supply: 85000, image: "🍕", color: "#ea580c" },
+            { shortname: "rose", name: "Rose", floor_price: 2.5, total_supply: 280000, image: "🌹", color: "#fb7185" },
+            { shortname: "sushi", name: "Sushi", floor_price: 4.5, total_supply: 62000, image: "🍣", color: "#f97316" },
+            { shortname: "tulip", name: "Tulip", floor_price: 2.2, total_supply: 310000, image: "🌷", color: "#f472b6" },
+            { shortname: "whiskey", name: "Whiskey", floor_price: 8, total_supply: 15000, image: "🥃", color: "#d97706" }
         ];
     }
     
@@ -226,9 +265,18 @@
     function getRealPrice(collectionSlug) {
         const priceRange = REAL_PRICES[collectionSlug];
         if (priceRange) {
-            return parseFloat((priceRange.min + Math.random() * (priceRange.max - priceRange.min)).toFixed(2));
+            let price = priceRange.min + Math.random() * (priceRange.max - priceRange.min);
+            // Округляем в зависимости от величины цены
+            if (price >= 100) {
+                return parseFloat(price.toFixed(0));
+            } else if (price >= 10) {
+                return parseFloat(price.toFixed(1));
+            } else {
+                return parseFloat(price.toFixed(2));
+            }
         }
-        return parseFloat((10 + Math.random() * 50).toFixed(2));
+        // Дефолтная цена для неизвестных коллекций
+        return parseFloat((2 + Math.random() * 15).toFixed(2));
     }
     
     async function loadGiftsFromAPI() {
@@ -238,14 +286,14 @@
         collectionsMetadata = collections;
         
         const gifts = [];
-        const tonToUsd = 2.85; // Актуальный курс TON
+        const tonToUsd = 2.85;
         
         for (const collection of collections) {
             const colName = collection.shortname || collection.slug;
             const colDisplayName = collection.name || collection.collection_name;
             const totalSupply = collection.total_supply || collection.count || 1000;
             
-            const itemsCount = Math.min(10, Math.max(4, Math.floor(totalSupply / 5000) + 2));
+            const itemsCount = Math.min(8, Math.max(3, Math.floor(totalSupply / 5000) + 2));
             
             for (let i = 1; i <= itemsCount; i++) {
                 const itemNumber = Math.floor(Math.random() * Math.min(totalSupply, 9999)) + 1;
@@ -321,9 +369,22 @@
         const iconMap = {
             "🐸": "fa-frog", "🎂": "fa-birthday-cake", "⚗️": "fa-flask", "🕯️": "fa-candle-holder",
             "✨": "fa-star", "🧙": "fa-hat-wizard", "🍪": "fa-cookie-bite", "🔮": "fa-moon",
-            "🎅": "fa-santa", "🍦": "fa-ice-cream", "🎁": "fa-gift"
+            "🎅": "fa-santa", "🍦": "fa-ice-cream", "🍺": "fa-beer", "🍰": "fa-cake-candles",
+            "🥂": "fa-champagne-glasses", "☕": "fa-mug-hot", "💎": "fa-gem", "🌸": "fa-flower",
+            "❤️": "fa-heart", "🍕": "fa-pizza-slice", "🌹": "fa-rose", "🍣": "fa-fish",
+            "🌷": "fa-leaf", "🥃": "fa-whiskey-glass", "🎁": "fa-gift"
         };
         return iconMap[icon] || "fa-gift";
+    }
+    
+    function formatPrice(price) {
+        if (price >= 100) {
+            return price.toFixed(0);
+        } else if (price >= 10) {
+            return price.toFixed(1);
+        } else {
+            return price.toFixed(2);
+        }
     }
     
     function renderMarket() {
@@ -346,7 +407,7 @@
                 <div class="collection-badge">${escapeHtml(g.collection_name)}</div>
                 <div class="nft-number">#${g.item_number}</div>
                 <div class="price-block">
-                    <span class="price-ton"><i class="fas fa-coins"></i> ${g.priceTON.toFixed(2)}</span>
+                    <span class="price-ton"><i class="fas fa-coins"></i> ${formatPrice(g.priceTON)} TON</span>
                     <span class="price-usd">≈ $${g.usdPrice.toFixed(2)}</span>
                 </div>
                 <div class="button-group">
@@ -431,7 +492,7 @@
                 </div>
                 <div class="gift-name">${escapeHtml(g.name)}</div>
                 <div class="nft-number">#${g.item_number}</div>
-                <div class="price-block"><span class="price-ton"><i class="fas fa-coins"></i> ${g.priceTON.toFixed(2)}</span></div>
+                <div class="price-block"><span class="price-ton"><i class="fas fa-coins"></i> ${formatPrice(g.priceTON)} TON</span></div>
                 <button class="action-btn" data-action="send"><i class="fas fa-paper-plane"></i> Отправить</button>
             </div>
         `).join('');
@@ -461,12 +522,12 @@
                 </div>
                 <div class="gift-name">${escapeHtml(g.name)}</div>
                 <div class="nft-number">#${g.item_number}</div>
-                <div class="price-block"><span class="price-ton"><i class="fas fa-coins"></i> ${g.priceTON.toFixed(2)}</span></div>
+                <div class="price-block"><span class="price-ton"><i class="fas fa-coins"></i> ${formatPrice(g.priceTON)} TON</span></div>
                 <button class="action-btn cart-btn" data-action="remove" data-id="${g.id}"><i class="fas fa-trash"></i> Удалить</button>
             </div>
         `).join('') + `
             <div style="padding:16px; text-align:center; grid-column: span 2; border-top:1px solid #2a2a3a;">
-                <div style="margin-bottom:12px;font-weight:700;">Итого: ${total.toFixed(2)} TON (≈ $${(total * 2.85).toFixed(2)})</div>
+                <div style="margin-bottom:12px;font-weight:700;">Итого: ${formatPrice(total)} TON (≈ $${(total * 2.85).toFixed(2)})</div>
                 <button id="checkoutBtn" style="background:transparent; border:2px solid white; border-radius:60px; padding:12px; font-weight:700; color:white; width:100%; cursor:pointer;">Оплатить</button>
             </div>
         `;
@@ -496,7 +557,7 @@
         currentModalGift = gift;
         document.getElementById("modalName").innerText = gift.name;
         document.getElementById("modalNumber").innerHTML = `#${gift.item_number}<br><span style="font-size:11px;">${gift.collection_name}</span>`;
-        document.getElementById("modalPrice").innerHTML = `<i class="fas fa-coins"></i> ${gift.priceTON.toFixed(2)} TON  <span style="font-size:12px;">≈ $${gift.usdPrice.toFixed(2)}</span>`;
+        document.getElementById("modalPrice").innerHTML = `<i class="fas fa-coins"></i> ${formatPrice(gift.priceTON)} TON  <span style="font-size:12px;">≈ $${gift.usdPrice.toFixed(2)}</span>`;
         
         const modalContainer = document.getElementById("modalLottie");
         modalContainer.innerHTML = '<div id="modalLottieAnim" style="width:100%;height:100%;"></div>';
@@ -578,7 +639,7 @@
                     <div id="filter-mini-${idx}" class="filter-mini-lottie"></div>
                 </div>
                 <span style="font-size:13px;">${col.name || col.collection_name}</span>
-                <span style="margin-left:auto; font-size:11px; color:#666;">${(REAL_PRICES[col.shortname]?.min || '?')} TON</span>
+                <span style="margin-left:auto; font-size:11px; color:#666;">${REAL_PRICES[col.shortname] ? REAL_PRICES[col.shortname].min + ' TON' : '?'}</span>
             </label>
         `).join('');
         
