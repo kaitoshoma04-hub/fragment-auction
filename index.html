@@ -3,1783 +3,852 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GetGems — TON NFT Marketplace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-    <script src="https://unpkg.com/@tonconnect/sdk@2.0.0/dist/tonconnect-sdk.min.js"></script>
+    <title>Fragmint — Live Auctions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0b0b0e;
-            color: #e5e5ea;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.5;
-            padding: 0 16px;
-            -webkit-font-smoothing: antialiased;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
         }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 16px;
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a2e; }
+        ::-webkit-scrollbar-thumb { background: #6e4bff; border-radius: 10px; }
+        
+        .glow-border {
+            box-shadow: 0 0 30px rgba(110, 75, 255, 0.15), inset 0 0 30px rgba(110, 75, 255, 0.05);
         }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #1a1a1f; }
-        ::-webkit-scrollbar-thumb { background: #3a3a44; border-radius: 10px; }
-
-        header {
-            padding: 16px 0;
-            border-bottom: 1px solid #23232a;
-            position: sticky;
-            top: 0;
-            background: rgba(11, 11, 14, 0.92);
-            backdrop-filter: blur(12px);
-            z-index: 100;
-        }
-        .header-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-        }
-        .logo .get {
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+        .gradient-text {
+            background: linear-gradient(135deg, #6e4bff, #9b7cff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .logo .gems { color: #fff; }
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            font-size: 14px;
-            font-weight: 500;
+        .bg-gradient-radial {
+            background: radial-gradient(circle at center, #2d1b69, #0a0a0f);
         }
-        .nav-links a {
-            color: #8b8b9b;
-            transition: color 0.2s;
-            position: relative;
-            padding: 4px 0;
+        .auction-card {
+            transition: all 0.3s ease;
             cursor: pointer;
         }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a.active { color: #fff; }
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #8b5cf6;
-            border-radius: 2px;
-        }
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .wallet-badge {
-            font-size: 12px;
-            background: #1a1a22;
-            padding: 4px 14px;
-            border-radius: 30px;
-            color: #aaa;
-            font-family: monospace;
-            font-weight: 500;
-        }
-        .wallet-badge.connected {
-            background: #1a2a1e;
-            color: #6fcf97;
-        }
-        .btn {
-            padding: 8px 20px;
-            border-radius: 40px;
-            border: none;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-primary { background: #8b5cf6; color: #fff; }
-        .btn-primary:hover { background: #a78bfa; transform: translateY(-1px); }
-        .btn-secondary { background: #2a2a32; color: #fff; }
-        .btn-secondary:hover { background: #3a3a46; }
-        .btn-sm { padding: 4px 14px; font-size: 12px; }
-        .btn-lg { padding: 12px 32px; font-size: 16px; }
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 0 4px;
-        }
-
-        .hero {
-            background: linear-gradient(145deg, #1a1a24, #0f0f16);
-            border-radius: 32px;
-            padding: 56px 48px;
-            margin: 32px 0;
-            border: 1px solid #2a2a34;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 32px;
-        }
-        .hero-content { flex: 1; min-width: 280px; }
-        .hero-content h1 {
-            font-size: 42px;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
-        }
-        .hero-content h1 .highlight { color: #8b5cf6; }
-        .hero-content p {
-            color: #8b8b9b;
-            max-width: 420px;
-            margin: 16px 0 24px;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-            background: #12121a;
-            padding: 24px 36px;
-            border-radius: 24px;
-            border: 1px solid #282834;
-            flex-wrap: wrap;
-        }
-        .hero-stats .stat { text-align: center; }
-        .hero-stats .stat .num {
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-        }
-        .hero-stats .stat .label {
-            font-size: 13px;
-            color: #6b6b7b;
-            margin-top: 2px;
-        }
-
-        .categories {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 20px 0 32px;
-        }
-        .category-pill {
-            padding: 8px 22px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 500;
-            background: #1a1a24;
-            border: 1px solid #2a2a34;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #8b8b9b;
-            user-select: none;
-        }
-        .category-pill:hover {
-            border-color: #5a5a6a;
-            color: #fff;
-        }
-        .category-pill.active {
-            border-color: #8b5cf6;
-            background: #2a1a3a;
-            color: #c4b5fd;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 40px 0 20px;
-        }
-        .section-header h2 {
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .section-header a {
-            font-size: 14px;
-            color: #8b5cf6;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .section-header a:hover { color: #a78bfa; }
-
-        .nft-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-        .nft-card {
-            background: #14141c;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid #1e1e26;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-        }
-        .nft-card:hover {
-            border-color: #3a3a4a;
-            transform: translateY(-6px);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-        }
-        .nft-card .image-wrap {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e1e2a, #12121a);
-        }
-        .nft-card .image-wrap img {
-            width: 60%;
-            height: 60%;
-            object-fit: contain;
-        }
-        .nft-card .image-wrap .lottie-wrap {
-            width: 80%;
-            height: 80%;
-        }
-        .nft-card .image-wrap .badge-sale {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(11, 11, 14, 0.85);
-            backdrop-filter: blur(8px);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #6fcf97;
-            border: 1px solid #2a4a3a;
-            z-index: 2;
-        }
-        .nft-card .image-wrap .badge-collection {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            background: rgba(11, 11, 14, 0.75);
-            backdrop-filter: blur(8px);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 500;
-            color: #aaa;
-            border: 1px solid #2a2a34;
-            z-index: 2;
-        }
-        .nft-card .info {
-            padding: 16px 18px 18px;
-        }
-        .nft-card .info .name {
-            font-weight: 600;
-            font-size: 15px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .nft-card .info .collection-name {
-            font-size: 12px;
-            color: #6b6b7b;
-            margin-top: 2px;
-        }
-        .nft-card .info .price-row {
-            margin-top: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .nft-card .info .price-row .amount {
-            font-weight: 700;
-            font-size: 16px;
-        }
-        .nft-card .info .actions {
-            margin-top: 14px;
-            display: flex;
-            gap: 8px;
-        }
-        .nft-card .info .actions .btn {
-            flex: 1;
-            font-size: 12px;
-            padding: 6px 12px;
-        }
-
-        .collection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-        }
-        .collection-card {
-            background: #14141c;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid #1e1e26;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-        .collection-card:hover {
-            border-color: #3a3a4a;
+        .auction-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            border-color: #6e4bff !important;
+            box-shadow: 0 8px 40px rgba(110, 75, 255, 0.2);
         }
-        .collection-card .image-wrap {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: linear-gradient(135deg, #1e1e2a, #12121a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+        .page-enter {
+            animation: fadeIn 0.3s ease;
         }
-        .collection-card .image-wrap img {
-            width: 55%;
-            height: 55%;
-            object-fit: contain;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .collection-card .image-wrap .lottie-wrap {
-            width: 70%;
-            height: 70%;
+        .timer-warning {
+            color: #ff6b6b;
+            animation: pulse 1s ease-in-out infinite;
         }
-        .collection-card .info {
-            padding: 14px 16px 16px;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        .collection-card .info .name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .collection-card .info .items {
-            font-size: 12px;
-            color: #6b6b7b;
-            margin-top: 2px;
-        }
-        .collection-card .info .floor {
-            font-size: 12px;
-            color: #6fcf97;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-overlay.open { display: flex; }
-        .modal-detail {
-            background: #1a1a24;
-            border-radius: 32px;
-            padding: 0;
-            max-width: 720px;
-            width: 100%;
-            border: 1px solid #2e2e3a;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalIn 0.3s ease;
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .modal-detail .modal-header {
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #2a2a34;
-            position: sticky;
-            top: 0;
-            background: #1a1a24;
-            z-index: 10;
-            border-radius: 32px 32px 0 0;
-        }
-        .modal-detail .modal-header h3 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        .modal-detail .modal-close {
-            background: none;
-            border: none;
-            color: #6b6b7b;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 0 4px;
-            transition: color 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-        .modal-detail .modal-close:hover { color: #fff; }
-        .modal-detail .detail-body { padding: 24px; }
-        .modal-detail .detail-body .detail-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        .modal-detail .detail-body .detail-image {
-            aspect-ratio: 1 / 1;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #1e1e2a, #12121a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #2a2a34;
-            overflow: hidden;
-            position: relative;
-        }
-        .modal-detail .detail-body .detail-image img {
-            width: 60%;
-            height: 60%;
-            object-fit: contain;
-        }
-        .modal-detail .detail-body .detail-image .lottie-wrap {
-            width: 70%;
-            height: 70%;
-        }
-        .modal-detail .detail-body .detail-info {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .modal-detail .detail-body .detail-info .detail-name {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        .modal-detail .detail-body .detail-info .detail-collection {
-            font-size: 14px;
-            color: #8b8b9b;
-        }
-        .modal-detail .detail-body .detail-info .detail-collection span {
-            color: #8b5cf6;
-            cursor: pointer;
-        }
-        .modal-detail .detail-body .detail-info .detail-price {
-            background: #12121a;
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid #2a2a34;
-        }
-        .modal-detail .detail-body .detail-info .detail-price .label {
-            font-size: 12px;
-            color: #6b6b7b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .modal-detail .detail-body .detail-info .detail-price .value {
-            font-size: 28px;
-            font-weight: 800;
-            margin-top: 4px;
-        }
-        .modal-detail .detail-body .detail-info .detail-price .value .ton {
-            font-size: 16px;
-            color: #6b6b7b;
-            font-weight: 500;
-        }
-        .modal-detail .detail-body .detail-info .detail-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-        }
-        .modal-detail .detail-body .detail-info .detail-actions .btn {
-            flex: 1;
-            padding: 12px;
-        }
-        .modal-detail .detail-body .detail-properties {
-            margin-top: 24px;
-            grid-column: 1 / -1;
-        }
-        .modal-detail .detail-body .detail-properties h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: #6b6b7b;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .modal-detail .detail-body .detail-properties .props-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
-        }
-        .modal-detail .detail-body .detail-properties .prop-item {
-            background: #12121a;
-            padding: 10px 14px;
-            border-radius: 12px;
-            border: 1px solid #2a2a34;
-        }
-        .modal-detail .detail-body .detail-properties .prop-item .prop-key {
-            font-size: 10px;
-            color: #6b6b7b;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .modal-detail .detail-body .detail-properties .prop-item .prop-value {
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 2px;
-        }
-        .modal-detail .detail-body .detail-owner {
-            grid-column: 1 / -1;
-            padding: 16px;
-            background: #12121a;
-            border-radius: 16px;
-            border: 1px solid #2a2a34;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-detail .detail-body .detail-owner .owner-label {
-            font-size: 12px;
-            color: #6b6b7b;
-        }
-        .modal-detail .detail-body .detail-owner .owner-address {
-            font-family: 'Inter', monospace;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            background: #1a1a24;
-            padding: 14px 32px;
-            border-radius: 40px;
-            border: 1px solid #2e2e3a;
-            color: #e5e5ea;
-            font-size: 14px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-            display: none;
-            max-width: 90%;
-            text-align: center;
-            font-weight: 500;
-        }
-        .toast-container.show {
-            display: block;
-            animation: toastIn 0.3s ease;
-        }
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        .toast-container.error {
-            border-color: #5a2a2a;
-            background: #1a1212;
-            color: #e57373;
-        }
-        .toast-container.success {
-            border-color: #2a4a3a;
-            background: #121a12;
-            color: #6fcf97;
-        }
-
-        .page-title {
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-        .page-subtitle {
-            color: #8b8b9b;
-            font-size: 16px;
-            margin-bottom: 24px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .stat-card {
-            background: #14141c;
-            padding: 24px;
-            border-radius: 20px;
-            border: 1px solid #1e1e26;
-        }
-        .stat-card .label {
-            font-size: 14px;
-            color: #6b6b7b;
-        }
-        .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-        .profile-card {
-            background: #14141c;
-            padding: 28px;
-            border-radius: 20px;
-            border: 1px solid #1e1e26;
-        }
-        .profile-card .address {
-            font-family: 'Inter', monospace;
-            font-size: 18px;
-            font-weight: 600;
-            word-break: break-all;
-        }
-        .profile-card .balance {
-            font-size: 18px;
-            font-weight: 600;
-        }
-        .profile-empty {
-            padding: 60px 0;
-            text-align: center;
-        }
-        .profile-empty h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        .profile-empty p {
-            color: #8b8b9b;
-            margin-bottom: 24px;
-        }
-        .loader {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            border: 3px solid #2a2a34;
-            border-top-color: #8b5cf6;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .loader-center {
-            display: flex;
-            justify-content: center;
-            padding: 60px 0;
-        }
-        .mobile-nav {
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            padding: 16px 0;
-            border-top: 1px solid #23232a;
-            width: 100%;
-        }
-        .mobile-nav.open { display: flex; }
-        .mobile-nav a {
-            padding: 10px 12px;
-            border-radius: 12px;
-            color: #8b8b9b;
-            font-weight: 500;
-            font-size: 16px;
+        .bid-input {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.2s;
         }
-        .mobile-nav a:hover, .mobile-nav a.active {
-            background: #1a1a24;
-            color: #fff;
+        .bid-input:focus {
+            outline: none;
+            border-color: #6e4bff;
+            box-shadow: 0 0 20px rgba(110, 75, 255, 0.1);
         }
-
-        @media (max-width: 1024px) {
-            .hero { padding: 40px 32px; }
-            .hero-content h1 { font-size: 34px; }
-            .hero-stats { gap: 24px; padding: 20px 28px; }
-            .nft-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+        .bid-btn {
+            background: linear-gradient(135deg, #6e4bff, #9b7cff);
+            transition: all 0.3s;
         }
-        @media (max-width: 768px) {
-            .container { padding: 0 12px; }
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .hero {
-                padding: 32px 20px;
-                flex-direction: column;
-                text-align: center;
-            }
-            .hero-content p { max-width: 100%; }
-            .hero-stats {
-                width: 100%;
-                justify-content: center;
-                gap: 16px;
-                padding: 16px 20px;
-            }
-            .hero-stats .stat .num { font-size: 22px; }
-            .nft-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
-            .collection-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
-            .wallet-badge { display: none; }
-            .header-actions .btn { font-size: 13px; padding: 6px 16px; }
-            .hero-content h1 { font-size: 28px; }
+        .bid-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 30px rgba(110, 75, 255, 0.4);
         }
-        @media (max-width: 480px) {
-            .hero-content h1 { font-size: 24px; }
-            .nft-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .collection-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .hero-stats { flex-wrap: wrap; gap: 12px; }
-            .hero-stats .stat .num { font-size: 18px; }
-            .nft-card .info .actions { flex-direction: column; }
-            .nft-card .info .actions .btn { width: 100%; }
-            .modal-detail .detail-body .detail-grid { grid-template-columns: 1fr; }
-            .modal-detail .detail-body .detail-image { aspect-ratio: 1 / 1; max-height: 300px; }
-            .modal-detail .detail-body .detail-info .detail-actions { flex-direction: column; }
-            .modal-detail .detail-body .detail-info .detail-actions .btn { width: 100%; }
+        .bid-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .nav-link {
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        .nav-link:hover {
+            color: #9b7cff;
+        }
+        .nav-link.active {
+            color: #6e4bff;
+            font-weight: 600;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #181825;
+            border: 1px solid #6e4bff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+            max-width: 400px;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .bid-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .bid-history::-webkit-scrollbar {
+            width: 4px;
+        }
+        .bid-history::-webkit-scrollbar-thumb {
+            background: #6e4bff;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="container header-inner">
-            <div class="logo">
-                <span class="get">Get</span><span class="gems">Gems</span>
-            </div>
-            <nav class="nav-links" id="navLinks">
-                <a class="active" data-page="explore">Explore</a>
-                <a data-page="collections">Collections</a>
-                <a data-page="stats">Stats</a>
-                <a data-page="profile">Profile</a>
-            </nav>
-            <div class="header-actions">
-                <span class="wallet-badge" id="walletBadge">⚡ TON</span>
-                <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-            </div>
-            <div class="mobile-nav" id="mobileNav">
-                <a class="active" data-page="explore">Explore</a>
-                <a data-page="collections">Collections</a>
-                <a data-page="stats">Stats</a>
-                <a data-page="profile">Profile</a>
-            </div>
-        </div>
-    </header>
-
-    <main class="container" id="app">
-        <div id="page-explore">
-            <section class="hero">
-                <div class="hero-content">
-                    <h1>Discover & Trade <br /><span class="highlight">TON NFTs</span></h1>
-                    <p>Buy, sell, and auction NFTs on the fastest blockchain. Zero gas fees for buyers.</p>
-                    <button class="btn btn-primary btn-lg" id="heroExploreBtn">Explore Now</button>
+    <div id="app">
+        <!-- Header -->
+        <header class="bg-[#181825]/90 backdrop-blur-sm border-b border-white/5 py-4 sticky top-0 z-50">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <div class="flex items-center gap-3" onclick="navigate('home')" style="cursor:pointer">
+                    <span class="text-2xl font-bold gradient-text">Fragmint</span>
+                    <span class="text-xs bg-[#6e4bff]/20 px-2 py-1 rounded-full text-[#6e4bff] font-mono">live</span>
                 </div>
-                <div class="hero-stats">
-                    <div class="stat"><div class="num" id="statTotalNFTs">--</div><div class="label">NFTs</div></div>
-                    <div class="stat"><div class="num" id="statCreators">--</div><div class="label">Creators</div></div>
-                    <div class="stat"><div class="num" id="statVolume">--</div><div class="label">TON Volume</div></div>
+                <nav class="flex gap-6 text-sm font-medium text-gray-400">
+                    <span class="nav-link active" data-page="home" onclick="navigate('home')">Buy</span>
+                    <span class="nav-link" data-page="home" onclick="navigate('home')">Sell</span>
+                    <span class="nav-link" data-page="home" onclick="navigate('home')">Auction</span>
+                    <span class="nav-link" data-page="wallet" onclick="navigate('wallet')">Wallet</span>
+                    <span class="nav-link" data-page="create" onclick="navigate('create')">+ Create</span>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm text-gray-400 hidden sm:inline">
+                        <i class="fas fa-circle text-green-400 text-xs mr-1"></i> Live
+                    </span>
+                    <button onclick="navigate('wallet')" class="bg-[#6e4bff] hover:bg-[#9b7cff] text-white px-4 py-2 rounded-xl text-sm transition-all shadow-lg shadow-[#6e4bff]/20">
+                        <i class="fas fa-wallet mr-2"></i> Connect
+                    </button>
                 </div>
-            </section>
-
-            <div class="categories" id="categories">
-                <span class="category-pill active" data-category="all">All</span>
-                <span class="category-pill" data-category="usernames">Usernames</span>
-                <span class="category-pill" data-category="numbers">+888 Numbers</span>
-                <span class="category-pill" data-category="gifts">Gifts</span>
-                <span class="category-pill" data-category="art">Art</span>
-                <span class="category-pill" data-category="collectibles">Collectibles</span>
             </div>
+        </header>
 
-            <div class="section-header">
-                <h2>🔥 Trending Now</h2>
-                <a id="viewAllLink">View All →</a>
-            </div>
-            <div class="nft-grid" id="nftGrid"></div>
-
-            <div class="section-header" style="margin-top:48px;">
-                <h2>🏛️ Top Collections</h2>
-                <a id="viewAllCollectionsLink">See all →</a>
-            </div>
-            <div class="collection-grid" id="collectionGrid"></div>
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8" id="main-content">
+            <!-- Pages будут рендериться здесь -->
         </div>
 
-        <div id="page-collections" style="display:none; padding:20px 0;">
-            <h1 class="page-title">Collections</h1>
-            <p class="page-subtitle">Browse all NFT collections on TON</p>
-            <div class="categories" id="collectionsCategories">
-                <span class="category-pill active" data-category="all">All</span>
-                <span class="category-pill" data-category="usernames">Usernames</span>
-                <span class="category-pill" data-category="numbers">+888 Numbers</span>
-                <span class="category-pill" data-category="gifts">Gifts</span>
-                <span class="category-pill" data-category="art">Art</span>
-                <span class="category-pill" data-category="collectibles">Collectibles</span>
+        <!-- Footer -->
+        <footer class="border-t border-white/5 py-6 mt-10">
+            <div class="container mx-auto px-4 text-center text-xs text-gray-600">
+                <p>© 2026 Fragmint. Симуляция аукционов. Сделано с 💀 и холодным чаем.</p>
+                <p class="mt-1 text-[#6e4bff]/50">by Amur Shik & Патрик</p>
             </div>
-            <div class="collection-grid" id="collectionsGrid"></div>
-        </div>
-
-        <div id="page-stats" style="display:none; padding:20px 0;">
-            <h1 class="page-title">Market Stats</h1>
-            <p class="page-subtitle">Real-time TON NFT market data</p>
-            <div class="stats-grid" id="statsGrid"></div>
-        </div>
-
-        <div id="page-profile" style="display:none; padding:20px 0;">
-            <h1 class="page-title">Profile</h1>
-            <p class="page-subtitle">Your TON wallet and NFT collection</p>
-            <div id="profileContent"></div>
-        </div>
-    </main>
-
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-detail">
-            <div class="modal-header">
-                <h3 id="detailModalTitle">NFT Details</h3>
-                <button class="modal-close" id="detailModalClose">✕</button>
-            </div>
-            <div class="detail-body" id="detailBody"></div>
-        </div>
+        </footer>
     </div>
 
-    <div class="toast-container" id="toast"></div>
-
     <script>
-        // ================================================================
-        // REAL DATA from GetGems
-        // ================================================================
-
-        // Real collection icons (PNG) from GetGems CDN - these are real URLs
-        const ICON_BASE = 'https://cache.getgems.io/collection';
-
-        const COLLECTIONS = [{
-            id: 'usernames',
-            name: 'Telegram Usernames',
-            items: 143000,
-            category: 'usernames',
-            floor: '0.5',
-            description: 'Catalog of unique Telegram usernames — 143K+ items',
-            icon: ICON_BASE + '/telegram-usernames/logo.png',
-            bg: 'linear-gradient(135deg, #1a3a5c, #0d1b2a)'
-        }, {
-            id: 'anonymous_numbers',
-            name: 'Anonymous Telegram Numbers',
-            items: 136600,
-            category: 'numbers',
-            floor: '0.8',
-            description: 'Anonymous +888 numbers — 136.6K items',
-            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png',
-            bg: 'linear-gradient(135deg, #2a1a4a, #1a0d2a)'
-        }, {
-            id: 'ton_dns',
-            name: 'TON DNS Domains',
-            items: 56000,
-            category: 'collectibles',
-            floor: '1.2',
-            description: 'TON DNS domains for wallets and sites — 56K items',
-            icon: ICON_BASE + '/ton-dns/logo.png',
-            bg: 'linear-gradient(135deg, #1a4a3a, #0d2a1a)'
-        }, {
-            id: 'ton_diamonds',
-            name: 'TON Diamonds',
-            items: 10000,
-            category: 'collectibles',
-            floor: '2.0',
-            description: 'Exclusive privileges in TON ecosystem — 10K items',
-            icon: ICON_BASE + '/ton-diamonds/logo.png',
-            bg: 'linear-gradient(135deg, #4a3a1a, #2a1a0d)'
-        }, {
-            id: 'notcoin_premarket',
-            name: 'Notcoin Pre-Market',
-            items: 12000,
-            category: 'collectibles',
-            floor: '3.5',
-            description: 'Notcoin vouchers — 10M NOT each',
-            icon: ICON_BASE + '/notcoin-premarket/logo.png',
-            bg: 'linear-gradient(135deg, #3a4a1a, #1a2a0d)'
-        }, {
-            id: 'goodies',
-            name: 'Goodies Stickers',
-            items: 5000,
-            category: 'gifts',
-            floor: '0.3',
-            description: 'Kung Fu Panda, Lamborghini, Doodles Timeless Monsters — 250K+ TON volume',
-            icon: ICON_BASE + '/goodies-stickers/logo.png',
-            bg: 'linear-gradient(135deg, #4a1a3a, #2a0d1a)',
-            lottie: 'https://assets.getgems.io/lottie/goodies.json'
-        }, {
-            id: 'sticker_pack',
-            name: 'Sticker Pack',
-            items: 16000,
-            category: 'gifts',
-            floor: '0.4',
-            description: 'Pudgy Penguins, BAYC, Azuki, Chimpers, Doodles — 160+ collections',
-            icon: ICON_BASE + '/sticker-pack/logo.png',
-            bg: 'linear-gradient(135deg, #1a3a4a, #0d1a2a)',
-            lottie: 'https://assets.getgems.io/lottie/stickers.json'
-        }, {
-            id: 'elephant_store',
-            name: 'Elephant Store',
-            items: 3000,
-            category: 'gifts',
-            floor: '0.6',
-            description: 'Wylsacom, Ponasenkov, RPL, Mr. Freeman collabs',
-            icon: ICON_BASE + '/elephant-store/logo.png',
-            bg: 'linear-gradient(135deg, #3a2a1a, #1a0d0d)',
-            lottie: 'https://assets.getgems.io/lottie/elephant.json'
-        }, {
-            id: 'lost_dogs',
-            name: 'Lost Dogs Co.',
-            items: 10000,
-            category: 'art',
-            floor: '1.5',
-            description: 'Popular utility-driven NFT collection',
-            icon: ICON_BASE + '/lost-dogs-co/logo.png',
-            bg: 'linear-gradient(135deg, #2a3a1a, #0d1a0d)'
-        }, {
-            id: 'ton_bitcoin',
-            name: 'Ton Bitcoin',
-            items: 2100,
-            category: 'collectibles',
-            floor: '4.0',
-            description: 'Bitcoin-themed NFTs on TON',
-            icon: ICON_BASE + '/ton-bitcoin/logo.png',
-            bg: 'linear-gradient(135deg, #4a2a0a, #2a1a0a)'
-        }, {
-            id: 'pixel_cats',
-            name: 'Pixel Cats',
-            items: 3400,
-            category: 'art',
-            floor: '0.9',
-            description: 'Pixel art cat NFTs',
-            icon: ICON_BASE + '/pixel-cats/logo.png',
-            bg: 'linear-gradient(135deg, #1a4a4a, #0d2a2a)'
-        }, {
-            id: 'cyberpunks',
-            name: 'CyberPunks',
-            items: 2100,
-            category: 'collectibles',
-            floor: '1.2',
-            description: 'CyberPunks on TON',
-            icon: ICON_BASE + '/cyberpunks/logo.png',
-            bg: 'linear-gradient(135deg, #2a1a3a, #1a0d2a)'
-        }, {
-            id: 'fragment',
-            name: 'Fragment Gifts',
-            items: 100000,
-            category: 'gifts',
-            floor: '0.1',
-            description: 'Telegram gifts from Fragment — 100K+ items',
-            icon: ICON_BASE + '/fragment-gifts/logo.png',
-            bg: 'linear-gradient(135deg, #1a2a4a, #0d1a2a)',
-            lottie: 'https://assets.getgems.io/lottie/fragment.json'
-        }, {
-            id: 'telegram_stars',
-            name: 'Telegram Stars',
-            items: 50000,
-            category: 'gifts',
-            floor: '0.2',
-            description: 'Telegram Stars NFT collection — 50K+ items',
-            icon: ICON_BASE + '/telegram-stars/logo.png',
-            bg: 'linear-gradient(135deg, #4a2a4a, #2a1a2a)',
-            lottie: 'https://assets.getgems.io/lottie/stars.json'
-        }];
-
-        // NFT Items with PNG icons
-        const NFT_ITEMS = [{
-            id: '1',
-            name: '@cyberpunk_442',
-            collection: 'Telegram Usernames',
-            collectionId: 'usernames',
-            price: '1.2',
-            category: 'usernames',
-            description: 'Premium Telegram username',
-            owner: '0x7F3e...1b9C',
-            icon: ICON_BASE + '/telegram-usernames/logo.png'
-        }, {
-            id: '2',
-            name: '+888 123 4567',
-            collection: 'Anonymous Telegram Numbers',
-            collectionId: 'anonymous_numbers',
-            price: '5.0',
-            category: 'numbers',
-            description: 'Anonymous +888 number',
-            owner: '0xA4B2...9d3E',
-            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png'
-        }, {
-            id: '3',
-            name: '+888 0701 8134',
-            collection: 'Anonymous Telegram Numbers',
-            collectionId: 'anonymous_numbers',
-            price: '0.8',
-            category: 'numbers',
-            description: 'Anonymous +888 number',
-            owner: '0x1U2V...3w4X',
-            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png'
-        }, {
-            id: '4',
-            name: '@vip_username',
-            collection: 'Telegram Usernames',
-            collectionId: 'usernames',
-            price: '2.4',
-            category: 'usernames',
-            description: 'Premium VIP username',
-            owner: '0x7Q8R...9s0T',
-            icon: ICON_BASE + '/telegram-usernames/logo.png'
-        }, {
-            id: '5',
-            name: 'Kung Fu Panda #7',
-            collection: 'Goodies Stickers',
-            collectionId: 'goodies',
-            price: '3.8',
-            category: 'gifts',
-            description: 'Kung Fu Panda collaboration sticker',
-            owner: '0xC5D1...2a4F',
-            icon: ICON_BASE + '/goodies-stickers/logo.png',
-            lottie: 'https://assets.getgems.io/lottie/goodies.json'
-        }, {
-            id: '6',
-            name: 'Pudgy Penguin #1337',
-            collection: 'Sticker Pack',
-            collectionId: 'sticker_pack',
-            price: '0.9',
-            category: 'gifts',
-            description: 'Pudgy Penguins sticker collection',
-            owner: '0xE2F3...7b8G',
-            icon: ICON_BASE + '/sticker-pack/logo.png',
-            lottie: 'https://assets.getgems.io/lottie/stickers.json'
-        }, {
-            id: '7',
-            name: 'Diamond #21',
-            collection: 'TON Diamonds',
-            collectionId: 'ton_diamonds',
-            price: '2.1',
-            category: 'collectibles',
-            description: 'Exclusive diamond #21',
-            owner: '0x1A2B...3c4D',
-            icon: ICON_BASE + '/ton-diamonds/logo.png'
-        }, {
-            id: '8',
-            name: 'Notcoin Voucher #100M',
-            collection: 'Notcoin Pre-Market',
-            collectionId: 'notcoin_premarket',
-            price: '4.2',
-            category: 'collectibles',
-            description: '10M NOT voucher',
-            owner: '0x5E6F...7g8H',
-            icon: ICON_BASE + '/notcoin-premarket/logo.png'
-        }, {
-            id: '9',
-            name: 'Lost Dog #442',
-            collection: 'Lost Dogs Co.',
-            collectionId: 'lost_dogs',
-            price: '1.7',
-            category: 'art',
-            description: 'Utility-driven NFT',
-            owner: '0x9I0J...1k2L',
-            icon: ICON_BASE + '/lost-dogs-co/logo.png'
-        }, {
-            id: '10',
-            name: 'wallet.ton',
-            collection: 'TON DNS Domains',
-            collectionId: 'ton_dns',
-            price: '3.0',
-            category: 'collectibles',
-            description: 'TON DNS domain',
-            owner: '0x5Y6Z...7a8B',
-            icon: ICON_BASE + '/ton-dns/logo.png'
-        }, {
-            id: '11',
-            name: 'Pixel Cat #1337',
-            collection: 'Pixel Cats',
-            collectionId: 'pixel_cats',
-            price: '0.9',
-            category: 'art',
-            description: 'Pixel art cat NFT',
-            owner: '0x9C0D...1e2F',
-            icon: ICON_BASE + '/pixel-cats/logo.png'
-        }, {
-            id: '12',
-            name: 'Fragment Gift #42',
-            collection: 'Fragment Gifts',
-            collectionId: 'fragment',
-            price: '0.1',
-            category: 'gifts',
-            description: 'Telegram gift from Fragment',
-            owner: '0x3M4N...5o6P',
-            icon: ICON_BASE + '/fragment-gifts/logo.png',
-            lottie: 'https://assets.getgems.io/lottie/fragment.json'
-        }, {
-            id: '13',
-            name: 'Telegram Star #1',
-            collection: 'Telegram Stars',
-            collectionId: 'telegram_stars',
-            price: '0.2',
-            category: 'gifts',
-            description: 'Telegram Star NFT',
-            owner: '0x1A2B...3c4D',
-            icon: ICON_BASE + '/telegram-stars/logo.png',
-            lottie: 'https://assets.getgems.io/lottie/stars.json'
-        }, {
-            id: '14',
-            name: '@telegram_king',
-            collection: 'Telegram Usernames',
-            collectionId: 'usernames',
-            price: '8.0',
-            category: 'usernames',
-            description: 'Premium Telegram username',
-            owner: '0x7F3e...1b9C',
-            icon: ICON_BASE + '/telegram-usernames/logo.png'
-        }, {
-            id: '15',
-            name: '+888 999 8888',
-            collection: 'Anonymous Telegram Numbers',
-            collectionId: 'anonymous_numbers',
-            price: '12.0',
-            category: 'numbers',
-            description: 'Golden +888 number',
-            owner: '0xA4B2...9d3E',
-            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png'
-        }, {
-            id: '16',
-            name: '@elite_username',
-            collection: 'Telegram Usernames',
-            collectionId: 'usernames',
-            price: '15.0',
-            category: 'usernames',
-            description: 'Elite Telegram username',
-            owner: '0x7Q8R...9s0T',
-            icon: ICON_BASE + '/telegram-usernames/logo.png'
-        }, {
-            id: '17',
-            name: 'CyberPunk #101',
-            collection: 'CyberPunks',
-            collectionId: 'cyberpunks',
-            price: '1.8',
-            category: 'collectibles',
-            description: 'CyberPunk NFT',
-            owner: '0x1A2B...3c4D',
-            icon: ICON_BASE + '/cyberpunks/logo.png'
-        }, {
-            id: '18',
-            name: 'Ton Bitcoin #42',
-            collection: 'Ton Bitcoin',
-            collectionId: 'ton_bitcoin',
-            price: '4.5',
-            category: 'collectibles',
-            description: 'Bitcoin-themed NFT',
-            owner: '0x5E6F...7g8H',
-            icon: ICON_BASE + '/ton-bitcoin/logo.png'
-        }];
-
-        // ================================================================
-        // STATE
-        // ================================================================
-        let currentPage = 'explore';
-        let currentCategory = 'all';
-        let isConnected = false;
-        let walletAddress = null;
-        let filteredNFTs = [...NFT_ITEMS];
-        let filteredCollections = [...COLLECTIONS];
-
-        // ================================================================
-        // DOM REFS
-        // ================================================================
-        const $ = (s) => document.querySelector(s);
-        const $$ = (s) => document.querySelectorAll(s);
-
-        const pages = {
-            explore: $('#page-explore'),
-            collections: $('#page-collections'),
-            stats: $('#page-stats'),
-            profile: $('#page-profile')
+        // ============================================================
+        //  ГЛОБАЛЬНОЕ СОСТОЯНИЕ
+        // ============================================================
+        const state = {
+            auctions: [],
+            users: [],
+            currentPage: 'home',
+            selectedAuctionId: null,
+            walletAddress: null,
+            bidHistory: {},
+            toastTimeout: null,
+            botInterval: null,
+            timerInterval: null
         };
-        const navLinks = $$('.nav-links a, .mobile-nav a');
-        const nftGrid = $('#nftGrid');
-        const collectionGrid = $('#collectionGrid');
-        const collectionsGrid = $('#collectionsGrid');
-        const statsGrid = $('#statsGrid');
-        const profileContent = $('#profileContent');
-        const toastEl = $('#toast');
-        const detailModal = $('#detailModal');
-        const detailBody = $('#detailBody');
-        const detailModalTitle = $('#detailModalTitle');
 
-        // ================================================================
-        // UTILITY
-        // ================================================================
-        function showToast(msg, type = '') {
-            toastEl.textContent = msg;
-            toastEl.className = 'toast-container show ' + type;
-            clearTimeout(toastEl._timer);
-            toastEl._timer = setTimeout(() => {
-                toastEl.classList.remove('show');
+        // ============================================================
+        //  ГЕНЕРАЦИЯ ДАННЫХ
+        // ============================================================
+        function generateUsers(count = 50) {
+            const users = [];
+            for (let i = 0; i < count; i++) {
+                const address = 'EQCD' + Array.from({length: 30}, () => 
+                    'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'[Math.floor(Math.random() * 36)]
+                ).join('');
+                users.push({
+                    address,
+                    username: `user_${1000 + i}`,
+                    balance: parseFloat((Math.random() * 5000 + 10).toFixed(2))
+                });
+            }
+            return users;
+        }
+
+        function generatePhoneNumber() {
+            if (Math.random() > 0.5) {
+                return '+7' + Array.from({length: 10}, () => Math.floor(Math.random() * 10)).join('');
+            }
+            return Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('');
+        }
+
+        function generateAuction(id) {
+            const startPrice = parseFloat((Math.random() * 50 + 0.5).toFixed(2));
+            const currentBid = parseFloat((startPrice + Math.random() * 30).toFixed(2));
+            const hours = Math.floor(Math.random() * 72) + 1;
+            const endTime = new Date(Date.now() + hours * 3600000);
+            
+            return {
+                id,
+                number: generatePhoneNumber(),
+                current_bid: currentBid,
+                start_price: startPrice,
+                end_time: endTime.toISOString(),
+                status: 'active',
+                winner_address: null,
+                bids_count: 0,
+                bids: []
+            };
+        }
+
+        function initData() {
+            state.users = generateUsers(50);
+            state.auctions = [];
+            for (let i = 1; i <= 30; i++) {
+                state.auctions.push(generateAuction(i));
+            }
+            state.walletAddress = state.users[0].address;
+            // Добавляем начальные ставки для реализма
+            state.auctions.forEach(auction => {
+                const bidCount = Math.floor(Math.random() * 15);
+                for (let i = 0; i < bidCount; i++) {
+                    const user = state.users[Math.floor(Math.random() * state.users.length)];
+                    const amount = parseFloat((auction.current_bid + Math.random() * 10).toFixed(2));
+                    auction.current_bid = Math.max(auction.current_bid, amount);
+                    auction.bids.push({
+                        id: Date.now() + i,
+                        bidder_address: user.address,
+                        bidder_name: user.username,
+                        amount: amount,
+                        created_at: new Date(Date.now() - Math.random() * 3600000).toISOString()
+                    });
+                }
+                auction.bids_count = auction.bids.length;
+                auction.bids.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            });
+        }
+
+        // ============================================================
+        //  ЛОГИКА АУКЦИОНОВ
+        // ============================================================
+        function placeBid(auctionId, amount, bidderAddress = null) {
+            const auction = state.auctions.find(a => a.id === auctionId);
+            if (!auction) {
+                showToast('Аукцион не найден, пидор', 'error');
+                return false;
+            }
+            
+            if (auction.status !== 'active') {
+                showToast('Аукцион уже закончился, лох', 'error');
+                return false;
+            }
+            
+            if (new Date(auction.end_time) <= new Date()) {
+                auction.status = 'ended';
+                showToast('Аукцион истек, ты опоздал', 'error');
+                return false;
+            }
+            
+            if (amount <= auction.current_bid) {
+                showToast(`Ставка должна быть выше ${auction.current_bid.toFixed(2)} TON, еблан`, 'error');
+                return false;
+            }
+            
+            // Находим пользователя
+            let user = state.users.find(u => u.address === bidderAddress);
+            if (!user) {
+                user = state.users[Math.floor(Math.random() * state.users.length)];
+            }
+            
+            if (user.balance < amount) {
+                showToast('Недостаточно средств, нищеброд', 'error');
+                return false;
+            }
+            
+            // Обновляем баланс
+            user.balance = parseFloat((user.balance - amount).toFixed(2));
+            
+            // Обновляем ставку
+            auction.current_bid = amount;
+            auction.bids.push({
+                id: Date.now(),
+                bidder_address: user.address,
+                bidder_name: user.username,
+                amount: amount,
+                created_at: new Date().toISOString()
+            });
+            auction.bids_count = auction.bids.length;
+            
+            showToast(`${user.username} поставил ${amount.toFixed(2)} TON на ${auction.number}`, 'success');
+            renderCurrentPage();
+            return true;
+        }
+
+        function closeExpiredAuctions() {
+            const now = new Date();
+            state.auctions.forEach(auction => {
+                if (auction.status === 'active' && new Date(auction.end_time) <= now) {
+                    auction.status = 'ended';
+                    if (auction.bids.length > 0) {
+                        const winner = auction.bids[0];
+                        auction.winner_address = winner.bidder_address;
+                        showToast(`Аукцион ${auction.number} завершен! Победитель: ${winner.bidder_name}`, 'info');
+                    }
+                }
+            });
+        }
+
+        function createAuction(number, startPrice, hours) {
+            const id = state.auctions.length + 1;
+            const endTime = new Date(Date.now() + hours * 3600000);
+            const newAuction = {
+                id,
+                number,
+                current_bid: parseFloat(startPrice),
+                start_price: parseFloat(startPrice),
+                end_time: endTime.toISOString(),
+                status: 'active',
+                winner_address: null,
+                bids_count: 0,
+                bids: []
+            };
+            state.auctions.push(newAuction);
+            showToast(`Аукцион #${id} создан!`, 'success');
+            navigate('home');
+            return id;
+        }
+
+        // ============================================================
+        //  БОТЫ
+        // ============================================================
+        function botMakeBid() {
+            const activeAuctions = state.auctions.filter(a => a.status === 'active' && new Date(a.end_time) > new Date());
+            if (activeAuctions.length === 0) return;
+            
+            const auction = activeAuctions[Math.floor(Math.random() * activeAuctions.length)];
+            const users = state.users.filter(u => u.balance > 5);
+            if (users.length === 0) return;
+            
+            const user = users[Math.floor(Math.random() * users.length)];
+            const increase = parseFloat((Math.random() * 0.3 * auction.current_bid + 0.1).toFixed(2));
+            const newBid = parseFloat((auction.current_bid + increase).toFixed(2));
+            
+            if (user.balance >= newBid && newBid > auction.current_bid) {
+                placeBid(auction.id, newBid, user.address);
+            }
+        }
+
+        function startBots() {
+            if (state.botInterval) clearInterval(state.botInterval);
+            state.botInterval = setInterval(() => {
+                const activeCount = state.auctions.filter(a => a.status === 'active').length;
+                if (activeCount > 0 && Math.random() > 0.3) {
+                    botMakeBid();
+                }
+            }, 3000);
+        }
+
+        // ============================================================
+        //  ТАЙМЕРЫ
+        // ============================================================
+        function startTimers() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            state.timerInterval = setInterval(() => {
+                closeExpiredAuctions();
+                // Обновляем страницу, если есть активные таймеры
+                if (state.currentPage === 'home' || state.currentPage === 'detail') {
+                    renderCurrentPage();
+                }
+            }, 5000);
+        }
+
+        // ============================================================
+        //  РЕНДЕРИНГ
+        // ============================================================
+        function renderHome() {
+            const activeAuctions = state.auctions.filter(a => a.status === 'active');
+            const endedAuctions = state.auctions.filter(a => a.status === 'ended');
+            
+            let html = `
+                <div class="page-enter">
+                    <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+                        <h1 class="text-3xl font-bold gradient-text">Live Auctions</h1>
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-gray-500">${activeAuctions.length} active · ${endedAuctions.length} ended</span>
+                            <button onclick="navigate('create')" class="bg-[#6e4bff]/20 hover:bg-[#6e4bff]/30 text-[#6e4bff] px-4 py-2 rounded-xl text-sm transition-colors border border-[#6e4bff]/20">
+                                <i class="fas fa-plus mr-2"></i>Create
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            `;
+            
+            if (activeAuctions.length === 0) {
+                html += `
+                    <div class="col-span-full text-center py-20 text-gray-500">
+                        <i class="fas fa-gavel text-4xl mb-4 opacity-50"></i>
+                        <p>Нет активных аукционов. Создай новый!</p>
+                    </div>
+                `;
+            } else {
+                activeAuctions.forEach(auction => {
+                    html += renderAuctionCard(auction);
+                });
+            }
+            
+            html += `
+                    </div>
+                    
+                    ${endedAuctions.length > 0 ? `
+                    <div class="mt-12">
+                        <h2 class="text-xl font-bold text-gray-400 mb-4">Завершенные аукционы</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 opacity-60">
+                            ${endedAuctions.slice(0, 8).map(a => renderAuctionCard(a, true)).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function renderAuctionCard(auction, ended = false) {
+            const timeLeft = getTimeLeft(auction.end_time);
+            const isEnded = ended || auction.status === 'ended';
+            
+            return `
+                <div class="auction-card bg-[#181825] rounded-2xl p-6 border ${isEnded ? 'border-white/5' : 'border-white/5 glow-border hover:border-[#6e4bff]/30'}" onclick="navigate('detail', ${auction.id})">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="text-2xl font-mono font-bold text-white ${!isEnded ? 'hover:text-[#6e4bff]' : ''} transition-colors">
+                            ${auction.number}
+                        </div>
+                        <span class="text-xs ${isEnded ? 'bg-gray-700/30 text-gray-400' : 'bg-[#6e4bff]/10 text-[#6e4bff]'} px-3 py-1 rounded-full border ${isEnded ? 'border-gray-700/30' : 'border-[#6e4bff]/20'}">
+                            #${auction.id}
+                        </span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm">
+                        <div>
+                            <div class="text-gray-500 text-xs">Current bid</div>
+                            <div class="text-xl font-bold ${isEnded ? 'text-gray-400' : 'text-white'}">${auction.current_bid.toFixed(2)} TON</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-gray-500 text-xs">${isEnded ? 'Ended' : 'Ends in'}</div>
+                            <div class="text-sm font-mono ${isEnded ? 'text-gray-500' : timeLeft.includes('m') && parseInt(timeLeft) < 10 ? 'timer-warning' : 'text-gray-300'}">
+                                ${isEnded ? '✅' : timeLeft}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex justify-between text-xs text-gray-500 border-t border-white/5 pt-3">
+                        <span>${auction.bids_count} bids</span>
+                        <span class="${isEnded ? 'text-gray-500' : 'text-[#6e4bff]/70'}">${auction.start_price.toFixed(2)} TON start</span>
+                    </div>
+                    
+                    ${!isEnded ? `
+                        <div class="mt-4 flex gap-2" onclick="event.stopPropagation()">
+                            <input type="number" step="0.1" id="bid-input-${auction.id}" placeholder="Bid TON" class="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#6e4bff] transition-colors bid-input">
+                            <button onclick="handleQuickBid(${auction.id})" class="bid-btn text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-[#6e4bff]/20">
+                                <i class="fas fa-gavel"></i>
+                            </button>
+                        </div>
+                    ` : `
+                        ${auction.winner_address ? `
+                            <div class="mt-3 text-xs text-green-400">
+                                <i class="fas fa-trophy mr-1"></i> Победитель: ${state.users.find(u => u.address === auction.winner_address)?.username || 'Аноним'}
+                            </div>
+                        ` : `
+                            <div class="mt-3 text-xs text-gray-500">Без победителя</div>
+                        `}
+                    `}
+                </div>
+            `;
+        }
+
+        function renderDetail(auctionId) {
+            const auction = state.auctions.find(a => a.id === auctionId);
+            if (!auction) {
+                navigate('home');
+                return '<div class="text-center py-20 text-gray-500">Аукцион не найден</div>';
+            }
+            
+            const timeLeft = getTimeLeft(auction.end_time);
+            const isEnded = auction.status === 'ended';
+            const winner = auction.winner_address ? state.users.find(u => u.address === auction.winner_address) : null;
+            
+            let html = `
+                <div class="page-enter max-w-5xl mx-auto">
+                    <button onclick="navigate('home')" class="text-gray-400 hover:text-white mb-6 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to auctions
+                    </button>
+                    
+                    <div class="bg-[#181825] rounded-2xl p-8 border border-white/5 glow-border">
+                        <div class="flex flex-col md:flex-row gap-8">
+                            <div class="flex-1">
+                                <div class="text-5xl font-mono font-bold text-white mb-2">${auction.number}</div>
+                                <div class="text-sm text-gray-400">Auction #${auction.id} · ${isEnded ? 'Ended' : 'Active'}</div>
+                                
+                                <div class="mt-6 grid grid-cols-2 gap-4">
+                                    <div>
+                                        <div class="text-gray-500 text-sm">Current bid</div>
+                                        <div class="text-3xl font-bold ${isEnded ? 'text-gray-400' : 'text-[#6e4bff]'}">${auction.current_bid.toFixed(2)} TON</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-gray-500 text-sm">Total bids</div>
+                                        <div class="text-2xl font-bold text-white">${auction.bids_count}</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-gray-500 text-sm">Start price</div>
+                                        <div class="text-xl font-bold text-white">${auction.start_price.toFixed(2)} TON</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-gray-500 text-sm">Status</div>
+                                        <div class="text-xl font-bold ${isEnded ? 'text-gray-400' : 'text-green-400'}">${isEnded ? 'Ended' : 'Active'}</div>
+                                    </div>
+                                </div>
+                                
+                                ${!isEnded ? `
+                                    <div class="mt-8">
+                                        <div class="text-sm text-gray-500 mb-2">Time remaining</div>
+                                        <div class="text-3xl font-mono font-bold ${timeLeft.includes('m') && parseInt(timeLeft) < 10 ? 'timer-warning' : 'text-white'}">
+                                            ${timeLeft}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-8">
+                                        <div class="flex gap-3">
+                                            <input type="number" step="0.1" id="detail-bid-input" placeholder="Enter bid TON" class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#6e4bff] transition-colors bid-input">
+                                            <button onclick="handleDetailBid(${auction.id})" class="bid-btn text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg shadow-[#6e4bff]/20">
+                                                <i class="fas fa-gavel mr-2"></i> Place Bid
+                                            </button>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="mt-8 p-4 bg-black/30 rounded-xl border border-white/5">
+                                        <div class="text-gray-400">Аукцион завершен</div>
+                                        ${winner ? `
+                                            <div class="mt-2 text-green-400">
+                                                <i class="fas fa-trophy mr-2"></i> Победитель: ${winner.username}
+                                            </div>
+                                            <div class="text-sm text-gray-500">Сумма: ${auction.current_bid.toFixed(2)} TON</div>
+                                        ` : `
+                                            <div class="text-gray-500">Без победителя (ставок не было)</div>
+                                        `}
+                                    </div>
+                                `}
+                            </div>
+                            
+                            <div class="md:w-80">
+                                <div class="bg-black/30 rounded-xl p-6 border border-white/5">
+                                    <div class="text-sm text-gray-400 mb-4">
+                                        <i class="fas fa-clock mr-2"></i> Bid History
+                                        <span class="text-xs text-gray-500 ml-2">(${auction.bids.length})</span>
+                                    </div>
+                                    <div class="bid-history">
+                                        ${auction.bids.length === 0 ? `
+                                            <div class="text-center text-gray-500 py-8 text-sm">
+                                                No bids yet. Be the first!
+                                            </div>
+                                        ` : `
+                                            ${auction.bids.slice(0, 30).map(bid => `
+                                                <div class="flex justify-between items-center text-sm border-b border-white/5 py-2">
+                                                    <div>
+                                                        <span class="text-gray-300 font-medium">${bid.bidder_name || 'Anon'}</span>
+                                                        <span class="text-gray-500 text-xs ml-2">
+                                                            ${new Date(bid.created_at).toLocaleTimeString()}
+                                                        </span>
+                                                    </div>
+                                                    <div class="font-mono text-[#6e4bff] font-bold">
+                                                        ${bid.amount.toFixed(2)} TON
+                                                    </div>
+                                                </div>
+                                            `).join('')}
+                                            ${auction.bids.length > 30 ? `
+                                                <div class="text-center text-gray-500 text-xs pt-2">
+                                                    +${auction.bids.length - 30} more bids
+                                                </div>
+                                            ` : ''}
+                                        `}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function renderWallet() {
+            const user = state.users.find(u => u.address === state.walletAddress) || state.users[0];
+            
+            let html = `
+                <div class="page-enter max-w-2xl mx-auto">
+                    <div class="bg-gradient-radial p-8 rounded-2xl border border-white/5 glow-border">
+                        <h1 class="text-2xl font-bold mb-6">
+                            <i class="fas fa-wallet mr-3 text-[#6e4bff]"></i> Wallet
+                        </h1>
+                        <div class="bg-black/40 rounded-xl p-6 space-y-4">
+                            <div>
+                                <div class="text-sm text-gray-400">Balance</div>
+                                <div class="text-4xl font-bold text-white">${user.balance.toFixed(2)} TON</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Address</div>
+                                <div class="text-xs text-[#6e4bff]/70 break-all font-mono">${user.address}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Username</div>
+                                <div class="text-lg font-semibold text-white">@${user.username}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-400">Joined</div>
+                                <div class="text-sm text-gray-300">${new Date().toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex gap-4">
+                            <button class="flex-1 bg-[#6e4bff]/10 hover:bg-[#6e4bff]/20 text-[#6e4bff] border border-[#6e4bff]/20 px-6 py-3 rounded-xl transition-colors">
+                                <i class="fas fa-paper-plane mr-2"></i> Send
+                            </button>
+                            <button class="flex-1 bg-[#6e4bff] hover:bg-[#9b7cff] text-white px-6 py-3 rounded-xl transition-all shadow-lg shadow-[#6e4bff]/20">
+                                <i class="fas fa-download mr-2"></i> Receive
+                            </button>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button onclick="navigate('home')" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">
+                                <i class="fas fa-arrow-left mr-2"></i> Back to auctions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        function renderCreate() {
+            let html = `
+                <div class="page-enter max-w-2xl mx-auto">
+                    <div class="bg-[#181825] rounded-2xl p-8 border border-white/5 glow-border">
+                        <h1 class="text-2xl font-bold mb-6">
+                            <i class="fas fa-plus-circle mr-3 text-[#6e4bff]"></i> Create New Auction
+                        </h1>
+                        <form onsubmit="handleCreateAuction(event)" class="space-y-6">
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Phone Number</label>
+                                <input type="text" id="create-number" placeholder="e.g., +71234567890" required
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#6e4bff] transition-colors bid-input">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Start Price (TON)</label>
+                                <input type="number" step="0.1" min="0.1" id="create-price" value="1.0" required
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#6e4bff] transition-colors bid-input">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-2">Duration (hours)</label>
+                                <input type="number" min="1" max="168" id="create-hours" value="24" required
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#6e4bff] transition-colors bid-input">
+                            </div>
+                            <button type="submit" class="w-full bid-btn text-white py-4 rounded-xl font-semibold transition-all shadow-lg shadow-[#6e4bff]/20">
+                                <i class="fas fa-gavel mr-2"></i> Create Auction
+                            </button>
+                            <button type="button" onclick="navigate('home')" class="w-full text-gray-500 hover:text-gray-300 text-sm transition-colors">
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            return html;
+        }
+
+        // ============================================================
+        //  ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+        // ============================================================
+        function getTimeLeft(endTimeStr) {
+            const end = new Date(endTimeStr);
+            const now = new Date();
+            const diff = end - now;
+            
+            if (diff <= 0) return 'Ended';
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            if (days > 0) return `${days}d ${hours}h`;
+            if (hours > 0) return `${hours}h ${minutes}m`;
+            if (minutes > 0) return `${minutes}m ${seconds}s`;
+            return `${seconds}s`;
+        }
+
+        function showToast(message, type = 'info') {
+            const colors = {
+                success: 'border-green-500 text-green-400',
+                error: 'border-red-500 text-red-400',
+                info: 'border-[#6e4bff] text-[#9b7cff]'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${colors[type] || colors.info}`;
+            toast.innerHTML = message;
+            document.body.appendChild(toast);
+            
+            if (state.toastTimeout) clearTimeout(state.toastTimeout);
+            state.toastTimeout = setTimeout(() => {
+                toast.remove();
             }, 4000);
         }
 
-        function formatAddress(addr) {
-            if (!addr) return '';
-            return addr.slice(0, 6) + '...' + addr.slice(-4);
-        }
-
-        function getCollection(id) {
-            return COLLECTIONS.find(c => c.id === id);
-        }
-
-        function getCollectionIcon(id) {
-            const col = getCollection(id);
-            return col ? col.icon : null;
-        }
-
-        function getCollectionBg(id) {
-            const col = getCollection(id);
-            return col ? col.bg : 'linear-gradient(135deg, #1e1e2a, #12121a)';
-        }
-
-        function hasLottie(id) {
-            const col = getCollection(id);
-            return col && col.lottie;
-        }
-
-        function getLottieUrl(id) {
-            const col = getCollection(id);
-            return col ? col.lottie : null;
-        }
-
-        // Lottie animation loader
-        function loadLottie(container, url, loop = true) {
-            if (!url || !container) return;
-            try {
-                const anim = lottie.loadAnimation({
-                    container: container,
-                    renderer: 'svg',
-                    loop: loop,
-                    autoplay: true,
-                    path: url
-                });
-                return anim;
-            } catch (e) {
-                console.warn('Lottie load error:', e);
-                return null;
+        // ============================================================
+        //  НАВИГАЦИЯ И ОБРАБОТЧИКИ
+        // ============================================================
+        function navigate(page, id = null) {
+            state.currentPage = page;
+            if (page === 'detail' && id) {
+                state.selectedAuctionId = id;
             }
+            renderCurrentPage();
+            
+            // Обновляем активную ссылку в меню
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.classList.remove('active');
+                if (el.dataset.page === page) {
+                    el.classList.add('active');
+                }
+            });
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ================================================================
-        // RENDER FUNCTIONS
-        // ================================================================
+        function renderCurrentPage() {
+            const container = document.getElementById('main-content');
+            let html = '';
+            
+            switch(state.currentPage) {
+                case 'home':
+                    html = renderHome();
+                    break;
+                case 'detail':
+                    html = renderDetail(state.selectedAuctionId);
+                    break;
+                case 'wallet':
+                    html = renderWallet();
+                    break;
+                case 'create':
+                    html = renderCreate();
+                    break;
+                default:
+                    html = renderHome();
+            }
+            
+            container.innerHTML = html;
+        }
 
-        function renderNFTs(items) {
-            if (!items || items.length === 0) {
-                nftGrid.innerHTML =
-                    '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No NFTs found</div>';
+        // Обработчики для ставок
+        window.handleQuickBid = function(auctionId) {
+            const input = document.getElementById(`bid-input-${auctionId}`);
+            if (!input) return;
+            const amount = parseFloat(input.value);
+            if (!amount || isNaN(amount)) {
+                showToast('Введи сумму ставки, еблан', 'error');
                 return;
             }
-            nftGrid.innerHTML = items.map(nft => {
-                const icon = nft.icon || getCollectionIcon(nft.collectionId);
-                const hasLott = nft.lottie || hasLottie(nft.collectionId);
-                const lottieUrl = nft.lottie || getLottieUrl(nft.collectionId);
-                const bg = getCollectionBg(nft.collectionId);
+            const success = placeBid(auctionId, amount);
+            if (success) {
+                input.value = '';
+            }
+        };
 
-                return `
-                        <div class="nft-card" data-id="${nft.id}">
-                            <div class="image-wrap" style="background:${bg};">
-                                ${hasLott && lottieUrl ? `
-                                    <div class="lottie-wrap" data-lottie="${lottieUrl}"></div>
-                                ` : icon ? `
-                                    <img src="${icon}" alt="${nft.name}" onerror="this.style.display='none'">
-                                ` : ''}
-                                <span class="badge-sale">${nft.price} TON</span>
-                                <span class="badge-collection">${nft.collection}</span>
-                            </div>
-                            <div class="info">
-                                <div class="name">${nft.name}</div>
-                                <div class="collection-name">${nft.collection}</div>
-                                <div class="price-row">
-                                    <span class="amount">${nft.price} <span style="color:#6b6b7b;font-size:13px;font-weight:500;">TON</span></span>
-                                </div>
-                                <div class="actions">
-                                    <button class="btn btn-primary btn-sm buy-btn" data-id="${nft.id}">Buy</button>
-                                    <button class="btn btn-secondary btn-sm offer-btn" data-id="${nft.id}">Make Offer</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-            }).join('');
-
-            // Load Lottie animations
-            nftGrid.querySelectorAll('.lottie-wrap').forEach(el => {
-                const url = el.dataset.lottie;
-                if (url) {
-                    setTimeout(() => loadLottie(el, url), 100);
-                }
-            });
-
-            // Event listeners
-            nftGrid.querySelectorAll('.nft-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (e.target.closest('.btn')) return;
-                    const id = card.dataset.id;
-                    const nft = NFT_ITEMS.find(n => n.id === id);
-                    if (nft) openDetailModal(nft);
-                });
-            });
-            nftGrid.querySelectorAll('.buy-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const id = btn.dataset.id;
-                    const nft = NFT_ITEMS.find(n => n.id === id);
-                    if (nft) {
-                        if (!isConnected) {
-                            showToast('Please connect wallet first', 'error');
-                            return;
-                        }
-                        showToast(`✅ Purchased ${nft.name} for ${nft.price} TON (simulated)`, 'success');
-                    }
-                });
-            });
-            nftGrid.querySelectorAll('.offer-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const id = btn.dataset.id;
-                    const nft = NFT_ITEMS.find(n => n.id === id);
-                    if (nft) {
-                        if (!isConnected) {
-                            showToast('Please connect wallet first', 'error');
-                            return;
-                        }
-                        showToast(`💼 Offer made for ${nft.name} (simulated)`, '');
-                    }
-                });
-            });
-        }
-
-        function renderCollections(items, target = collectionGrid) {
-            if (!items || items.length === 0) {
-                target.innerHTML =
-                    '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No collections found</div>';
+        window.handleDetailBid = function(auctionId) {
+            const input = document.getElementById('detail-bid-input');
+            if (!input) return;
+            const amount = parseFloat(input.value);
+            if (!amount || isNaN(amount)) {
+                showToast('Введи сумму ставки, еблан', 'error');
                 return;
             }
-            target.innerHTML = items.map(col => `
-                        <div class="collection-card" data-id="${col.id}">
-                            <div class="image-wrap" style="background:${col.bg};">
-                                ${col.lottie ? `
-                                    <div class="lottie-wrap" data-lottie="${col.lottie}"></div>
-                                ` : col.icon ? `
-                                    <img src="${col.icon}" alt="${col.name}" onerror="this.style.display='none'">
-                                ` : ''}
-                            </div>
-                            <div class="info">
-                                <div class="name">${col.name}</div>
-                                <div class="items">${col.items.toLocaleString()} items</div>
-                                <div class="floor">Floor: ${col.floor} TON</div>
-                            </div>
-                        </div>
-                    `).join('');
-
-            // Load Lottie animations
-            target.querySelectorAll('.lottie-wrap').forEach(el => {
-                const url = el.dataset.lottie;
-                if (url) {
-                    setTimeout(() => loadLottie(el, url), 100);
-                }
-            });
-
-            target.querySelectorAll('.collection-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const id = card.dataset.id;
-                    const col = COLLECTIONS.find(c => c.id === id);
-                    if (col) {
-                        const items = NFT_ITEMS.filter(n => n.collectionId === id);
-                        if (items.length > 0) {
-                            showToast(`🏛️ ${col.name}: ${items.length} NFTs found`, '');
-                            currentCategory = col.category;
-                            filterItems();
-                        } else {
-                            showToast(`🏛️ ${col.name} — ${col.items.toLocaleString()} items`, '');
-                        }
-                    }
-                });
-            });
-        }
-
-        function renderStats() {
-            const totalNFTs = NFT_ITEMS.length;
-            const totalCollections = COLLECTIONS.length;
-            const totalVolume = NFT_ITEMS.reduce((sum, n) => sum + parseFloat(n.price), 0).toFixed(1);
-            const avgPrice = (totalVolume / totalNFTs).toFixed(2);
-
-            statsGrid.innerHTML = `
-                        <div class="stat-card"><div class="label">Total NFTs</div><div class="value">${totalNFTs}</div></div>
-                        <div class="stat-card"><div class="label">Collections</div><div class="value">${totalCollections}</div></div>
-                        <div class="stat-card"><div class="label">Total Volume</div><div class="value">${totalVolume} TON</div></div>
-                        <div class="stat-card"><div class="label">Avg. Price</div><div class="value">${avgPrice} TON</div></div>
-                        <div class="stat-card"><div class="label">Floor Price</div><div class="value">${Math.min(...NFT_ITEMS.map(n => parseFloat(n.price))).toFixed(1)} TON</div></div>
-                        <div class="stat-card"><div class="label">Top Collection</div><div class="value" style="font-size:18px;">${COLLECTIONS.reduce((a,b) => a.items > b.items ? a : b).name}</div></div>
-                    `;
-            $('#statTotalNFTs').textContent = totalNFTs;
-            $('#statCreators').textContent = totalCollections;
-            $('#statVolume').textContent = totalVolume + 'M';
-        }
-
-        function renderProfile() {
-            if (!isConnected) {
-                profileContent.innerHTML = `
-                            <div class="profile-empty">
-                                <h2>Connect Wallet</h2>
-                                <p>Please connect your TON wallet to view profile</p>
-                                <button class="btn btn-primary btn-lg" onclick="document.getElementById('connectBtn').click()">Connect Wallet</button>
-                            </div>
-                        `;
-                return;
+            const success = placeBid(auctionId, amount);
+            if (success) {
+                input.value = '';
+                renderCurrentPage();
             }
-            const userNFTs = NFT_ITEMS.filter(n => n.owner === walletAddress);
-            profileContent.innerHTML = `
-                        <div class="profile-card">
-                            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-                                <div>
-                                    <div style="font-size:14px; color:#6b6b7b;">Wallet Address</div>
-                                    <div class="address">${walletAddress}</div>
-                                </div>
-                                <div>
-                                    <div style="font-size:14px; color:#6b6b7b;">Balance</div>
-                                    <div class="balance">${(Math.random() * 100 + 1).toFixed(2)} TON</div>
-                                </div>
-                                <div>
-                                    <div style="font-size:14px; color:#6b6b7b;">NFTs Owned</div>
-                                    <div class="balance">${userNFTs.length}</div>
-                                </div>
-                            </div>
-                        </div>
-                        ${userNFTs.length > 0 ? `
-                            <div style="margin-top:24px;">
-                                <h3 style="font-size:18px; margin-bottom:16px;">Your NFTs</h3>
-                                <div class="nft-grid" style="grid-template-columns:repeat(auto-fill, minmax(180px,1fr));">
-                                    ${userNFTs.map(nft => `
-                                        <div class="nft-card" style="cursor:pointer;" onclick="openDetailModal(NFT_ITEMS.find(n=>n.id==='${nft.id}'))">
-                                            <div class="image-wrap" style="aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; background:${getCollectionBg(nft.collectionId)};">
-                                                ${nft.icon ? `<img src="${nft.icon}" style="width:60%;height:60%;object-fit:contain;" onerror="this.style.display='none'">` : ''}
-                                            </div>
-                                            <div class="info">
-                                                <div class="name">${nft.name}</div>
-                                                <div class="collection-name">${nft.collection}</div>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : `
-                            <div style="margin-top:24px; padding:24px; background:#14141c; border-radius:20px; border:1px solid #1e1e26; text-align:center; color:#6b6b7b;">
-                                You don't own any NFTs yet. Explore the marketplace!
-                            </div>
-                        `}
-                    `;
-        }
+        };
 
-        function openDetailModal(nft) {
-            const col = getCollection(nft.collectionId);
-            const props = nft.properties || {};
-            const propKeys = Object.keys(props);
-            const icon = nft.icon || (col ? col.icon : null);
-            const lottieUrl = nft.lottie || (col ? col.lottie : null);
-            const bg = col ? col.bg : 'linear-gradient(135deg, #1e1e2a, #12121a)';
-
-            detailModalTitle.textContent = nft.name;
-            detailBody.innerHTML = `
-                        <div class="detail-grid">
-                            <div class="detail-image" style="background:${bg};">
-                                ${lottieUrl ? `
-                                    <div class="lottie-wrap" data-lottie="${lottieUrl}"></div>
-                                ` : icon ? `
-                                    <img src="${icon}" onerror="this.style.display='none'">
-                                ` : ''}
-                            </div>
-                            <div class="detail-info">
-                                <div class="detail-name">${nft.name}</div>
-                                <div class="detail-collection">Collection: <span onclick="closeDetailModal(); setTimeout(()=>showToast('🏛️ ${col ? col.name : ''}',''),300);">${nft.collection}</span></div>
-                                <div class="detail-price">
-                                    <div class="label">Current Price</div>
-                                    <div class="value">${nft.price} <span class="ton">TON</span></div>
-                                </div>
-                                <div style="font-size:14px; color:#8b8b9b;">${nft.description || ''}</div>
-                                <div class="detail-actions">
-                                    <button class="btn btn-primary" onclick="if(!isConnected){showToast('Connect wallet first','error');}else{showToast('✅ Purchased ${nft.name}','success');}">Buy Now</button>
-                                    <button class="btn btn-secondary" onclick="if(!isConnected){showToast('Connect wallet first','error');}else{showToast('💼 Offer made','');}">Make Offer</button>
-                                </div>
-                            </div>
-                            ${propKeys.length > 0 ? `
-                            <div class="detail-properties">
-                                <h4>Properties</h4>
-                                <div class="props-grid">
-                                    ${propKeys.map(key => `
-                                        <div class="prop-item">
-                                            <div class="prop-key">${key}</div>
-                                            <div class="prop-value">${props[key]}</div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                            ` : ''}
-                            <div class="detail-owner">
-                                <span class="owner-label">Owner</span>
-                                <span class="owner-address">${nft.owner || '0x...'}</span>
-                            </div>
-                        </div>
-                    `;
-
-            // Load Lottie
-            detailBody.querySelectorAll('.lottie-wrap').forEach(el => {
-                const url = el.dataset.lottie;
-                if (url) {
-                    setTimeout(() => loadLottie(el, url), 200);
-                }
-            });
-
-            detailModal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeDetailModal() {
-            detailModal.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        // ================================================================
-        // FILTERING
-        // ================================================================
-
-        function filterItems() {
-            if (currentCategory === 'all') {
-                filteredNFTs = [...NFT_ITEMS];
-                filteredCollections = [...COLLECTIONS];
-            } else {
-                filteredNFTs = NFT_ITEMS.filter(n => n.category === currentCategory);
-                filteredCollections = COLLECTIONS.filter(c => c.category === currentCategory);
-            }
-            renderNFTs(filteredNFTs);
-            renderCollections(filteredCollections, collectionGrid);
-        }
-
-        // ================================================================
-        // NAVIGATION
-        // ================================================================
-
-        function navigateTo(page) {
-            currentPage = page;
-            Object.keys(pages).forEach(key => {
-                pages[key].style.display = key === page ? 'block' : 'none';
-            });
-            navLinks.forEach(link => {
-                link.classList.toggle('active', link.dataset.page === page);
-            });
-            const mobileNav = $('#mobileNav');
-            mobileNav.querySelectorAll('a').forEach(a => {
-                a.classList.toggle('active', a.dataset.page === page);
-            });
-
-            if (page === 'stats') renderStats();
-            if (page === 'profile') renderProfile();
-            if (page === 'collections') {
-                renderCollections(filteredCollections, collectionsGrid);
-            }
-            if (page === 'explore') {
-                filterItems();
-            }
-        }
-
-        // ================================================================
-        // TON CONNECT (REAL)
-        // ================================================================
-
-        let tonConnectUI = null;
-
-        function initTonConnect() {
-            try {
-                const manifestUrl =
-                    'https://raw.githubusercontent.com/ton-connect/demo-dapp-with-wallet/main/public/tonconnect-manifest.json';
-
-                tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-                    manifestUrl: manifestUrl,
-                    buttonRootId: 'ton-connect-button'
-                });
-
-                // Subscribe to status changes
-                tonConnectUI.onStatusChange((wallet) => {
-                    if (wallet) {
-                        isConnected = true;
-                        walletAddress = wallet.account.address;
-                        updateWalletUI();
-                        showToast('✅ Wallet connected: ' + formatAddress(walletAddress), 'success');
-                        if (currentPage === 'profile') renderProfile();
-                    } else {
-                        isConnected = false;
-                        walletAddress = null;
-                        updateWalletUI();
-                        showToast('🔴 Wallet disconnected', 'error');
-                        if (currentPage === 'profile') renderProfile();
-                    }
-                });
-
-                // Check initial state
-                if (tonConnectUI.wallet) {
-                    isConnected = true;
-                    walletAddress = tonConnectUI.wallet.account.address;
-                    updateWalletUI();
-                }
-            } catch (error) {
-                console.error('TON Connect init error:', error);
-                showToast('⚠️ TON Connect failed. Using simulation mode.', 'error');
-                // Fallback to simulation
-                setupSimulationMode();
-            }
-        }
-
-        function setupSimulationMode() {
-            document.getElementById('connectBtn').addEventListener('click', () => {
-                if (isConnected) {
-                    isConnected = false;
-                    walletAddress = null;
-                    updateWalletUI();
-                    showToast('🔴 Wallet disconnected', 'error');
-                    if (currentPage === 'profile') renderProfile();
-                } else {
-                    const fakeAddr = '0x' + Array.from({ length: 40 }, () =>
-                        '0123456789abcdef' [Math.floor(Math.random() * 16)]
-                    ).join('');
-                    isConnected = true;
-                    walletAddress = fakeAddr;
-                    updateWalletUI();
-                    showToast('✅ Wallet connected (simulated): ' + formatAddress(fakeAddr), 'success');
-                    if (currentPage === 'profile') renderProfile();
-                }
-            });
-        }
-
-        function updateWalletUI() {
-            const badge = document.getElementById('walletBadge');
-            const btn = document.getElementById('connectBtn');
-            if (isConnected && walletAddress) {
-                badge.textContent = '🟢 ' + formatAddress(walletAddress);
-                badge.classList.add('connected');
-                btn.textContent = 'Disconnect';
-                btn.className = 'btn btn-success';
-            } else {
-                badge.textContent = '⚡ TON';
-                badge.classList.remove('connected');
-                btn.textContent = 'Connect Wallet';
-                btn.className = 'btn btn-primary';
-            }
-        }
-
-        // ================================================================
-        // EVENT LISTENERS
-        // ================================================================
-
-        // Navigation
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                navigateTo(link.dataset.page);
-                $('#mobileNav').classList.remove('open');
-            });
-        });
-
-        // Mobile menu
-        $('#mobileMenuBtn').addEventListener('click', () => {
-            $('#mobileNav').classList.toggle('open');
-        });
-
-        // Categories
-        $$('#categories .category-pill, #collectionsCategories .category-pill').forEach(pill => {
-            pill.addEventListener('click', function() {
-                const parent = this.closest('.categories');
-                parent.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
-                this.classList.add('active');
-                currentCategory = this.dataset.category;
-                if (currentPage === 'explore' || currentPage === 'collections') {
-                    filterItems();
-                    if (currentPage === 'collections') {
-                        renderCollections(filteredCollections, collectionsGrid);
-                    }
-                }
-            });
-        });
-
-        // Connect button
-        document.getElementById('connectBtn').addEventListener('click', () => {
-            if (isConnected && tonConnectUI) {
-                tonConnectUI.disconnect();
-            } else if (tonConnectUI) {
-                tonConnectUI.openModal();
-            } else if (window._simulationMode) {
-                // Already handled in simulation mode setup
-            } else {
-                // Fallback
-                if (isConnected) {
-                    isConnected = false;
-                    walletAddress = null;
-                    updateWalletUI();
-                    showToast('🔴 Wallet disconnected', 'error');
-                    if (currentPage === 'profile') renderProfile();
-                } else {
-                    const fakeAddr = '0x' + Array.from({ length: 40 }, () =>
-                        '0123456789abcdef' [Math.floor(Math.random() * 16)]
-                    ).join('');
-                    isConnected = true;
-                    walletAddress = fakeAddr;
-                    updateWalletUI();
-                    showToast('✅ Wallet connected (simulated): ' + formatAddress(fakeAddr), 'success');
-                    if (currentPage === 'profile') renderProfile();
-                }
-            }
-        });
-
-        // Modal close
-        $('#detailModalClose').addEventListener('click', closeDetailModal);
-        detailModal.addEventListener('click', (e) => {
-            if (e.target === detailModal) closeDetailModal();
-        });
-
-        // View all links
-        $('#viewAllLink').addEventListener('click', (e) => {
+        window.handleCreateAuction = function(e) {
             e.preventDefault();
-            navigateTo('collections');
-            showToast('📦 Viewing all NFTs', '');
-        });
-        $('#viewAllCollectionsLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            navigateTo('collections');
-            showToast('🏛️ Viewing all collections', '');
-        });
+            const number = document.getElementById('create-number').value.trim();
+            const price = parseFloat(document.getElementById('create-price').value);
+            const hours = parseInt(document.getElementById('create-hours').value);
+            
+            if (!number) {
+                showToast('Введи номер телефона, пидор', 'error');
+                return;
+            }
+            if (isNaN(price) || price <= 0) {
+                showToast('Цена должна быть больше 0', 'error');
+                return;
+            }
+            if (isNaN(hours) || hours < 1) {
+                showToast('Минимум 1 час', 'error');
+                return;
+            }
+            
+            createAuction(number, price, hours);
+        };
 
-        $('#heroExploreBtn').addEventListener('click', () => {
-            document.getElementById('nftGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+        // ============================================================
+        //  ИНИЦИАЛИЗАЦИЯ
+        // ============================================================
+        function init() {
+            initData();
+            startBots();
+            startTimers();
+            navigate('home');
+            
+            // Горячие клавиши для быстрого переключения
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    navigate('home');
+                }
+                if (e.key === 'h' && !e.ctrlKey) {
+                    navigate('home');
+                }
+                if (e.key === 'w' && !e.ctrlKey) {
+                    navigate('wallet');
+                }
+            });
+            
+            console.log('🔥 Fragmint Live запущен!');
+            console.log(`📊 Активных аукционов: ${state.auctions.filter(a => a.status === 'active').length}`);
+            console.log(`👤 Пользователей: ${state.users.length}`);
+            console.log('💀 Сделано с любовью и ненавистью к обществу');
+        }
 
-        // ================================================================
-        // INIT
-        // ================================================================
-
-        window.NFT_ITEMS = NFT_ITEMS;
-        window.openDetailModal = openDetailModal;
-        window.closeDetailModal = closeDetailModal;
-        window.isConnected = () => isConnected;
-
-        // Initialize TON Connect
-        initTonConnect();
-
-        filterItems();
-        renderStats();
-        navigateTo('explore');
-
-        console.log('🔥 GetGems Clone loaded with REAL data and TON Connect');
-        console.log(`📊 ${NFT_ITEMS.length} NFTs, ${COLLECTIONS.length} collections`);
-        console.log('💡 Click any NFT card to see detailed view');
-        console.log('🎨 PNG icons loaded from GetGems CDN');
-        console.log('🎬 Lottie animations for gift collections');
-        console.log('🔗 TON Connect initialized with real wallet support');
+        // Запускаем всё, когда DOM загружен
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
