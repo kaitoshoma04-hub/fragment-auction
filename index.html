@@ -3,915 +3,1840 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GetGems — Real TON NFTs (All-in-One)</title>
-
-    <!-- ===== CDN DEPS ===== -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/@tonconnect/sdk@2.0.0/dist/tonconnect-sdk.min.js"></script>
-
+    <title>GetGems — TON NFT Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: #0b0b0e;
             color: #e5e5ea;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.5;
-            padding: 0 20px;
+            -webkit-font-smoothing: antialiased;
+            padding: 0 16px;
         }
-        a { color: #8b8b9b; text-decoration: none; }
-        a:hover { color: #fff; }
+
+        a {
+            color: #8b8b9b;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #fff;
+        }
+
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
-        }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #1a1a1f; }
-        ::-webkit-scrollbar-thumb { background: #3a3a44; border-radius: 10px; }
-        @media (max-width: 768px) {
-            body { padding: 0 10px; }
+            padding: 0 16px;
         }
 
-        /* ===== LOADER ===== */
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a44;
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+           UTILITY
+           ============================================================ */
+        .flex {
+            display: flex;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .gap-8 { gap: 8px; }
+        .gap-12 { gap: 12px; }
+        .gap-16 { gap: 16px; }
+        .gap-20 { gap: 20px; }
+        .gap-24 { gap: 24px; }
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .mt-16 { margin-top: 16px; }
+        .mt-24 { margin-top: 24px; }
+        .mt-32 { margin-top: 32px; }
+        .mb-8 { margin-bottom: 8px; }
+        .mb-12 { margin-bottom: 12px; }
+        .mb-16 { margin-bottom: 16px; }
+        .mb-24 { margin-bottom: 24px; }
+        .mb-32 { margin-bottom: 32px; }
+        .text-center { text-align: center; }
+        .text-muted { color: #8b8b9b; }
+        .text-gradient {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .fw-700 { font-weight: 700; }
+        .fw-800 { font-weight: 800; }
+        .fs-14 { font-size: 14px; }
+        .fs-16 { font-size: 16px; }
+        .fs-18 { font-size: 18px; }
+        .fs-20 { font-size: 20px; }
+        .fs-24 { font-size: 24px; }
+        .fs-32 { font-size: 32px; }
+        .fs-40 { font-size: 40px; }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: #8b5cf6;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #a78bfa;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #2a2a32;
+            color: #fff;
+        }
+        .btn-secondary:hover {
+            background: #3a3a46;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #8b8b9b;
+            border: 1px solid #2a2a34;
+        }
+        .btn-outline:hover {
+            border-color: #8b5cf6;
+            color: #fff;
+        }
+        .btn-success {
+            background: #1e3a2a;
+            color: #6fcf97;
+        }
+        .btn-success:hover {
+            background: #2a4a3a;
+        }
+        .btn-danger {
+            background: #3a1a1a;
+            color: #e57373;
+        }
+        .btn-danger:hover {
+            background: #4a2a2a;
+        }
+        .btn-sm {
+            padding: 4px 14px;
+            font-size: 12px;
+        }
+        .btn-lg {
+            padding: 12px 32px;
+            font-size: 16px;
+        }
+        .btn-block {
+            width: 100%;
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        header {
+            padding: 16px 0;
+            border-bottom: 1px solid #23232a;
+            position: sticky;
+            top: 0;
+            background: rgba(11, 11, 14, 0.92);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+        .logo .get {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo .gems {
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .nav-links a {
+            color: #8b8b9b;
+            transition: color 0.2s;
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links a.active {
+            color: #fff;
+        }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #8b5cf6;
+            border-radius: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wallet-badge {
+            font-size: 12px;
+            background: #1a1a22;
+            padding: 4px 14px;
+            border-radius: 30px;
+            color: #aaa;
+            font-family: 'Inter', monospace;
+            font-weight: 500;
+        }
+        .wallet-badge.connected {
+            background: #1a2a1e;
+            color: #6fcf97;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            background: linear-gradient(145deg, #1a1a24, #0f0f16);
+            border-radius: 32px;
+            padding: 56px 48px;
+            margin: 32px 0;
+            border: 1px solid #2a2a34;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 280px;
+        }
+        .hero-content h1 {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+        .hero-content h1 .highlight {
+            color: #8b5cf6;
+        }
+        .hero-content p {
+            color: #8b8b9b;
+            max-width: 420px;
+            margin: 16px 0 24px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            background: #12121a;
+            padding: 24px 36px;
+            border-radius: 24px;
+            border: 1px solid #282834;
+            flex-wrap: wrap;
+        }
+        .hero-stats .stat {
+            text-align: center;
+        }
+        .hero-stats .stat .num {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .hero-stats .stat .label {
+            font-size: 13px;
+            color: #6b6b7b;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           CATEGORIES
+           ============================================================ */
+        .categories {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0 32px;
+        }
+        .category-pill {
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            background: #1a1a24;
+            border: 1px solid #2a2a34;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #8b8b9b;
+            user-select: none;
+        }
+        .category-pill:hover {
+            border-color: #5a5a6a;
+            color: #fff;
+        }
+        .category-pill.active {
+            border-color: #8b5cf6;
+            background: #2a1a3a;
+            color: #c4b5fd;
+        }
+
+        /* ============================================================
+           SECTION HEADER
+           ============================================================ */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0 20px;
+        }
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .section-header a {
+            font-size: 14px;
+            color: #8b5cf6;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .section-header a:hover {
+            color: #a78bfa;
+        }
+
+        /* ============================================================
+           NFT CARD (как в GetGems)
+           ============================================================ */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .nft-card {
+            background: #14141c;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #1e1e26;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+        .nft-card:hover {
+            border-color: #3a3a4a;
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .nft-card .image-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            background: linear-gradient(135deg, #1e1e2a, #12121a);
+        }
+        .nft-card .image-wrap .gradient-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.6;
+        }
+        .nft-card .image-wrap .nft-emoji {
+            position: relative;
+            z-index: 1;
+            font-size: 56px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+        }
+        .nft-card .image-wrap .badge-sale {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(11, 11, 14, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6fcf97;
+            border: 1px solid #2a4a3a;
+            z-index: 2;
+        }
+        .nft-card .image-wrap .badge-collection {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(11, 11, 14, 0.75);
+            backdrop-filter: blur(8px);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #aaa;
+            border: 1px solid #2a2a34;
+            z-index: 2;
+        }
+
+        .nft-card .info {
+            padding: 16px 18px 18px;
+        }
+        .nft-card .info .name {
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .nft-card .info .collection-name {
+            font-size: 12px;
+            color: #6b6b7b;
+            margin-top: 2px;
+        }
+        .nft-card .info .price-row {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nft-card .info .price-row .amount {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .nft-card .info .price-row .ton-symbol {
+            color: #6b6b7b;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .nft-card .info .price-row .floor-price {
+            font-size: 12px;
+            color: #6b6b7b;
+        }
+        .nft-card .info .actions {
+            margin-top: 14px;
+            display: flex;
+            gap: 8px;
+        }
+        .nft-card .info .actions .btn {
+            flex: 1;
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+
+        /* ============================================================
+           COLLECTION CARD (как в GetGems)
+           ============================================================ */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 20px;
+        }
+
+        .collection-card {
+            background: #14141c;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #1e1e26;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .collection-card:hover {
+            border-color: #3a3a4a;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+        .collection-card .image-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(135deg, #1e1e2a, #12121a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #3a3a4a;
+            position: relative;
+        }
+        .collection-card .image-wrap .gradient-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.4;
+        }
+        .collection-card .image-wrap .col-emoji {
+            position: relative;
+            z-index: 1;
+            font-size: 44px;
+        }
+        .collection-card .info {
+            padding: 14px 16px 16px;
+        }
+        .collection-card .info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .collection-card .info .items {
+            font-size: 12px;
+            color: #6b6b7b;
+            margin-top: 2px;
+        }
+        .collection-card .info .floor {
+            font-size: 12px;
+            color: #6fcf97;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           DETAIL MODAL (как в GetGems)
+           ============================================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-detail {
+            background: #1a1a24;
+            border-radius: 32px;
+            padding: 0;
+            max-width: 720px;
+            width: 100%;
+            border: 1px solid #2e2e3a;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-detail .modal-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2a34;
+            position: sticky;
+            top: 0;
+            background: #1a1a24;
+            z-index: 10;
+            border-radius: 32px 32px 0 0;
+        }
+        .modal-detail .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .modal-detail .modal-close {
+            background: none;
+            border: none;
+            color: #6b6b7b;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0 4px;
+            transition: color 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .modal-detail .modal-close:hover {
+            color: #fff;
+        }
+
+        .modal-detail .detail-body {
+            padding: 24px;
+        }
+        .modal-detail .detail-body .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .modal-detail .detail-body .detail-image {
+            aspect-ratio: 1 / 1;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #1e1e2a, #12121a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #2a2a34;
+        }
+        .modal-detail .detail-body .detail-image .gradient-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.5;
+        }
+        .modal-detail .detail-body .detail-image .nft-emoji {
+            position: relative;
+            z-index: 1;
+            font-size: 80px;
+        }
+        .modal-detail .detail-body .detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .modal-detail .detail-body .detail-info .detail-name {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .modal-detail .detail-body .detail-info .detail-collection {
+            font-size: 14px;
+            color: #8b8b9b;
+        }
+        .modal-detail .detail-body .detail-info .detail-collection span {
+            color: #8b5cf6;
+            cursor: pointer;
+        }
+        .modal-detail .detail-body .detail-info .detail-price {
+            background: #12121a;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid #2a2a34;
+        }
+        .modal-detail .detail-body .detail-info .detail-price .label {
+            font-size: 12px;
+            color: #6b6b7b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-detail .detail-body .detail-info .detail-price .value {
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+        .modal-detail .detail-body .detail-info .detail-price .value .ton {
+            font-size: 16px;
+            color: #6b6b7b;
+            font-weight: 500;
+        }
+        .modal-detail .detail-body .detail-info .detail-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .modal-detail .detail-body .detail-info .detail-actions .btn {
+            flex: 1;
+            padding: 12px;
+        }
+
+        .modal-detail .detail-body .detail-properties {
+            margin-top: 24px;
+            grid-column: 1 / -1;
+        }
+        .modal-detail .detail-body .detail-properties h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b6b7b;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .modal-detail .detail-body .detail-properties .props-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        .modal-detail .detail-body .detail-properties .prop-item {
+            background: #12121a;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #2a2a34;
+        }
+        .modal-detail .detail-body .detail-properties .prop-item .prop-key {
+            font-size: 10px;
+            color: #6b6b7b;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .modal-detail .detail-body .detail-properties .prop-item .prop-value {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .modal-detail .detail-body .detail-owner {
+            grid-column: 1 / -1;
+            padding: 16px;
+            background: #12121a;
+            border-radius: 16px;
+            border: 1px solid #2a2a34;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-detail .detail-body .detail-owner .owner-label {
+            font-size: 12px;
+            color: #6b6b7b;
+        }
+        .modal-detail .detail-body .detail-owner .owner-address {
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .modal-detail .detail-body .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-detail .detail-body .detail-image {
+                aspect-ratio: 1 / 1;
+                max-height: 300px;
+            }
+            .modal-detail .detail-body .detail-info .detail-actions {
+                flex-direction: column;
+            }
+            .modal-detail .detail-body .detail-info .detail-actions .btn {
+                width: 100%;
+            }
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            background: #1a1a24;
+            padding: 14px 32px;
+            border-radius: 40px;
+            border: 1px solid #2e2e3a;
+            color: #e5e5ea;
+            font-size: 14px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            display: none;
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+        }
+        .toast-container.show {
+            display: block;
+            animation: toastIn 0.3s ease;
+        }
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        .toast-container.error {
+            border-color: #5a2a2a;
+            background: #1a1212;
+            color: #e57373;
+        }
+        .toast-container.success {
+            border-color: #2a4a3a;
+            background: #121a12;
+            color: #6fcf97;
+        }
+
+        /* ============================================================
+           PAGES
+           ============================================================ */
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .page-subtitle {
+            color: #8b8b9b;
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .stat-card {
+            background: #14141c;
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid #1e1e26;
+        }
+        .stat-card .label {
+            font-size: 14px;
+            color: #6b6b7b;
+        }
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .profile-card {
+            background: #14141c;
+            padding: 28px;
+            border-radius: 20px;
+            border: 1px solid #1e1e26;
+        }
+        .profile-card .address {
+            font-family: 'Inter', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            word-break: break-all;
+        }
+        .profile-card .balance {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .profile-empty {
+            padding: 60px 0;
+            text-align: center;
+        }
+        .profile-empty h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .profile-empty p {
+            color: #8b8b9b;
+            margin-bottom: 24px;
+        }
+
+        /* ============================================================
+           LOADER
+           ============================================================ */
         .loader {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #3a3a44;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #2a2a34;
             border-top-color: #8b5cf6;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .loader-center {
+            display: flex;
+            justify-content: center;
+            padding: 60px 0;
+        }
 
-        /* ===== TON CONNECT MODAL OVERRIDE ===== */
-        .ton-connect-modal {
-            z-index: 9999 !important;
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .hero { padding: 40px 32px; }
+            .hero-content h1 { font-size: 34px; }
+            .hero-stats { gap: 24px; padding: 20px 28px; }
+            .nft-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 12px; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero {
+                padding: 32px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content p { max-width: 100%; }
+            .hero-stats {
+                width: 100%;
+                justify-content: center;
+                gap: 16px;
+                padding: 16px 20px;
+            }
+            .hero-stats .stat .num { font-size: 22px; }
+            .nft-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+            .collection-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+            .wallet-badge { display: none; }
+            .header-actions .btn { font-size: 13px; padding: 6px 16px; }
+            .hero-content h1 { font-size: 28px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 24px; }
+            .nft-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .collection-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .hero-stats { flex-wrap: wrap; gap: 12px; }
+            .hero-stats .stat .num { font-size: 18px; }
+            .nft-card .info .actions { flex-direction: column; }
+            .nft-card .info .actions .btn { width: 100%; }
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 0;
+            border-top: 1px solid #23232a;
+            width: 100%;
+        }
+        .mobile-nav.open {
+            display: flex;
+        }
+        .mobile-nav a {
+            padding: 10px 12px;
+            border-radius: 12px;
+            color: #8b8b9b;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            background: #1a1a24;
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-<div id="root"></div>
-
-<script type="text/babel">
-    const { useState, useEffect, useCallback, useMemo, createContext, useContext } = React;
-
-    // ================================================================
-    //  TYPES (JSDoc for clarity)
-    // ================================================================
-    /**
-     * @typedef {Object} NFT
-     * @property {string} address
-     * @property {string} name
-     * @property {string} collection
-     * @property {string} [collectionAddress]
-     * @property {string|null} price
-     * @property {string} [image]
-     * @property {string} [emoji]
-     * @property {string} [owner]
-     */
-
-    /**
-     * @typedef {Object} Collection
-     * @property {string} address
-     * @property {string} name
-     * @property {number} items
-     * @property {string} [emoji]
-     * @property {string} [image]
-     */
-
-    // ================================================================
-    //  FAKE DATA (FALLBACK)
-    // ================================================================
-    const FALLBACK_NFTS = [
-        { address: '0:1', name: 'CyberPunk #442', collection: 'CyberPunks', price: '1.2', emoji: '🤖' },
-        { address: '0:2', name: 'TON Dragon #07', collection: 'Dragons', price: '3.8', emoji: '🐉' },
-        { address: '0:3', name: 'Pixel Cat #1337', collection: 'PixelCats', price: '0.9', emoji: '🐱' },
-        { address: '0:4', name: 'Abstract #21', collection: 'Abstract Art', price: '2.1', emoji: '🎨' },
-        { address: '0:5', name: 'Space Rocket #9', collection: 'SpaceY', price: '4.2', emoji: '🚀' },
-        { address: '0:6', name: 'Glitch Skull', collection: 'Glitch Gang', price: '1.7', emoji: '💀' },
-        { address: '0:7', name: 'Neon Ape #3', collection: 'Neon Apes', price: '6.0', emoji: '🐒' },
-        { address: '0:8', name: 'Magic Mushroom', collection: 'Enchanted', price: '0.5', emoji: '🍄' },
-    ];
-
-    const FALLBACK_COLLECTIONS = [
-        { address: '0:A', name: 'CyberPunks', items: 2100, emoji: '👾' },
-        { address: '0:B', name: 'TON Dragons', items: 850, emoji: '🐲' },
-        { address: '0:C', name: 'Pixel Cats', items: 3400, emoji: '🐈' },
-        { address: '0:D', name: 'Glitch Gang', items: 1200, emoji: '⚡' },
-        { address: '0:E', name: 'Neon Apes', items: 560, emoji: '🦧' },
-        { address: '0:F', name: 'Abstract Art', items: 940, emoji: '🖼️' },
-    ];
-
-    // ================================================================
-    //  API
-    // ================================================================
-    const API_BASE = 'https://toncenter.com/api/v2';
-
-    async function fetchNFTs(collectionAddress) {
-        try {
-            // Имитация реального запроса
-            await new Promise(resolve => setTimeout(resolve, 500));
-            return FALLBACK_NFTS;
-        } catch (error) {
-            console.error('Error fetching NFTs:', error);
-            return FALLBACK_NFTS;
-        }
-    }
-
-    async function fetchCollections() {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 400));
-            return FALLBACK_COLLECTIONS;
-        } catch (error) {
-            console.error('Error fetching collections:', error);
-            return FALLBACK_COLLECTIONS;
-        }
-    }
-
-    async function fetchWalletBalance(address) {
-        try {
-            const response = await axios.get(`${API_BASE}/getAddressBalance`, {
-                params: { address }
-            });
-            if (response.data && response.data.result) {
-                const balance = parseInt(response.data.result) / 1e9;
-                return balance.toFixed(2);
-            }
-            return null;
-        } catch (error) {
-            console.error('Error fetching balance:', error);
-            return null;
-        }
-    }
-
-    // ================================================================
-    //  TON CONNECT HOOK
-    // ================================================================
-    function useTonConnect() {
-        const [tonConnectUI, setTonConnectUI] = useState(null);
-        const [address, setAddress] = useState('');
-        const [isConnected, setIsConnected] = useState(false);
-
-        useEffect(() => {
-            // Инициализируем TON Connect
-            const manifestUrl = 'https://raw.githubusercontent.com/ton-connect/demo-dapp-with-wallet/main/public/tonconnect-manifest.json';
-            const ui = new TON_CONNECT_UI.TonConnectUI({
-                manifestUrl,
-                buttonRootId: 'ton-connect-button'
-            });
-            setTonConnectUI(ui);
-
-            // Подписка на изменения
-            const unsubscribe = ui.onStatusChange((wallet) => {
-                if (wallet) {
-                    setAddress(wallet.account.address);
-                    setIsConnected(true);
-                } else {
-                    setAddress('');
-                    setIsConnected(false);
-                }
-            });
-
-            // Проверяем текущее состояние
-            if (ui.wallet) {
-                setAddress(ui.wallet.account.address);
-                setIsConnected(true);
-            }
-
-            return () => {
-                if (unsubscribe) unsubscribe();
-            };
-        }, []);
-
-        const connect = useCallback(async () => {
-            if (tonConnectUI) {
-                try {
-                    await tonConnectUI.openModal();
-                } catch (error) {
-                    console.error('Connection error:', error);
-                }
-            }
-        }, [tonConnectUI]);
-
-        const disconnect = useCallback(async () => {
-            if (tonConnectUI) {
-                try {
-                    await tonConnectUI.disconnect();
-                } catch (error) {
-                    console.error('Disconnect error:', error);
-                }
-            }
-        }, [tonConnectUI]);
-
-        const sendTransaction = useCallback(async (transaction) => {
-            if (tonConnectUI) {
-                try {
-                    const result = await tonConnectUI.sendTransaction(transaction);
-                    return result;
-                } catch (error) {
-                    console.error('Transaction error:', error);
-                    throw error;
-                }
-            }
-        }, [tonConnectUI]);
-
-        return {
-            isConnected,
-            address,
-            connect,
-            disconnect,
-            sendTransaction,
-            tonConnectUI
-        };
-    }
-
-    // ================================================================
-    //  CONTEXT
-    // ================================================================
-    const ToastContext = React.createContext(null);
-
-    function useToast() {
-        return useContext(ToastContext);
-    }
-
-    // ================================================================
-    //  COMPONENTS
-    // ================================================================
-
-    // ---- Toast ----
-    function Toast({ message, duration = 3000, onClose }) {
-        const [visible, setVisible] = useState(true);
-
-        useEffect(() => {
-            const timer = setTimeout(() => {
-                setVisible(false);
-                if (onClose) onClose();
-            }, duration);
-            return () => clearTimeout(timer);
-        }, [duration, onClose]);
-
-        if (!visible || !message) return null;
-
-        return (
-            <div style={{
-                position: 'fixed',
-                bottom: '30px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 2000,
-                background: '#1a1a24',
-                padding: '12px 28px',
-                borderRadius: '40px',
-                border: '1px solid #2e2e3a',
-                color: '#e5e5ea',
-                fontSize: '14px',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.6)'
-            }}>
-                {message}
+    <!-- HEADER -->
+    <header>
+        <div class="container header-inner">
+            <div class="logo">
+                <span class="get">Get</span><span class="gems">Gems</span>
             </div>
-        );
-    }
+            <nav class="nav-links" id="navLinks">
+                <a href="#" class="active" data-page="explore">Explore</a>
+                <a href="#" data-page="collections">Collections</a>
+                <a href="#" data-page="stats">Stats</a>
+                <a href="#" data-page="profile">Profile</a>
+            </nav>
+            <div class="header-actions">
+                <span class="wallet-badge" id="walletBadge">⚡ TON</span>
+                <button class="btn btn-primary" id="connectBtn">Connect Wallet</button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            </div>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="#" class="active" data-page="explore">Explore</a>
+                <a href="#" data-page="collections">Collections</a>
+                <a href="#" data-page="stats">Stats</a>
+                <a href="#" data-page="profile">Profile</a>
+            </div>
+        </div>
+    </header>
 
-    // ---- Header ----
-    function Header() {
-        const { isConnected, address, connect, disconnect } = useTonConnect();
-        const { showToast } = useToast();
+    <!-- MAIN -->
+    <main class="container" id="app">
 
-        const handleConnect = () => {
-            if (isConnected) {
-                disconnect();
-                showToast('🔴 Wallet disconnected');
-            } else {
-                connect();
-            }
-        };
-
-        const formatAddress = (addr) => {
-            if (!addr) return '';
-            return `${addr.slice(0, 4)}...${addr.slice(-4)}`;
-        };
-
-        return (
-            <header style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '16px 0',
-                borderBottom: '1px solid #23232a',
-                flexWrap: 'wrap'
-            }}>
-                <div style={{ fontSize: '24px', fontWeight: 700 }}>
-                    <span style={{
-                        background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
-                    }}>Get</span>
-                    <span style={{ color: '#fff' }}>Gems</span>
+        <!-- EXPLORE -->
+        <div id="page-explore">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Discover & Trade <br /><span class="highlight">TON NFTs</span></h1>
+                    <p>Buy, sell, and auction NFTs on the fastest blockchain. Zero gas fees for buyers.</p>
+                    <button class="btn btn-primary btn-lg" id="heroExploreBtn">Explore Now</button>
                 </div>
-
-                <div style={{ display: 'flex', gap: '28px', fontSize: '14px', fontWeight: 500 }}>
-                    <a href="#/" style={{ color: '#fff' }}>Explore</a>
-                    <a href="#/collections" style={{ color: '#8b8b9b' }}>Collections</a>
-                    <a href="#/stats" style={{ color: '#8b8b9b' }}>Stats</a>
-                    <a href="#/profile" style={{ color: '#8b8b9b' }}>Profile</a>
-                </div>
-
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    {isConnected && address && (
-                        <span style={{
-                            fontSize: '12px',
-                            background: '#1a1a22',
-                            padding: '4px 12px',
-                            borderRadius: '30px',
-                            color: '#aaa',
-                            fontFamily: 'monospace'
-                        }}>
-                            🟢 {formatAddress(address)}
-                        </span>
-                    )}
-                    <button
-                        onClick={handleConnect}
-                        style={{
-                            background: isConnected ? '#1e3a2a' : '#2a2a32',
-                            border: 'none',
-                            padding: '8px 20px',
-                            borderRadius: '40px',
-                            color: isConnected ? '#6fcf97' : '#fff',
-                            fontWeight: 500,
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                            transition: '0.2s'
-                        }}
-                    >
-                        {isConnected ? 'Disconnect' : 'Connect Wallet'}
-                    </button>
-                    <div id="ton-connect-button" style={{ display: 'none' }}></div>
-                </div>
-            </header>
-        );
-    }
-
-    // ---- Hero ----
-    function Hero() {
-        return (
-            <section style={{
-                background: 'linear-gradient(145deg, #1a1a24, #0f0f16)',
-                borderRadius: '32px',
-                padding: '48px 40px',
-                margin: '32px 0',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                border: '1px solid #2a2a34'
-            }}>
-                <div>
-                    <h1 style={{ fontSize: '40px', fontWeight: 700, letterSpacing: '-1px' }}>
-                        Discover & Trade <br />
-                        <span style={{ color: '#8b5cf6' }}>TON NFTs</span>
-                    </h1>
-                    <p style={{ color: '#8b8b9b', maxWidth: '400px', margin: '12px 0 20px', fontSize: '16px' }}>
-                        Buy, sell, and auction NFTs on the fastest blockchain. Zero gas fees for buyers.
-                    </p>
-                    <button
-                        onClick={() => window.location.hash = '/'}
-                        style={{
-                            background: '#8b5cf6',
-                            border: 'none',
-                            padding: '12px 32px',
-                            borderRadius: '40px',
-                            color: '#fff',
-                            fontWeight: 600,
-                            fontSize: '16px',
-                            cursor: 'pointer',
-                            transition: '0.2s'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = '#a78bfa'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = '#8b5cf6'}
-                    >
-                        Explore Now
-                    </button>
-                </div>
-                <div style={{
-                    display: 'flex',
-                    gap: '40px',
-                    background: '#12121a',
-                    padding: '20px 32px',
-                    borderRadius: '24px',
-                    border: '1px solid #282834'
-                }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff' }}>12.4K</div>
-                        <div style={{ fontSize: '13px', color: '#6b6b7b' }}>NFTs</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff' }}>2.8K</div>
-                        <div style={{ fontSize: '13px', color: '#6b6b7b' }}>Creators</div>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '28px', fontWeight: 700, color: '#fff' }}>8.1M</div>
-                        <div style={{ fontSize: '13px', color: '#6b6b7b' }}>TON Volume</div>
-                    </div>
+                <div class="hero-stats">
+                    <div class="stat"><div class="num" id="statTotalNFTs">--</div><div class="label">NFTs</div></div>
+                    <div class="stat"><div class="num" id="statCreators">--</div><div class="label">Creators</div></div>
+                    <div class="stat"><div class="num" id="statVolume">--</div><div class="label">TON Volume</div></div>
                 </div>
             </section>
-        );
-    }
 
-    // ---- Categories ----
-    function Categories({ onSelect }) {
-        const categories = ['All', 'Art', 'Gaming', 'Collectibles', 'Music', 'Photography'];
-        const [active, setActive] = useState('All');
+            <div class="categories" id="categories">
+                <span class="category-pill active" data-category="all">All</span>
+                <span class="category-pill" data-category="usernames">Usernames</span>
+                <span class="category-pill" data-category="numbers">+888 Numbers</span>
+                <span class="category-pill" data-category="gifts">Gifts</span>
+                <span class="category-pill" data-category="art">Art</span>
+                <span class="category-pill" data-category="collectibles">Collectibles</span>
+            </div>
 
-        const handleClick = (cat) => {
-            setActive(cat);
-            if (onSelect) onSelect(cat);
+            <div class="section-header">
+                <h2>🔥 Trending Now</h2>
+                <a id="viewAllLink">View All →</a>
+            </div>
+            <div class="nft-grid" id="nftGrid"></div>
+
+            <div class="section-header" style="margin-top:48px;">
+                <h2>🏛️ Top Collections</h2>
+                <a id="viewAllCollectionsLink">See all →</a>
+            </div>
+            <div class="collection-grid" id="collectionGrid"></div>
+        </div>
+
+        <!-- COLLECTIONS -->
+        <div id="page-collections" style="display:none; padding:20px 0;">
+            <h1 class="page-title">Collections</h1>
+            <p class="page-subtitle">Browse all NFT collections on TON</p>
+            <div class="categories" id="collectionsCategories">
+                <span class="category-pill active" data-category="all">All</span>
+                <span class="category-pill" data-category="usernames">Usernames</span>
+                <span class="category-pill" data-category="numbers">+888 Numbers</span>
+                <span class="category-pill" data-category="gifts">Gifts</span>
+                <span class="category-pill" data-category="art">Art</span>
+                <span class="category-pill" data-category="collectibles">Collectibles</span>
+            </div>
+            <div class="collection-grid" id="collectionsGrid"></div>
+        </div>
+
+        <!-- STATS -->
+        <div id="page-stats" style="display:none; padding:20px 0;">
+            <h1 class="page-title">Market Stats</h1>
+            <p class="page-subtitle">Real-time TON NFT market data</p>
+            <div class="stats-grid" id="statsGrid"></div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="page-profile" style="display:none; padding:20px 0;">
+            <h1 class="page-title">Profile</h1>
+            <p class="page-subtitle">Your TON wallet and NFT collection</p>
+            <div id="profileContent"></div>
+        </div>
+
+    </main>
+
+    <!-- DETAIL MODAL -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-detail">
+            <div class="modal-header">
+                <h3 id="detailModalTitle">NFT Details</h3>
+                <button class="modal-close" id="detailModalClose">✕</button>
+            </div>
+            <div class="detail-body" id="detailBody">
+                <!-- rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- CONNECT MODAL -->
+    <div class="modal-overlay" id="connectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" id="modalCloseBtn">✕</button>
+            </div>
+            <p class="modal-desc">Choose your wallet to continue. Real TON wallets supported via TON Connect.</p>
+            <div id="walletOptions">
+                <div class="wallet-option" data-wallet="tonkeeper">
+                    <span class="icon">📱</span>
+                    <span class="name">TON Keeper</span>
+                    <span class="badge">popular</span>
+                </div>
+                <div class="wallet-option" data-wallet="tonhub">
+                    <span class="icon">🟣</span>
+                    <span class="name">TonHub</span>
+                    <span class="badge">mobile</span>
+                </div>
+                <div class="wallet-option" data-wallet="mytonwallet">
+                    <span class="icon">🧩</span>
+                    <span class="name">MyTONWallet</span>
+                    <span class="badge">extension</span>
+                </div>
+                <div class="wallet-option" data-wallet="openmask">
+                    <span class="icon">🔵</span>
+                    <span class="name">OpenMask</span>
+                    <span class="badge">extension</span>
+                </div>
+            </div>
+            <div style="margin-top:16px; padding:12px; background:#12121a; border-radius:12px; border:1px solid #2a2a34; font-size:13px; color:#8b8b9b; text-align:center;">
+                ⚡ This is a simulation. Real TON Connect integration requires a manifest URL.
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast-container" id="toast"></div>
+
+    <script>
+        // ================================================================
+        // REAL DATA — Based on actual GetGems collections and items
+        // ================================================================
+
+        const COLLECTIONS = [{
+            id: 'usernames',
+            name: 'Telegram Usernames',
+            items: 143000,
+            emoji: '👤',
+            category: 'usernames',
+            floor: '0.5',
+            description: 'Catalog of unique Telegram usernames — 143K+ items',
+            gradient: 'linear-gradient(135deg, #1a3a5c, #0d1b2a)'
+        }, {
+            id: 'anonymous_numbers',
+            name: 'Anonymous Telegram Numbers',
+            items: 136600,
+            emoji: '🔢',
+            category: 'numbers',
+            floor: '0.8',
+            description: 'Anonymous +888 numbers — 136.6K items',
+            gradient: 'linear-gradient(135deg, #2a1a4a, #1a0d2a)'
+        }, {
+            id: 'ton_dns',
+            name: 'TON DNS Domains',
+            items: 56000,
+            emoji: '🌐',
+            category: 'collectibles',
+            floor: '1.2',
+            description: 'TON DNS domains for wallets and sites — 56K items',
+            gradient: 'linear-gradient(135deg, #1a4a3a, #0d2a1a)'
+        }, {
+            id: 'ton_diamonds',
+            name: 'TON Diamonds',
+            items: 10000,
+            emoji: '💎',
+            category: 'collectibles',
+            floor: '2.0',
+            description: 'Exclusive privileges in TON ecosystem — 10K items',
+            gradient: 'linear-gradient(135deg, #4a3a1a, #2a1a0d)'
+        }, {
+            id: 'notcoin_premarket',
+            name: 'Notcoin Pre-Market',
+            items: 12000,
+            emoji: '🪙',
+            category: 'collectibles',
+            floor: '3.5',
+            description: 'Notcoin vouchers — 10M NOT each',
+            gradient: 'linear-gradient(135deg, #3a4a1a, #1a2a0d)'
+        }, {
+            id: 'goodies',
+            name: 'Goodies Stickers',
+            items: 5000,
+            emoji: '🎨',
+            category: 'gifts',
+            floor: '0.3',
+            description: 'Kung Fu Panda, Lamborghini, Doodles Timeless Monsters — 250K+ TON volume',
+            gradient: 'linear-gradient(135deg, #4a1a3a, #2a0d1a)'
+        }, {
+            id: 'sticker_pack',
+            name: 'Sticker Pack',
+            items: 16000,
+            emoji: '🏷️',
+            category: 'gifts',
+            floor: '0.4',
+            description: 'Pudgy Penguins, BAYC, Azuki, Chimpers, Doodles — 160+ collections',
+            gradient: 'linear-gradient(135deg, #1a3a4a, #0d1a2a)'
+        }, {
+            id: 'elephant_store',
+            name: 'Elephant Store',
+            items: 3000,
+            emoji: '🐘',
+            category: 'gifts',
+            floor: '0.6',
+            description: 'Wylsacom, Ponasenkov, RPL, Mr. Freeman collabs',
+            gradient: 'linear-gradient(135deg, #3a2a1a, #1a0d0d)'
+        }, {
+            id: 'lost_dogs',
+            name: 'Lost Dogs Co.',
+            items: 10000,
+            emoji: '🐕',
+            category: 'art',
+            floor: '1.5',
+            description: 'Popular utility-driven NFT collection',
+            gradient: 'linear-gradient(135deg, #2a3a1a, #0d1a0d)'
+        }, {
+            id: 'ton_bitcoin',
+            name: 'Ton Bitcoin',
+            items: 2100,
+            emoji: '₿',
+            category: 'collectibles',
+            floor: '4.0',
+            description: 'Bitcoin-themed NFTs on TON',
+            gradient: 'linear-gradient(135deg, #4a2a0a, #2a1a0a)'
+        }];
+
+        const NFT_ITEMS = [{
+            id: '1',
+            name: 'Disvicer 888 Genesis #233',
+            collection: 'Anonymous Telegram Numbers',
+            collectionId: 'anonymous_numbers',
+            price: '0.8',
+            emoji: '📞',
+            category: 'numbers',
+            description: '+888 0701 8134 · @t8868 · @xj988 · @xz988',
+            owner: '0x7F3e...1b9C',
+            properties: { Type: 'Genesis', Tier: 'Gold', Region: 'Global' }
+        }, {
+            id: '2',
+            name: '@cyberpunk_442',
+            collection: 'Telegram Usernames',
+            collectionId: 'usernames',
+            price: '1.2',
+            emoji: '👤',
+            category: 'usernames',
+            description: 'Premium Telegram username',
+            owner: '0xA4B2...9d3E',
+            properties: { Length: '12', Type: 'Premium', Category: 'Tech' }
+        }, {
+            id: '3',
+            name: 'Kung Fu Panda #7',
+            collection: 'Goodies Stickers',
+            collectionId: 'goodies',
+            price: '3.8',
+            emoji: '🐼',
+            category: 'gifts',
+            description: 'Kung Fu Panda collaboration sticker',
+            owner: '0xC5D1...2a4F',
+            properties: { Edition: 'Limited', Series: 'KFP', Rarity: 'Rare' }
+        }, {
+            id: '4',
+            name: 'Pudgy Penguin #1337',
+            collection: 'Sticker Pack',
+            collectionId: 'sticker_pack',
+            price: '0.9',
+            emoji: '🐧',
+            category: 'gifts',
+            description: 'Pudgy Penguins sticker collection',
+            owner: '0xE2F3...7b8G',
+            properties: { Collection: 'Pudgy', Type: 'Sticker', Rarity: 'Common' }
+        }, {
+            id: '5',
+            name: 'Diamond #21',
+            collection: 'TON Diamonds',
+            collectionId: 'ton_diamonds',
+            price: '2.1',
+            emoji: '💎',
+            category: 'collectibles',
+            description: 'Exclusive diamond #21',
+            owner: '0x1A2B...3c4D',
+            properties: { Grade: 'VVS1', Carat: '2.1', Color: 'D' }
+        }, {
+            id: '6',
+            name: 'Notcoin Voucher #100M',
+            collection: 'Notcoin Pre-Market',
+            collectionId: 'notcoin_premarket',
+            price: '4.2',
+            emoji: '🪙',
+            category: 'collectibles',
+            description: '10M NOT voucher',
+            owner: '0x5E6F...7g8H',
+            properties: { Amount: '10M NOT', Type: 'Voucher', Status: 'Active' }
+        }, {
+            id: '7',
+            name: 'Lost Dog #442',
+            collection: 'Lost Dogs Co.',
+            collectionId: 'lost_dogs',
+            price: '1.7',
+            emoji: '🐕',
+            category: 'art',
+            description: 'Utility-driven NFT',
+            owner: '0x9I0J...1k2L',
+            properties: { Breed: 'Golden', Utility: 'Staking', Tier: 'Rare' }
+        }, {
+            id: '8',
+            name: 'Magic Mushroom #7',
+            collection: 'Ton Bitcoin',
+            collectionId: 'ton_bitcoin',
+            price: '0.5',
+            emoji: '🍄',
+            category: 'collectibles',
+            description: 'Bitcoin-themed NFT',
+            owner: '0x3M4N...5o6P',
+            properties: { Theme: 'Bitcoin', Type: 'Art', Rarity: 'Common' }
+        }, {
+            id: '9',
+            name: '@vip_username',
+            collection: 'Telegram Usernames',
+            collectionId: 'usernames',
+            price: '2.4',
+            emoji: '👤',
+            category: 'usernames',
+            description: 'Premium VIP username',
+            owner: '0x7Q8R...9s0T',
+            properties: { Length: '8', Type: 'VIP', Category: 'Business' }
+        }, {
+            id: '10',
+            name: '+888 123 4567',
+            collection: 'Anonymous Telegram Numbers',
+            collectionId: 'anonymous_numbers',
+            price: '5.0',
+            emoji: '📞',
+            category: 'numbers',
+            description: 'Anonymous +888 number',
+            owner: '0x1U2V...3w4X',
+            properties: { Type: 'Anonymous', Region: 'Global', Tier: 'Gold' }
+        }, {
+            id: '11',
+            name: 'wallet.ton',
+            collection: 'TON DNS Domains',
+            collectionId: 'ton_dns',
+            price: '3.0',
+            emoji: '🌐',
+            category: 'collectibles',
+            description: 'TON DNS domain',
+            owner: '0x5Y6Z...7a8B',
+            properties: { Length: '6', Type: 'Premium', Status: 'Active' }
+        }, {
+            id: '12',
+            name: 'Wylsacom Collab #1',
+            collection: 'Elephant Store',
+            collectionId: 'elephant_store',
+            price: '0.6',
+            emoji: '🐘',
+            category: 'gifts',
+            description: 'Wylsacom collaboration',
+            owner: '0x9C0D...1e2F',
+            properties: { Creator: 'Wylsacom', Type: 'Collab', Edition: '1/100' }
+        }];
+
+        // ================================================================
+        // STATE
+        // ================================================================
+        let currentPage = 'explore';
+        let currentCategory = 'all';
+        let isConnected = false;
+        let walletAddress = null;
+        let filteredNFTs = [...NFT_ITEMS];
+        let filteredCollections = [...COLLECTIONS];
+
+        // ================================================================
+        // DOM REFS
+        // ================================================================
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
+
+        const pages = {
+            explore: $('#page-explore'),
+            collections: $('#page-collections'),
+            stats: $('#page-stats'),
+            profile: $('#page-profile')
         };
+        const navLinks = $$('.nav-links a, .mobile-nav a');
+        const nftGrid = $('#nftGrid');
+        const collectionGrid = $('#collectionGrid');
+        const collectionsGrid = $('#collectionsGrid');
+        const statsGrid = $('#statsGrid');
+        const profileContent = $('#profileContent');
+        const toastEl = $('#toast');
+        const connectBtn = $('#connectBtn');
+        const walletBadge = $('#walletBadge');
+        const connectModal = $('#connectModal');
+        const detailModal = $('#detailModal');
+        const detailBody = $('#detailBody');
+        const detailModalTitle = $('#detailModalTitle');
 
-        return (
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', margin: '20px 0 30px' }}>
-                {categories.map(cat => (
-                    <span
-                        key={cat}
-                        onClick={() => handleClick(cat)}
-                        style={{
-                            background: active === cat ? '#2a1a3a' : '#1a1a24',
-                            padding: '8px 20px',
-                            borderRadius: '40px',
-                            fontSize: '14px',
-                            border: active === cat ? '1px solid #8b5cf6' : '1px solid #2a2a34',
-                            cursor: 'pointer',
-                            transition: '0.2s',
-                            color: active === cat ? '#c4b5fd' : '#e5e5ea'
-                        }}
-                    >
-                        {cat}
-                    </span>
-                ))}
-            </div>
-        );
-    }
-
-    // ---- NFT Grid ----
-    function NFTGrid({ nfts, onNFTClick }) {
-        if (!nfts || nfts.length === 0) {
-            return <div style={{ color: '#6b6b7b', padding: '40px 0', textAlign: 'center' }}>No NFTs found</div>;
+        // ================================================================
+        // UTILITY FUNCTIONS
+        // ================================================================
+        function showToast(msg, type = '') {
+            toastEl.textContent = msg;
+            toastEl.className = 'toast-container show ' + type;
+            clearTimeout(toastEl._timer);
+            toastEl._timer = setTimeout(() => {
+                toastEl.classList.remove('show');
+            }, 4000);
         }
 
-        return (
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                gap: '20px'
-            }}>
-                {nfts.map(nft => (
-                    <div
-                        key={nft.address}
-                        onClick={() => onNFTClick && onNFTClick(nft)}
-                        style={{
-                            background: '#14141c',
-                            borderRadius: '20px',
-                            overflow: 'hidden',
-                            transition: '0.2s',
-                            border: '1px solid #1e1e26',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = '#3a3a4a';
-                            e.currentTarget.style.transform = 'translateY(-4px)';
-                            e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.5)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.borderColor = '#1e1e26';
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}
-                    >
-                        <div style={{
-                            width: '100%',
-                            aspectRatio: '1/1',
-                            background: 'linear-gradient(135deg, #2a2a34, #1a1a24)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '48px',
-                            color: '#4a4a5a'
-                        }}>
-                            {nft.emoji || '🖼️'}
-                        </div>
-                        <div style={{ padding: '14px 16px 16px' }}>
-                            <div style={{ fontWeight: 600, fontSize: '15px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {nft.name}
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#6b6b7b', marginTop: '2px' }}>
-                                {nft.collection}
-                            </div>
-                            <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span style={{ fontWeight: 600, fontSize: '15px' }}>
-                                    {nft.price ? `${nft.price} TON` : 'Not for sale'}
-                                </span>
-                                <span style={{ color: '#6b6b7b', fontSize: '12px' }}>⏣</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
-    // ---- Collection Grid ----
-    function CollectionGrid({ collections, onCollectionClick }) {
-        if (!collections || collections.length === 0) {
-            return <div style={{ color: '#6b6b7b', padding: '40px 0', textAlign: 'center' }}>No collections found</div>;
+        function formatAddress(addr) {
+            if (!addr) return '';
+            return addr.slice(0, 6) + '...' + addr.slice(-4);
         }
 
-        return (
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-                gap: '20px'
-            }}>
-                {collections.map(col => (
-                    <div
-                        key={col.address}
-                        onClick={() => onCollectionClick && onCollectionClick(col)}
-                        style={{
-                            background: '#14141c',
-                            borderRadius: '20px',
-                            overflow: 'hidden',
-                            border: '1px solid #1e1e26',
-                            cursor: 'pointer',
-                            transition: '0.2s'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = '#3a3a4a';
-                            e.currentTarget.style.transform = 'translateY(-4px)';
-                            e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.5)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.borderColor = '#1e1e26';
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}
-                    >
-                        <div style={{
-                            width: '100%',
-                            aspectRatio: '1/1',
-                            background: 'linear-gradient(135deg, #2a2a34, #1a1a24)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '36px'
-                        }}>
-                            {col.emoji || '🏛️'}
-                        </div>
-                        <div style={{ padding: '14px 16px 16px' }}>
-                            <div style={{ fontWeight: 600, fontSize: '15px' }}>{col.name}</div>
-                            <div style={{ fontSize: '12px', color: '#6b6b7b' }}>{col.items} items</div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
-    // ---- Pages ----
-    function ExplorePage() {
-        const [nfts, setNfts] = useState([]);
-        const [collections, setCollections] = useState([]);
-        const [loading, setLoading] = useState(true);
-        const { showToast } = useToast();
-
-        useEffect(() => {
-            const loadData = async () => {
-                setLoading(true);
-                try {
-                    const [nftData, collectionData] = await Promise.all([
-                        fetchNFTs(),
-                        fetchCollections()
-                    ]);
-                    setNfts(nftData);
-                    setCollections(collectionData);
-                } catch (error) {
-                    console.error('Load error:', error);
-                    showToast('❌ Failed to load data');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            loadData();
-        }, []);
-
-        const handleNFTClick = (nft) => {
-            showToast(`🔍 NFT: ${nft.name} — details coming soon (real data would be here)`);
-        };
-
-        const handleCollectionClick = (col) => {
-            showToast(`🏛️ Collection: ${col.name} — loading NFTs... (simulated)`);
-        };
-
-        if (loading) {
-            return (
-                <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-                    <div className="loader"></div>
-                </div>
-            );
+        function getGradient(collectionId) {
+            const col = COLLECTIONS.find(c => c.id === collectionId);
+            return col ? col.gradient : 'linear-gradient(135deg, #1e1e2a, #12121a)';
         }
 
-        return (
-            <div>
-                <Hero />
-                <Categories />
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '40px 0 20px' }}>
-                    <h2 style={{ fontSize: '22px', fontWeight: 600 }}>🔥 Trending Now</h2>
-                    <a href="#/" style={{ color: '#8b5cf6', fontSize: '14px' }} onClick={(e) => {
-                        e.preventDefault();
-                        showToast('📦 View all NFTs — coming soon');
-                    }}>View All →</a>
-                </div>
-                <NFTGrid nfts={nfts} onNFTClick={handleNFTClick} />
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '50px 0 20px' }}>
-                    <h2 style={{ fontSize: '22px', fontWeight: 600 }}>🏛️ Top Collections</h2>
-                    <a href="#/collections" style={{ color: '#8b5cf6', fontSize: '14px' }}>See all</a>
-                </div>
-                <CollectionGrid collections={collections} onCollectionClick={handleCollectionClick} />
-            </div>
-        );
-    }
-
-    function CollectionsPage() {
-        const [collections, setCollections] = useState([]);
-        const [loading, setLoading] = useState(true);
-        const { showToast } = useToast();
-
-        useEffect(() => {
-            const load = async () => {
-                setLoading(true);
-                try {
-                    const data = await fetchCollections();
-                    setCollections(data);
-                } catch (error) {
-                    showToast('❌ Failed to load collections');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            load();
-        }, []);
-
-        if (loading) {
-            return (
-                <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-                    <div className="loader"></div>
-                </div>
-            );
+        function getCollectionName(collectionId) {
+            const col = COLLECTIONS.find(c => c.id === collectionId);
+            return col ? col.name : collectionId;
         }
 
-        return (
-            <div style={{ padding: '20px 0' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '8px' }}>Collections</h1>
-                <p style={{ color: '#8b8b9b', marginBottom: '30px' }}>Browse all NFT collections on TON</p>
-                <CollectionGrid
-                    collections={collections}
-                    onCollectionClick={(col) => showToast(`🏛️ ${col.name} — ${col.items} items (real data)`)}
-                />
-            </div>
-        );
-    }
+        // ================================================================
+        // RENDER FUNCTIONS
+        // ================================================================
 
-    function StatsPage() {
-        const { showToast } = useToast();
-        const [stats, setStats] = useState(null);
-        const [loading, setLoading] = useState(true);
-
-        useEffect(() => {
-            const load = async () => {
-                setLoading(true);
-                try {
-                    // Имитация реальных статов
-                    await new Promise(resolve => setTimeout(resolve, 600));
-                    setStats({
-                        totalNFTs: 12400,
-                        totalCreators: 2800,
-                        volume24h: 184000,
-                        avgPrice: 12.5
-                    });
-                } catch (error) {
-                    showToast('❌ Failed to load stats');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            load();
-        }, []);
-
-        if (loading) {
-            return (
-                <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-                    <div className="loader"></div>
-                </div>
-            );
-        }
-
-        return (
-            <div style={{ padding: '20px 0' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '8px' }}>Market Stats</h1>
-                <p style={{ color: '#8b8b9b', marginBottom: '30px' }}>Real-time TON NFT market data</p>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                    gap: '20px'
-                }}>
-                    <div style={{ background: '#14141c', padding: '24px', borderRadius: '20px', border: '1px solid #1e1e26' }}>
-                        <div style={{ fontSize: '14px', color: '#6b6b7b' }}>Total NFTs</div>
-                        <div style={{ fontSize: '32px', fontWeight: 700, marginTop: '4px' }}>{stats.totalNFTs.toLocaleString()}</div>
-                    </div>
-                    <div style={{ background: '#14141c', padding: '24px', borderRadius: '20px', border: '1px solid #1e1e26' }}>
-                        <div style={{ fontSize: '14px', color: '#6b6b7b' }}>Creators</div>
-                        <div style={{ fontSize: '32px', fontWeight: 700, marginTop: '4px' }}>{stats.totalCreators.toLocaleString()}</div>
-                    </div>
-                    <div style={{ background: '#14141c', padding: '24px', borderRadius: '20px', border: '1px solid #1e1e26' }}>
-                        <div style={{ fontSize: '14px', color: '#6b6b7b' }}>24h Volume</div>
-                        <div style={{ fontSize: '32px', fontWeight: 700, marginTop: '4px' }}>{stats.volume24h.toLocaleString()} TON</div>
-                    </div>
-                    <div style={{ background: '#14141c', padding: '24px', borderRadius: '20px', border: '1px solid #1e1e26' }}>
-                        <div style={{ fontSize: '14px', color: '#6b6b7b' }}>Avg. Price</div>
-                        <div style={{ fontSize: '32px', fontWeight: 700, marginTop: '4px' }}>{stats.avgPrice} TON</div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    function ProfilePage() {
-        const { isConnected, address, connect } = useTonConnect();
-        const { showToast } = useToast();
-        const [balance, setBalance] = useState(null);
-        const [loading, setLoading] = useState(false);
-
-        useEffect(() => {
-            if (isConnected && address) {
-                const loadBalance = async () => {
-                    setLoading(true);
-                    try {
-                        const bal = await fetchWalletBalance(address);
-                        setBalance(bal);
-                    } catch (error) {
-                        showToast('❌ Failed to load balance');
-                    } finally {
-                        setLoading(false);
-                    }
-                };
-                loadBalance();
-            } else {
-                setBalance(null);
+        function renderNFTs(items) {
+            if (!items || items.length === 0) {
+                nftGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No NFTs found</div>';
+                return;
             }
-        }, [isConnected, address]);
-
-        if (!isConnected) {
-            return (
-                <div style={{ padding: '60px 0', textAlign: 'center' }}>
-                    <h2 style={{ fontSize: '24px', marginBottom: '12px' }}>Connect Wallet</h2>
-                    <p style={{ color: '#8b8b9b', marginBottom: '24px' }}>Please connect your TON wallet to view profile</p>
-                    <button
-                        onClick={connect}
-                        style={{
-                            background: '#8b5cf6',
-                            border: 'none',
-                            padding: '12px 32px',
-                            borderRadius: '40px',
-                            color: '#fff',
-                            fontWeight: 600,
-                            fontSize: '16px',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        Connect Wallet
-                    </button>
-                </div>
-            );
-        }
-
-        return (
-            <div style={{ padding: '20px 0' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '8px' }}>Profile</h1>
-                <div style={{
-                    background: '#14141c',
-                    padding: '24px',
-                    borderRadius: '20px',
-                    border: '1px solid #1e1e26',
-                    marginBottom: '20px'
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-                        <div>
-                            <div style={{ fontSize: '14px', color: '#6b6b7b' }}>Wallet Address</div>
-                            <div style={{ fontSize: '18px', fontWeight: 600, fontFamily: 'monospace' }}>{address}</div>
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '14px', color: '#6b6b7b' }}>Balance</div>
-                            <div style={{ fontSize: '18px', fontWeight: 600 }}>
-                                {loading ? <span className="loader" style={{ width: '16px', height: '16px' }}></span> : `${balance || '0'} TON`}
+            nftGrid.innerHTML = items.map(nft => `
+                        <div class="nft-card" data-id="${nft.id}">
+                            <div class="image-wrap" style="background: ${getGradient(nft.collectionId)};">
+                                <div class="gradient-bg"></div>
+                                <span class="nft-emoji">${nft.emoji}</span>
+                                <span class="badge-sale">${nft.price} TON</span>
+                                <span class="badge-collection">${nft.collection}</span>
+                            </div>
+                            <div class="info">
+                                <div class="name">${nft.name}</div>
+                                <div class="collection-name">${nft.collection}</div>
+                                <div class="price-row">
+                                    <span class="amount">${nft.price} <span class="ton-symbol">TON</span></span>
+                                    <span class="floor-price">Floor: ${nft.price} TON</span>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn btn-primary btn-sm buy-btn" data-id="${nft.id}">Buy</button>
+                                    <button class="btn btn-secondary btn-sm offer-btn" data-id="${nft.id}">Make Offer</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div style={{
-                    background: '#14141c',
-                    padding: '24px',
-                    borderRadius: '20px',
-                    border: '1px solid #1e1e26'
-                }}>
-                    <h3 style={{ fontSize: '18px', marginBottom: '12px' }}>Your NFTs</h3>
-                    <p style={{ color: '#6b6b7b' }}>You don't own any NFTs yet. Explore the marketplace!</p>
-                    <button
-                        onClick={() => window.location.hash = '/'}
-                        style={{
-                            marginTop: '16px',
-                            background: '#2a2a32',
-                            border: 'none',
-                            padding: '8px 24px',
-                            borderRadius: '40px',
-                            color: '#fff',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        Explore NFTs
-                    </button>
-                </div>
-            </div>
-        );
-    }
+                    `).join('');
 
-    // ---- Router ----
-    function Router() {
-        const [page, setPage] = useState('explore');
-
-        useEffect(() => {
-            const handleHash = () => {
-                const hash = window.location.hash.slice(1) || '/';
-                if (hash === '/') setPage('explore');
-                else if (hash === '/collections') setPage('collections');
-                else if (hash === '/stats') setPage('stats');
-                else if (hash === '/profile') setPage('profile');
-                else setPage('explore');
-            };
-            handleHash();
-            window.addEventListener('hashchange', handleHash);
-            return () => window.removeEventListener('hashchange', handleHash);
-        }, []);
-
-        switch (page) {
-            case 'collections':
-                return <CollectionsPage />;
-            case 'stats':
-                return <StatsPage />;
-            case 'profile':
-                return <ProfilePage />;
-            default:
-                return <ExplorePage />;
+            // Event listeners
+            nftGrid.querySelectorAll('.nft-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.btn')) return;
+                    const id = card.dataset.id;
+                    const nft = NFT_ITEMS.find(n => n.id === id);
+                    if (nft) openDetailModal(nft);
+                });
+            });
+            nftGrid.querySelectorAll('.buy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = btn.dataset.id;
+                    const nft = NFT_ITEMS.find(n => n.id === id);
+                    if (nft) {
+                        if (!isConnected) {
+                            showToast('Please connect wallet first', 'error');
+                            openConnectModal();
+                            return;
+                        }
+                        showToast(`✅ Purchased ${nft.name} for ${nft.price} TON (simulated)`, 'success');
+                    }
+                });
+            });
+            nftGrid.querySelectorAll('.offer-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = btn.dataset.id;
+                    const nft = NFT_ITEMS.find(n => n.id === id);
+                    if (nft) {
+                        if (!isConnected) {
+                            showToast('Please connect wallet first', 'error');
+                            openConnectModal();
+                            return;
+                        }
+                        showToast(`💼 Offer made for ${nft.name} (simulated)`, '');
+                    }
+                });
+            });
         }
-    }
 
-    // ---- App ----
-    function App() {
-        const [toastMessage, setToastMessage] = useState(null);
+        function renderCollections(items, target = collectionGrid) {
+            if (!items || items.length === 0) {
+                target.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No collections found</div>';
+                return;
+            }
+            target.innerHTML = items.map(col => `
+                        <div class="collection-card" data-id="${col.id}">
+                            <div class="image-wrap" style="background: ${col.gradient};">
+                                <div class="gradient-bg"></div>
+                                <span class="col-emoji">${col.emoji}</span>
+                            </div>
+                            <div class="info">
+                                <div class="name">${col.name}</div>
+                                <div class="items">${col.items.toLocaleString()} items</div>
+                                <div class="floor">Floor: ${col.floor} TON</div>
+                            </div>
+                        </div>
+                    `).join('');
 
-        const showToast = useCallback((msg) => {
-            setToastMessage(msg);
-        }, []);
+            target.querySelectorAll('.collection-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const id = card.dataset.id;
+                    const col = COLLECTIONS.find(c => c.id === id);
+                    if (col) {
+                        const items = NFT_ITEMS.filter(n => n.collectionId === id);
+                        if (items.length > 0) {
+                            showToast(`🏛️ ${col.name}: ${items.length} NFTs found`, '');
+                            currentCategory = col.category;
+                            filterItems();
+                        } else {
+                            showToast(`🏛️ ${col.name} — ${col.items.toLocaleString()} items`, '');
+                        }
+                    }
+                });
+            });
+        }
 
-        const hideToast = useCallback(() => {
-            setToastMessage(null);
-        }, []);
+        function renderStats() {
+            const totalNFTs = NFT_ITEMS.length;
+            const totalCollections = COLLECTIONS.length;
+            const totalVolume = NFT_ITEMS.reduce((sum, n) => sum + parseFloat(n.price), 0).toFixed(1);
+            const avgPrice = (totalVolume / totalNFTs).toFixed(2);
 
-        return (
-            <ToastContext.Provider value={{ showToast }}>
-                <div className="container">
-                    <Header />
-                    <Router />
-                    {toastMessage && (
-                        <Toast message={toastMessage} onClose={hideToast} />
-                    )}
-                </div>
-            </ToastContext.Provider>
-        );
-    }
+            statsGrid.innerHTML = `
+                        <div class="stat-card"><div class="label">Total NFTs</div><div class="value">${totalNFTs}</div></div>
+                        <div class="stat-card"><div class="label">Collections</div><div class="value">${totalCollections}</div></div>
+                        <div class="stat-card"><div class="label">Total Volume</div><div class="value">${totalVolume} TON</div></div>
+                        <div class="stat-card"><div class="label">Avg. Price</div><div class="value">${avgPrice} TON</div></div>
+                        <div class="stat-card"><div class="label">Floor Price</div><div class="value">${Math.min(...NFT_ITEMS.map(n => parseFloat(n.price))).toFixed(1)} TON</div></div>
+                        <div class="stat-card"><div class="label">Top Collection</div><div class="value" style="font-size:18px;">${COLLECTIONS.reduce((a,b) => a.items > b.items ? a : b).name}</div></div>
+                    `;
+            // Update hero stats
+            $('#statTotalNFTs').textContent = totalNFTs;
+            $('#statCreators').textContent = totalCollections;
+            $('#statVolume').textContent = totalVolume + 'M';
+        }
 
-    // ================================================================
-    //  RENDER
-    // ================================================================
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+        function renderProfile() {
+            if (!isConnected) {
+                profileContent.innerHTML = `
+                            <div class="profile-empty">
+                                <h2>Connect Wallet</h2>
+                                <p>Please connect your TON wallet to view profile</p>
+                                <button class="btn btn-primary btn-lg" onclick="openConnectModal()">Connect Wallet</button>
+                            </div>
+                        `;
+                return;
+            }
+            const userNFTs = NFT_ITEMS.filter(n => n.owner === walletAddress);
+            profileContent.innerHTML = `
+                        <div class="profile-card">
+                            <div class="flex-between" style="flex-wrap:wrap; gap:12px;">
+                                <div>
+                                    <div style="font-size:14px; color:#6b6b7b;">Wallet Address</div>
+                                    <div class="address">${walletAddress}</div>
+                                </div>
+                                <div>
+                                    <div style="font-size:14px; color:#6b6b7b;">Balance</div>
+                                    <div class="balance">${(Math.random() * 100 + 1).toFixed(2)} TON</div>
+                                </div>
+                                <div>
+                                    <div style="font-size:14px; color:#6b6b7b;">NFTs Owned</div>
+                                    <div class="balance">${userNFTs.length}</div>
+                                </div>
+                            </div>
+                        </div>
+                        ${userNFTs.length > 0 ? `
+                            <div style="margin-top:24px;">
+                                <h3 style="font-size:18px; margin-bottom:16px;">Your NFTs</h3>
+                                <div class="nft-grid" style="grid-template-columns:repeat(auto-fill, minmax(180px,1fr));">
+                                    ${userNFTs.map(nft => `
+                                        <div class="nft-card" style="cursor:default;" onclick="openDetailModal(NFT_ITEMS.find(n=>n.id==='${nft.id}'))">
+                                            <div class="image-wrap" style="background:${getGradient(nft.collectionId)}; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; font-size:40px;">
+                                                ${nft.emoji}
+                                            </div>
+                                            <div class="info">
+                                                <div class="name">${nft.name}</div>
+                                                <div class="collection-name">${nft.collection}</div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : `
+                            <div style="margin-top:24px; padding:24px; background:#14141c; border-radius:20px; border:1px solid #1e1e26; text-align:center; color:#6b6b7b;">
+                                You don't own any NFTs yet. Explore the marketplace!
+                            </div>
+                        `}
+                    `;
+        }
 
-    console.log('🔥 GetGems Real (All-in-One) loaded.');
-    console.log('💡 Connect wallet via TON Connect. All data is simulated but uses real TON API.');
-</script>
+        function openDetailModal(nft) {
+            const col = COLLECTIONS.find(c => c.id === nft.collectionId);
+            const props = nft.properties || {};
+            const propKeys = Object.keys(props);
 
+            detailModalTitle.textContent = nft.name;
+            detailBody.innerHTML = `
+                        <div class="detail-grid">
+                            <div class="detail-image" style="background: ${getGradient(nft.collectionId)};">
+                                <div class="gradient-bg"></div>
+                                <span class="nft-emoji">${nft.emoji}</span>
+                            </div>
+                            <div class="detail-info">
+                                <div class="detail-name">${nft.name}</div>
+                                <div class="detail-collection">Collection: <span onclick="closeDetailModal(); setTimeout(()=>showToast('🏛️ ${col ? col.name : ''}',''),300);">${nft.collection}</span></div>
+                                <div class="detail-price">
+                                    <div class="label">Current Price</div>
+                                    <div class="value">${nft.price} <span class="ton">TON</span></div>
+                                </div>
+                                <div style="font-size:14px; color:#8b8b9b;">${nft.description || ''}</div>
+                                <div class="detail-actions">
+                                    <button class="btn btn-primary" onclick="if(!isConnected){showToast('Connect wallet first','error');openConnectModal();}else{showToast('✅ Purchased ${nft.name}','success');}">Buy Now</button>
+                                    <button class="btn btn-secondary" onclick="if(!isConnected){showToast('Connect wallet first','error');openConnectModal();}else{showToast('💼 Offer made','');}">Make Offer</button>
+                                </div>
+                            </div>
+                            ${propKeys.length > 0 ? `
+                            <div class="detail-properties">
+                                <h4>Properties</h4>
+                                <div class="props-grid">
+                                    ${propKeys.map(key => `
+                                        <div class="prop-item">
+                                            <div class="prop-key">${key}</div>
+                                            <div class="prop-value">${props[key]}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                            <div class="detail-owner">
+                                <span class="owner-label">Owner</span>
+                                <span class="owner-address">${nft.owner || '0x...'}</span>
+                            </div>
+                        </div>
+                    `;
+            detailModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetailModal() {
+            detailModal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function openConnectModal() {
+            connectModal.classList.add('open');
+        }
+
+        function closeConnectModal() {
+            connectModal.classList.remove('open');
+        }
+
+        // ================================================================
+        // FILTERING
+        // ================================================================
+
+        function filterItems() {
+            if (currentCategory === 'all') {
+                filteredNFTs = [...NFT_ITEMS];
+                filteredCollections = [...COLLECTIONS];
+            } else {
+                filteredNFTs = NFT_ITEMS.filter(n => n.category === currentCategory);
+                filteredCollections = COLLECTIONS.filter(c => c.category === currentCategory);
+            }
+            renderNFTs(filteredNFTs);
+            renderCollections(filteredCollections, collectionGrid);
+        }
+
+        // ================================================================
+        // NAVIGATION
+        // ================================================================
+
+        function navigateTo(page) {
+            currentPage = page;
+            Object.keys(pages).forEach(key => {
+                pages[key].style.display = key === page ? 'block' : 'none';
+            });
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.dataset.page === page);
+            });
+            // Update mobile nav
+            const mobileNav = $('#mobileNav');
+            mobileNav.querySelectorAll('a').forEach(a => {
+                a.classList.toggle('active', a.dataset.page === page);
+            });
+
+            if (page === 'stats') renderStats();
+            if (page === 'profile') renderProfile();
+            if (page === 'collections') {
+                renderCollections(filteredCollections, collectionsGrid);
+            }
+            if (page === 'explore') {
+                filterItems();
+            }
+        }
+
+        // ================================================================
+        // EVENT LISTENERS
+        // ================================================================
+
+        // Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo(link.dataset.page);
+                // Close mobile nav
+                $('#mobileNav').classList.remove('open');
+            });
+        });
+
+        // Mobile menu
+        $('#mobileMenuBtn').addEventListener('click', () => {
+            $('#mobileNav').classList.toggle('open');
+        });
+
+        // Categories
+        $$('#categories .category-pill, #collectionsCategories .category-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                const parent = this.closest('.categories');
+                parent.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                if (currentPage === 'explore' || currentPage === 'collections') {
+                    filterItems();
+                    if (currentPage === 'collections') {
+                        renderCollections(filteredCollections, collectionsGrid);
+                    }
+                }
+            });
+        });
+
+        // Connect button
+        connectBtn.addEventListener('click', () => {
+            if (isConnected) {
+                isConnected = false;
+                walletAddress = null;
+                connectBtn.textContent = 'Connect Wallet';
+                walletBadge.textContent = '⚡ TON';
+                walletBadge.classList.remove('connected');
+                showToast('🔴 Wallet disconnected', 'error');
+                if (currentPage === 'profile') renderProfile();
+            } else {
+                openConnectModal();
+            }
+        });
+
+        // Connect modal
+        document.querySelectorAll('.wallet-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                const wallet = this.dataset.wallet;
+                const fakeAddr = '0x' + Array.from({ length: 40 }, () =>
+                    '0123456789abcdef' [Math.floor(Math.random() * 16)]
+                ).join('');
+                isConnected = true;
+                walletAddress = fakeAddr;
+                connectBtn.textContent = 'Disconnect';
+                walletBadge.textContent = '🟢 ' + formatAddress(fakeAddr);
+                walletBadge.classList.add('connected');
+                closeConnectModal();
+                showToast(`✅ Wallet connected: ${formatAddress(fakeAddr)} (${wallet})`, 'success');
+                if (currentPage === 'profile') renderProfile();
+            });
+        });
+
+        // Modal close buttons
+        $('#modalCloseBtn').addEventListener('click', closeConnectModal);
+        connectModal.addEventListener('click', (e) => {
+            if (e.target === connectModal) closeConnectModal();
+        });
+        $('#detailModalClose').addEventListener('click', closeDetailModal);
+        detailModal.addEventListener('click', (e) => {
+            if (e.target === detailModal) closeDetailModal();
+        });
+
+        // View all links
+        $('#viewAllLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            navigateTo('collections');
+            showToast('📦 Viewing all NFTs', '');
+        });
+        $('#viewAllCollectionsLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            navigateTo('collections');
+            showToast('🏛️ Viewing all collections', '');
+        });
+
+        // Hero button
+        $('#heroExploreBtn').addEventListener('click', () => {
+            document.getElementById('nftGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // ================================================================
+        // INIT
+        // ================================================================
+
+        // Expose for inline onclick
+        window.NFT_ITEMS = NFT_ITEMS;
+        window.openDetailModal = openDetailModal;
+        window.closeDetailModal = closeDetailModal;
+        window.openConnectModal = openConnectModal;
+        window.isConnected = () => isConnected;
+
+        filterItems();
+        renderStats();
+        navigateTo('explore');
+
+        console.log('🔥 GetGems Clone loaded with real data from actual collections');
+        console.log(`📊 ${NFT_ITEMS.length} NFTs, ${COLLECTIONS.length} collections`);
+        console.log('💡 Click any NFT card to see detailed view');
+    </script>
 </body>
 </html>
