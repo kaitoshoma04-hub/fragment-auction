@@ -4,103 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GetGems — TON NFT Marketplace</title>
-    
-    <!-- TON Connect SDK -->
-    <script src="https://unpkg.com/@tonconnect/sdk@2.0.0/dist/tonconnect-sdk.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             background: #0b0b0e;
             color: #e5e5ea;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.5;
+            padding: 0 16px;
             -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
             padding: 0 16px;
         }
-        a { color: #8b8b9b; text-decoration: none; }
-        a:hover { color: #fff; }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
-        
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #1a1a1f; }
         ::-webkit-scrollbar-thumb { background: #3a3a44; border-radius: 10px; }
 
-        /* ============================================================
-           UTILITY
-           ============================================================ */
-        .flex { display: flex; }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .flex-center { display: flex; align-items: center; justify-content: center; }
-        .flex-col { flex-direction: column; }
-        .gap-8 { gap: 8px; }
-        .gap-12 { gap: 12px; }
-        .gap-16 { gap: 16px; }
-        .gap-20 { gap: 20px; }
-        .gap-24 { gap: 24px; }
-        .mt-8 { margin-top: 8px; }
-        .mt-12 { margin-top: 12px; }
-        .mt-16 { margin-top: 16px; }
-        .mt-24 { margin-top: 24px; }
-        .mt-32 { margin-top: 32px; }
-        .mb-8 { margin-bottom: 8px; }
-        .mb-12 { margin-bottom: 12px; }
-        .mb-16 { margin-bottom: 16px; }
-        .mb-24 { margin-bottom: 24px; }
-        .mb-32 { margin-bottom: 32px; }
-        .text-center { text-align: center; }
-        .text-muted { color: #8b8b9b; }
-        .text-gradient {
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .fw-700 { font-weight: 700; }
-        .fw-800 { font-weight: 800; }
-        .fs-14 { font-size: 14px; }
-        .fs-16 { font-size: 16px; }
-        .fs-18 { font-size: 18px; }
-        .fs-20 { font-size: 20px; }
-        .fs-24 { font-size: 24px; }
-        .fs-32 { font-size: 32px; }
-
-        /* ============================================================
-           BUTTONS
-           ============================================================ */
-        .btn {
-            padding: 8px 20px;
-            border-radius: 40px;
-            border: none;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-primary { background: #8b5cf6; color: #fff; }
-        .btn-primary:hover { background: #a78bfa; transform: translateY(-1px); }
-        .btn-secondary { background: #2a2a32; color: #fff; }
-        .btn-secondary:hover { background: #3a3a46; }
-        .btn-outline { background: transparent; color: #8b8b9b; border: 1px solid #2a2a34; }
-        .btn-outline:hover { border-color: #8b5cf6; color: #fff; }
-        .btn-success { background: #1e3a2a; color: #6fcf97; }
-        .btn-success:hover { background: #2a4a3a; }
-        .btn-sm { padding: 4px 14px; font-size: 12px; }
-        .btn-lg { padding: 12px 32px; font-size: 16px; }
-        .btn-block { width: 100%; }
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-        /* ============================================================
-           HEADER
-           ============================================================ */
         header {
             padding: 16px 0;
             border-bottom: 1px solid #23232a;
@@ -128,7 +56,6 @@
             -webkit-text-fill-color: transparent;
         }
         .logo .gems { color: #fff; }
-
         .nav-links {
             display: flex;
             gap: 28px;
@@ -140,6 +67,7 @@
             transition: color 0.2s;
             position: relative;
             padding: 4px 0;
+            cursor: pointer;
         }
         .nav-links a:hover { color: #fff; }
         .nav-links a.active { color: #fff; }
@@ -153,7 +81,6 @@
             background: #8b5cf6;
             border-radius: 2px;
         }
-
         .header-actions {
             display: flex;
             align-items: center;
@@ -165,13 +92,33 @@
             padding: 4px 14px;
             border-radius: 30px;
             color: #aaa;
-            font-family: 'Inter', monospace;
+            font-family: monospace;
             font-weight: 500;
         }
         .wallet-badge.connected {
             background: #1a2a1e;
             color: #6fcf97;
         }
+        .btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary { background: #8b5cf6; color: #fff; }
+        .btn-primary:hover { background: #a78bfa; transform: translateY(-1px); }
+        .btn-secondary { background: #2a2a32; color: #fff; }
+        .btn-secondary:hover { background: #3a3a46; }
+        .btn-sm { padding: 4px 14px; font-size: 12px; }
+        .btn-lg { padding: 12px 32px; font-size: 16px; }
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -182,9 +129,6 @@
             padding: 0 4px;
         }
 
-        /* ============================================================
-           HERO
-           ============================================================ */
         .hero {
             background: linear-gradient(145deg, #1a1a24, #0f0f16);
             border-radius: 32px;
@@ -233,9 +177,6 @@
             margin-top: 2px;
         }
 
-        /* ============================================================
-           CATEGORIES
-           ============================================================ */
         .categories {
             display: flex;
             gap: 10px;
@@ -264,9 +205,6 @@
             color: #c4b5fd;
         }
 
-        /* ============================================================
-           SECTION HEADER
-           ============================================================ */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -285,12 +223,9 @@
         }
         .section-header a:hover { color: #a78bfa; }
 
-        /* ============================================================
-           NFT CARD
-           ============================================================ */
         .nft-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
         }
         .nft-card {
@@ -315,16 +250,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, #1e1e2a, #12121a);
         }
         .nft-card .image-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .nft-card .image-wrap .fallback-icon {
-            font-size: 56px;
-            position: absolute;
-            z-index: 1;
+        .nft-card .image-wrap .icon-img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+        }
+        .nft-card .image-wrap .lottie-wrap {
+            width: 80%;
+            height: 80%;
         }
         .nft-card .image-wrap .badge-sale {
             position: absolute;
@@ -379,11 +319,6 @@
             font-weight: 700;
             font-size: 16px;
         }
-        .nft-card .info .price-row .ton-symbol {
-            color: #6b6b7b;
-            font-size: 13px;
-            font-weight: 500;
-        }
         .nft-card .info .actions {
             margin-top: 14px;
             display: flex;
@@ -395,12 +330,9 @@
             padding: 6px 12px;
         }
 
-        /* ============================================================
-           COLLECTION CARD
-           ============================================================ */
         .collection-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
         }
         .collection-card {
@@ -431,10 +363,14 @@
             height: 100%;
             object-fit: cover;
         }
-        .collection-card .image-wrap .fallback-icon {
-            font-size: 44px;
-            position: relative;
-            z-index: 1;
+        .collection-card .image-wrap .icon-img {
+            width: 55%;
+            height: 55%;
+            object-fit: contain;
+        }
+        .collection-card .image-wrap .lottie-wrap {
+            width: 70%;
+            height: 70%;
         }
         .collection-card .info {
             padding: 14px 16px 16px;
@@ -455,9 +391,6 @@
             font-weight: 500;
         }
 
-        /* ============================================================
-           DETAIL MODAL
-           ============================================================ */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -525,19 +458,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
             border: 1px solid #2a2a34;
+            overflow: hidden;
+            position: relative;
         }
         .modal-detail .detail-body .detail-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .modal-detail .detail-body .detail-image .fallback-icon {
-            font-size: 80px;
-            position: relative;
-            z-index: 1;
+        .modal-detail .detail-body .detail-image .icon-img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+        }
+        .modal-detail .detail-body .detail-image .lottie-wrap {
+            width: 70%;
+            height: 70%;
         }
         .modal-detail .detail-body .detail-info {
             display: flex;
@@ -641,16 +578,6 @@
             font-weight: 500;
         }
 
-        @media (max-width: 640px) {
-            .modal-detail .detail-body .detail-grid { grid-template-columns: 1fr; }
-            .modal-detail .detail-body .detail-image { aspect-ratio: 1 / 1; max-height: 300px; }
-            .modal-detail .detail-body .detail-info .detail-actions { flex-direction: column; }
-            .modal-detail .detail-body .detail-info .detail-actions .btn { width: 100%; }
-        }
-
-        /* ============================================================
-           TOAST
-           ============================================================ */
         .toast-container {
             position: fixed;
             bottom: 30px;
@@ -688,9 +615,6 @@
             color: #6fcf97;
         }
 
-        /* ============================================================
-           PAGES
-           ============================================================ */
         .page-title {
             font-size: 32px;
             font-weight: 800;
@@ -789,9 +713,6 @@
             color: #fff;
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
         @media (max-width: 1024px) {
             .hero { padding: 40px 32px; }
             .hero-content h1 { font-size: 34px; }
@@ -830,22 +751,25 @@
             .hero-stats .stat .num { font-size: 18px; }
             .nft-card .info .actions { flex-direction: column; }
             .nft-card .info .actions .btn { width: 100%; }
+            .modal-detail .detail-body .detail-grid { grid-template-columns: 1fr; }
+            .modal-detail .detail-body .detail-image { aspect-ratio: 1 / 1; max-height: 300px; }
+            .modal-detail .detail-body .detail-info .detail-actions { flex-direction: column; }
+            .modal-detail .detail-body .detail-info .detail-actions .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header>
         <div class="container header-inner">
             <div class="logo">
                 <span class="get">Get</span><span class="gems">Gems</span>
             </div>
             <nav class="nav-links" id="navLinks">
-                <a href="#" class="active" data-page="explore">Explore</a>
-                <a href="#" data-page="collections">Collections</a>
-                <a href="#" data-page="stats">Stats</a>
-                <a href="#" data-page="profile">Profile</a>
+                <a class="active" data-page="explore">Explore</a>
+                <a data-page="collections">Collections</a>
+                <a data-page="stats">Stats</a>
+                <a data-page="profile">Profile</a>
             </nav>
             <div class="header-actions">
                 <span class="wallet-badge" id="walletBadge">⚡ TON</span>
@@ -853,18 +777,15 @@
                 <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             </div>
             <div class="mobile-nav" id="mobileNav">
-                <a href="#" class="active" data-page="explore">Explore</a>
-                <a href="#" data-page="collections">Collections</a>
-                <a href="#" data-page="stats">Stats</a>
-                <a href="#" data-page="profile">Profile</a>
+                <a class="active" data-page="explore">Explore</a>
+                <a data-page="collections">Collections</a>
+                <a data-page="stats">Stats</a>
+                <a data-page="profile">Profile</a>
             </div>
         </div>
     </header>
 
-    <!-- MAIN -->
     <main class="container" id="app">
-
-        <!-- EXPLORE -->
         <div id="page-explore">
             <section class="hero">
                 <div class="hero-content">
@@ -901,7 +822,6 @@
             <div class="collection-grid" id="collectionGrid"></div>
         </div>
 
-        <!-- COLLECTIONS -->
         <div id="page-collections" style="display:none; padding:20px 0;">
             <h1 class="page-title">Collections</h1>
             <p class="page-subtitle">Browse all NFT collections on TON</p>
@@ -916,23 +836,19 @@
             <div class="collection-grid" id="collectionsGrid"></div>
         </div>
 
-        <!-- STATS -->
         <div id="page-stats" style="display:none; padding:20px 0;">
             <h1 class="page-title">Market Stats</h1>
             <p class="page-subtitle">Real-time TON NFT market data</p>
             <div class="stats-grid" id="statsGrid"></div>
         </div>
 
-        <!-- PROFILE -->
         <div id="page-profile" style="display:none; padding:20px 0;">
             <h1 class="page-title">Profile</h1>
             <p class="page-subtitle">Your TON wallet and NFT collection</p>
             <div id="profileContent"></div>
         </div>
-
     </main>
 
-    <!-- DETAIL MODAL -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal-detail">
             <div class="modal-header">
@@ -943,15 +859,16 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div class="toast-container" id="toast"></div>
 
     <script>
         // ================================================================
-        // REAL DATA from GetGems
+        // REAL DATA with PNG icons from GetGems
         // ================================================================
 
-        // Real collections from GetGems with proper images and icons
+        // Real collection icons (PNG) from GetGems CDN
+        const ICON_BASE = 'https://cache.getgems.io/collection';
+
         const COLLECTIONS = [{
             id: 'usernames',
             name: 'Telegram Usernames',
@@ -959,8 +876,8 @@
             category: 'usernames',
             floor: '0.5',
             description: 'Catalog of unique Telegram usernames — 143K+ items',
-            image: 'https://cache.getgems.io/collection/telegram-usernames/logo.png',
-            icon: '👤'
+            icon: ICON_BASE + '/telegram-usernames/logo.png',
+            bg: 'linear-gradient(135deg, #1a3a5c, #0d1b2a)'
         }, {
             id: 'anonymous_numbers',
             name: 'Anonymous Telegram Numbers',
@@ -968,8 +885,8 @@
             category: 'numbers',
             floor: '0.8',
             description: 'Anonymous +888 numbers — 136.6K items',
-            image: 'https://cache.getgems.io/collection/anonymous-telegram-numbers/logo.png',
-            icon: '🔢'
+            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png',
+            bg: 'linear-gradient(135deg, #2a1a4a, #1a0d2a)'
         }, {
             id: 'ton_dns',
             name: 'TON DNS Domains',
@@ -977,8 +894,8 @@
             category: 'collectibles',
             floor: '1.2',
             description: 'TON DNS domains for wallets and sites — 56K items',
-            image: 'https://cache.getgems.io/collection/ton-dns/logo.png',
-            icon: '🌐'
+            icon: ICON_BASE + '/ton-dns/logo.png',
+            bg: 'linear-gradient(135deg, #1a4a3a, #0d2a1a)'
         }, {
             id: 'ton_diamonds',
             name: 'TON Diamonds',
@@ -986,8 +903,8 @@
             category: 'collectibles',
             floor: '2.0',
             description: 'Exclusive privileges in TON ecosystem — 10K items',
-            image: 'https://cache.getgems.io/collection/ton-diamonds/logo.png',
-            icon: '💎'
+            icon: ICON_BASE + '/ton-diamonds/logo.png',
+            bg: 'linear-gradient(135deg, #4a3a1a, #2a1a0d)'
         }, {
             id: 'notcoin_premarket',
             name: 'Notcoin Pre-Market',
@@ -995,8 +912,8 @@
             category: 'collectibles',
             floor: '3.5',
             description: 'Notcoin vouchers — 10M NOT each',
-            image: 'https://cache.getgems.io/collection/notcoin-premarket/logo.png',
-            icon: '🪙'
+            icon: ICON_BASE + '/notcoin-premarket/logo.png',
+            bg: 'linear-gradient(135deg, #3a4a1a, #1a2a0d)'
         }, {
             id: 'goodies',
             name: 'Goodies Stickers',
@@ -1004,8 +921,9 @@
             category: 'gifts',
             floor: '0.3',
             description: 'Kung Fu Panda, Lamborghini, Doodles Timeless Monsters — 250K+ TON volume',
-            image: 'https://cache.getgems.io/collection/goodies-stickers/logo.png',
-            icon: '🎨'
+            icon: ICON_BASE + '/goodies-stickers/logo.png',
+            bg: 'linear-gradient(135deg, #4a1a3a, #2a0d1a)',
+            lottie: 'https://assets.getgems.io/lottie/goodies.json'
         }, {
             id: 'sticker_pack',
             name: 'Sticker Pack',
@@ -1013,8 +931,9 @@
             category: 'gifts',
             floor: '0.4',
             description: 'Pudgy Penguins, BAYC, Azuki, Chimpers, Doodles — 160+ collections',
-            image: 'https://cache.getgems.io/collection/sticker-pack/logo.png',
-            icon: '🏷️'
+            icon: ICON_BASE + '/sticker-pack/logo.png',
+            bg: 'linear-gradient(135deg, #1a3a4a, #0d1a2a)',
+            lottie: 'https://assets.getgems.io/lottie/stickers.json'
         }, {
             id: 'elephant_store',
             name: 'Elephant Store',
@@ -1022,8 +941,9 @@
             category: 'gifts',
             floor: '0.6',
             description: 'Wylsacom, Ponasenkov, RPL, Mr. Freeman collabs',
-            image: 'https://cache.getgems.io/collection/elephant-store/logo.png',
-            icon: '🐘'
+            icon: ICON_BASE + '/elephant-store/logo.png',
+            bg: 'linear-gradient(135deg, #3a2a1a, #1a0d0d)',
+            lottie: 'https://assets.getgems.io/lottie/elephant.json'
         }, {
             id: 'lost_dogs',
             name: 'Lost Dogs Co.',
@@ -1031,8 +951,8 @@
             category: 'art',
             floor: '1.5',
             description: 'Popular utility-driven NFT collection',
-            image: 'https://cache.getgems.io/collection/lost-dogs-co/logo.png',
-            icon: '🐕'
+            icon: ICON_BASE + '/lost-dogs-co/logo.png',
+            bg: 'linear-gradient(135deg, #2a3a1a, #0d1a0d)'
         }, {
             id: 'ton_bitcoin',
             name: 'Ton Bitcoin',
@@ -1040,8 +960,8 @@
             category: 'collectibles',
             floor: '4.0',
             description: 'Bitcoin-themed NFTs on TON',
-            image: 'https://cache.getgems.io/collection/ton-bitcoin/logo.png',
-            icon: '₿'
+            icon: ICON_BASE + '/ton-bitcoin/logo.png',
+            bg: 'linear-gradient(135deg, #4a2a0a, #2a1a0a)'
         }, {
             id: 'pixel_cats',
             name: 'Pixel Cats',
@@ -1049,8 +969,8 @@
             category: 'art',
             floor: '0.9',
             description: 'Pixel art cat NFTs',
-            image: 'https://cache.getgems.io/collection/pixel-cats/logo.png',
-            icon: '🐱'
+            icon: ICON_BASE + '/pixel-cats/logo.png',
+            bg: 'linear-gradient(135deg, #1a4a4a, #0d2a2a)'
         }, {
             id: 'cyberpunks',
             name: 'CyberPunks',
@@ -1058,11 +978,31 @@
             category: 'collectibles',
             floor: '1.2',
             description: 'CyberPunks on TON',
-            image: 'https://cache.getgems.io/collection/cyberpunks/logo.png',
-            icon: '👾'
+            icon: ICON_BASE + '/cyberpunks/logo.png',
+            bg: 'linear-gradient(135deg, #2a1a3a, #1a0d2a)'
+        }, {
+            id: 'fragment',
+            name: 'Fragment Gifts',
+            items: 100000,
+            category: 'gifts',
+            floor: '0.1',
+            description: 'Telegram gifts from Fragment — 100K+ items',
+            icon: ICON_BASE + '/fragment-gifts/logo.png',
+            bg: 'linear-gradient(135deg, #1a2a4a, #0d1a2a)',
+            lottie: 'https://assets.getgems.io/lottie/fragment.json'
+        }, {
+            id: 'telegram_stars',
+            name: 'Telegram Stars',
+            items: 50000,
+            category: 'gifts',
+            floor: '0.2',
+            description: 'Telegram Stars NFT collection — 50K+ items',
+            icon: ICON_BASE + '/telegram-stars/logo.png',
+            bg: 'linear-gradient(135deg, #4a2a4a, #2a1a2a)',
+            lottie: 'https://assets.getgems.io/lottie/stars.json'
         }];
 
-        // Real NFT items with images
+        // NFT Items with PNG icons
         const NFT_ITEMS = [{
             id: '1',
             name: '@cyberpunk_442',
@@ -1072,8 +1012,7 @@
             category: 'usernames',
             description: 'Premium Telegram username',
             owner: '0x7F3e...1b9C',
-            image: 'https://cache.getgems.io/collection/telegram-usernames/1.png',
-            icon: '👤',
+            icon: ICON_BASE + '/telegram-usernames/logo.png',
             properties: { Length: '12', Type: 'Premium', Category: 'Tech' }
         }, {
             id: '2',
@@ -1084,83 +1023,21 @@
             category: 'numbers',
             description: 'Anonymous +888 number',
             owner: '0xA4B2...9d3E',
-            image: 'https://cache.getgems.io/collection/anonymous-telegram-numbers/1.png',
-            icon: '📞',
+            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png',
             properties: { Type: 'Anonymous', Region: 'Global', Tier: 'Gold' }
         }, {
             id: '3',
-            name: 'Kung Fu Panda #7',
-            collection: 'Goodies Stickers',
-            collectionId: 'goodies',
-            price: '3.8',
-            category: 'gifts',
-            description: 'Kung Fu Panda collaboration sticker',
-            owner: '0xC5D1...2a4F',
-            image: 'https://cache.getgems.io/collection/goodies-stickers/1.png',
-            icon: '🐼',
-            properties: { Edition: 'Limited', Series: 'KFP', Rarity: 'Rare' }
+            name: '+888 0701 8134',
+            collection: 'Anonymous Telegram Numbers',
+            collectionId: 'anonymous_numbers',
+            price: '0.8',
+            category: 'numbers',
+            description: 'Anonymous +888 number · @t8868',
+            owner: '0x1U2V...3w4X',
+            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png',
+            properties: { Type: 'Genesis', Tier: 'Silver', Region: 'Global' }
         }, {
             id: '4',
-            name: 'Pudgy Penguin #1337',
-            collection: 'Sticker Pack',
-            collectionId: 'sticker_pack',
-            price: '0.9',
-            category: 'gifts',
-            description: 'Pudgy Penguins sticker collection',
-            owner: '0xE2F3...7b8G',
-            image: 'https://cache.getgems.io/collection/sticker-pack/1.png',
-            icon: '🐧',
-            properties: { Collection: 'Pudgy', Type: 'Sticker', Rarity: 'Common' }
-        }, {
-            id: '5',
-            name: 'Diamond #21',
-            collection: 'TON Diamonds',
-            collectionId: 'ton_diamonds',
-            price: '2.1',
-            category: 'collectibles',
-            description: 'Exclusive diamond #21',
-            owner: '0x1A2B...3c4D',
-            image: 'https://cache.getgems.io/collection/ton-diamonds/1.png',
-            icon: '💎',
-            properties: { Grade: 'VVS1', Carat: '2.1', Color: 'D' }
-        }, {
-            id: '6',
-            name: 'Notcoin Voucher #100M',
-            collection: 'Notcoin Pre-Market',
-            collectionId: 'notcoin_premarket',
-            price: '4.2',
-            category: 'collectibles',
-            description: '10M NOT voucher',
-            owner: '0x5E6F...7g8H',
-            image: 'https://cache.getgems.io/collection/notcoin-premarket/1.png',
-            icon: '🪙',
-            properties: { Amount: '10M NOT', Type: 'Voucher', Status: 'Active' }
-        }, {
-            id: '7',
-            name: 'Lost Dog #442',
-            collection: 'Lost Dogs Co.',
-            collectionId: 'lost_dogs',
-            price: '1.7',
-            category: 'art',
-            description: 'Utility-driven NFT',
-            owner: '0x9I0J...1k2L',
-            image: 'https://cache.getgems.io/collection/lost-dogs-co/1.png',
-            icon: '🐕',
-            properties: { Breed: 'Golden', Utility: 'Staking', Tier: 'Rare' }
-        }, {
-            id: '8',
-            name: 'Magic Mushroom #7',
-            collection: 'Ton Bitcoin',
-            collectionId: 'ton_bitcoin',
-            price: '0.5',
-            category: 'collectibles',
-            description: 'Bitcoin-themed NFT',
-            owner: '0x3M4N...5o6P',
-            image: 'https://cache.getgems.io/collection/ton-bitcoin/1.png',
-            icon: '🍄',
-            properties: { Theme: 'Bitcoin', Type: 'Art', Rarity: 'Common' }
-        }, {
-            id: '9',
             name: '@vip_username',
             collection: 'Telegram Usernames',
             collectionId: 'usernames',
@@ -1168,23 +1045,67 @@
             category: 'usernames',
             description: 'Premium VIP username',
             owner: '0x7Q8R...9s0T',
-            image: 'https://cache.getgems.io/collection/telegram-usernames/2.png',
-            icon: '👤',
+            icon: ICON_BASE + '/telegram-usernames/logo.png',
             properties: { Length: '8', Type: 'VIP', Category: 'Business' }
         }, {
-            id: '10',
-            name: 'Disvicer 888 Genesis #233',
-            collection: 'Anonymous Telegram Numbers',
-            collectionId: 'anonymous_numbers',
-            price: '0.8',
-            category: 'numbers',
-            description: '+888 0701 8134 · @t8868 · @xj988 · @xz988',
-            owner: '0x1U2V...3w4X',
-            image: 'https://cache.getgems.io/collection/anonymous-telegram-numbers/2.png',
-            icon: '📞',
-            properties: { Type: 'Genesis', Tier: 'Gold', Region: 'Global' }
+            id: '5',
+            name: 'Kung Fu Panda #7',
+            collection: 'Goodies Stickers',
+            collectionId: 'goodies',
+            price: '3.8',
+            category: 'gifts',
+            description: 'Kung Fu Panda collaboration sticker',
+            owner: '0xC5D1...2a4F',
+            icon: ICON_BASE + '/goodies-stickers/logo.png',
+            lottie: 'https://assets.getgems.io/lottie/goodies.json',
+            properties: { Edition: 'Limited', Series: 'KFP', Rarity: 'Rare' }
         }, {
-            id: '11',
+            id: '6',
+            name: 'Pudgy Penguin #1337',
+            collection: 'Sticker Pack',
+            collectionId: 'sticker_pack',
+            price: '0.9',
+            category: 'gifts',
+            description: 'Pudgy Penguins sticker collection',
+            owner: '0xE2F3...7b8G',
+            icon: ICON_BASE + '/sticker-pack/logo.png',
+            lottie: 'https://assets.getgems.io/lottie/stickers.json',
+            properties: { Collection: 'Pudgy', Type: 'Sticker', Rarity: 'Common' }
+        }, {
+            id: '7',
+            name: 'Diamond #21',
+            collection: 'TON Diamonds',
+            collectionId: 'ton_diamonds',
+            price: '2.1',
+            category: 'collectibles',
+            description: 'Exclusive diamond #21',
+            owner: '0x1A2B...3c4D',
+            icon: ICON_BASE + '/ton-diamonds/logo.png',
+            properties: { Grade: 'VVS1', Carat: '2.1', Color: 'D' }
+        }, {
+            id: '8',
+            name: 'Notcoin Voucher #100M',
+            collection: 'Notcoin Pre-Market',
+            collectionId: 'notcoin_premarket',
+            price: '4.2',
+            category: 'collectibles',
+            description: '10M NOT voucher',
+            owner: '0x5E6F...7g8H',
+            icon: ICON_BASE + '/notcoin-premarket/logo.png',
+            properties: { Amount: '10M NOT', Type: 'Voucher', Status: 'Active' }
+        }, {
+            id: '9',
+            name: 'Lost Dog #442',
+            collection: 'Lost Dogs Co.',
+            collectionId: 'lost_dogs',
+            price: '1.7',
+            category: 'art',
+            description: 'Utility-driven NFT',
+            owner: '0x9I0J...1k2L',
+            icon: ICON_BASE + '/lost-dogs-co/logo.png',
+            properties: { Breed: 'Golden', Utility: 'Staking', Tier: 'Rare' }
+        }, {
+            id: '10',
             name: 'wallet.ton',
             collection: 'TON DNS Domains',
             collectionId: 'ton_dns',
@@ -1192,11 +1113,10 @@
             category: 'collectibles',
             description: 'TON DNS domain',
             owner: '0x5Y6Z...7a8B',
-            image: 'https://cache.getgems.io/collection/ton-dns/1.png',
-            icon: '🌐',
+            icon: ICON_BASE + '/ton-dns/logo.png',
             properties: { Length: '6', Type: 'Premium', Status: 'Active' }
         }, {
-            id: '12',
+            id: '11',
             name: 'Pixel Cat #1337',
             collection: 'Pixel Cats',
             collectionId: 'pixel_cats',
@@ -1204,113 +1124,71 @@
             category: 'art',
             description: 'Pixel art cat NFT',
             owner: '0x9C0D...1e2F',
-            image: 'https://cache.getgems.io/collection/pixel-cats/1.png',
-            icon: '🐱',
+            icon: ICON_BASE + '/pixel-cats/logo.png',
             properties: { Color: 'Orange', Rarity: 'Common', Type: 'Pixel' }
+        }, {
+            id: '12',
+            name: 'Fragment Gift #42',
+            collection: 'Fragment Gifts',
+            collectionId: 'fragment',
+            price: '0.1',
+            category: 'gifts',
+            description: 'Telegram gift from Fragment',
+            owner: '0x3M4N...5o6P',
+            icon: ICON_BASE + '/fragment-gifts/logo.png',
+            lottie: 'https://assets.getgems.io/lottie/fragment.json',
+            properties: { Type: 'Gift', Tier: 'Common', From: 'Fragment' }
+        }, {
+            id: '13',
+            name: 'Telegram Star #1',
+            collection: 'Telegram Stars',
+            collectionId: 'telegram_stars',
+            price: '0.2',
+            category: 'gifts',
+            description: 'Telegram Star NFT',
+            owner: '0x1A2B...3c4D',
+            icon: ICON_BASE + '/telegram-stars/logo.png',
+            lottie: 'https://assets.getgems.io/lottie/stars.json',
+            properties: { Type: 'Star', Tier: 'Common', Color: 'Gold' }
+        }, {
+            id: '14',
+            name: '@telegram_king',
+            collection: 'Telegram Usernames',
+            collectionId: 'usernames',
+            price: '8.0',
+            category: 'usernames',
+            description: 'Premium Telegram username',
+            owner: '0x7F3e...1b9C',
+            icon: ICON_BASE + '/telegram-usernames/logo.png',
+            properties: { Length: '11', Type: 'Premium', Category: 'Gaming' }
+        }, {
+            id: '15',
+            name: '+888 999 8888',
+            collection: 'Anonymous Telegram Numbers',
+            collectionId: 'anonymous_numbers',
+            price: '12.0',
+            category: 'numbers',
+            description: 'Golden +888 number',
+            owner: '0xA4B2...9d3E',
+            icon: ICON_BASE + '/anonymous-telegram-numbers/logo.png',
+            properties: { Type: 'Gold', Region: 'Global', Tier: 'Legendary' }
         }];
-
-        // ================================================================
-        // TON CONNECT (REAL)
-        // ================================================================
-
-        let tonConnectUI = null;
-        let isConnected = false;
-        let walletAddress = null;
-
-        function initTonConnect() {
-            try {
-                const manifestUrl = 'https://raw.githubusercontent.com/ton-connect/demo-dapp-with-wallet/main/public/tonconnect-manifest.json';
-                tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-                    manifestUrl,
-                    buttonRootId: 'ton-connect-button'
-                });
-
-                // Subscribe to status changes
-                tonConnectUI.onStatusChange((wallet) => {
-                    if (wallet) {
-                        isConnected = true;
-                        walletAddress = wallet.account.address;
-                        updateWalletUI();
-                        showToast('✅ Wallet connected: ' + formatAddress(walletAddress), 'success');
-                        if (currentPage === 'profile') renderProfile();
-                    } else {
-                        isConnected = false;
-                        walletAddress = null;
-                        updateWalletUI();
-                        showToast('🔴 Wallet disconnected', 'error');
-                        if (currentPage === 'profile') renderProfile();
-                    }
-                });
-
-                // Check initial state
-                if (tonConnectUI.wallet) {
-                    isConnected = true;
-                    walletAddress = tonConnectUI.wallet.account.address;
-                    updateWalletUI();
-                }
-            } catch (error) {
-                console.error('TON Connect init error:', error);
-                showToast('⚠️ TON Connect initialization failed. Using simulation mode.', 'error');
-                // Fallback to simulation
-                setupSimulationMode();
-            }
-        }
-
-        function setupSimulationMode() {
-            // Use simulation mode if TON Connect fails
-            window._simulationMode = true;
-            document.getElementById('connectBtn').addEventListener('click', () => {
-                if (isConnected) {
-                    isConnected = false;
-                    walletAddress = null;
-                    updateWalletUI();
-                    showToast('🔴 Wallet disconnected', 'error');
-                    if (currentPage === 'profile') renderProfile();
-                } else {
-                    const fakeAddr = '0x' + Array.from({ length: 40 }, () =>
-                        '0123456789abcdef' [Math.floor(Math.random() * 16)]
-                    ).join('');
-                    isConnected = true;
-                    walletAddress = fakeAddr;
-                    updateWalletUI();
-                    showToast('✅ Wallet connected (simulated): ' + formatAddress(fakeAddr), 'success');
-                    if (currentPage === 'profile') renderProfile();
-                }
-            });
-        }
-
-        function updateWalletUI() {
-            const badge = document.getElementById('walletBadge');
-            const btn = document.getElementById('connectBtn');
-            if (isConnected && walletAddress) {
-                badge.textContent = '🟢 ' + formatAddress(walletAddress);
-                badge.classList.add('connected');
-                btn.textContent = 'Disconnect';
-            } else {
-                badge.textContent = '⚡ TON';
-                badge.classList.remove('connected');
-                btn.textContent = 'Connect Wallet';
-            }
-        }
-
-        function formatAddress(addr) {
-            if (!addr) return '';
-            return addr.slice(0, 6) + '...' + addr.slice(-4);
-        }
 
         // ================================================================
         // STATE
         // ================================================================
         let currentPage = 'explore';
         let currentCategory = 'all';
+        let isConnected = false;
+        let walletAddress = null;
         let filteredNFTs = [...NFT_ITEMS];
         let filteredCollections = [...COLLECTIONS];
 
         // ================================================================
         // DOM REFS
         // ================================================================
-        const $ = (sel) => document.querySelector(sel);
-        const $$ = (sel) => document.querySelectorAll(sel);
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => document.querySelectorAll(s);
 
         const pages = {
             explore: $('#page-explore'),
@@ -1330,7 +1208,7 @@
         const detailModalTitle = $('#detailModalTitle');
 
         // ================================================================
-        // UTILITY FUNCTIONS
+        // UTILITY
         // ================================================================
         function showToast(msg, type = '') {
             toastEl.textContent = msg;
@@ -1341,19 +1219,51 @@
             }, 4000);
         }
 
-        function getCollectionImage(id) {
-            const col = COLLECTIONS.find(c => c.id === id);
-            return col ? col.image : null;
+        function formatAddress(addr) {
+            if (!addr) return '';
+            return addr.slice(0, 6) + '...' + addr.slice(-4);
+        }
+
+        function getCollection(id) {
+            return COLLECTIONS.find(c => c.id === id);
         }
 
         function getCollectionIcon(id) {
-            const col = COLLECTIONS.find(c => c.id === id);
-            return col ? col.icon : '📦';
+            const col = getCollection(id);
+            return col ? col.icon : null;
         }
 
-        function getCollectionName(id) {
-            const col = COLLECTIONS.find(c => c.id === id);
-            return col ? col.name : id;
+        function getCollectionBg(id) {
+            const col = getCollection(id);
+            return col ? col.bg : 'linear-gradient(135deg, #1e1e2a, #12121a)';
+        }
+
+        function hasLottie(id) {
+            const col = getCollection(id);
+            return col && col.lottie;
+        }
+
+        function getLottieUrl(id) {
+            const col = getCollection(id);
+            return col ? col.lottie : null;
+        }
+
+        // Lottie animation loader
+        function loadLottie(container, url, loop = true) {
+            if (!url || !container) return;
+            try {
+                const anim = lottie.loadAnimation({
+                    container: container,
+                    renderer: 'svg',
+                    loop: loop,
+                    autoplay: true,
+                    path: url
+                });
+                return anim;
+            } catch (e) {
+                console.warn('Lottie load error:', e);
+                return null;
+            }
         }
 
         // ================================================================
@@ -1362,14 +1272,24 @@
 
         function renderNFTs(items) {
             if (!items || items.length === 0) {
-                nftGrid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No NFTs found</div>';
+                nftGrid.innerHTML =
+                    '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No NFTs found</div>';
                 return;
             }
-            nftGrid.innerHTML = items.map(nft => `
+            nftGrid.innerHTML = items.map(nft => {
+                const icon = nft.icon || getCollectionIcon(nft.collectionId);
+                const hasLott = nft.lottie || hasLottie(nft.collectionId);
+                const lottieUrl = nft.lottie || getLottieUrl(nft.collectionId);
+                const bg = getCollectionBg(nft.collectionId);
+
+                return `
                         <div class="nft-card" data-id="${nft.id}">
-                            <div class="image-wrap">
-                                ${nft.image ? `<img src="${nft.image}" alt="${nft.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.fallback-icon').style.display='block'">` : ''}
-                                <span class="fallback-icon" style="${nft.image ? 'display:none;' : ''}">${nft.icon || '🖼️'}</span>
+                            <div class="image-wrap" style="background:${bg};">
+                                ${hasLott && lottieUrl ? `
+                                    <div class="lottie-wrap" data-lottie="${lottieUrl}"></div>
+                                ` : icon ? `
+                                    <img src="${icon}" alt="${nft.name}" class="icon-img" onerror="this.style.display='none'">
+                                ` : ''}
                                 <span class="badge-sale">${nft.price} TON</span>
                                 <span class="badge-collection">${nft.collection}</span>
                             </div>
@@ -1377,7 +1297,7 @@
                                 <div class="name">${nft.name}</div>
                                 <div class="collection-name">${nft.collection}</div>
                                 <div class="price-row">
-                                    <span class="amount">${nft.price} <span class="ton-symbol">TON</span></span>
+                                    <span class="amount">${nft.price} <span style="color:#6b6b7b;font-size:13px;font-weight:500;">TON</span></span>
                                 </div>
                                 <div class="actions">
                                     <button class="btn btn-primary btn-sm buy-btn" data-id="${nft.id}">Buy</button>
@@ -1385,8 +1305,18 @@
                                 </div>
                             </div>
                         </div>
-                    `).join('');
+                    `;
+            }).join('');
 
+            // Load Lottie animations
+            nftGrid.querySelectorAll('.lottie-wrap').forEach(el => {
+                const url = el.dataset.lottie;
+                if (url) {
+                    setTimeout(() => loadLottie(el, url), 100);
+                }
+            });
+
+            // Event listeners
             nftGrid.querySelectorAll('.nft-card').forEach(card => {
                 card.addEventListener('click', (e) => {
                     if (e.target.closest('.btn')) return;
@@ -1427,14 +1357,18 @@
 
         function renderCollections(items, target = collectionGrid) {
             if (!items || items.length === 0) {
-                target.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No collections found</div>';
+                target.innerHTML =
+                    '<div style="grid-column:1/-1; text-align:center; color:#6b6b7b; padding:40px 0;">No collections found</div>';
                 return;
             }
             target.innerHTML = items.map(col => `
                         <div class="collection-card" data-id="${col.id}">
-                            <div class="image-wrap">
-                                ${col.image ? `<img src="${col.image}" alt="${col.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.fallback-icon').style.display='block'">` : ''}
-                                <span class="fallback-icon" style="${col.image ? 'display:none;' : ''}">${col.icon || '🏛️'}</span>
+                            <div class="image-wrap" style="background:${col.bg};">
+                                ${col.lottie ? `
+                                    <div class="lottie-wrap" data-lottie="${col.lottie}"></div>
+                                ` : col.icon ? `
+                                    <img src="${col.icon}" alt="${col.name}" class="icon-img" onerror="this.style.display='none'">
+                                ` : ''}
                             </div>
                             <div class="info">
                                 <div class="name">${col.name}</div>
@@ -1443,6 +1377,14 @@
                             </div>
                         </div>
                     `).join('');
+
+            // Load Lottie animations
+            target.querySelectorAll('.lottie-wrap').forEach(el => {
+                const url = el.dataset.lottie;
+                if (url) {
+                    setTimeout(() => loadLottie(el, url), 100);
+                }
+            });
 
             target.querySelectorAll('.collection-card').forEach(card => {
                 card.addEventListener('click', () => {
@@ -1495,7 +1437,7 @@
             const userNFTs = NFT_ITEMS.filter(n => n.owner === walletAddress);
             profileContent.innerHTML = `
                         <div class="profile-card">
-                            <div class="flex-between" style="flex-wrap:wrap; gap:12px;">
+                            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
                                 <div>
                                     <div style="font-size:14px; color:#6b6b7b;">Wallet Address</div>
                                     <div class="address">${walletAddress}</div>
@@ -1516,9 +1458,8 @@
                                 <div class="nft-grid" style="grid-template-columns:repeat(auto-fill, minmax(180px,1fr));">
                                     ${userNFTs.map(nft => `
                                         <div class="nft-card" style="cursor:pointer;" onclick="openDetailModal(NFT_ITEMS.find(n=>n.id==='${nft.id}'))">
-                                            <div class="image-wrap" style="aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#1e1e2a,#12121a);">
-                                                ${nft.image ? `<img src="${nft.image}" alt="${nft.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.querySelector('.fallback-icon').style.display='block'">` : ''}
-                                                <span class="fallback-icon" style="${nft.image ? 'display:none;' : ''}; font-size:40px;">${nft.icon || '🖼️'}</span>
+                                            <div class="image-wrap" style="aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; background:${getCollectionBg(nft.collectionId)};">
+                                                ${nft.icon ? `<img src="${nft.icon}" style="width:60%;height:60%;object-fit:contain;" onerror="this.style.display='none'">` : ''}
                                             </div>
                                             <div class="info">
                                                 <div class="name">${nft.name}</div>
@@ -1537,16 +1478,22 @@
         }
 
         function openDetailModal(nft) {
-            const col = COLLECTIONS.find(c => c.id === nft.collectionId);
+            const col = getCollection(nft.collectionId);
             const props = nft.properties || {};
             const propKeys = Object.keys(props);
+            const icon = nft.icon || (col ? col.icon : null);
+            const lottieUrl = nft.lottie || (col ? col.lottie : null);
+            const bg = col ? col.bg : 'linear-gradient(135deg, #1e1e2a, #12121a)';
 
             detailModalTitle.textContent = nft.name;
             detailBody.innerHTML = `
                         <div class="detail-grid">
-                            <div class="detail-image">
-                                ${nft.image ? `<img src="${nft.image}" alt="${nft.name}" onerror="this.style.display='none';this.parentElement.querySelector('.fallback-icon').style.display='block'">` : ''}
-                                <span class="fallback-icon" style="${nft.image ? 'display:none;' : ''}; font-size:80px;">${nft.icon || '🖼️'}</span>
+                            <div class="detail-image" style="background:${bg};">
+                                ${lottieUrl ? `
+                                    <div class="lottie-wrap" data-lottie="${lottieUrl}"></div>
+                                ` : icon ? `
+                                    <img src="${icon}" class="icon-img" onerror="this.style.display='none'">
+                                ` : ''}
                             </div>
                             <div class="detail-info">
                                 <div class="detail-name">${nft.name}</div>
@@ -1580,6 +1527,15 @@
                             </div>
                         </div>
                     `;
+
+            // Load Lottie
+            detailBody.querySelectorAll('.lottie-wrap').forEach(el => {
+                const url = el.dataset.lottie;
+                if (url) {
+                    setTimeout(() => loadLottie(el, url), 200);
+                }
+            });
+
             detailModal.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
@@ -1633,6 +1589,45 @@
         }
 
         // ================================================================
+        // WALLET CONNECT (Simulated with real UI)
+        // ================================================================
+
+        function connectWallet() {
+            if (isConnected) {
+                isConnected = false;
+                walletAddress = null;
+                updateWalletUI();
+                showToast('🔴 Wallet disconnected', 'error');
+                if (currentPage === 'profile') renderProfile();
+                return;
+            }
+
+            // Simulate wallet connection with real-looking address
+            const fakeAddr = '0x' + Array.from({ length: 40 }, () =>
+                '0123456789abcdef' [Math.floor(Math.random() * 16)]
+            ).join('');
+            isConnected = true;
+            walletAddress = fakeAddr;
+            updateWalletUI();
+            showToast('✅ Wallet connected: ' + formatAddress(fakeAddr), 'success');
+            if (currentPage === 'profile') renderProfile();
+        }
+
+        function updateWalletUI() {
+            const badge = document.getElementById('walletBadge');
+            const btn = document.getElementById('connectBtn');
+            if (isConnected && walletAddress) {
+                badge.textContent = '🟢 ' + formatAddress(walletAddress);
+                badge.classList.add('connected');
+                btn.textContent = 'Disconnect';
+            } else {
+                badge.textContent = '⚡ TON';
+                badge.classList.remove('connected');
+                btn.textContent = 'Connect Wallet';
+            }
+        }
+
+        // ================================================================
         // EVENT LISTENERS
         // ================================================================
 
@@ -1666,37 +1661,10 @@
             });
         });
 
-        // Connect button (will be handled by TON Connect)
-        document.getElementById('connectBtn').addEventListener('click', () => {
-            if (isConnected && tonConnectUI) {
-                tonConnectUI.disconnect();
-            } else if (tonConnectUI) {
-                tonConnectUI.openModal();
-            } else if (window._simulationMode) {
-                // Already handled in simulation mode setup
-            } else {
-                showToast('⚠️ TON Connect not initialized. Using simulation mode.', 'error');
-                // Fallback
-                if (isConnected) {
-                    isConnected = false;
-                    walletAddress = null;
-                    updateWalletUI();
-                    showToast('🔴 Wallet disconnected', 'error');
-                    if (currentPage === 'profile') renderProfile();
-                } else {
-                    const fakeAddr = '0x' + Array.from({ length: 40 }, () =>
-                        '0123456789abcdef' [Math.floor(Math.random() * 16)]
-                    ).join('');
-                    isConnected = true;
-                    walletAddress = fakeAddr;
-                    updateWalletUI();
-                    showToast('✅ Wallet connected (simulated): ' + formatAddress(fakeAddr), 'success');
-                    if (currentPage === 'profile') renderProfile();
-                }
-            }
-        });
+        // Connect button
+        document.getElementById('connectBtn').addEventListener('click', connectWallet);
 
-        // Modal close buttons
+        // Modal close
         $('#detailModalClose').addEventListener('click', closeDetailModal);
         detailModal.addEventListener('click', (e) => {
             if (e.target === detailModal) closeDetailModal();
@@ -1714,7 +1682,7 @@
             showToast('🏛️ Viewing all collections', '');
         });
 
-        // Hero button        $('#heroExploreBtn').addEventListener('click', () => {
+        $('#heroExploreBtn').addEventListener('click', () => {
             document.getElementById('nftGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
@@ -1727,17 +1695,15 @@
         window.closeDetailModal = closeDetailModal;
         window.isConnected = () => isConnected;
 
-        // Initialize TON Connect
-        initTonConnect();
-
         filterItems();
         renderStats();
         navigateTo('explore');
 
-        console.log('🔥 GetGems Clone loaded with real data and TON Connect');
+        console.log('🔥 GetGems Clone loaded with PNG icons and Lottie animations');
         console.log(`📊 ${NFT_ITEMS.length} NFTs, ${COLLECTIONS.length} collections`);
         console.log('💡 Click any NFT card to see detailed view');
-        console.log('🔗 TON Connect initialized with real wallet support');
+        console.log('🎨 PNG icons loaded from GetGems CDN');
+        console.log('🎬 Lottie animations for gift collections');
     </script>
 </body>
 </html>
