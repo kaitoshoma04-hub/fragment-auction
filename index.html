@@ -1,356 +1,415 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Telegram Connect</title>
-    <!-- Шрифт как в Telegram (Inter) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <style>
-        /* ГЛОБАЛЬНЫЙ СБРОС И БАЗА */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a; /* тёмный фон, как в Telegram */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 16px;
-            color: #ffffff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NFT Маркет — как на скринах</title>
+  <!-- Lottie Web -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      background: #0b0e14;
+      color: #eef2f8;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .app {
+      max-width: 420px;
+      width: 100%;
+      background: #131a22;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+      padding-bottom: 20px;
+      position: relative;
+    }
+    /* Хедер */
+    .header {
+      padding: 18px 20px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a3340;
+    }
+    .header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f9d976, #f39c12);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header-actions span {
+      margin-left: 12px;
+      font-size: 22px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
 
-        /* КАРТОЧКА — точь-в-точь как модалка Telegram */
-        .telegram-modal {
-            max-width: 420px;
-            width: 100%;
-            background: #1f1f1f; /* основной фон карточки */
-            border-radius: 32px;
-            padding: 24px 24px 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            border: 1px solid #2b2b2b;
-            transition: all 0.2s ease;
-            animation: fadeIn 0.3s ease;
-        }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      padding: 12px 16px 6px;
+      gap: 16px;
+      border-bottom: 1px solid #1f2a36;
+      overflow-x: auto;
+    }
+    .tab {
+      font-size: 14px;
+      font-weight: 600;
+      color: #8a9aa8;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tab.active {
+      color: #f1c40f;
+      border-bottom: 2px solid #f1c40f;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
-        }
+    /* Поиск и фильтры */
+    .search-section {
+      padding: 16px 16px 8px;
+    }
+    .search-bar {
+      background: #1e2835;
+      border-radius: 30px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #d0dbe8;
+      font-size: 15px;
+      width: 100%;
+    }
+    .search-bar input::placeholder {
+      color: #5e6f80;
+    }
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      background: #1e2835;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      color: #b0c0d0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      border: 1px solid #2f3b4a;
+    }
+    .filter-pill.active {
+      border-color: #f1c40f;
+      color: #f1c40f;
+    }
 
-        /* ШАПКА С ИКОНКОЙ И ЗАГОЛОВКОМ */
-        .modal-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .modal-header .icon-wrapper {
-            width: 80px;
-            height: 80px;
-            background: #2b2b2b;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            position: relative;
-        }
-        .modal-header .icon-wrapper img {
-            width: 48px;
-            height: 48px;
-            filter: brightness(1.1);
-        }
-        /* Имитация иконки Telegram (можно заменить на SVG) */
-        .modal-header .icon-wrapper .tg-icon {
-            font-size: 42px;
-            line-height: 1;
-            color: #ffffff;
-            font-weight: 600;
-        }
+    /* NFT Grid */
+    .nft-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 16px;
+    }
+    .nft-card {
+      background: #19222c;
+      border-radius: 20px;
+      padding: 14px 12px 16px;
+      transition: 0.2s;
+      border: 1px solid #26303e;
+      position: relative;
+    }
+    .nft-card .lottie-box {
+      width: 100%;
+      height: 80px;
+      background: #10171f;
+      border-radius: 16px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nft-card .lottie-box lottie-player {
+      width: 100%;
+      height: 100%;
+    }
+    .nft-name {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .nft-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #a0b2c4;
+    }
+    .nft-price {
+      color: #f1c40f;
+      font-weight: 600;
+    }
+    .nft-change {
+      font-size: 12px;
+    }
+    .nft-change.up { color: #2ecc71; }
+    .nft-change.down { color: #e74c3c; }
 
-        .modal-header h2 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            margin-bottom: 6px;
-            color: #ffffff;
-        }
-        .modal-header p {
-            font-size: 15px;
-            color: #8e8e93;
-            text-align: center;
-            font-weight: 400;
-            max-width: 300px;
-        }
+    /* Bottom nav */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0 6px;
+      border-top: 1px solid #1f2a36;
+      margin-top: 8px;
+    }
+    .nav-item {
+      text-align: center;
+      font-size: 12px;
+      color: #7a8a9a;
+      cursor: pointer;
+      padding: 4px 12px;
+    }
+    .nav-item.active {
+      color: #f1c40f;
+    }
+    .nav-item span {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
 
-        /* ПОЛЯ ВВОДА (стиль как у Telegram) */
-        .input-group {
-            margin-bottom: 18px;
-        }
-        .input-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #8e8e93;
-            margin-bottom: 6px;
-            letter-spacing: 0.3px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            background: #2b2b2b;
-            border: 1.5px solid #3a3a3a;
-            border-radius: 16px;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 400;
-            transition: border 0.2s, box-shadow 0.2s;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        .input-group input:focus {
-            border-color: #3390ec;
-            box-shadow: 0 0 0 3px rgba(51, 144, 236, 0.2);
-        }
-        .input-group input::placeholder {
-            color: #5e5e63;
-            font-weight: 400;
-        }
+    /* Доп. секции как на скринах */
+    .section-title {
+      padding: 0 16px 6px;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+    .badge {
+      background: #f1c40f20;
+      color: #f1c40f;
+      padding: 2px 10px;
+      border-radius: 30px;
+      font-size: 12px;
+    }
+    .order-list {
+      padding: 0 16px;
+    }
+    .order-item {
+      background: #19222c;
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #2a3544;
+    }
 
-        /* КНОПКА ПОДКЛЮЧИТЬ (как в TON Connect) */
-        .connect-btn {
-            width: 100%;
-            padding: 16px;
-            background: #3390ec;
-            border: none;
-            border-radius: 16px;
-            color: #ffffff;
-            font-size: 17px;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: background 0.15s, transform 0.1s;
-            margin-top: 8px;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 12px rgba(51, 144, 236, 0.3);
-        }
-        .connect-btn:hover {
-            background: #2a7bc7;
-        }
-        .connect-btn:active {
-            transform: scale(0.97);
-            background: #1f6ab3;
-        }
-
-        /* ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ (как в Telegram) */
-        .footer-note {
-            text-align: center;
-            font-size: 13px;
-            color: #5e5e63;
-            margin-top: 20px;
-            line-height: 1.5;
-            border-top: 1px solid #2b2b2b;
-            padding-top: 18px;
-        }
-        .footer-note a {
-            color: #3390ec;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .footer-note a:hover {
-            text-decoration: underline;
-        }
-
-        /* ИМИТАЦИЯ QR-КОДА (как в TON Connect) */
-        .qr-placeholder {
-            background: #2b2b2b;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            margin: 12px 0 18px;
-            border: 1px dashed #3a3a3a;
-        }
-        .qr-placeholder .qr-svg {
-            width: 140px;
-            height: 140px;
-            background: #1a1a1a;
-            margin: 0 auto;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #5e5e63;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-        .qr-placeholder .qr-svg::before {
-            content: "⏺⏺⏺⏺\A⏺□ □⏺\A⏺⏺⏺⏺";
-            white-space: pre;
-            font-size: 18px;
-            line-height: 1.2;
-            opacity: 0.3;
-        }
-
-        /* АНИМАЦИЯ ЗАГРУЗКИ (спиннер) */
-        .spinner {
-            display: none;
-            width: 24px;
-            height: 24px;
-            border: 3px solid #2b2b2b;
-            border-top: 3px solid #3390ec;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* АДАПТИВ */
-        @media (max-width: 480px) {
-            .telegram-modal {
-                padding: 20px 18px 28px;
-                border-radius: 28px;
-            }
-            .modal-header h2 {
-                font-size: 20px;
-            }
-            .modal-header .icon-wrapper {
-                width: 68px;
-                height: 68px;
-            }
-        }
-
-        /* ТЕМНАЯ ТЕМА (встроена) */
-        ::-webkit-scrollbar {
-            width: 4px;
-            background: #1f1f1f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #3a3a3a;
-            border-radius: 8px;
-        }
-    </style>
+    /* Адаптив */
+    @media (max-width: 400px) {
+      .nft-grid { gap: 8px; }
+    }
+  </style>
 </head>
 <body>
+<div class="app" id="app">
 
-<div class="telegram-modal" id="modal">
-    <!-- ШАПКА -->
-    <div class="modal-header">
-        <div class="icon-wrapper">
-            <span class="tg-icon">✈️</span>
-            <!-- Либо вставь реальный SVG Telegram -->
-        </div>
-        <h2>Подключить кошелёк</h2>
-        <p>Введите пароль или отсканируйте QR‑код, чтобы подтвердить получение подарка</p>
+  <!-- Header -->
+  <div class="header">
+    <h1>🎁 Маркет</h1>
+    <div class="header-actions">
+      <span>🔔</span>
+      <span>👤</span>
     </div>
+  </div>
 
-    <!-- ИМИТАЦИЯ QR (как в TON Connect) -->
-    <div class="qr-placeholder">
-        <div class="qr-svg"></div>
-        <div style="margin-top:12px; font-size:13px; color:#8e8e93;">
-            Отсканируйте в приложении TON Wallet
-        </div>
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active">Подарки</div>
+    <div class="tab">Звезды и Прем</div>
+    <div class="tab">Коллекции</div>
+    <div class="tab">Каналы</div>
+  </div>
+
+  <!-- Search + Filters -->
+  <div class="search-section">
+    <div class="search-bar">
+      <span>🔍</span>
+      <input type="text" placeholder="Поиск по названию NFT / номеру" id="searchInput" />
+      <span>⚡</span>
     </div>
-
-    <!-- ПОЛЕ ВВОДА (как будто запрос пароля) -->
-    <div class="input-group">
-        <label for="password">Пароль кошелька</label>
-        <input type="password" id="password" placeholder="Введите пароль" autocomplete="off">
+    <div class="filters" id="filterContainer">
+      <div class="filter-pill active">NFT ▼</div>
+      <div class="filter-pill">Модель ▼</div>
+      <div class="filter-pill">Фон ▼</div>
+      <div class="filter-pill">Символ ▼</div>
     </div>
+  </div>
 
-    <!-- КНОПКА ПОДКЛЮЧЕНИЯ -->
-    <button class="connect-btn" id="connectBtn">
-        Подключить
-    </button>
+  <!-- NFT Grid -->
+  <div class="nft-grid" id="nftGrid">
+    <!-- Карточки будут сгенерированы JS -->
+  </div>
 
-    <!-- ДОП. ИНФО -->
-    <div class="footer-note">
-        <span>🔐 Данные не сохраняются</span><br>
-        <span style="font-size:12px; color:#4a4a4f;">
-            <a href="#" onclick="event.preventDefault(); alert('Это фишинговая страница (учебный пример)');">Политика конфиденциальности</a>
-        </span>
+  <!-- Доп. блок: Ордеры (как на скрине) -->
+  <div style="padding: 0 16px 8px;">
+    <div class="section-title">
+      <span>📦 Мои ордеры</span>
+      <span class="badge">4</span>
     </div>
+    <div class="order-list" id="orderList">
+      <!-- генерим -->
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item active"><span>🏠</span>Маркет</div>
+    <div class="nav-item"><span>📋</span>Ордеры</div>
+    <div class="nav-item"><span>🎮</span>Игровой хаб</div>
+    <div class="nav-item"><span>📌</span>Задания</div>
+    <div class="nav-item"><span>📦</span>Хранилище</div>
+  </div>
 </div>
 
 <script>
-    (function() {
-        // ЭМУЛЯЦИЯ КРАЖИ ДАННЫХ (для обучения)
-        const connectBtn = document.getElementById('connectBtn');
-        const passwordInput = document.getElementById('password');
+  (function() {
+    // --- Данные NFT (максимально похожи на скрины) ---
+    const nftData = [
+      { name: 'Eternal Rose', price: 1763.4, change: '+20.7%', up: true, lottie: 'https://assets10.lottiefiles.com/packages/lf20_ysd5vx1s.json' },
+      { name: 'Evil Eye', price: 857.74, change: '-5.82%', up: false, lottie: 'https://assets1.lottiefiles.com/packages/lf20_hggfxehl.json' },
+      { name: 'Flying Broom', price: 758.78, change: '-8.04%', up: false, lottie: 'https://assets5.lottiefiles.com/packages/lf20_jf7fxj4w.json' },
+      { name: 'Gem Signet', price: 2468.57, change: '+52.44%', up: true, lottie: 'https://assets7.lottiefiles.com/packages/lf20_ow3hpbxq.json' },
+      { name: 'Genie Lamp', price: 1344.96, change: '-29.57%', up: false, lottie: 'https://assets3.lottiefiles.com/packages/lf20_x1v1ngqv.json' },
+      { name: 'Heart Locket', price: 8851.81, change: '+959%', up: true, lottie: 'https://assets2.lottiefiles.com/packages/lf20_ng9qhx1a.json' },
+      { name: 'Heroic Helmet', price: 1399.33, change: '-175.94%', up: false, lottie: 'https://assets9.lottiefiles.com/packages/lf20_hb6pxi8a.json' },
+      { name: 'Hex Pot', price: 685.3, change: '-3.11%', up: false, lottie: 'https://assets6.lottiefiles.com/packages/lf20_i5hx4p8l.json' },
+      { name: 'Surge Board', price: 3347.36, change: '+6⭐', up: true, lottie: 'https://assets4.lottiefiles.com/packages/lf20_qy3xkfz4.json' },
+      { name: 'Liberty Figure', price: 14049.72, change: '+3.35⭐', up: true, lottie: 'https://assets8.lottiefiles.com/packages/lf20_x1v1ngqv.json' },
+    ];
 
-        // Функция "кражи"
-        function stealData() {
-            const password = passwordInput.value.trim();
-            if (!password) {
-                // Имитация ошибки, как в Telegram
-                passwordInput.style.borderColor = '#e74c3c';
-                passwordInput.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.2)';
-                setTimeout(() => {
-                    passwordInput.style.borderColor = '#3a3a3a';
-                    passwordInput.style.boxShadow = 'none';
-                }, 1000);
-                return;
-            }
+    // --- Ордеры (согласно скринам) ---
+    const orders = [
+      { name: 'Gravestone', qty: 1, price: 39.11 },
+      { name: 'Mask', qty: 1, price: 5.73 },
+      { name: 'Coffin', qty: 1, price: 18.21 },
+      { name: 'Airplane', qty: 1, price: 4000 },
+    ];
 
-            // СБОР ДАННЫХ (ЛОГ)
-            const userAgent = navigator.userAgent;
-            const screenSize = `${window.screen.width}x${window.screen.height}`;
-            const timestamp = new Date().toISOString();
+    // --- Рендер NFT ---
+    function renderNFTs(filter = '') {
+      const grid = document.getElementById('nftGrid');
+      grid.innerHTML = '';
+      const filtered = nftData.filter(item => 
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+      filtered.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'nft-card';
+        card.innerHTML = `
+          <div class="lottie-box" id="lottie-${index}"></div>
+          <div class="nft-name">${item.name}</div>
+          <div class="nft-meta">
+            <span class="nft-price">❤️ ${item.price.toFixed(2)}</span>
+            <span class="nft-change ${item.up ? 'up' : 'down'}">${item.change}</span>
+          </div>
+        `;
+        grid.appendChild(card);
 
-            // В РЕАЛЬНОМ ФИШИНГЕ ТУТ БЫЛ БЫ ЗАПРОС НА СЕРВЕР
-            console.log('🕵️‍♂️ УКРАДЕН ПАРОЛЬ:', password);
-            console.log('📱 Юзер-агент:', userAgent);
-            console.log('🖥️ Экран:', screenSize);
-            console.log('⏱️ Время:', timestamp);
-
-            // ЭМУЛЯЦИЯ УСПЕШНОГО ПОДКЛЮЧЕНИЯ (обманка)
-            connectBtn.textContent = '✅ Подключено';
-            connectBtn.style.background = '#2b8c4a';
-            connectBtn.style.boxShadow = '0 4px 12px rgba(43, 140, 74, 0.3)';
-            connectBtn.disabled = true;
-
-            // ИМИТАЦИЯ РЕДИРЕКТА НА НАСТОЯЩИЙ TELEGRAM
-            setTimeout(() => {
-                alert('🎉 Подарок получен! (учебный режим, данные не отправлены)');
-                // В боевом варианте здесь был бы редирект на https://t.me/
-                // window.location.href = 'https://t.me/';
-            }, 800);
+        // Lottie анимация
+        const container = document.getElementById(`lottie-${index}`);
+        if (container && item.lottie) {
+          const player = document.createElement('lottie-player');
+          player.src = item.lottie;
+          player.style.width = '100%';
+          player.style.height = '100%';
+          player.setAttribute('autoplay', '');
+          player.setAttribute('loop', '');
+          player.setAttribute('speed', '1');
+          container.appendChild(player);
+        } else {
+          // fallback эмодзи
+          container.innerHTML = '🎁';
+          container.style.fontSize = '36px';
+          container.style.display = 'flex';
+          container.style.alignItems = 'center';
+          container.style.justifyContent = 'center';
         }
+      });
+    }
 
-        // ОБРАБОТЧИК КНОПКИ
-        connectBtn.addEventListener('click', stealData);
+    // --- Рендер ордеров ---
+    function renderOrders() {
+      const list = document.getElementById('orderList');
+      list.innerHTML = '';
+      orders.forEach(order => {
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        div.innerHTML = `
+          <span><strong>${order.name}</strong> ×${order.qty}</span>
+          <span style="color:#f1c40f;">💜 ${order.price}</span>
+        `;
+        list.appendChild(div);
+      });
+    }
 
-        // ВВОД ПО ENTER
-        passwordInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                stealData();
-            }
-        });
+    // --- Поиск ---
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      renderNFTs(e.target.value);
+    });
 
-        // АВТОФОКУС НА ПОЛЕ (как в Telegram)
-        window.addEventListener('load', () => {
-            setTimeout(() => passwordInput.focus(), 300);
-        });
+    // --- Фильтры (клик для демо) ---
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        this.classList.toggle('active');
+        // тут можно добавить логику фильтрации, но для демо просто показываем
+        renderNFTs(document.getElementById('searchInput').value);
+      });
+    });
 
-        // ДОП. ЗАЩИТА ОТ СЛУЧАЙНОГО ЗАКРЫТИЯ
-        window.addEventListener('beforeunload', (e) => {
-            if (passwordInput.value.trim().length > 0) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
+    // --- Табы (переключение) ---
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        // заглушка — можно менять контент, но нам похуй, оставим как есть
+      });
+    });
 
-    })();
+    // --- Навигация ---
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // --- Инициализация ---
+    renderNFTs();
+    renderOrders();
+
+    // --- Дополнительно: Lottie ловит ошибки, но мы их игнорим ---
+    console.log('Маркет загружен. Гроза, дошик выкинут, код работает.');
+  })();
 </script>
 
 </body>
