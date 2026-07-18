@@ -80,7 +80,7 @@
             padding: 8px;
             margin: -8px;
             box-sizing: content-box;
-            background-image: url('data:image/svg+xml,%3Csvg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z' fill="%23fff"/%3E%3C/svg%3E');
+            background-image: url('data:image/svg+xml,%3Csvg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z" fill="%23fff"/%3E%3C/svg%3E');
             background-size: cover;
             background-position: 0 0;
             background-repeat: no-repeat;
@@ -527,21 +527,6 @@
         .tm-catalog-grid .tm-grid-item:hover { 
             background: #293440;
             transform: translateY(-2px);
-        }
-        .tm-catalog-grid .tm-grid-item .tm-grid-link {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            cursor: pointer;
-        }
-        @media (max-width: 767px) {
-            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(50% - var(--gap)); min-width: 120px; }
-            .tm-catalog-grid-wrap { --gap: 8px; }
-        }
-        @media (min-width: 768px) and (max-width: 1024px) {
-            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(25% - var(--gap)); }
         }
         .tm-grid-item-thumb {
             position: relative;
@@ -1180,6 +1165,10 @@
         }
         .tm-wallet .head { color: var(--accent-color); }
         .tm-wallet .tail { color: var(--table-text-color); }
+        
+        .tm-grid-item {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -1983,29 +1972,27 @@ function renderGifts(collection = 'all', search = '') {
     }
     
     grid.innerHTML = loadedGifts.map(item => {
-        const attrsStr = JSON.stringify(item.attrs || {});
+        const attrsStr = JSON.stringify(item.attrs || {}).replace(/"/g, '&quot;');
         const ownerStr = item.owner || '';
-        const historyStr = JSON.stringify(item.history || []);
+        const historyStr = JSON.stringify(item.history || []).replace(/"/g, '&quot;');
         const imgUrl = item.image || '';
         const escapedName = item.name.replace(/'/g, "\\'");
         const escapedNum = item.num.replace(/'/g, "\\'");
         return `
-        <div class="tm-grid-item" onclick="openDetail('${escapedName} ${escapedNum}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
-            <div class="tm-grid-link">
-                <div class="tm-grid-item-thumb">
-                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
-                    <div class="tm-grid-item-num">${item.num}</div>
+        <div class="tm-grid-item" onclick="openDetail('${escapedName} ${escapedNum}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', ${JSON.stringify(item.attrs)}, '${ownerStr}', ${JSON.stringify(item.history)})">
+            <div class="tm-grid-item-thumb">
+                <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
+                <div class="tm-grid-item-num">${item.num}</div>
+            </div>
+            <div class="tm-grid-item-content">
+                <div class="tm-grid-item-name">
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-num">&nbsp;${item.num}</span>
                 </div>
-                <div class="tm-grid-item-content">
-                    <div class="tm-grid-item-name">
-                        <span class="item-name">${item.name}</span>
-                        <span class="item-num">&nbsp;${item.num}</span>
-                    </div>
-                    <div class="tm-grid-item-desc">${item.collection}</div>
-                    <div class="tm-grid-item-values">
-                        <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
-                        <div class="tm-grid-item-status ${item.status}">${item.label}</div>
-                    </div>
+                <div class="tm-grid-item-desc">${item.collection}</div>
+                <div class="tm-grid-item-values">
+                    <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
+                    <div class="tm-grid-item-status ${item.status}">${item.label}</div>
                 </div>
             </div>
         </div>
@@ -2109,7 +2096,7 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     // Owner
     const ownerRow = document.getElementById('popup-owner-row');
     const ownerEl = document.getElementById('popup-detail-owner');
-    if (owner) {
+    if (owner && isGift) {
         ownerRow.style.display = 'flex';
         ownerEl.innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
     } else {
@@ -2284,7 +2271,7 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Клик по подаркам работает');
+console.log('✅ Клик по подаркам работает, детальный просмотр с карточкой работает');
 </script>
 
 </body>
