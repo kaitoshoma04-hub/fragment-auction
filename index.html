@@ -70,10 +70,7 @@
             flex-wrap: wrap;
             padding: 0 16px;
         }
-        .tm-header-logo { 
-            display: flex;
-            align-items: center;
-        }
+        .tm-header-logo { display: flex; align-items: center; }
         .tm-logo {
             display: inline-flex;
             padding: 15px 14px 15px 0;
@@ -105,11 +102,7 @@
             pointer-events: none;
         }
         .tm-header-body { flex-grow: 1; display: flex; align-items: center; }
-        .tm-header-actions { 
-            display: flex; 
-            align-items: center;
-            gap: 10px;
-        }
+        .tm-header-actions { display: flex; align-items: center; gap: 10px; }
         .tm-header-button {
             font-size: 13px;
             line-height: 18px;
@@ -182,9 +175,7 @@
             font-family: inherit;
         }
         .tm-header-tab:hover { color: rgba(203,215,229,0.9); }
-        .tm-header-tab.tab-active {
-            color: #fff;
-        }
+        .tm-header-tab.tab-active { color: #fff; }
         .tm-header-tab.tab-active:after {
             content: '';
             display: block;
@@ -212,24 +203,16 @@
         
         @media (min-width: 768px) {
             .tm-header { flex-wrap: nowrap; height: 56px; }
-            .tm-header-tabs-wrap { 
-                width: auto; 
-                border-top: none; 
-                padding: 0;
-                flex-grow: 1;
-            }
+            .tm-header-tabs-wrap { width: auto; border-top: none; padding: 0; flex-grow: 1; }
             .tm-header-tabs { min-width: auto; }
-            .tm-header-tab { 
-                padding: 19px 0;
-                margin-right: 26px;
-            }
+            .tm-header-tab { padding: 19px 0; margin-right: 26px; }
         }
         
         /* MAIN */
         .tm-main {
             margin: 0 auto;
             width: 100%;
-            max-width: 1096px;
+            max-width: 1400px;
             padding: 80px 16px 70px;
             flex-grow: 1;
         }
@@ -266,9 +249,9 @@
         .tm-main-search-form { margin-bottom: 20px; }
         .tm-main-search-form .tm-search-input {
             height: auto;
-            font-size: 14px;
-            line-height: 18px;
-            padding: 12px 42px 12px 48px;
+            font-size: 15px;
+            line-height: 20px;
+            padding: 14px 50px 14px 56px;
             box-shadow: none !important;
             border: none;
             background: transparent;
@@ -286,28 +269,28 @@
             background-position: 0 center;
             background-repeat: no-repeat;
             background-size: contain;
-            width: 15px;
-            height: 18px;
+            width: 18px;
+            height: 20px;
             background-image: url('data:image/svg+xml,%3Csvg height="24" viewBox="0 0 20 24" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd" stroke="%238494a3" stroke-width="2"%3E%3Cellipse cx="11.66" cy="10.4" rx="6.34" ry="6.4"/%3E%3Cpath d="m2 21 5.34-5.39" stroke-linecap="round"/%3E%3C/g%3E%3C/svg%3E');
         }
         .tm-search-field:before {
             position: absolute;
-            margin: 12px 15px 12px 19px;
+            margin: 14px 18px 14px 22px;
             pointer-events: none;
         }
         .tm-search-clear {
             position: absolute;
             top: 0;
             right: 0;
-            padding: 12px;
+            padding: 14px;
             cursor: pointer;
             border-radius: var(--def-border-radius);
         }
         .tm-search-clear:before {
             content: '';
             display: inline-block;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             background-image: url('data:image/svg+xml,%3Csvg height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5 17 12-12m-12 0 12 12" stroke="%238494a3" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
         }
         .tm-search-input:placeholder-shown ~ .tm-search-clear {
@@ -315,27 +298,32 @@
             opacity: 0;
         }
         
-        /* TABLE/OFFERS */
+        /* TABLE - РАСШИРЕННЫЙ ФОРМАТ */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
             background: var(--table-bg-color);
+            width: 100%;
         }
         .tm-table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             color: var(--table-text-color);
+            font-size: 14px;
         }
         .tm-table thead th {
-            font-size: 12px;
-            line-height: 16px;
+            font-size: 13px;
+            line-height: 18px;
             font-weight: bold;
             background-color: #293440;
-            padding: 10px 16px;
+            padding: 14px 20px;
             text-align: left;
             color: var(--table-text-color);
             border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
         .tm-table tbody tr {
             cursor: pointer;
@@ -343,15 +331,16 @@
         }
         .tm-table tbody tr:hover { background: #293440; }
         .tm-table tbody td {
-            padding: 12px 16px;
+            padding: 14px 20px;
             border-top: 1px solid #1a2026;
             font-size: 14px;
-            line-height: 19px;
+            line-height: 20px;
             vertical-align: middle;
         }
         .tm-table .tm-value {
             font-weight: bold;
             color: var(--value-color);
+            font-size: 15px;
         }
         .tm-table .tm-value.icon-ton:before {
             content: '';
@@ -360,35 +349,45 @@
             background-position: 0 center;
             background-repeat: no-repeat;
             background-size: contain;
-            width: 13px;
-            height: 16px;
-            margin-right: 4px;
+            width: 15px;
+            height: 18px;
+            margin-right: 5px;
             background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
         .tm-status-badge {
             display: inline-block;
-            font-size: 11px;
-            line-height: 16px;
+            font-size: 12px;
+            line-height: 18px;
             font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 3px 10px;
+            border-radius: 5px;
             white-space: nowrap;
         }
-        .tm-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.1); }
-        .tm-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.1); }
-        .tm-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.1); }
-        .tm-status-badge.premium { color: #ffd951; background: rgba(255,217,81,0.1); }
+        .tm-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
+        .tm-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
+        .tm-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
+        .tm-status-badge.premium { color: #ffd951; background: rgba(255,217,81,0.12); }
         
-        .tm-wallet {
-            color: var(--accent-color);
-            font-family: monospace;
+        .tm-username-link {
+            color: #fff;
+            font-weight: bold;
+            font-size: 15px;
         }
-        .tm-wallet:hover { text-decoration: underline; }
+        .tm-username-link:hover { color: var(--accent-color); text-decoration: none; }
         
+        .tm-table .hide-mobile { display: table-cell; }
         @media (max-width: 767px) {
-            .tm-table thead th { font-size: 10px; padding: 8px 10px; }
-            .tm-table tbody td { font-size: 12px; padding: 8px 10px; }
+            .tm-table thead th { font-size: 11px; padding: 10px 12px; }
+            .tm-table tbody td { font-size: 12px; padding: 10px 12px; }
             .tm-table .hide-mobile { display: none; }
+            .tm-table .tm-value { font-size: 13px; }
+        }
+        
+        /* SCROLLABLE TABLE WRAP */
+        .tm-table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--def-border-radius);
         }
         
         /* GIFT CARDS */
@@ -396,24 +395,19 @@
         .tm-catalog-grid {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
-            margin-right: calc(-1 * var(--gap));
-            margin-bottom: calc(-1 * var(--gap));
+            justify-content: flex-start;
+            gap: var(--gap);
         }
         .tm-catalog-grid .tm-grid-item {
-            flex-shrink: 1;
-            flex-grow: 1;
+            flex: 0 0 calc(20% - var(--gap));
             display: flex;
             overflow: hidden;
-            min-width: 110px;
-            margin-right: var(--gap);
-            flex-basis: 1%;
             flex-direction: column;
             border-radius: var(--def-border-radius);
             background-color: var(--table-bg-color);
-            margin-bottom: var(--gap);
             cursor: pointer;
             transition: background .2s ease;
+            min-width: 140px;
         }
         .tm-catalog-grid .tm-grid-item:hover { background: #293440; }
         .tm-catalog-grid .tm-grid-item a {
@@ -423,9 +417,11 @@
             flex-direction: column;
             flex-grow: 1;
         }
-        @media (min-width: 768px) {
-            .tm-catalog-grid-wrap { --gap: 12px; }
-            .tm-catalog-grid .tm-grid-item { min-width: 168px; max-width: 168px; }
+        @media (max-width: 767px) {
+            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(50% - var(--gap)); min-width: 120px; }
+        }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(25% - var(--gap)); }
         }
         .tm-grid-item-thumb {
             position: relative;
@@ -593,14 +589,11 @@
             padding: 20px;
             transition: opacity .2s ease;
         }
-        .popup-container.hide {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .popup-container.hide { opacity: 0; pointer-events: none; }
         .popup {
             background: var(--bg-color);
             border-radius: 12px;
-            max-width: 480px;
+            max-width: 500px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -614,39 +607,65 @@
         .popup-close {
             float: right;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 28px;
             color: var(--text-color);
             background: none;
             border: none;
             padding: 0 0 10px 10px;
+            line-height: 1;
         }
         .popup-close:hover { color: #fff; }
-        .popup h2 { margin: 0 0 10px; font-size: 24px; }
+        .popup h2 { margin: 0 0 16px; font-size: 26px; }
         .popup .detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .popup .detail-label { color: var(--table-text-color); }
-        .popup .detail-value { font-weight: bold; color: var(--value-color); }
+        .popup .detail-label { color: var(--table-text-color); font-size: 14px; }
+        .popup .detail-value { font-weight: bold; color: var(--value-color); font-size: 15px; }
         .popup .btn-primary {
             display: inline-block;
             background: var(--btn-primary-bg-color);
             color: #fff;
-            padding: 12px 24px;
+            padding: 14px 28px;
             border: none;
             border-radius: var(--def-border-radius);
             font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 24px;
+            transition: background .2s ease;
         }
         .popup .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
         
         .section-hidden { display: none; }
         .section-active { display: block; }
+        
+        /* LOAD MORE */
+        .tm-load-more {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            margin-top: 16px;
+            background: var(--btn-default-bg-color);
+            border-radius: var(--def-border-radius);
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background .2s ease;
+            border: none;
+            font-size: 14px;
+            width: 100%;
+        }
+        .tm-load-more:hover { background: var(--btn-default-bg-hover-color); }
+        
+        .tm-items-count {
+            font-size: 13px;
+            color: var(--table-text-color);
+            margin-left: 12px;
+        }
     </style>
 </head>
 <body>
@@ -686,7 +705,7 @@
 <!-- MAIN -->
 <main class="tm-main">
 
-    <!-- SECTION: OFFERS (Usernames + Numbers как офферы) -->
+    <!-- SECTION: OFFERS -->
     <div id="section-offers" class="section-active">
         <div class="tm-main-search-form">
             <div class="tm-search-field icon-before icon-search">
@@ -696,29 +715,31 @@
         </div>
         
         <div class="tm-section-header">
-            <h3 class="tm-section-header-text">Username Offers</h3>
+            <h3 class="tm-section-header-text">Username Offers <span class="tm-items-count" id="offers-count"></span></h3>
             <div style="font-size:13px;color:var(--table-text-color);">Buy instantly or place a bid</div>
         </div>
         
-        <div class="tm-table-wrap">
-            <table class="tm-table">
-                <thead>
-                    <tr>
-                        <th style="width:25%;">Username</th>
-                        <th style="width:25%;">Type</th>
-                        <th style="width:20%;">Price</th>
-                        <th style="width:15%;">Status</th>
-                        <th style="width:15%;" class="hide-mobile">Listed</th>
-                    </tr>
-                </thead>
-                <tbody id="offers-table-body">
-                    <!-- JS рендерит -->
-                </tbody>
-            </table>
+        <div class="tm-table-scroll">
+            <div class="tm-table-wrap">
+                <table class="tm-table">
+                    <thead>
+                        <tr>
+                            <th style="width:22%;">Username</th>
+                            <th style="width:18%;">Type</th>
+                            <th style="width:18%;">Price</th>
+                            <th style="width:14%;">Status</th>
+                            <th style="width:14%;" class="hide-mobile">Listed</th>
+                            <th style="width:14%;" class="hide-mobile">Bids</th>
+                        </tr>
+                    </thead>
+                    <tbody id="offers-table-body"></tbody>
+                </table>
+            </div>
         </div>
+        <button class="tm-load-more" id="offers-load-more">Load More Usernames</button>
     </div>
 
-    <!-- SECTION: NUMBERS (+888 офферы) -->
+    <!-- SECTION: NUMBERS -->
     <div id="section-numbers" class="section-hidden">
         <div class="tm-main-search-form">
             <div class="tm-search-field icon-before icon-search">
@@ -728,29 +749,31 @@
         </div>
         
         <div class="tm-section-header">
-            <h3 class="tm-section-header-text">+888 Numbers</h3>
+            <h3 class="tm-section-header-text">+888 Numbers <span class="tm-items-count" id="numbers-count"></span></h3>
             <div style="font-size:13px;color:var(--table-text-color);">Virtual numbers on auction</div>
         </div>
         
-        <div class="tm-table-wrap">
-            <table class="tm-table">
-                <thead>
-                    <tr>
-                        <th style="width:25%;">Number</th>
-                        <th style="width:25%;">Type</th>
-                        <th style="width:20%;">Price</th>
-                        <th style="width:15%;">Status</th>
-                        <th style="width:15%;" class="hide-mobile">Listed</th>
-                    </tr>
-                </thead>
-                <tbody id="numbers-table-body">
-                    <!-- JS рендерит -->
-                </tbody>
-            </table>
+        <div class="tm-table-scroll">
+            <div class="tm-table-wrap">
+                <table class="tm-table">
+                    <thead>
+                        <tr>
+                            <th style="width:22%;">Number</th>
+                            <th style="width:18%;">Type</th>
+                            <th style="width:18%;">Price</th>
+                            <th style="width:14%;">Status</th>
+                            <th style="width:14%;" class="hide-mobile">Listed</th>
+                            <th style="width:14%;" class="hide-mobile">Bids</th>
+                        </tr>
+                    </thead>
+                    <tbody id="numbers-table-body"></tbody>
+                </table>
+            </div>
         </div>
+        <button class="tm-load-more" id="numbers-load-more">Load More Numbers</button>
     </div>
 
-    <!-- SECTION: GIFTS (карточки как на Fragment) -->
+    <!-- SECTION: GIFTS -->
     <div id="section-gifts" class="section-hidden">
         <div class="tm-main-search-form">
             <div class="tm-search-field icon-before icon-search">
@@ -766,63 +789,58 @@
                     <span class="tm-main-filters-count" id="gift-filter-count">All</span>
                 </div>
                 <div class="tm-main-filters-content" id="gift-filter-content">
-                    <div class="tm-main-filters-item selected" data-collection="all">
-                        <span class="tm-main-filters-name">All Collections</span>
-                        <span class="tm-main-filters-count">0</span>
-                    </div>
-                    <!-- JS добавит коллекции -->
+                    <!-- JS -->
                 </div>
             </div>
         </div>
         
         <div class="tm-section-header">
-            <h3 class="tm-section-header-text">Top Gifts</h3>
+            <h3 class="tm-section-header-text">Top Gifts <span class="tm-items-count" id="gifts-count"></span></h3>
             <div style="font-size:13px;color:var(--table-text-color);">Limited edition Telegram gifts</div>
         </div>
         
         <div class="tm-catalog-grid-wrap">
-            <div class="tm-catalog-grid" id="gifts-grid">
-                <!-- JS рендерит карточки -->
-            </div>
+            <div class="tm-catalog-grid" id="gifts-grid"></div>
         </div>
+        <button class="tm-load-more" id="gifts-load-more">Load More Gifts</button>
     </div>
 
-    <!-- SECTION: STARS (заглушка) -->
+    <!-- STARS -->
     <div id="section-stars" class="section-hidden">
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">⭐ Telegram Stars</h3>
         </div>
-        <div style="padding:40px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
-            <div style="font-size:48px;margin-bottom:16px;">⭐</div>
-            <div style="font-size:18px;color:#fff;">Stars Marketplace</div>
-            <div style="font-size:14px;margin-top:8px;">Buy and sell Telegram Stars with TON</div>
-            <div style="margin-top:20px;font-size:13px;color:var(--text-color);">Coming soon</div>
+        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+            <div style="font-size:56px;margin-bottom:16px;">⭐</div>
+            <div style="font-size:20px;color:#fff;">Stars Marketplace</div>
+            <div style="font-size:15px;margin-top:10px;">Buy and sell Telegram Stars with TON</div>
+            <div style="margin-top:24px;font-size:13px;color:var(--text-color);">Coming soon</div>
         </div>
     </div>
 
-    <!-- SECTION: PREMIUM (заглушка) -->
+    <!-- PREMIUM -->
     <div id="section-premium" class="section-hidden">
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">👑 Telegram Premium</h3>
         </div>
-        <div style="padding:40px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
-            <div style="font-size:48px;margin-bottom:16px;">👑</div>
-            <div style="font-size:18px;color:#fff;">Premium Subscriptions</div>
-            <div style="font-size:14px;margin-top:8px;">Gift Telegram Premium to others</div>
-            <div style="margin-top:20px;font-size:13px;color:var(--text-color);">Coming soon</div>
+        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+            <div style="font-size:56px;margin-bottom:16px;">👑</div>
+            <div style="font-size:20px;color:#fff;">Premium Subscriptions</div>
+            <div style="font-size:15px;margin-top:10px;">Gift Telegram Premium to others</div>
+            <div style="margin-top:24px;font-size:13px;color:var(--text-color);">Coming soon</div>
         </div>
     </div>
 
-    <!-- SECTION: ADS (заглушка) -->
+    <!-- ADS -->
     <div id="section-ads" class="section-hidden">
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">📢 Telegram Ads</h3>
         </div>
-        <div style="padding:40px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
-            <div style="font-size:48px;margin-bottom:16px;">📢</div>
-            <div style="font-size:18px;color:#fff;">Ad Credits</div>
-            <div style="font-size:14px;margin-top:8px;">Purchase advertising credits for Telegram</div>
-            <div style="margin-top:20px;font-size:13px;color:var(--text-color);">Coming soon</div>
+        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+            <div style="font-size:56px;margin-bottom:16px;">📢</div>
+            <div style="font-size:20px;color:#fff;">Ad Credits</div>
+            <div style="font-size:15px;margin-top:10px;">Purchase advertising credits for Telegram</div>
+            <div style="margin-top:24px;font-size:13px;color:var(--text-color);">Coming soon</div>
         </div>
     </div>
 
@@ -838,6 +856,7 @@
             <div class="detail-row"><span class="detail-label">Price</span><span class="detail-value" id="popup-price">0 TON</span></div>
             <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value" id="popup-status">Available</span></div>
             <div class="detail-row"><span class="detail-label">Listed</span><span class="detail-value" id="popup-date">Today</span></div>
+            <div class="detail-row"><span class="detail-label">Bids</span><span class="detail-value" id="popup-bids">0</span></div>
             <button class="btn-primary" id="popup-action">Place Bid</button>
         </div>
     </div>
@@ -854,121 +873,211 @@
 </footer>
 
 <script>
-// ========== DATA ==========
+// ========== BIG DATA ==========
 const offersData = [
-    { id: 1, name: 'middlemen', type: 'Username', price: 8888, status: 'avail', label: 'On auction', date: 'Sep 7, 2025' },
-    { id: 2, name: 'heal', type: 'Username', price: 4444, status: 'avail', label: 'On auction', date: 'Sep 5, 2025' },
-    { id: 3, name: 'tier', type: 'Username', price: 3333, status: 'avail', label: 'On auction', date: 'Sep 5, 2025' },
-    { id: 4, name: 'failed', type: 'Username', price: 2222, status: 'taken', label: 'Taken', date: 'Sep 4, 2025' },
-    { id: 5, name: 'cloud', type: 'Username', price: 5000, status: 'avail', label: 'On auction', date: 'Sep 3, 2025' },
-    { id: 6, name: 'storm', type: 'Username', price: 3200, status: 'avail', label: 'On auction', date: 'Sep 2, 2025' },
-    { id: 7, name: 'shadow', type: 'Username', price: 2800, status: 'avail', label: 'On auction', date: 'Sep 1, 2025' },
-    { id: 8, name: 'light', type: 'Username', price: 1900, status: 'avail', label: 'On auction', date: 'Aug 31, 2025' },
-    { id: 9, name: 'phantom', type: 'Username', price: 4500, status: 'avail', label: 'On auction', date: 'Aug 30, 2025' },
-    { id: 10, name: 'cyber', type: 'Username', price: 3800, status: 'avail', label: 'On auction', date: 'Aug 29, 2025' },
-    { id: 11, name: 'matrix', type: 'Username', price: 6100, status: 'avail', label: 'On auction', date: 'Aug 28, 2025' },
-    { id: 12, name: 'neon', type: 'Username', price: 2700, status: 'avail', label: 'On auction', date: 'Aug 27, 2025' },
+    { id: 1, name: 'middlemen', type: 'Username', price: 8888, status: 'avail', label: 'On auction', date: 'Sep 7, 2025', bids: 12 },
+    { id: 2, name: 'heal', type: 'Username', price: 4444, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 8 },
+    { id: 3, name: 'tier', type: 'Username', price: 3333, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 5 },
+    { id: 4, name: 'failed', type: 'Username', price: 2222, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 3 },
+    { id: 5, name: 'cloud', type: 'Username', price: 5000, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 7 },
+    { id: 6, name: 'storm', type: 'Username', price: 3200, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 4 },
+    { id: 7, name: 'shadow', type: 'Username', price: 2800, status: 'avail', label: 'On auction', date: 'Sep 1, 2025', bids: 6 },
+    { id: 8, name: 'light', type: 'Username', price: 1900, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 2 },
+    { id: 9, name: 'phantom', type: 'Username', price: 4500, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9 },
+    { id: 10, name: 'cyber', type: 'Username', price: 3800, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 5 },
+    { id: 11, name: 'matrix', type: 'Username', price: 6100, status: 'avail', label: 'On auction', date: 'Aug 28, 2025', bids: 11 },
+    { id: 12, name: 'neon', type: 'Username', price: 2700, status: 'avail', label: 'On auction', date: 'Aug 27, 2025', bids: 3 },
+    { id: 13, name: 'vortex', type: 'Username', price: 3400, status: 'avail', label: 'On auction', date: 'Aug 26, 2025', bids: 6 },
+    { id: 14, name: 'echo', type: 'Username', price: 1600, status: 'avail', label: 'On auction', date: 'Aug 25, 2025', bids: 1 },
+    { id: 15, name: 'nova', type: 'Username', price: 5200, status: 'avail', label: 'On auction', date: 'Aug 24, 2025', bids: 8 },
+    { id: 16, name: 'zen', type: 'Username', price: 2100, status: 'avail', label: 'On auction', date: 'Aug 23, 2025', bids: 4 },
+    { id: 17, name: 'flux', type: 'Username', price: 3800, status: 'avail', label: 'On auction', date: 'Aug 22, 2025', bids: 7 },
+    { id: 18, name: 'pulse', type: 'Username', price: 2900, status: 'avail', label: 'On auction', date: 'Aug 21, 2025', bids: 3 },
+    { id: 19, name: 'core', type: 'Username', price: 4600, status: 'avail', label: 'On auction', date: 'Aug 20, 2025', bids: 6 },
+    { id: 20, name: 'apex', type: 'Username', price: 5400, status: 'avail', label: 'On auction', date: 'Aug 19, 2025', bids: 9 },
+    { id: 21, name: 'nexus', type: 'Username', price: 3900, status: 'avail', label: 'On auction', date: 'Aug 18, 2025', bids: 5 },
+    { id: 22, name: 'prime', type: 'Username', price: 7200, status: 'avail', label: 'On auction', date: 'Aug 17, 2025', bids: 14 },
+    { id: 23, name: 'elite', type: 'Username', price: 8300, status: 'avail', label: 'On auction', date: 'Aug 16, 2025', bids: 10 },
+    { id: 24, name: 'alpha', type: 'Username', price: 6600, status: 'taken', label: 'Taken', date: 'Aug 15, 2025', bids: 8 },
+    { id: 25, name: 'omega', type: 'Username', price: 5800, status: 'avail', label: 'On auction', date: 'Aug 14, 2025', bids: 6 },
+    { id: 26, name: 'legend', type: 'Username', price: 9100, status: 'avail', label: 'On auction', date: 'Aug 13, 2025', bids: 15 },
+    { id: 27, name: 'myth', type: 'Username', price: 4700, status: 'avail', label: 'On auction', date: 'Aug 12, 2025', bids: 7 },
+    { id: 28, name: 'solar', type: 'Username', price: 3600, status: 'avail', label: 'On auction', date: 'Aug 11, 2025', bids: 4 },
+    { id: 29, name: 'lunar', type: 'Username', price: 3100, status: 'avail', label: 'On auction', date: 'Aug 10, 2025', bids: 5 },
+    { id: 30, name: 'stellar', type: 'Username', price: 5900, status: 'avail', label: 'On auction', date: 'Aug 9, 2025', bids: 9 },
 ];
 
 const numbersData = [
-    { id: 101, name: '+888 123 4567', type: 'Number', price: 1200, status: 'avail', label: 'On auction', date: 'Sep 6, 2025' },
-    { id: 102, name: '+888 777 8888', type: 'Number', price: 2500, status: 'avail', label: 'On auction', date: 'Sep 5, 2025' },
-    { id: 103, name: '+888 999 0000', type: 'Number', price: 1800, status: 'taken', label: 'Taken', date: 'Sep 4, 2025' },
-    { id: 104, name: '+888 555 1234', type: 'Number', price: 900, status: 'avail', label: 'On auction', date: 'Sep 3, 2025' },
-    { id: 105, name: '+888 666 9999', type: 'Number', price: 3200, status: 'avail', label: 'On auction', date: 'Sep 2, 2025' },
-    { id: 106, name: '+888 111 2222', type: 'Number', price: 1500, status: 'avail', label: 'On auction', date: 'Sep 1, 2025' },
-    { id: 107, name: '+888 444 7777', type: 'Number', price: 2800, status: 'avail', label: 'On auction', date: 'Aug 31, 2025' },
-    { id: 108, name: '+888 888 1111', type: 'Number', price: 4000, status: 'avail', label: 'On auction', date: 'Aug 30, 2025' },
+    { id: 101, name: '+888 123 4567', type: 'Number', price: 1200, status: 'avail', label: 'On auction', date: 'Sep 6, 2025', bids: 3 },
+    { id: 102, name: '+888 777 8888', type: 'Number', price: 2500, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 5 },
+    { id: 103, name: '+888 999 0000', type: 'Number', price: 1800, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 2 },
+    { id: 104, name: '+888 555 1234', type: 'Number', price: 900, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 1 },
+    { id: 105, name: '+888 666 9999', type: 'Number', price: 3200, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 7 },
+    { id: 106, name: '+888 111 2222', type: 'Number', price: 1500, status: 'avail', label: 'On auction', date: 'Sep 1, 2025', bids: 4 },
+    { id: 107, name: '+888 444 7777', type: 'Number', price: 2800, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 6 },
+    { id: 108, name: '+888 888 1111', type: 'Number', price: 4000, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9 },
+    { id: 109, name: '+888 222 3333', type: 'Number', price: 1100, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 2 },
+    { id: 110, name: '+888 000 9999', type: 'Number', price: 2100, status: 'avail', label: 'On auction', date: 'Aug 28, 2025', bids: 5 },
+    { id: 111, name: '+888 333 4444', type: 'Number', price: 1600, status: 'avail', label: 'On auction', date: 'Aug 27, 2025', bids: 3 },
+    { id: 112, name: '+888 555 6666', type: 'Number', price: 2700, status: 'avail', label: 'On auction', date: 'Aug 26, 2025', bids: 6 },
+    { id: 113, name: '+888 777 9999', type: 'Number', price: 3500, status: 'avail', label: 'On auction', date: 'Aug 25, 2025', bids: 8 },
+    { id: 114, name: '+888 111 0000', type: 'Number', price: 800, status: 'avail', label: 'On auction', date: 'Aug 24, 2025', bids: 1 },
+    { id: 115, name: '+888 222 5555', type: 'Number', price: 1900, status: 'taken', label: 'Taken', date: 'Aug 23, 2025', bids: 4 },
+    { id: 116, name: '+888 333 7777', type: 'Number', price: 2300, status: 'avail', label: 'On auction', date: 'Aug 22, 2025', bids: 5 },
+    { id: 117, name: '+888 444 8888', type: 'Number', price: 3100, status: 'avail', label: 'On auction', date: 'Aug 21, 2025', bids: 7 },
+    { id: 118, name: '+888 555 9999', type: 'Number', price: 2600, status: 'avail', label: 'On auction', date: 'Aug 20, 2025', bids: 4 },
+    { id: 119, name: '+888 666 1111', type: 'Number', price: 1800, status: 'avail', label: 'On auction', date: 'Aug 19, 2025', bids: 3 },
+    { id: 120, name: '+888 777 2222', type: 'Number', price: 2200, status: 'avail', label: 'On auction', date: 'Aug 18, 2025', bids: 5 },
+    { id: 121, name: '+888 888 3333', type: 'Number', price: 3800, status: 'avail', label: 'On auction', date: 'Aug 17, 2025', bids: 8 },
+    { id: 122, name: '+888 999 4444', type: 'Number', price: 2900, status: 'avail', label: 'On auction', date: 'Aug 16, 2025', bids: 6 },
+    { id: 123, name: '+888 000 1111', type: 'Number', price: 700, status: 'avail', label: 'On auction', date: 'Aug 15, 2025', bids: 1 },
+    { id: 124, name: '+888 111 3333', type: 'Number', price: 1300, status: 'avail', label: 'On auction', date: 'Aug 14, 2025', bids: 2 },
+    { id: 125, name: '+888 222 4444', type: 'Number', price: 1700, status: 'avail', label: 'On auction', date: 'Aug 13, 2025', bids: 3 },
+    { id: 126, name: '+888 333 5555', type: 'Number', price: 2000, status: 'avail', label: 'On auction', date: 'Aug 12, 2025', bids: 4 },
+    { id: 127, name: '+888 444 6666', type: 'Number', price: 2400, status: 'avail', label: 'On auction', date: 'Aug 11, 2025', bids: 5 },
+    { id: 128, name: '+888 555 7777', type: 'Number', price: 3000, status: 'avail', label: 'On auction', date: 'Aug 10, 2025', bids: 6 },
+    { id: 129, name: '+888 666 8888', type: 'Number', price: 3300, status: 'avail', label: 'On auction', date: 'Aug 9, 2025', bids: 7 },
+    { id: 130, name: '+888 777 3333', type: 'Number', price: 2100, status: 'avail', label: 'On auction', date: 'Aug 8, 2025', bids: 4 },
 ];
 
+// GIFTS DATA (без изменений)
 const giftsData = [
     { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg' },
     { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg' },
     { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg' },
     { id: 4, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1521', price: 28555, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1521.medium.jpg' },
     { id: 5, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#318', price: 23519, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-318.medium.jpg' },
-    { id: 6, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg' },
-    { id: 7, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg' },
-    { id: 8, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg' },
-    { id: 9, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg' },
-    { id: 10, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg' },
-    { id: 11, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg' },
-    { id: 12, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg' },
-];
-
-const collections = [
-    'All Collections', 'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 
-    'Scared Cats', 'Loot Bags', 'Sakura Flowers', 'Low Riders', 'Snoop Doggs'
+    { id: 6, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1179', price: 20888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1179.medium.jpg' },
+    { id: 7, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#456', price: 19999, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-456.medium.jpg' },
+    { id: 8, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1519', price: 19000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1519.medium.jpg' },
+    { id: 9, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1043', price: 15000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1043.medium.jpg' },
+    { id: 10, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg' },
+    { id: 11, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg' },
+    { id: 12, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg' },
+    { id: 13, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg' },
+    { id: 14, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg' },
+    { id: 15, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg' },
+    { id: 16, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg' },
+    { id: 17, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#858', price: 15000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-858.medium.jpg' },
+    { id: 18, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#982', price: 13999, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-982.medium.jpg' },
+    { id: 19, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#177', price: 13500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-177.medium.jpg' },
+    { id: 20, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#899', price: 13500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-899.medium.jpg' },
 ];
 
 // ========== RENDER FUNCTIONS ==========
-function renderOffers(data, search = '') {
-    const filtered = data.filter(item => 
+let offersPage = 0;
+const OFFERS_PER_PAGE = 20;
+let numbersPage = 0;
+const NUMBERS_PER_PAGE = 20;
+let giftsPage = 0;
+const GIFTS_PER_PAGE = 12;
+
+function renderOffers(search = '') {
+    const filtered = offersData.filter(item => 
         item.name.toLowerCase().includes(search.toLowerCase()) ||
         item.type.toLowerCase().includes(search.toLowerCase())
     );
+    const start = 0;
+    const end = Math.min((offersPage + 1) * OFFERS_PER_PAGE, filtered.length);
+    const pageItems = filtered.slice(start, end);
+    
     const tbody = document.getElementById('offers-table-body');
-    if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--table-text-color);">No offers found</td></tr>`;
+    document.getElementById('offers-count').textContent = `(${filtered.length})`;
+    
+    if (pageItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`;
         return;
     }
-    tbody.innerHTML = filtered.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, '${item.status}', '${item.label}', '${item.date}')">
-            <td><strong style="color:#fff;">@${item.name}</strong></td>
+    
+    tbody.innerHTML = pageItems.map(item => `
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0})">
+            <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
             <td class="hide-mobile">${item.date}</td>
+            <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
+    
+    // Показываем/скрываем кнопку Load More
+    const btn = document.getElementById('offers-load-more');
+    if (end >= filtered.length) {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
 }
 
-function renderNumbers(data, search = '') {
-    const filtered = data.filter(item => 
+function renderNumbers(search = '') {
+    const filtered = numbersData.filter(item => 
         item.name.toLowerCase().includes(search.toLowerCase()) ||
         item.type.toLowerCase().includes(search.toLowerCase())
     );
+    const start = 0;
+    const end = Math.min((numbersPage + 1) * NUMBERS_PER_PAGE, filtered.length);
+    const pageItems = filtered.slice(start, end);
+    
     const tbody = document.getElementById('numbers-table-body');
-    if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--table-text-color);">No numbers found</td></tr>`;
+    document.getElementById('numbers-count').textContent = `(${filtered.length})`;
+    
+    if (pageItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`;
         return;
     }
-    tbody.innerHTML = filtered.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, '${item.status}', '${item.label}', '${item.date}')">
-            <td><strong style="color:#fff;">${item.name}</strong></td>
+    
+    tbody.innerHTML = pageItems.map(item => `
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0})">
+            <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
             <td class="hide-mobile">${item.date}</td>
+            <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
+    
+    const btn = document.getElementById('numbers-load-more');
+    if (end >= filtered.length) {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
 }
 
-function renderGifts(data, collection = 'all', search = '') {
-    const filtered = data.filter(item => {
+function renderGifts(collection = 'all', search = '') {
+    const filtered = giftsData.filter(item => {
         const matchCollection = collection === 'all' || item.collection === collection;
         const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
                             item.collection.toLowerCase().includes(search.toLowerCase());
         return matchCollection && matchSearch;
     });
+    
+    const start = 0;
+    const end = Math.min((giftsPage + 1) * GIFTS_PER_PAGE, filtered.length);
+    const pageItems = filtered.slice(start, end);
+    
     const grid = document.getElementById('gifts-grid');
-    if (filtered.length === 0) {
+    document.getElementById('gifts-count').textContent = `(${filtered.length})`;
+    
+    if (pageItems.length === 0) {
         grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`;
         return;
     }
-    grid.innerHTML = filtered.map(item => `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, '${item.status}', '${item.label}', 'Today')">
+    
+    grid.innerHTML = pageItems.map(item => `
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, '${item.status}', '${item.label}', 'Today', 0)">
             <a href="#">
                 <div class="tm-grid-item-thumb">
                     <img src="${item.image}" class="tm-grid-thumb" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23212a33%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
-                    <div class="tm-grid-item-num thin-only" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.5);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
+                    <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
-                    <div class="tm-grid-item-name wide-only">
+                    <div class="tm-grid-item-name">
                         <span class="item-name">${item.name}</span>
                         <span class="item-num">&nbsp;${item.num}</span>
                     </div>
-                    <div class="tm-grid-item-desc wide-only">${item.collection}</div>
+                    <div class="tm-grid-item-desc">${item.collection}</div>
                     <div class="tm-grid-item-values">
                         <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
                         <div class="tm-grid-item-status ${item.status}">${item.label}</div>
@@ -977,18 +1086,25 @@ function renderGifts(data, collection = 'all', search = '') {
             </a>
         </div>
     `).join('');
+    
+    const btn = document.getElementById('gifts-load-more');
+    if (end >= filtered.length) {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
 }
 
-function renderFilterCollections(data) {
+function renderFilterCollections() {
     const container = document.getElementById('gift-filter-content');
     const collectionsMap = {};
-    data.forEach(item => {
+    giftsData.forEach(item => {
         collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1;
     });
     
     let html = `<div class="tm-main-filters-item selected" data-collection="all">
         <span class="tm-main-filters-name">All Collections</span>
-        <span class="tm-main-filters-count">${data.length}</span>
+        <span class="tm-main-filters-count">${giftsData.length}</span>
     </div>`;
     
     Object.keys(collectionsMap).sort().forEach(name => {
@@ -999,40 +1115,35 @@ function renderFilterCollections(data) {
     });
     
     container.innerHTML = html;
+    document.getElementById('gift-filter-count').textContent = giftsData.length;
     
-    // Обновляем счетчик в заголовке
-    document.getElementById('gift-filter-count').textContent = data.length;
-    
-    // Клики по фильтрам
     container.querySelectorAll('.tm-main-filters-item').forEach(el => {
         el.addEventListener('click', function() {
             container.querySelectorAll('.tm-main-filters-item').forEach(f => f.classList.remove('selected'));
             this.classList.add('selected');
-            const collection = this.dataset.collection;
-            const search = document.getElementById('search-gifts').value;
-            renderGifts(giftsData, collection, search);
+            giftsPage = 0;
+            renderGifts(this.dataset.collection, document.getElementById('search-gifts').value);
         });
     });
 }
 
 // ========== DETAIL POPUP ==========
-function openDetail(name, type, price, status, label, date) {
+function openDetail(name, type, price, status, label, date, bids) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-type').textContent = type;
     document.getElementById('popup-price').textContent = price.toLocaleString() + ' TON';
     document.getElementById('popup-status').textContent = label;
     document.getElementById('popup-date').textContent = date || 'Today';
+    document.getElementById('popup-bids').textContent = bids || 0;
     document.getElementById('detail-popup').classList.remove('hide');
 }
 
 document.getElementById('popup-close').addEventListener('click', function() {
     document.getElementById('detail-popup').classList.add('hide');
 });
-
 document.getElementById('detail-popup').addEventListener('click', function(e) {
     if (e.target === this) this.classList.add('hide');
 });
-
 document.getElementById('popup-action').addEventListener('click', function() {
     alert('Bid placed! (demo)');
     document.getElementById('detail-popup').classList.add('hide');
@@ -1043,13 +1154,11 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
     tab.addEventListener('click', function() {
         document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
         this.classList.add('tab-active');
-        
         const section = this.dataset.section;
         document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
             el.classList.remove('section-active', 'section-hidden');
             el.style.display = 'none';
         });
-        
         const target = document.getElementById('section-' + section);
         if (target) {
             target.style.display = 'block';
@@ -1060,20 +1169,20 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
 
 // ========== SEARCH ==========
 document.getElementById('search-offers').addEventListener('input', function() {
-    renderOffers(offersData, this.value);
+    offersPage = 0;
+    renderOffers(this.value);
 });
-
 document.getElementById('search-numbers').addEventListener('input', function() {
-    renderNumbers(numbersData, this.value);
+    numbersPage = 0;
+    renderNumbers(this.value);
 });
-
 document.getElementById('search-gifts').addEventListener('input', function() {
+    giftsPage = 0;
     const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
     const collection = selected ? selected.dataset.collection : 'all';
-    renderGifts(giftsData, collection, this.value);
+    renderGifts(collection, this.value);
 });
 
-// Clear search
 document.querySelectorAll('.tm-search-clear').forEach(clear => {
     clear.addEventListener('click', function() {
         const input = this.parentElement.querySelector('input');
@@ -1085,6 +1194,22 @@ document.querySelectorAll('.tm-search-clear').forEach(clear => {
     });
 });
 
+// ========== LOAD MORE ==========
+document.getElementById('offers-load-more').addEventListener('click', function() {
+    offersPage++;
+    renderOffers(document.getElementById('search-offers').value);
+});
+document.getElementById('numbers-load-more').addEventListener('click', function() {
+    numbersPage++;
+    renderNumbers(document.getElementById('search-numbers').value);
+});
+document.getElementById('gifts-load-more').addEventListener('click', function() {
+    giftsPage++;
+    const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
+    const collection = selected ? selected.dataset.collection : 'all';
+    renderGifts(collection, document.getElementById('search-gifts').value);
+});
+
 // ========== FILTER TOGGLE ==========
 document.getElementById('gift-filters-toggle').addEventListener('click', function() {
     const box = document.getElementById('gift-filters');
@@ -1092,13 +1217,7 @@ document.getElementById('gift-filters-toggle').addEventListener('click', functio
     box.classList.toggle('closed');
 });
 
-// ========== INIT ==========
-renderOffers(offersData);
-renderNumbers(numbersData);
-renderGifts(giftsData);
-renderFilterCollections(giftsData);
-
-// Logo home
+// ========== LOGO HOME ==========
 document.getElementById('logo-home').addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
@@ -1111,6 +1230,12 @@ document.getElementById('logo-home').addEventListener('click', function(e) {
     target.style.display = 'block';
     target.classList.add('section-active');
 });
+
+// ========== INIT ==========
+renderOffers();
+renderNumbers();
+renderGifts();
+renderFilterCollections();
 </script>
 
 </body>
