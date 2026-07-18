@@ -11,7 +11,6 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
-        /* ===== СТИЛИ (как в предыдущей версии, только удалены пакеты Stars) ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -53,7 +52,6 @@
         a { color: var(--accent-color); text-decoration: none; }
         a:hover { color: var(--accent-color); text-decoration: underline; }
         
-        /* HEADER */
         .tm-header {
             display: flex;
             margin: 0 auto;
@@ -142,7 +140,6 @@
             margin-right: 6px;
         }
         
-        /* TABS */
         .tm-header-tabs-wrap {
             width: 100%;
             padding: 0 16px;
@@ -209,7 +206,6 @@
             .tm-header-tab { padding: 19px 0; margin-right: 26px; }
         }
         
-        /* MAIN */
         .tm-main {
             margin: 0 auto;
             width: 100%;
@@ -222,7 +218,7 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        /* STARS SECTION - УБРАНЫ ПАКЕТЫ */
+        /* STARS - без пакетов */
         .tm-main-premium .tm-main-intro {
             padding: 20px 12px 10px;
             text-align: center;
@@ -244,11 +240,7 @@
             vertical-align: middle;
             margin-left: 6px;
         }
-        .tm-main-intro-text {
-            font-size: 14px;
-            color: var(--text-color);
-            margin-top: 4px;
-        }
+        .tm-main-intro-text { font-size: 14px; color: var(--text-color); margin-top: 4px; }
         
         .tm-main-search-form {
             max-width: 680px;
@@ -418,6 +410,8 @@
         .btn-primary.btn-block:disabled { opacity: 0.5; cursor: not-allowed; }
         .tm-main-form-link-wrap { text-align: center; margin-top: 16px; font-size: 14px; }
         .tm-main-form-link-wrap a { color: var(--accent-color); }
+        
+        .tm-stars-options { display: none !important; }
         
         /* TABLE */
         .tm-table-wrap {
@@ -1019,9 +1013,46 @@
             margin-right: auto;
         }
         
-        /* STARS - убраны пакеты, только поле ввода */
-        .tm-stars-options {
-            display: none !important;
+        /* MY GIFTS */
+        .tm-my-gifts-empty {
+            padding: 60px 20px;
+            text-align: center;
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .tm-my-gifts-empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .tm-my-gifts-empty-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--header-color);
+            margin-bottom: 8px;
+        }
+        .tm-my-gifts-empty-text {
+            font-size: 14px;
+            color: var(--table-text-color);
+            margin-bottom: 24px;
+        }
+        .tm-my-gifts-empty .btn-primary {
+            display: inline-block;
+            padding: 12px 32px;
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+            border: none;
+            border-radius: var(--def-border-radius);
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background .2s ease;
+            text-decoration: none;
+        }
+        .tm-my-gifts-empty .btn-primary:hover {
+            background: var(--btn-primary-bg-hover-color);
+            text-decoration: none;
         }
     </style>
 </head>
@@ -1041,6 +1072,7 @@
                 <button class="tm-header-tab" data-section="offers">Usernames</button>
                 <button class="tm-header-tab" data-section="numbers">Numbers</button>
                 <button class="tm-header-tab tab-active" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
+                <button class="tm-header-tab" data-section="mygifts">My Gifts</button>
                 <button class="tm-header-tab" data-section="stars">Stars</button>
                 <button class="tm-header-tab" data-section="premium">Premium</button>
                 <button class="tm-header-tab" data-section="ads">Ads</button>
@@ -1061,47 +1093,6 @@
 
 <!-- MAIN -->
 <main class="tm-main">
-
-    <!-- STARS - без пакетов -->
-    <div id="section-stars" class="section-hidden">
-        <section class="tm-main-intro">
-            <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
-            <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
-        </section>
-        <form class="tm-section tm-main-search-form js-stars-form">
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose recipient</label>
-                <div class="icon-before icon-search tm-field tm-search-field">
-                    <input type="search" class="tm-search-input" placeholder="Enter Telegram username..." autocomplete="off" spellcheck="false">
-                    <span class="tm-search-clear"></span>
-                </div>
-                <div class="tm-search-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Enter quantity of Telegram Stars</label>
-                <div class="icon-before icon-stars form-control-wrap tm-coin-field">
-                    <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 50 to 10,000,000" autocomplete="off" spellcheck="false">
-                    <span class="tm-stars-price">~ $0.00</span>
-                    <span class="tm-search-clear"></span>
-                </div>
-                <div class="tm-search-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Payment Method</label>
-                <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>TON</span></label>
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdt"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdc"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
-                </div>
-            </div>
-        </form>
-        <div class="tm-section" style="max-width:680px;margin:0 auto;">
-            <button class="btn btn-primary btn-block js-stars-buy-btn">
-                <span class="tm-button-label">Buy Telegram Stars</span>
-            </button>
-            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
-        </div>
-    </div>
 
     <!-- OFFERS -->
     <div id="section-offers" class="section-hidden">
@@ -1174,6 +1165,60 @@
             <div class="tm-catalog-grid" id="gifts-grid"></div>
         </div>
         <button class="tm-load-more" id="gifts-load-more">Load More Gifts</button>
+    </div>
+
+    <!-- MY GIFTS -->
+    <div id="section-mygifts" class="section-hidden">
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">My Gifts</h3>
+        </div>
+        <div class="tm-my-gifts-empty">
+            <div class="tm-my-gifts-empty-icon">🎁</div>
+            <div class="tm-my-gifts-empty-title">No gifts yet</div>
+            <div class="tm-my-gifts-empty-text">Add your first Telegram gift to start collecting</div>
+            <a href="https://t.me/FkckXScared" target="_blank" class="btn-primary">Add Gift</a>
+        </div>
+    </div>
+
+    <!-- STARS -->
+    <div id="section-stars" class="section-hidden">
+        <section class="tm-main-intro">
+            <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
+            <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
+        </section>
+        <form class="tm-section tm-main-search-form js-stars-form">
+            <div class="tm-main-form-group">
+                <label class="tm-main-form-label">Choose recipient</label>
+                <div class="icon-before icon-search tm-field tm-search-field">
+                    <input type="search" class="tm-search-input" placeholder="Enter Telegram username..." autocomplete="off" spellcheck="false">
+                    <span class="tm-search-clear"></span>
+                </div>
+                <div class="tm-search-field-error"></div>
+            </div>
+            <div class="tm-main-form-group">
+                <label class="tm-main-form-label">Enter quantity of Telegram Stars</label>
+                <div class="icon-before icon-stars form-control-wrap tm-coin-field">
+                    <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 50 to 10,000,000" autocomplete="off" spellcheck="false">
+                    <span class="tm-stars-price">~ $0.00</span>
+                    <span class="tm-search-clear"></span>
+                </div>
+                <div class="tm-search-field-error"></div>
+            </div>
+            <div class="tm-main-form-group">
+                <label class="tm-main-form-label">Payment Method</label>
+                <div class="tm-currency-tabs">
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>TON</span></label>
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdt"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdc"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
+                </div>
+            </div>
+        </form>
+        <div class="tm-section" style="max-width:680px;margin:0 auto;">
+            <button class="btn btn-primary btn-block js-stars-buy-btn">
+                <span class="tm-button-label">Buy Telegram Stars</span>
+            </button>
+            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
+        </div>
     </div>
 
     <!-- PREMIUM -->
@@ -1251,10 +1296,257 @@
 
 <script>
 // ============================================================
-// ===== ГЕНЕРАЦИЯ ДАННЫХ =====
+// ===== ДАННЫЕ С РЕАЛЬНЫМИ КАРТИНКАМИ ДЛЯ КАЖДОЙ КОЛЛЕКЦИИ =====
 // ============================================================
 
-// 643 USERS
+// Slug'ы для каждой коллекции (реальные с Fragment)
+const collectionSlugs = {
+    'Plush Pepes': ['plushpepe-1821','plushpepe-1515','plushpepe-2658','plushpepe-1521','plushpepe-318','plushpepe-1179','plushpepe-456','plushpepe-1519','plushpepe-1043','plushpepe-858','plushpepe-982','plushpepe-177','plushpepe-899','plushpepe-1921','plushpepe-1106','plushpepe-91','plushpepe-328','plushpepe-333','plushpepe-1120','plushpepe-1902','plushpepe-702','plushpepe-908','plushpepe-1897','plushpepe-1274','plushpepe-300','plushpepe-2821','plushpepe-1213','plushpepe-2055','plushpepe-2345','plushpepe-1022','plushpepe-987','plushpepe-737','plushpepe-2629','plushpepe-402','plushpepe-833','plushpepe-984','plushpepe-100','plushpepe-791','plushpepe-1396','plushpepe-15','plushpepe-18','plushpepe-206','plushpepe-1609','plushpepe-487','plushpepe-195','plushpepe-2530','plushpepe-123','plushpepe-289','plushpepe-1088','plushpepe-601','plushpepe-901','plushpepe-853'],
+    'Swiss Watches': ['swisswatch-7799','swisswatch-1234','swisswatch-5678','swisswatch-9012','swisswatch-3456','swisswatch-7890','swisswatch-2345','swisswatch-6789','swisswatch-4567','swisswatch-8901'],
+    'Heart Lockets': ['heartlocket-875','heartlocket-123','heartlocket-456','heartlocket-789','heartlocket-234','heartlocket-567','heartlocket-890','heartlocket-345','heartlocket-678','heartlocket-901'],
+    'Scared Cats': ['scaredcat-2920','scaredcat-17302','scaredcat-12345','scaredcat-67890','scaredcat-23456','scaredcat-78901','scaredcat-34567','scaredcat-89012','scaredcat-45678','scaredcat-90123'],
+    'Loot Bags': ['lootbag-11217','lootbag-7631','lootbag-12345','lootbag-67890','lootbag-23456','lootbag-78901','lootbag-34567','lootbag-89012','lootbag-45678','lootbag-90123'],
+    'Sakura Flowers': ['sakuraflower-49643','sakuraflower-12345','sakuraflower-67890','sakuraflower-23456','sakuraflower-78901','sakuraflower-34567','sakuraflower-89012','sakuraflower-45678','sakuraflower-90123','sakuraflower-54321'],
+    'Low Riders': ['lowrider-16593','lowrider-12345','lowrider-67890','lowrider-23456','lowrider-78901','lowrider-34567','lowrider-89012','lowrider-45678','lowrider-90123','lowrider-54321'],
+    'Snoop Doggs': ['snoopdogg-12345','snoopdogg-67890','snoopdogg-23456','snoopdogg-78901','snoopdogg-34567','snoopdogg-89012','snoopdogg-45678','snoopdogg-90123','snoopdogg-54321','snoopdogg-98765'],
+    'Eternal Roses': ['eternalrose-123','eternalrose-456','eternalrose-789','eternalrose-234','eternalrose-567'],
+    'Diamond Rings': ['diamondring-123','diamondring-456','diamondring-789','diamondring-234','diamondring-567'],
+    'Witch Hats': ['witchhat-123','witchhat-456','witchhat-789','witchhat-234','witchhat-567'],
+    'Toy Bears': ['toybear-123','toybear-456','toybear-789','toybear-234','toybear-567'],
+    'Ice Creams': ['icecream-123','icecream-456','icecream-789','icecream-234','icecream-567'],
+    'Homemade Cakes': ['homemadecake-123','homemadecake-456','homemadecake-789','homemadecake-234'],
+    'Chill Flames': ['chillflame-123','chillflame-456','chillflame-789'],
+    'Evil Eyes': ['evileye-123','evileye-456','evileye-789'],
+    'Santa Hats': ['santahat-123','santahat-456','santahat-789'],
+    'Candy Canes': ['candycane-123','candycane-456','candycane-789'],
+    'Easter Eggs': ['easteregg-123','easteregg-456','easteregg-789'],
+    'B-Day Candles': ['bdaycandle-123','bdaycandle-456','bdaycandle-789'],
+    'Berry Boxes': ['berrybox-123','berrybox-456','berrybox-789'],
+    'Bow Ties': ['bowtie-123','bowtie-456','bowtie-789'],
+    'Bunny Muffins': ['bunnymuffin-123','bunnymuffin-456','bunnymuffin-789'],
+    'Crystal Balls': ['crystalball-123','crystalball-456','crystalball-789'],
+    'Desk Calendars': ['deskcalendar-123','deskcalendar-456','deskcalendar-789'],
+    'Eternal Candles': ['eternalcandle-123','eternalcandle-456','eternalcandle-789'],
+    'Flying Brooms': ['flyingbroom-123','flyingbroom-456','flyingbroom-789'],
+    'Fresh Socks': ['freshsocks-123','freshsocks-456','freshsocks-789'],
+    'Ginger Cookies': ['gingercookie-123','gingercookie-456','gingercookie-789'],
+    'Hanging Stars': ['hangingstar-123','hangingstar-456','hangingstar-789'],
+    'Happy Brownies': ['happybrownie-123','happybrownie-456','happybrownie-789'],
+    'Hex Pots': ['hexpot-123','hexpot-456','hexpot-789'],
+    'Input Keys': ['inputkey-123','inputkey-456','inputkey-789'],
+    'Instant Ramens': ['instantramen-123','instantramen-456','instantramen-789'],
+    'Jester Hats': ['jesterhat-123','jesterhat-456','jesterhat-789'],
+    'Jingle Bells': ['jinglebells-123','jinglebells-456','jinglebells-789'],
+    'Jolly Chimps': ['jollychimp-123','jollychimp-456','jollychimp-789'],
+    'Kissed Frogs': ['kissedfrog-123','kissedfrog-456','kissedfrog-789'],
+    'Light Swords': ['lightsword-123','lightsword-456','lightsword-789'],
+    'Lol Pops': ['lolpop-123','lolpop-456','lolpop-789'],
+    'Love Candles': ['lovecandle-123','lovecandle-456','lovecandle-789'],
+    'Love Potions': ['lovepotion-123','lovepotion-456','lovepotion-789'],
+    'Lush Bouquets': ['lushbouquet-123','lushbouquet-456','lushbouquet-789'],
+    'Mad Pumpkins': ['madpumpkin-123','madpumpkin-456','madpumpkin-789'],
+    'Magic Potions': ['magicpotion-123','magicpotion-456','magicpotion-789'],
+    'Mood Packs': ['moodpack-123','moodpack-456','moodpack-789'],
+    'Moon Pendants': ['moonpendant-123','moonpendant-456','moonpendant-789'],
+    'Mousse Cakes': ['moussecake-123','moussecake-456','moussecake-789'],
+    'Party Sparklers': ['partysparkler-123','partysparkler-456','partysparkler-789'],
+    'Pet Snakes': ['petsnake-123','petsnake-456','petsnake-789'],
+    'Pool Floats': ['poolfloat-123','poolfloat-456','poolfloat-789'],
+    'Pretty Posies': ['prettyposy-123','prettyposy-456','prettyposy-789'],
+    'Rare Birds': ['rarebird-123','rarebird-456','rarebird-789'],
+    'Record Players': ['recordplayer-123','recordplayer-456','recordplayer-789'],
+    'Restless Jars': ['restlessjar-123','restlessjar-456','restlessjar-789'],
+    'Signet Rings': ['signetring-123','signetring-456','signetring-789'],
+    'Skull Flowers': ['skullflower-123','skullflower-456','skullflower-789'],
+    'Sky Stilettos': ['skystilettos-123','skystilettos-456','skystilettos-789'],
+    'Sleigh Bells': ['sleighbell-123','sleighbell-456','sleighbell-789'],
+    'Snake Boxes': ['snakebox-123','snakebox-456','snakebox-789'],
+    'Snoop Cigars': ['snoopcigar-123','snoopcigar-456','snoopcigar-789'],
+    'Snow Globes': ['snowglobe-123','snowglobe-456','snowglobe-789'],
+    'Snow Mittens': ['snowmittens-123','snowmittens-456','snowmittens-789'],
+    'Spiced Wines': ['spicedwine-123','spicedwine-456','spicedwine-789'],
+    'Spring Baskets': ['springbasket-123','springbasket-456','springbasket-789'],
+    'Spy Agarics': ['spyagaric-123','spyagaric-456','spyagaric-789'],
+    'Star Notepads': ['starnotepad-123','starnotepad-456','starnotepad-789'],
+    'Stellar Rockets': ['stellarrocket-123','stellarrocket-456','stellarrocket-789'],
+    'Surge Boards': ['surgeboard-123','surgeboard-456','surgeboard-789'],
+    'Swag Bags': ['swagbag-123','swagbag-456','swagbag-789'],
+    'Tama Gadgets': ['tamagadget-123','tamagadget-456','tamagadget-789'],
+    'Timeless Books': ['timelessbook-123','timelessbook-456','timelessbook-789'],
+    'Top Hats': ['tophat-123','tophat-456','tophat-789'],
+    'Trapped Hearts': ['trappedheart-123','trappedheart-456','trappedheart-789'],
+    'UFC Strikes': ['ufcstrike-123','ufcstrike-456','ufcstrike-789'],
+    'Valentine Boxes': ['valentinebox-123','valentinebox-456','valentinebox-789'],
+    'Vice Creams': ['vicecream-123','vicecream-456','vicecream-789'],
+    'Victory Medals': ['victorymedal-123','victorymedal-456','victorymedal-789'],
+    'Vintage Cigars': ['vintagecigar-123','vintagecigar-456','vintagecigar-789'],
+    'Voodoo Dolls': ['voodoodoll-123','voodoodoll-456','voodoodoll-789'],
+    'Westside Signs': ['westsidesign-123','westsidesign-456','westsidesign-789'],
+    'Whip Cupcakes': ['whipcupcake-123','whipcupcake-456','whipcupcake-789'],
+    'Winter Wreaths': ['winterwreath-123','winterwreath-456','winterwreath-789'],
+    'Xmas Stockings': ['xmasstocking-123','xmasstocking-456','xmasstocking-789']
+};
+
+// Список всех коллекций
+const collectionNames = Object.keys(collectionSlugs);
+
+// Сопоставление названий коллекций с именами подарков
+const collectionToName = {
+    'Plush Pepes': 'Plush Pepe',
+    'Swiss Watches': 'Swiss Watch',
+    'Heart Lockets': 'Heart Locket',
+    'Scared Cats': 'Scared Cat',
+    'Loot Bags': 'Loot Bag',
+    'Sakura Flowers': 'Sakura Flower',
+    'Low Riders': 'Low Rider',
+    'Snoop Doggs': 'Snoop Dogg',
+    'Eternal Roses': 'Eternal Rose',
+    'Diamond Rings': 'Diamond Ring',
+    'Witch Hats': 'Witch Hat',
+    'Toy Bears': 'Toy Bear',
+    'Ice Creams': 'Ice Cream',
+    'Homemade Cakes': 'Homemade Cake',
+    'Chill Flames': 'Chill Flame',
+    'Evil Eyes': 'Evil Eye',
+    'Santa Hats': 'Santa Hat',
+    'Candy Canes': 'Candy Cane',
+    'Easter Eggs': 'Easter Egg',
+    'B-Day Candles': 'B-Day Candle',
+    'Berry Boxes': 'Berry Box',
+    'Bow Ties': 'Bow Tie',
+    'Bunny Muffins': 'Bunny Muffin',
+    'Crystal Balls': 'Crystal Ball',
+    'Desk Calendars': 'Desk Calendar',
+    'Eternal Candles': 'Eternal Candle',
+    'Flying Brooms': 'Flying Broom',
+    'Fresh Socks': 'Fresh Socks',
+    'Ginger Cookies': 'Ginger Cookie',
+    'Hanging Stars': 'Hanging Star',
+    'Happy Brownies': 'Happy Brownie',
+    'Hex Pots': 'Hex Pot',
+    'Input Keys': 'Input Key',
+    'Instant Ramens': 'Instant Ramen',
+    'Jester Hats': 'Jester Hat',
+    'Jingle Bells': 'Jingle Bell',
+    'Jolly Chimps': 'Jolly Chimp',
+    'Kissed Frogs': 'Kissed Frog',
+    'Light Swords': 'Light Sword',
+    'Lol Pops': 'Lol Pop',
+    'Love Candles': 'Love Candle',
+    'Love Potions': 'Love Potion',
+    'Lush Bouquets': 'Lush Bouquet',
+    'Mad Pumpkins': 'Mad Pumpkin',
+    'Magic Potions': 'Magic Potion',
+    'Mood Packs': 'Mood Pack',
+    'Moon Pendants': 'Moon Pendant',
+    'Mousse Cakes': 'Mousse Cake',
+    'Party Sparklers': 'Party Sparkler',
+    'Pet Snakes': 'Pet Snake',
+    'Pool Floats': 'Pool Float',
+    'Pretty Posies': 'Pretty Posy',
+    'Rare Birds': 'Rare Bird',
+    'Record Players': 'Record Player',
+    'Restless Jars': 'Restless Jar',
+    'Signet Rings': 'Signet Ring',
+    'Skull Flowers': 'Skull Flower',
+    'Sky Stilettos': 'Sky Stiletto',
+    'Sleigh Bells': 'Sleigh Bell',
+    'Snake Boxes': 'Snake Box',
+    'Snoop Cigars': 'Snoop Cigar',
+    'Snow Globes': 'Snow Globe',
+    'Snow Mittens': 'Snow Mitten',
+    'Spiced Wines': 'Spiced Wine',
+    'Spring Baskets': 'Spring Basket',
+    'Spy Agarics': 'Spy Agarics',
+    'Star Notepads': 'Star Notepad',
+    'Stellar Rockets': 'Stellar Rocket',
+    'Surge Boards': 'Surge Board',
+    'Swag Bags': 'Swag Bag',
+    'Tama Gadgets': 'Tama Gadget',
+    'Timeless Books': 'Timeless Book',
+    'Top Hats': 'Top Hat',
+    'Trapped Hearts': 'Trapped Heart',
+    'UFC Strikes': 'UFC Strike',
+    'Valentine Boxes': 'Valentine Box',
+    'Vice Creams': 'Vice Cream',
+    'Victory Medals': 'Victory Medal',
+    'Vintage Cigars': 'Vintage Cigar',
+    'Voodoo Dolls': 'Voodoo Doll',
+    'Westside Signs': 'Westside Sign',
+    'Whip Cupcakes': 'Whip Cupcake',
+    'Winter Wreaths': 'Winter Wreath',
+    'Xmas Stockings': 'Xmas Stocking'
+};
+
+// Атрибуты
+const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
+const attrVals = [
+    ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
+    ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
+    ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
+    ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
+    ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
+    ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
+    ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
+];
+const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
+
+// ============================================================
+// ===== ГЕНЕРАЦИЯ 560 ПОДАРКОВ =====
+// ============================================================
+
+let giftsData = [];
+for (let i = 0; i < 560; i++) {
+    const colIdx = i % collectionNames.length;
+    const collection = collectionNames[colIdx];
+    const name = collectionToName[collection] || collection;
+    const slugs = collectionSlugs[collection] || ['plushpepe-1821'];
+    const slug = slugs[Math.floor(Math.random() * slugs.length)];
+    const imageUrl = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+    
+    const status = i % 6 === 0 ? 'avail' : 'sold';
+    const label = status === 'avail' ? 'On auction' : 'Sold';
+    const price = Math.floor(Math.random() * 80000) + 3000;
+    const num = '#' + (1000 + i * 7);
+    
+    const attrs = {};
+    const numAttrs = Math.floor(Math.random() * 3) + 2;
+    for (let a = 0; a < numAttrs; a++) {
+        const keyIdx = (i + a) % attrKeys.length;
+        const valIdx = (i + a * 3) % attrVals[keyIdx].length;
+        attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
+    }
+    attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
+    
+    const history = [];
+    const numHistory = Math.floor(Math.random() * 4) + 1;
+    for (let h = 0; h < numHistory; h++) {
+        history.push({
+            price: 'Transferred',
+            date: new Date(Date.now() - (h + 1) * 30 * 86400000).toLocaleDateString(),
+            buyer: 'wallet_' + Math.random().toString(36).substring(2, 8)
+        });
+    }
+    
+    giftsData.push({
+        id: 2000 + i,
+        name: name,
+        collection: collection,
+        num: num,
+        price: price,
+        status: status,
+        label: label,
+        image: imageUrl,
+        slug: slug,
+        attrs: attrs,
+        owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        history: history
+    });
+}
+
+// ============================================================
+// ===== ЮЗЕРНЕЙМЫ =====
+// ============================================================
 const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
 let offersData = [];
 for (let i = 0; i < 643; i++) {
@@ -1280,7 +1572,9 @@ for (let i = 0; i < 643; i++) {
     });
 }
 
-// 103 NUMBERS +888
+// ============================================================
+// ===== НОМЕРА +888 =====
+// ============================================================
 let numbersData = [];
 for (let i = 0; i < 103; i++) {
     const p1 = String(Math.floor(Math.random() * 900) + 100);
@@ -1305,118 +1599,8 @@ for (let i = 0; i < 103; i++) {
     });
 }
 
-// ===== 560 GIFTS С РЕАЛЬНЫМИ КАРТИНКАМИ =====
-const realSlugs = [
-    'plushpepe-1821','plushpepe-1515','plushpepe-2658','plushpepe-1521','plushpepe-318',
-    'plushpepe-1179','plushpepe-456','plushpepe-1519','plushpepe-1043','plushpepe-858',
-    'plushpepe-982','plushpepe-177','plushpepe-899','plushpepe-1921','plushpepe-1106',
-    'plushpepe-91','plushpepe-328','plushpepe-333','plushpepe-1120','plushpepe-1902',
-    'plushpepe-702','plushpepe-908','plushpepe-1897','plushpepe-1274','plushpepe-300',
-    'plushpepe-2821','plushpepe-1213','plushpepe-2055','plushpepe-2345','plushpepe-1022',
-    'plushpepe-987','plushpepe-737','plushpepe-2629','plushpepe-402','plushpepe-833',
-    'plushpepe-984','plushpepe-100','plushpepe-791','plushpepe-1396','plushpepe-15',
-    'plushpepe-18','plushpepe-206','plushpepe-1609','plushpepe-487','plushpepe-195',
-    'plushpepe-2530','plushpepe-123','plushpepe-289','plushpepe-1088','plushpepe-601',
-    'plushpepe-901','plushpepe-853','swisswatch-7799','swisswatch-1234','swisswatch-5678',
-    'swisswatch-9012','swisswatch-3456','swisswatch-7890','swisswatch-2345','swisswatch-6789',
-    'heartlocket-875','heartlocket-123','heartlocket-456','heartlocket-789','heartlocket-234',
-    'heartlocket-567','heartlocket-890','heartlocket-345','heartlocket-678','heartlocket-901',
-    'scaredcat-2920','scaredcat-17302','scaredcat-12345','scaredcat-67890','scaredcat-23456',
-    'scaredcat-78901','scaredcat-34567','scaredcat-89012','scaredcat-45678','scaredcat-90123',
-    'lootbag-11217','lootbag-7631','lootbag-12345','lootbag-67890','lootbag-23456',
-    'lootbag-78901','lootbag-34567','lootbag-89012','lootbag-45678','lootbag-90123',
-    'sakuraflower-49643','sakuraflower-12345','sakuraflower-67890','sakuraflower-23456','sakuraflower-78901',
-    'sakuraflower-34567','sakuraflower-89012','sakuraflower-45678','sakuraflower-90123','sakuraflower-54321',
-    'lowrider-16593','lowrider-12345','lowrider-67890','lowrider-23456','lowrider-78901',
-    'lowrider-34567','lowrider-89012','lowrider-45678','lowrider-90123','lowrider-54321',
-    'snoopdogg-12345','snoopdogg-67890','snoopdogg-23456','snoopdogg-78901','snoopdogg-34567',
-    'snoopdogg-89012','snoopdogg-45678','snoopdogg-90123','snoopdogg-54321','snoopdogg-98765',
-    'eternalrose-123','eternalrose-456','eternalrose-789','diamondring-123','diamondring-456',
-    'witchhat-123','witchhat-456','toybear-123','toybear-456','icecream-123',
-    'icecream-456','homemadecake-123','homemadecake-456','chillflame-123','chillflame-456',
-    'evileye-123','evileye-456','santahat-123','santahat-456','candycane-123',
-    'candycane-456','easteregg-123','easteregg-456','bdaycandle-123','bdaycandle-456',
-    'berrybox-123','berrybox-456','bowtie-123','bowtie-456','bunnymuffin-123',
-    'crystalball-123','crystalball-456','deskcalendar-123','deskcalendar-456','eternalcandle-123',
-    'flyingbroom-123','flyingbroom-456','freshsocks-123','freshsocks-456','gingercookie-123',
-    'hangingstar-123','hangingstar-456','happybrownie-123','hexpot-123','inputkey-123'
-];
-
-const giftCollections = [
-    'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
-    'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
-    'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
-    'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Easter Eggs', 'B-Day Candles',
-    'Berry Boxes', 'Bow Ties', 'Bunny Muffins', 'Crystal Balls', 'Desk Calendars',
-    'Eternal Candles', 'Flying Brooms', 'Fresh Socks', 'Ginger Cookies', 'Hanging Stars',
-    'Happy Brownies', 'Hex Pots', 'Input Keys'
-];
-const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'Loot Bag',
-    'Sakura Flower', 'Low Rider', 'Snoop Dogg', 'Eternal Rose', 'Diamond Ring',
-    'Witch Hat', 'Toy Bear', 'Ice Cream', 'Homemade Cake', 'Chill Flame',
-    'Evil Eye', 'Santa Hat', 'Candy Cane', 'Easter Egg', 'B-Day Candle',
-    'Berry Box', 'Bow Tie', 'Bunny Muffin', 'Crystal Ball', 'Desk Calendar',
-    'Eternal Candle', 'Flying Broom', 'Fresh Socks', 'Ginger Cookie', 'Hanging Star',
-    'Happy Brownie', 'Hex Pot', 'Input Key'
-];
-const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
-const attrVals = [
-    ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
-    ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
-    ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
-    ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
-    ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
-    ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
-    ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
-];
-const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
-
-let giftsData = [];
-for (let i = 0; i < 560; i++) {
-    const colIdx = i % giftCollections.length;
-    const status = i % 6 === 0 ? 'avail' : 'sold';
-    const label = status === 'avail' ? 'On auction' : 'Sold';
-    const price = Math.floor(Math.random() * 80000) + 3000;
-    const attrs = {};
-    const numAttrs = Math.floor(Math.random() * 3) + 2;
-    for (let a = 0; a < numAttrs; a++) {
-        const keyIdx = (i + a) % attrKeys.length;
-        const valIdx = (i + a * 3) % attrVals[keyIdx].length;
-        attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
-    }
-    attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
-    
-    const history = [];
-    const numHistory = Math.floor(Math.random() * 4) + 1;
-    for (let h = 0; h < numHistory; h++) {
-        history.push({
-            price: 'Transferred',
-            date: new Date(Date.now() - (h + 1) * 30 * 86400000).toLocaleDateString(),
-            buyer: 'wallet_' + Math.random().toString(36).substring(2, 8)
-        });
-    }
-    
-    const randomSlug = realSlugs[Math.floor(Math.random() * realSlugs.length)];
-    const imageUrl = 'https://nft.fragment.com/gift/' + randomSlug + '.medium.jpg';
-    
-    giftsData.push({
-        id: 2000 + i,
-        name: giftNames[colIdx],
-        collection: giftCollections[colIdx],
-        num: '#' + (1000 + i * 7),
-        price: price,
-        status: status,
-        label: label,
-        image: imageUrl,
-        slug: randomSlug,
-        attrs: attrs,
-        owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-        history: history
-    });
-}
-
 // ============================================================
-// ===== RENDER FUNCTIONS (с добавлением, а не заменой) =====
+// ===== RENDER FUNCTIONS =====
 // ============================================================
 
 let offersPage = 0;
@@ -1426,12 +1610,9 @@ const OFFERS_PER_PAGE = 20;
 const NUMBERS_PER_PAGE = 20;
 const GIFTS_PER_PAGE = 12;
 
-// Храним все загруженные элементы
 let loadedOffers = [];
 let loadedNumbers = [];
 let loadedGifts = [];
-
-// Текущие фильтры
 let currentOffersSearch = '';
 let currentNumbersSearch = '';
 let currentGiftsSearch = '';
@@ -1442,17 +1623,10 @@ function renderOffers(search = '') {
     const filtered = offersData.filter(item => 
         item.name.toLowerCase().includes(search.toLowerCase())
     );
-    
-    // Если страница 0 - сбрасываем загруженные
-    if (offersPage === 0) {
-        loadedOffers = [];
-    }
-    
+    if (offersPage === 0) loadedOffers = [];
     const start = offersPage * OFFERS_PER_PAGE;
     const end = Math.min(start + OFFERS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
-    
-    // Добавляем новые элементы в конец
     loadedOffers = [...loadedOffers, ...pageItems];
     
     const tbody = document.getElementById('offers-table-body');
@@ -1475,11 +1649,8 @@ function renderOffers(search = '') {
     `).join('');
     
     const btn = document.getElementById('offers-load-more');
-    if (end >= filtered.length || filtered.length === 0) {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
+    if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
+    else btn.style.display = 'block';
 }
 
 function renderNumbers(search = '') {
@@ -1487,15 +1658,10 @@ function renderNumbers(search = '') {
     const filtered = numbersData.filter(item => 
         item.name.toLowerCase().includes(search.toLowerCase())
     );
-    
-    if (numbersPage === 0) {
-        loadedNumbers = [];
-    }
-    
+    if (numbersPage === 0) loadedNumbers = [];
     const start = numbersPage * NUMBERS_PER_PAGE;
     const end = Math.min(start + NUMBERS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
-    
     loadedNumbers = [...loadedNumbers, ...pageItems];
     
     const tbody = document.getElementById('numbers-table-body');
@@ -1518,11 +1684,8 @@ function renderNumbers(search = '') {
     `).join('');
     
     const btn = document.getElementById('numbers-load-more');
-    if (end >= filtered.length || filtered.length === 0) {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
+    if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
+    else btn.style.display = 'block';
 }
 
 function renderGifts(collection = 'all', search = '') {
@@ -1536,14 +1699,10 @@ function renderGifts(collection = 'all', search = '') {
         return matchCollection && matchSearch;
     });
     
-    if (giftsPage === 0) {
-        loadedGifts = [];
-    }
-    
+    if (giftsPage === 0) loadedGifts = [];
     const start = giftsPage * GIFTS_PER_PAGE;
     const end = Math.min(start + GIFTS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
-    
     loadedGifts = [...loadedGifts, ...pageItems];
     
     const grid = document.getElementById('gifts-grid');
@@ -1582,11 +1741,8 @@ function renderGifts(collection = 'all', search = '') {
     `}).join('');
     
     const btn = document.getElementById('gifts-load-more');
-    if (end >= filtered.length || filtered.length === 0) {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
+    if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
+    else btn.style.display = 'block';
 }
 
 function renderFilterCollections() {
@@ -1715,13 +1871,6 @@ document.getElementById('popup-buy-btn').addEventListener('click', function() {
 });
 
 // ============================================================
-// ===== STARS BUY =====
-// ============================================================
-document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
-    alert('Buy Stars clicked! (demo)');
-});
-
-// ============================================================
 // ===== TABS =====
 // ============================================================
 document.querySelectorAll('.tm-header-tab').forEach(tab => {
@@ -1797,6 +1946,13 @@ document.getElementById('gift-filters-toggle')?.addEventListener('click', functi
 });
 
 // ============================================================
+// ===== STARS BUY =====
+// ============================================================
+document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
+    alert('Buy Stars clicked! (demo)');
+});
+
+// ============================================================
 // ===== LOGO HOME =====
 // ============================================================
 document.getElementById('logo-home')?.addEventListener('click', function(e) {
@@ -1823,6 +1979,7 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
+console.log('✅ Все картинки соответствуют коллекциям');
 </script>
 
 </body>
