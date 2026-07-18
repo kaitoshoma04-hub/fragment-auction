@@ -578,7 +578,7 @@
             border-radius: var(--def-border-radius);
         }
         
-        /* ===== GIFT CARDS С LOTTIE ===== */
+        /* ===== GIFT CARDS С РЕАЛЬНЫМИ КАРТИНКАМИ ===== */
         .tm-catalog-grid-wrap { 
             --gap: 12px;
             background: transparent;
@@ -631,41 +631,14 @@
             justify-content: center;
             overflow: hidden;
         }
-        /* LOTTIE В КАРТОЧКЕ */
-        .tm-grid-item-thumb .tm-lottie-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .tm-grid-item-thumb .tm-lottie-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover;
-        }
-        .tm-grid-item-thumb .tm-lottie-container img {
+        .tm-grid-item-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none;
+            transition: transform .3s ease;
         }
-        .tm-grid-item-thumb .tm-lottie-container.fallback img {
-            display: block;
-        }
-        .tm-grid-item-thumb .tm-lottie-container.fallback canvas {
-            display: none;
-        }
-        .tm-grid-item-thumb .tm-lottie-fallback {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            background: #1a2026;
-            color: #4db2ff;
+        .tm-grid-item-thumb img:hover {
+            transform: scale(1.05);
         }
         .tm-grid-item-thumb .tm-grid-item-num {
             position: absolute;
@@ -677,6 +650,7 @@
             padding: 2px 6px;
             color: #fff;
             margin: 4px;
+            backdrop-filter: blur(4px);
         }
         .tm-grid-item-content {
             text-align: center;
@@ -899,7 +873,6 @@
         
         .popup-body { padding: 18px 24px 24px; flex: 1; overflow-y: auto; }
         
-        /* LOTTIE В ПОПАПЕ */
         .popup-gift-image {
             width: 100%;
             max-width: 180px;
@@ -911,39 +884,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
-        .popup-gift-image .tm-lottie-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        .popup-gift-image .tm-lottie-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover;
-        }
-        .popup-gift-image .tm-lottie-container img {
+        .popup-gift-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: none;
-        }
-        .popup-gift-image .tm-lottie-container.fallback img {
-            display: block;
-        }
-        .popup-gift-image .tm-lottie-container.fallback canvas {
-            display: none;
-        }
-        .popup-gift-image .tm-lottie-fallback {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 56px;
-            background: #1a2026;
-            color: #4db2ff;
         }
         
         .popup-bid-info {
@@ -1177,13 +1122,12 @@
 <!-- MAIN -->
 <main class="tm-main">
 
-    <!-- ===== SECTION: STARS ===== -->
+    <!-- STARS -->
     <div id="section-stars" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
             <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
         </section>
-        
         <form class="tm-section tm-main-search-form js-stars-form">
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Choose recipient</label>
@@ -1193,7 +1137,6 @@
                 </div>
                 <div class="tm-search-field-error"></div>
             </div>
-            
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Choose quantity of Telegram Stars</label>
                 <div class="icon-before icon-stars form-control-wrap tm-coin-field">
@@ -1203,7 +1146,6 @@
                 </div>
                 <div class="tm-search-field-error"></div>
             </div>
-            
             <div class="tm-main-form-group">
                 <div class="tm-stars-options">
                     <label class="tm-main-form-label">Or select a package</label>
@@ -1222,7 +1164,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Payment Method</label>
                 <div class="tm-currency-tabs">
@@ -1232,18 +1173,15 @@
                 </div>
             </div>
         </form>
-        
         <div class="tm-section" style="max-width:680px;margin:0 auto;">
             <button class="btn btn-primary btn-block js-stars-buy-btn">
                 <span class="tm-button-label">Buy 50 Telegram Stars</span>
             </button>
-            <div class="tm-main-form-link-wrap">
-                <a href="#">View Transactions History</a>
-            </div>
+            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
         </div>
     </div>
 
-    <!-- ===== SECTION: OFFERS (Usernames) ===== -->
+    <!-- OFFERS -->
     <div id="section-offers" class="section-hidden">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
@@ -1251,25 +1189,14 @@
                 <div class="tm-search-clear"></div>
             </div>
         </div>
-        
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">Username Offers <span class="tm-items-count" id="offers-count"></span></h3>
             <div style="font-size:13px;color:var(--table-text-color);">643 usernames available</div>
         </div>
-        
         <div class="tm-table-scroll">
             <div class="tm-table-wrap">
                 <table class="tm-table">
-                    <thead>
-                        <tr>
-                            <th style="width:22%;">Username</th>
-                            <th style="width:16%;">Type</th>
-                            <th style="width:18%;">Price</th>
-                            <th style="width:14%;">Status</th>
-                            <th style="width:15%;" class="hide-mobile">Ends in</th>
-                            <th style="width:15%;" class="hide-mobile">Bids</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th style="width:22%;">Username</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
                     <tbody id="offers-table-body"></tbody>
                 </table>
             </div>
@@ -1277,7 +1204,7 @@
         <button class="tm-load-more" id="offers-load-more">Load More Usernames</button>
     </div>
 
-    <!-- ===== SECTION: NUMBERS (+888) ===== -->
+    <!-- NUMBERS -->
     <div id="section-numbers" class="section-hidden">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
@@ -1285,25 +1212,14 @@
                 <div class="tm-search-clear"></div>
             </div>
         </div>
-        
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">+888 Numbers <span class="tm-items-count" id="numbers-count"></span></h3>
             <div style="font-size:13px;color:var(--table-text-color);">103 numbers on auction</div>
         </div>
-        
         <div class="tm-table-scroll">
             <div class="tm-table-wrap">
                 <table class="tm-table">
-                    <thead>
-                        <tr>
-                            <th style="width:22%;">Number</th>
-                            <th style="width:16%;">Type</th>
-                            <th style="width:18%;">Price</th>
-                            <th style="width:14%;">Status</th>
-                            <th style="width:15%;" class="hide-mobile">Ends in</th>
-                            <th style="width:15%;" class="hide-mobile">Bids</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th style="width:22%;">Number</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
                     <tbody id="numbers-table-body"></tbody>
                 </table>
             </div>
@@ -1311,7 +1227,7 @@
         <button class="tm-load-more" id="numbers-load-more">Load More Numbers</button>
     </div>
 
-    <!-- ===== SECTION: GIFTS (С LOTTIE) ===== -->
+    <!-- GIFTS -->
     <div id="section-gifts" class="section-active">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
@@ -1319,24 +1235,19 @@
                 <div class="tm-search-clear"></div>
             </div>
         </div>
-        
         <div class="tm-main-filters-wrap">
             <div class="tm-main-filters-box opened" id="gift-filters">
                 <div class="tm-main-filters-header" id="gift-filters-toggle">
                     <span>Collections</span>
                     <span class="tm-main-filters-count" id="gift-filter-count">All</span>
                 </div>
-                <div class="tm-main-filters-content" id="gift-filter-content">
-                    <!-- JS -->
-                </div>
+                <div class="tm-main-filters-content" id="gift-filter-content"></div>
             </div>
         </div>
-        
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">Top Gifts <span class="tm-items-count" id="gifts-count"></span></h3>
             <div style="font-size:13px;color:var(--table-text-color);">Limited edition Telegram gifts</div>
         </div>
-        
         <div class="tm-catalog-grid-wrap">
             <div class="tm-catalog-grid" id="gifts-grid"></div>
         </div>
@@ -1378,34 +1289,26 @@
         </div>
         <div class="popup-body">
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
-                <div class="tm-lottie-container" id="popup-lottie-container">
-                    <div class="tm-lottie-fallback">🎁</div>
-                </div>
+                <img id="popup-gift-img" src="" alt="Gift">
             </div>
-            
             <div class="popup-bid-info">
                 <div class="popup-bid-row"><span class="popup-bid-label">Highest Bid</span><span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span></div>
                 <div class="popup-bid-row"><span class="popup-bid-label">Minimum Bid</span><span class="popup-bid-value icon-ton" id="popup-min-bid">0</span></div>
                 <div class="popup-bid-row"><span class="popup-bid-label">Bid Step</span><span class="popup-bid-value icon-ton" id="popup-bid-step">0</span></div>
                 <div class="popup-bid-row"><span class="popup-bid-label">Total Bids</span><span class="popup-bid-value" id="popup-total-bids">0</span></div>
             </div>
-            
             <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
-            
             <div class="popup-countdown">
                 <span class="popup-countdown-label">Auction ends in</span>
                 <div class="popup-countdown-timer" id="popup-countdown">--</div>
             </div>
-            
             <div class="popup-detail-row"><span class="popup-detail-label">Status</span><span class="popup-detail-value" id="popup-detail-status">Available</span></div>
             <div class="popup-detail-row"><span class="popup-detail-label">Listed</span><span class="popup-detail-value" id="popup-detail-date">Today</span></div>
             <div class="popup-detail-row" id="popup-owner-row" style="display:none;"><span class="popup-detail-label">Owner</span><span class="popup-detail-value" id="popup-detail-owner">—</span></div>
-            
             <div class="popup-ownership" id="popup-ownership" style="display:none;">
                 <div class="popup-ownership-header">Ownership History</div>
                 <div id="popup-ownership-list"></div>
             </div>
-            
             <div class="popup-buttons">
                 <button class="btn-primary" id="popup-bid-btn">Place Bid</button>
                 <button class="btn-secondary" id="popup-buy-btn">Buy Now</button>
@@ -1424,110 +1327,13 @@
     </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script>
-// ============================================================
-// ===== LOTTIE LOADER =====
-// ============================================================
-function loadLottie(container, url, fallbackUrl) {
-    if (!container) return;
-    
-    const fallbackEl = container.querySelector('.tm-lottie-fallback');
-    
-    // Если есть URL Lottie
-    if (url && url.endsWith('.tgs')) {
-        try {
-            // Пробуем загрузить через Lottie
-            const anim = lottie.loadAnimation({
-                container: container,
-                renderer: 'canvas',
-                loop: false,
-                autoplay: false,
-                path: url
-            });
-            
-            anim.addEventListener('data_ready', function() {
-                container.classList.remove('fallback');
-                if (fallbackEl) fallbackEl.style.display = 'none';
-                anim.play();
-                setTimeout(() => anim.stop(), 100);
-            });
-            
-            anim.addEventListener('data_failed', function() {
-                // Если Lottie не загрузился - показываем картинку
-                container.classList.add('fallback');
-                if (fallbackEl) {
-                    fallbackEl.style.display = 'flex';
-                    // Пробуем загрузить картинку
-                    if (fallbackUrl) {
-                        const img = document.createElement('img');
-                        img.src = fallbackUrl;
-                        img.style.width = '100%';
-                        img.style.height = '100%';
-                        img.style.objectFit = 'cover';
-                        img.onload = function() {
-                            fallbackEl.style.display = 'none';
-                            container.querySelectorAll('img').forEach(el => el.remove());
-                            const imgNew = document.createElement('img');
-                            imgNew.src = fallbackUrl;
-                            imgNew.style.width = '100%';
-                            imgNew.style.height = '100%';
-                            imgNew.style.objectFit = 'cover';
-                            container.appendChild(imgNew);
-                        };
-                        img.onerror = function() {
-                            fallbackEl.style.display = 'flex';
-                        };
-                    }
-                }
-            });
-            
-            return anim;
-        } catch(e) {
-            // Fallback на картинку
-            container.classList.add('fallback');
-            if (fallbackEl) fallbackEl.style.display = 'flex';
-            if (fallbackUrl) {
-                const img = document.createElement('img');
-                img.src = fallbackUrl;
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.objectFit = 'cover';
-                img.onload = function() {
-                    fallbackEl.style.display = 'none';
-                    container.querySelectorAll('img').forEach(el => el.remove());
-                    const imgNew = document.createElement('img');
-                    imgNew.src = fallbackUrl;
-                    imgNew.style.width = '100%';
-                    imgNew.style.height = '100%';
-                    imgNew.style.objectFit = 'cover';
-                    container.appendChild(imgNew);
-                };
-                container.appendChild(img);
-            }
-        }
-    } else if (fallbackUrl) {
-        // Если нет Lottie - сразу картинка
-        container.classList.add('fallback');
-        if (fallbackEl) fallbackEl.style.display = 'none';
-        const img = document.createElement('img');
-        img.src = fallbackUrl;
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'cover';
-        img.onerror = function() {
-            if (fallbackEl) fallbackEl.style.display = 'flex';
-        };
-        container.appendChild(img);
-    }
-}
-
 // ============================================================
 // ===== GENERATE DATA =====
 // ============================================================
 
-// 643 Users
-const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega'];
+// 643 USERS
+const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
 let offersData = [];
 for (let i = 0; i < 643; i++) {
     const w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
@@ -1552,7 +1358,7 @@ for (let i = 0; i < 643; i++) {
     });
 }
 
-// 103 Numbers +888
+// 103 NUMBERS +888
 let numbersData = [];
 for (let i = 0; i < 103; i++) {
     const p1 = String(Math.floor(Math.random() * 900) + 100);
@@ -1577,17 +1383,43 @@ for (let i = 0; i < 103; i++) {
     });
 }
 
-// GIFTS с Lottie
+// ===== 560 GIFTS С РЕАЛЬНЫМИ КАРТИНКАМИ =====
 const giftCollections = [
     'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
     'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
     'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
-    'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Easter Eggs', 'B-Day Candles'
+    'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Easter Eggs', 'B-Day Candles',
+    'Berry Boxes', 'Bow Ties', 'Bunny Muffins', 'Crystal Balls', 'Desk Calendars',
+    'Eternal Candles', 'Flying Brooms', 'Fresh Socks', 'Ginger Cookies', 'Hanging Stars',
+    'Happy Brownies', 'Hex Pots', 'Input Keys', 'Instant Ramens', 'Jester Hats',
+    'Jingle Bells', 'Jolly Chimps', 'Kissed Frogs', 'Light Swords', 'Lol Pops',
+    'Love Candles', 'Love Potions', 'Lush Bouquets', 'Mad Pumpkins', 'Magic Potions',
+    'Mood Packs', 'Moon Pendants', 'Mousse Cakes', 'Party Sparklers', 'Pet Snakes',
+    'Pool Floats', 'Pretty Posies', 'Rare Birds', 'Record Players', 'Restless Jars',
+    'Signet Rings', 'Skull Flowers', 'Sky Stilettos', 'Sleigh Bells', 'Snake Boxes',
+    'Snoop Cigars', 'Snow Globes', 'Snow Mittens', 'Spiced Wines', 'Spring Baskets',
+    'Spy Agarics', 'Star Notepads', 'Stellar Rockets', 'Surge Boards', 'Swag Bags',
+    'Tama Gadgets', 'Timeless Books', 'Top Hats', 'Toy Bears', 'Trapped Hearts',
+    'UFC Strikes', 'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars',
+    'Voodoo Dolls', 'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Xmas Stockings'
 ];
 const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'Loot Bag',
     'Sakura Flower', 'Low Rider', 'Snoop Dogg', 'Eternal Rose', 'Diamond Ring',
     'Witch Hat', 'Toy Bear', 'Ice Cream', 'Homemade Cake', 'Chill Flame',
-    'Evil Eye', 'Santa Hat', 'Candy Cane', 'Easter Egg', 'B-Day Candle'
+    'Evil Eye', 'Santa Hat', 'Candy Cane', 'Easter Egg', 'B-Day Candle',
+    'Berry Box', 'Bow Tie', 'Bunny Muffin', 'Crystal Ball', 'Desk Calendar',
+    'Eternal Candle', 'Flying Broom', 'Fresh Socks', 'Ginger Cookie', 'Hanging Star',
+    'Happy Brownie', 'Hex Pot', 'Input Key', 'Instant Ramen', 'Jester Hat',
+    'Jingle Bell', 'Jolly Chimp', 'Kissed Frog', 'Light Sword', 'Lol Pop',
+    'Love Candle', 'Love Potion', 'Lush Bouquet', 'Mad Pumpkin', 'Magic Potion',
+    'Mood Pack', 'Moon Pendant', 'Mousse Cake', 'Party Sparkler', 'Pet Snake',
+    'Pool Float', 'Pretty Posy', 'Rare Bird', 'Record Player', 'Restless Jar',
+    'Signet Ring', 'Skull Flower', 'Sky Stiletto', 'Sleigh Bell', 'Snake Box',
+    'Snoop Cigar', 'Snow Globe', 'Snow Mitten', 'Spiced Wine', 'Spring Basket',
+    'Spy Agarics', 'Star Notepad', 'Stellar Rocket', 'Surge Board', 'Swag Bag',
+    'Tama Gadget', 'Timeless Book', 'Top Hat', 'Toy Bear', 'Trapped Heart',
+    'UFC Strike', 'Valentine Box', 'Vice Cream', 'Victory Medal', 'Vintage Cigar',
+    'Voodoo Doll', 'Westside Sign', 'Whip Cupcake', 'Winter Wreath', 'Xmas Stocking'
 ];
 const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
 const attrVals = [
@@ -1601,8 +1433,18 @@ const attrVals = [
 ];
 const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
 
+// Реальные slug для Lottie/картинок с Fragment
+const realSlugs = [
+    'plushpepe-1821', 'plushpepe-1515', 'plushpepe-2658', 'plushpepe-1521', 'plushpepe-318',
+    'swisswatch-7799', 'heartlocket-875', 'scaredcat-2920', 'lootbag-11217', 'sakuraflower-49643',
+    'lowrider-16593', 'snoopdogg-12345', 'plushpepe-858', 'plushpepe-982', 'plushpepe-177',
+    'plushpepe-899', 'plushpepe-1921', 'plushpepe-1106', 'plushpepe-91', 'plushpepe-328',
+    'plushpepe-333', 'plushpepe-1120', 'plushpepe-1902', 'plushpepe-702', 'plushpepe-908',
+    'plushpepe-1897', 'plushpepe-1274', 'plushpepe-300', 'plushpepe-2821', 'scaredcat-17302'
+];
+
 let giftsData = [];
-for (let i = 0; i < 120; i++) {
+for (let i = 0; i < 560; i++) {
     const colIdx = i % giftCollections.length;
     const status = i % 6 === 0 ? 'avail' : 'sold';
     const label = status === 'avail' ? 'On auction' : 'Sold';
@@ -1626,29 +1468,24 @@ for (let i = 0; i < 120; i++) {
         });
     }
     
-    // Реальные Lottie URL для некоторых подарков
-    let lottieUrl = '';
+    // Картинка - реальная с Fragment или заглушка
     let imageUrl = '';
-    // Для первых 30 подарков пробуем реальные URL
-    if (i < 30) {
-        const giftSlugs = ['plushpepe-1821', 'plushpepe-1515', 'plushpepe-2658', 'plushpepe-1521', 'plushpepe-318',
-            'swisswatch-7799', 'heartlocket-875', 'scaredcat-2920', 'lootbag-11217', 'sakuraflower-49643',
-            'lowrider-16593', 'snoopdogg-12345', 'plushpepe-858', 'plushpepe-982', 'plushpepe-177',
-            'plushpepe-899', 'plushpepe-1921', 'plushpepe-1106', 'plushpepe-91', 'plushpepe-328'];
-        const slug = giftSlugs[i % giftSlugs.length];
-        lottieUrl = 'https://nft.fragment.com/gift/' + slug + '.tgs';
-        imageUrl = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+    if (i < realSlugs.length) {
+        imageUrl = 'https://nft.fragment.com/gift/' + realSlugs[i] + '.medium.jpg';
+    } else {
+        // Генерируем случайный slug для разнообразия
+        const randomSlug = realSlugs[Math.floor(Math.random() * realSlugs.length)];
+        imageUrl = 'https://nft.fragment.com/gift/' + randomSlug + '.medium.jpg';
     }
     
     giftsData.push({
         id: 2000 + i,
         name: giftNames[colIdx],
         collection: giftCollections[colIdx],
-        num: '#' + (1000 + i * 13),
+        num: '#' + (1000 + i * 7),
         price: price,
         status: status,
         label: label,
-        lottie: lottieUrl,
         image: imageUrl,
         attrs: attrs,
         owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
@@ -1761,15 +1598,12 @@ function renderGifts(collection = 'all', search = '') {
         const attrsStr = JSON.stringify(item.attrs || {});
         const ownerStr = item.owner || '';
         const historyStr = JSON.stringify(item.history || []);
-        const lottieUrl = item.lottie || '';
-        const imageUrl = item.image || '';
+        const imgUrl = item.image || '';
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${lottieUrl}|${imageUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${imgUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <div class="tm-lottie-container" id="lottie-${item.id}" data-lottie="${lottieUrl}" data-image="${imageUrl}">
-                        <div class="tm-lottie-fallback">🎁</div>
-                    </div>
+                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
                     <div class="tm-grid-item-num">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
@@ -1786,17 +1620,6 @@ function renderGifts(collection = 'all', search = '') {
             </a>
         </div>
     `}).join('');
-    
-    // Загружаем Lottie для всех видимых карточек
-    setTimeout(() => {
-        document.querySelectorAll('.tm-lottie-container').forEach(container => {
-            const lottieUrl = container.dataset.lottie;
-            const imageUrl = container.dataset.image;
-            if (lottieUrl || imageUrl) {
-                loadLottie(container, lottieUrl, imageUrl);
-            }
-        });
-    }, 100);
     
     const btn = document.getElementById('gifts-load-more');
     if (end >= filtered.length || filtered.length === 0) {
@@ -1818,7 +1641,9 @@ function renderFilterCollections() {
         <span class="tm-main-filters-count">${giftsData.length}</span>
     </div>`;
     
-    Object.keys(collectionsMap).sort().forEach(name => {
+    // Сортируем по количеству
+    const sorted = Object.keys(collectionsMap).sort((a,b) => collectionsMap[b] - collectionsMap[a]);
+    sorted.forEach(name => {
         html += `<div class="tm-main-filters-item" data-collection="${name}">
             <span class="tm-main-filters-name">${name}</span>
             <span class="tm-main-filters-count">${collectionsMap[name]}</span>
@@ -1841,7 +1666,7 @@ function renderFilterCollections() {
 // ============================================================
 // ===== DETAIL POPUP =====
 // ============================================================
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, lottieData, collection, attrs, owner, history) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
@@ -1856,29 +1681,15 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     statusBadge.textContent = label || 'On auction';
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
-    // Gift image with Lottie
+    // Gift image
     const giftContainer = document.getElementById('popup-gift-image');
-    const lottieContainer = document.getElementById('popup-lottie-container');
-    
-    if (type === 'Gift' && lottieData) {
+    const giftImg = document.getElementById('popup-gift-img');
+    if (type === 'Gift' && imageUrl) {
         giftContainer.style.display = 'flex';
-        const parts = lottieData.split('|');
-        const lottieUrl = parts[0] || '';
-        const imageUrl = parts[1] || '';
-        
-        // Очищаем контейнер
-        lottieContainer.innerHTML = '';
-        const fallback = document.createElement('div');
-        fallback.className = 'tm-lottie-fallback';
-        fallback.textContent = '🎁';
-        lottieContainer.appendChild(fallback);
-        
-        // Загружаем Lottie
-        if (lottieUrl) {
-            loadLottie(lottieContainer, lottieUrl, imageUrl);
-        } else if (imageUrl) {
-            loadLottie(lottieContainer, '', imageUrl);
-        }
+        giftImg.src = imageUrl;
+        giftImg.onerror = function() {
+            this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
+        };
     } else {
         giftContainer.style.display = 'none';
     }
@@ -1970,18 +1781,6 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
         if (target) {
             target.style.display = 'block';
             target.classList.add('section-active');
-            // Загружаем Lottie для подарков при переключении на вкладку Gifts
-            if (section === 'gifts') {
-                setTimeout(() => {
-                    document.querySelectorAll('.tm-lottie-container').forEach(container => {
-                        const lottieUrl = container.dataset.lottie;
-                        const imageUrl = container.dataset.image;
-                        if (lottieUrl || imageUrl) {
-                            loadLottie(container, lottieUrl, imageUrl);
-                        }
-                    });
-                }, 200);
-            }
         }
     });
 });
@@ -2056,15 +1855,6 @@ document.getElementById('logo-home')?.addEventListener('click', function(e) {
     const target = document.getElementById('section-gifts');
     target.style.display = 'block';
     target.classList.add('section-active');
-    setTimeout(() => {
-        document.querySelectorAll('.tm-lottie-container').forEach(container => {
-            const lottieUrl = container.dataset.lottie;
-            const imageUrl = container.dataset.image;
-            if (lottieUrl || imageUrl) {
-                loadLottie(container, lottieUrl, imageUrl);
-            }
-        });
-    }, 200);
 });
 
 // ============================================================
@@ -2074,6 +1864,10 @@ renderOffers();
 renderNumbers();
 renderGifts();
 renderFilterCollections();
+
+console.log('✅ Загружено юзернеймов:', offersData.length);
+console.log('✅ Загружено номеров +888:', numbersData.length);
+console.log('✅ Загружено подарков:', giftsData.length);
 </script>
 
 </body>
