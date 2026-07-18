@@ -49,6 +49,7 @@
             color: var(--text-color);
             font-size: 12px;
             line-height: 1.42857143;
+            overflow-x: hidden;
         }
         
         a { color: var(--accent-color); text-decoration: none; }
@@ -309,7 +310,7 @@
             opacity: 0;
         }
         
-        /* TABLE */
+        /* TABLE - С ОТСТУПАМИ МЕЖДУ СТРОКАМИ */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -321,35 +322,44 @@
         .tm-table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0;
+            border-spacing: 0 4px;
             color: var(--table-text-color);
             font-size: 14px;
+            padding: 4px 0;
         }
         .tm-table thead th {
             font-size: 13px;
             line-height: 18px;
             font-weight: bold;
             background-color: #293440;
-            padding: 14px 18px;
+            padding: 12px 18px;
             text-align: left;
             color: var(--table-text-color);
             border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 2;
+            border-radius: 0;
         }
+        .tm-table thead tr th:first-child { border-radius: 6px 0 0 6px; }
+        .tm-table thead tr th:last-child { border-radius: 0 6px 6px 0; }
         .tm-table tbody tr {
             cursor: pointer;
             transition: background .15s ease;
+            display: table-row;
         }
-        .tm-table tbody tr:hover { background: #293440; }
-        .tm-table tbody td {
-            padding: 14px 18px;
-            border-top: 1px solid #1a2026;
+        .tm-table tbody tr td {
+            background: var(--table-bg-color);
+            padding: 12px 18px;
             font-size: 14px;
             line-height: 20px;
             vertical-align: middle;
+            border: none;
         }
+        .tm-table tbody tr td:first-child { border-radius: 6px 0 0 6px; }
+        .tm-table tbody tr td:last-child { border-radius: 0 6px 6px 0; }
+        .tm-table tbody tr:hover td { background: #293440; }
+        
         .tm-table .tm-value {
             font-weight: bold;
             color: var(--value-color);
@@ -606,110 +616,138 @@
         }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* DETAIL POPUP - КАК НА ФРАГМЕНТЕ */
+        /* DETAIL POPUP - БЕЗ ПОЛЗУНКОВ, КНОПКИ ПО ЦЕНТРУ */
         .popup-container {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.75);
+            background: rgba(0,0,0,0.8);
             z-index: 200;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            transition: opacity .2s ease;
+            transition: opacity .25s ease;
         }
         .popup-container.hide { opacity: 0; pointer-events: none; }
         .popup {
             background: var(--bg-color);
-            border-radius: 12px;
+            border-radius: 14px;
             max-width: 520px;
             width: 100%;
-            max-height: 90vh;
+            max-height: 95vh;
             overflow-y: auto;
             padding: 0;
             color: #fff;
-            transform: scale(0.95);
-            transition: transform .2s ease;
+            transform: scale(0.96);
+            transition: transform .25s ease;
             border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-        .popup-container.hide .popup { transform: scale(0.95); }
+        .popup-container.hide .popup { transform: scale(0.96); }
         .popup-container:not(.hide) .popup { transform: scale(1); }
         
+        /* Скрываем скролл у попапа */
+        .popup::-webkit-scrollbar { width: 4px; }
+        .popup::-webkit-scrollbar-track { background: transparent; }
+        .popup::-webkit-scrollbar-thumb { background: #3f4e60; border-radius: 4px; }
+        
         .popup-header {
-            padding: 24px 28px 16px;
+            padding: 20px 24px 14px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             position: relative;
+            background: var(--table-bg-color);
+            border-radius: 14px 14px 0 0;
         }
         .popup-close {
             position: absolute;
-            right: 16px;
-            top: 16px;
+            right: 12px;
+            top: 12px;
             cursor: pointer;
-            font-size: 28px;
+            font-size: 24px;
             color: var(--text-color);
-            background: none;
+            background: rgba(255,255,255,0.06);
             border: none;
-            padding: 4px 8px;
-            line-height: 1;
+            padding: 4px 10px;
+            line-height: 1.4;
             border-radius: 6px;
-            transition: background .2s ease;
+            transition: all .2s ease;
         }
         .popup-close:hover { 
             color: #fff;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.12);
         }
         .popup-title {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: bold;
             color: #fff;
             margin: 0;
             padding-right: 40px;
         }
         .popup-subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--table-text-color);
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .popup-status-badge {
             display: inline-block;
-            font-size: 12px;
-            line-height: 18px;
+            font-size: 11px;
+            line-height: 16px;
             font-weight: bold;
-            padding: 3px 10px;
+            padding: 2px 10px;
             border-radius: 5px;
-            margin-top: 6px;
+            margin-top: 4px;
         }
         .popup-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
         .popup-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
         .popup-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
         
         .popup-body {
-            padding: 20px 28px 28px;
+            padding: 18px 24px 24px;
         }
+        
+        /* Gift image в попапе */
+        .popup-gift-image {
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1a2026;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-gift-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
         .popup-bid-info {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
         .popup-bid-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-bottom: 1px solid #1a2026;
         }
         .popup-bid-row:last-child { border-bottom: none; }
         .popup-bid-label {
             color: var(--table-text-color);
-            font-size: 14px;
+            font-size: 13px;
         }
         .popup-bid-value {
             font-weight: bold;
             color: var(--value-color);
-            font-size: 15px;
+            font-size: 14px;
         }
         .popup-bid-value.icon-ton:before {
             content: '';
@@ -718,81 +756,121 @@
             background-position: 0 center;
             background-repeat: no-repeat;
             background-size: contain;
-            width: 15px;
-            height: 18px;
+            width: 14px;
+            height: 17px;
             margin-right: 4px;
             background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
         .popup-bid-value .usd {
             font-weight: normal;
             color: var(--table-text-color);
-            font-size: 13px;
+            font-size: 12px;
             margin-left: 4px;
+        }
+        
+        /* Атрибуты для подарков */
+        .popup-attributes {
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .popup-attr-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 14px;
+            border-bottom: 1px solid #1a2026;
+        }
+        .popup-attr-row:last-child { border-bottom: none; }
+        .popup-attr-label {
+            color: var(--table-text-color);
+            font-size: 13px;
+        }
+        .popup-attr-value {
+            color: var(--value-color);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .popup-attr-rarity {
+            font-size: 11px;
+            color: var(--accent-color);
+            background: rgba(var(--accent-rgb),0.1);
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
         }
         
         .popup-countdown {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
-            padding: 14px 16px;
+            padding: 12px 14px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
         .popup-countdown-label {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--table-text-color);
             display: block;
         }
         .popup-countdown-timer {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #fff;
             margin-top: 2px;
         }
         
+        /* КНОПКИ - ПО ЦЕНТРУ, МЕНЬШЕ */
         .popup-buttons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 6px;
         }
         .popup-buttons .btn-primary {
-            flex: 1;
             display: inline-block;
             background: var(--btn-primary-bg-color);
             color: #fff;
-            padding: 14px 20px;
+            padding: 10px 22px;
             border: none;
             border-radius: var(--def-border-radius);
             font-weight: bold;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 13px;
             transition: background .2s ease;
             text-align: center;
+            min-width: 110px;
         }
         .popup-buttons .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
         .popup-buttons .btn-secondary {
-            flex: 1;
             display: inline-block;
             background: var(--btn-default-bg-color);
             color: #fff;
-            padding: 14px 20px;
+            padding: 10px 22px;
             border: none;
             border-radius: var(--def-border-radius);
             font-weight: bold;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 13px;
             transition: background .2s ease;
             text-align: center;
+            min-width: 110px;
         }
         .popup-buttons .btn-secondary:hover { background: var(--btn-default-bg-hover-color); }
         
         .popup-detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         .popup-detail-row:last-child { border-bottom: none; }
-        .popup-detail-label { color: var(--table-text-color); font-size: 13px; }
-        .popup-detail-value { color: var(--value-color); font-size: 14px; font-weight: 500; }
+        .popup-detail-label { color: var(--table-text-color); font-size: 12px; }
+        .popup-detail-value { color: var(--value-color); font-size: 13px; font-weight: 500; }
+        .popup-detail-value .tm-wallet {
+            color: var(--accent-color);
+            font-size: 12px;
+            font-family: monospace;
+        }
         
         .section-hidden { display: none; }
         .section-active { display: block; }
@@ -1003,7 +1081,7 @@
 
 </main>
 
-<!-- DETAIL POPUP - КАК НА ФРАГМЕНТЕ -->
+<!-- DETAIL POPUP -->
 <div class="popup-container hide" id="detail-popup">
     <div class="popup">
         <div class="popup-header">
@@ -1013,6 +1091,11 @@
             <div class="popup-status-badge avail" id="popup-status-badge">On auction</div>
         </div>
         <div class="popup-body">
+            <!-- Gift Image (показывается только для подарков) -->
+            <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
+                <img id="popup-gift-img" src="" alt="Gift">
+            </div>
+            
             <div class="popup-bid-info">
                 <div class="popup-bid-row">
                     <span class="popup-bid-label">Highest Bid</span>
@@ -1032,6 +1115,11 @@
                 </div>
             </div>
             
+            <!-- Attributes (только для подарков) -->
+            <div class="popup-attributes" id="popup-attributes" style="display:none;">
+                <!-- JS заполняет -->
+            </div>
+            
             <div class="popup-countdown">
                 <span class="popup-countdown-label">Auction ends in</span>
                 <div class="popup-countdown-timer" id="popup-countdown">--</div>
@@ -1044,6 +1132,10 @@
             <div class="popup-detail-row">
                 <span class="popup-detail-label">Listed</span>
                 <span class="popup-detail-value" id="popup-detail-date">Today</span>
+            </div>
+            <div class="popup-detail-row" id="popup-owner-row" style="display:none;">
+                <span class="popup-detail-label">Owner</span>
+                <span class="popup-detail-value" id="popup-detail-owner">—</span>
             </div>
             
             <div class="popup-buttons">
@@ -1132,28 +1224,79 @@ const numbersData = [
     { id: 130, name: '+888 777 3333', type: 'Number', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 8, 2025', bids: 4, endsIn: '3d 7h 50m' },
 ];
 
-const giftsData = [
-    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg' },
-    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg' },
-    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg' },
-    { id: 4, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1521', price: 28555, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1521.medium.jpg' },
-    { id: 5, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#318', price: 23519, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-318.medium.jpg' },
-    { id: 6, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1179', price: 20888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1179.medium.jpg' },
-    { id: 7, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#456', price: 19999, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-456.medium.jpg' },
-    { id: 8, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1519', price: 19000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1519.medium.jpg' },
-    { id: 9, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1043', price: 15000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1043.medium.jpg' },
-    { id: 10, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg' },
-    { id: 11, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg' },
-    { id: 12, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg' },
-    { id: 13, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg' },
-    { id: 14, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg' },
-    { id: 15, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg' },
-    { id: 16, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg' },
-    { id: 17, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#858', price: 15000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-858.medium.jpg' },
-    { id: 18, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#982', price: 13999, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-982.medium.jpg' },
-    { id: 19, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#177', price: 13500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-177.medium.jpg' },
-    { id: 20, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#899', price: 13500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-899.medium.jpg' },
+// ВСЕ КОЛЛЕКЦИИ ПОДАРКОВ
+const collectionsList = [
+    'Artisan Bricks', 'Astral Shards', 'B-Day Candles', 'Berry Boxes', 'Big Years',
+    'Bling Binkies', 'Bonded Rings', 'Bow Ties', 'Bunny Muffins', 'Candy Canes',
+    'Chill Flames', 'Clover Pins', 'Cookie Hearts', 'Crystal Balls', 'Cupid Charms',
+    'Desk Calendars', 'Diamond Rings', 'Durov\'s Caps', 'Easter Eggs', 'Electric Skulls',
+    'Eternal Candles', 'Eternal Roses', 'Evil Eyes', 'Faith Amulets', 'Flying Brooms',
+    'Fresh Socks', 'Gem Signets', 'Genie Lamps', 'Ginger Cookies', 'Hanging Stars',
+    'Happy Brownies', 'Heart Lockets', 'Heroic Helmets', 'Hex Pots', 'Holiday Drinks',
+    'Homemade Cakes', 'Hypno Lollipops', 'Ice Creams', 'Input Keys', 'Instant Ramens',
+    'Ion Gems', 'Ionic Dryers', 'Jacks-in-the-Box', 'Jelly Bunnies', 'Jester Hats',
+    'Jingle Bells', 'Jolly Chimps', 'Joyful Bundles', 'Khabib\'s Papakhas', 'Kissed Frogs',
+    'Light Swords', 'Lol Pops', 'Loot Bags', 'Love Candles', 'Love Potions',
+    'Low Riders', 'Lunar Snakes', 'Lush Bouquets', 'Mad Pumpkins', 'Magic Potions',
+    'Mighty Arms', 'Mini Oscars', 'Money Pots', 'Mood Packs', 'Moon Pendants',
+    'Mousse Cakes', 'Nail Bracelets', 'Neko Helmets', 'Party Sparklers', 'Perfume Bottles',
+    'Pet Snakes', 'Plush Pepes', 'Pool Floats', 'Precious Peaches', 'Pretty Posies',
+    'Rare Birds', 'Record Players', 'Restless Jars', 'Sakura Flowers', 'Santa Hats',
+    'Scared Cats', 'Sharp Tongues', 'Signet Rings', 'Skull Flowers', 'Sky Stilettos',
+    'Sleigh Bells', 'Snake Boxes', 'Snoop Cigars', 'Snoop Doggs', 'Snow Globes',
+    'Snow Mittens', 'Spiced Wines', 'Spring Baskets', 'Spy Agarics', 'Star Notepads',
+    'Stellar Rockets', 'Surge Boards', 'Swag Bags', 'Swiss Watches', 'Tama Gadgets',
+    'Timeless Books', 'Top Hats', 'Toy Bears', 'Trapped Hearts', 'UFC Strikes',
+    'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars', 'Voodoo Dolls',
+    'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Witch Hats', 'Xmas Stockings'
 ];
+
+// Генерируем подарки для всех коллекций
+let giftsData = [];
+const collectionsWithGifts = {};
+
+// Добавляем существующие подарки
+const existingGifts = [
+    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg', owner: 'UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Isg', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
+    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg', owner: 'UQAL2kMK6J-vUj1P1RrF6lRG161pQdhYXXwb__hcEFxbXzw', attrs: { Model: 'Galaxy', Backdrop: 'Purple', Symbol: 'Dragon' } },
+    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
+    { id: 4, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Classic', Material: 'Gold', Band: 'Leather' } },
+    { id: 5, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg', owner: 'EQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', attrs: { Material: 'Gold', Gem: 'Ruby', Chain: 'Silver' } },
+    { id: 6, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg', owner: 'UQCa8-iCRxjI-e38jJ-tF3YkyX1suJqghWynrZrjlUsKMzst', attrs: { Color: 'Orange', Expression: 'Surprised', Eyes: 'Big' } },
+    { id: 7, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg', owner: 'EQD_38Uzn8ZQJJ4jB9o89cp4pOkdp3k_KzpsWv84KpQ8TlsL', attrs: { Rarity: 'Legendary', Material: 'Velvet', Style: 'Retro' } },
+    { id: 8, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg', owner: 'EQCa7wMuLC-TDD_jZFTluCTfVMo9WhXJr_t3xIyazm78yAjR', attrs: { Color: 'Pink', Season: 'Spring', Bloom: 'Full' } },
+    { id: 9, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg', owner: 'EQD4aL6GYkycuVtfsbxEcCVmXBWbL5foTumHNX1oHXGyxeVJ', attrs: { Color: 'Purple', Style: 'Custom', Wheels: 'Spinner' } },
+    { id: 10, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg', owner: 'UQB_ziGN0OZ3yXptUqZrM6toMgB0jvS5_Ngm8_lm8FV72WxN', attrs: { Style: 'OG', Chain: 'Gold', Glasses: 'Shades' } },
+];
+
+// Генерируем подарки для каждой коллекции
+collectionsList.forEach(col => {
+    // Пропускаем уже существующие коллекции
+    if (existingGifts.some(g => g.collection === col)) return;
+    
+    const count = Math.floor(Math.random() * 5) + 1;
+    for (let i = 1; i <= count; i++) {
+        const num = Math.floor(Math.random() * 10000) + 1000;
+        const price = Math.floor(Math.random() * 5000) + 500;
+        const status = Math.random() > 0.3 ? 'sold' : 'avail';
+        const label = status === 'sold' ? 'Sold' : 'On auction';
+        giftsData.push({
+            id: giftsData.length + existingGifts.length + 1,
+            name: col.replace(/\s/g, ' '),
+            collection: col,
+            num: '#' + num,
+            price: price,
+            status: status,
+            label: label,
+            image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E',
+            owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            attrs: { Rarity: ['Common','Uncommon','Rare','Epic','Legendary'][Math.floor(Math.random()*5)], Style: ['Classic','Modern','Vintage','Neon','Stealth'][Math.floor(Math.random()*5)] }
+        });
+    }
+});
+
+// Добавляем существующие подарки
+giftsData = [...existingGifts, ...giftsData];
 
 // ========== RENDER FUNCTIONS ==========
 let offersPage = 0;
@@ -1181,7 +1324,7 @@ function renderOffers(search = '') {
     }
     
     tbody.innerHTML = pageItems.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}')">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null)">
             <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1217,7 +1360,7 @@ function renderNumbers(search = '') {
     }
     
     tbody.innerHTML = pageItems.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}')">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null)">
             <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1255,8 +1398,11 @@ function renderGifts(collection = 'all', search = '') {
         return;
     }
     
-    grid.innerHTML = pageItems.map(item => `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—')">
+    grid.innerHTML = pageItems.map(item => {
+        const attrsStr = JSON.stringify(item.attrs || {});
+        const ownerStr = item.owner || '';
+        return `
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${item.image}', '${item.collection}', ${attrsStr}, '${ownerStr}')">
             <a href="#">
                 <div class="tm-grid-item-thumb">
                     <img src="${item.image}" class="tm-grid-thumb" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
@@ -1275,7 +1421,7 @@ function renderGifts(collection = 'all', search = '') {
                 </div>
             </a>
         </div>
-    `).join('');
+    `}).join('');
     
     const btn = document.getElementById('gifts-load-more');
     if (end >= filtered.length) {
@@ -1318,21 +1464,61 @@ function renderFilterCollections() {
 }
 
 // ========== DETAIL POPUP ==========
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, giftImage, collection, attrs, owner) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
-    document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : 'Telegram Gift';
+    document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
     document.getElementById('popup-min-bid').textContent = (minBid || Math.round(price * 1.05)).toLocaleString();
     document.getElementById('popup-bid-step').textContent = (bidStep || Math.round(price * 0.05)).toLocaleString();
     document.getElementById('popup-total-bids').textContent = bids || 0;
     document.getElementById('popup-detail-status').textContent = label || 'Available';
     document.getElementById('popup-detail-date').textContent = date || 'Today';
+    document.getElementById('popup-countdown').textContent = endsIn || '—';
     
     const statusBadge = document.getElementById('popup-status-badge');
     statusBadge.textContent = label || 'On auction';
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
-    document.getElementById('popup-countdown').textContent = endsIn || '—';
+    // Gift image
+    const giftImgContainer = document.getElementById('popup-gift-image');
+    const giftImg = document.getElementById('popup-gift-img');
+    if (giftImage && type === 'Gift') {
+        giftImgContainer.style.display = 'flex';
+        giftImg.src = giftImage;
+        giftImg.alt = name;
+    } else {
+        giftImgContainer.style.display = 'none';
+    }
+    
+    // Attributes
+    const attrsContainer = document.getElementById('popup-attributes');
+    if (attrs && type === 'Gift') {
+        attrsContainer.style.display = 'block';
+        let attrsHtml = '';
+        for (const [key, val] of Object.entries(attrs)) {
+            const rarity = Math.floor(Math.random() * 5) + 1;
+            const rarityText = ['Common','Uncommon','Rare','Epic','Legendary'][rarity-1];
+            const rarityPct = (Math.random() * 20 + 1).toFixed(1);
+            attrsHtml += `
+                <div class="popup-attr-row">
+                    <span class="popup-attr-label">${key}</span>
+                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarityPct}%</span></span>
+                </div>
+            `;
+        }
+        attrsContainer.innerHTML = attrsHtml;
+    } else {
+        attrsContainer.style.display = 'none';
+    }
+    
+    // Owner
+    const ownerRow = document.getElementById('popup-owner-row');
+    if (owner && type === 'Gift') {
+        ownerRow.style.display = 'flex';
+        document.getElementById('popup-detail-owner').innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
+    } else {
+        ownerRow.style.display = 'none';
+    }
     
     document.getElementById('detail-popup').classList.remove('hide');
 }
