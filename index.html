@@ -310,7 +310,7 @@
             opacity: 0;
         }
         
-        /* TABLE - С ОТСТУПАМИ */
+        /* TABLE */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -413,7 +413,7 @@
             border-radius: var(--def-border-radius);
         }
         
-        /* GIFT CARDS - LOTTIE В ЗАМОРОЖЕННОМ СОСТОЯНИИ */
+        /* GIFT CARDS - LOTTIE */
         .tm-catalog-grid-wrap { 
             --gap: 12px;
             background: transparent;
@@ -466,7 +466,6 @@
             justify-content: center;
             overflow: hidden;
         }
-        /* Lottie в замороженном состоянии - не проигрывается */
         .tm-grid-item-thumb .tm-lottie {
             width: 100%;
             height: 100%;
@@ -488,10 +487,6 @@
             animation: none !important;
             animation-play-state: paused !important;
         }
-        .tm-grid-item-thumb .tm-lottie.frozen img {
-            filter: none;
-        }
-        /* Заглушка если Lottie не загрузился */
         .tm-grid-item-thumb .tm-lottie-fallback {
             width: 100%;
             height: 100%;
@@ -648,14 +643,14 @@
         }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* DETAIL POPUP - КНОПКИ ПО ЦЕНТРУ */
+        /* DETAIL POPUP - ПОЛНОЦЕННЫЙ КАК НА FRAGMENT */
         .popup-container {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 200;
             display: flex;
             justify-content: center;
@@ -667,7 +662,7 @@
         .popup {
             background: var(--bg-color);
             border-radius: 14px;
-            max-width: 520px;
+            max-width: 560px;
             width: 100%;
             max-height: 95vh;
             overflow-y: auto;
@@ -739,7 +734,7 @@
             padding: 18px 24px 24px;
         }
         
-        /* Gift image в попапе - Lottie замороженный */
+        /* Gift image в попапе */
         .popup-gift-image {
             width: 100%;
             max-width: 200px;
@@ -768,10 +763,6 @@
         }
         .popup-gift-image .tm-lottie.frozen {
             pointer-events: none;
-        }
-        .popup-gift-image .tm-lottie.frozen canvas {
-            animation: none !important;
-            animation-play-state: paused !important;
         }
         .popup-gift-image .tm-lottie-fallback {
             width: 100%;
@@ -881,6 +872,7 @@
             gap: 10px;
             justify-content: center;
             margin-top: 6px;
+            flex-wrap: wrap;
         }
         .popup-buttons .btn-primary {
             display: inline-block;
@@ -926,6 +918,33 @@
             color: var(--accent-color);
             font-size: 12px;
             font-family: monospace;
+        }
+        
+        /* История владения в попапе */
+        .popup-ownership {
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .popup-ownership-header {
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--value-color);
+            border-bottom: 1px solid #1a2026;
+        }
+        .popup-ownership-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 14px;
+            border-bottom: 1px solid #1a2026;
+            font-size: 12px;
+            color: var(--table-text-color);
+        }
+        .popup-ownership-item:last-child { border-bottom: none; }
+        .popup-ownership-item .owner {
+            color: var(--accent-color);
         }
         
         .section-hidden { display: none; }
@@ -1147,7 +1166,7 @@
             <div class="popup-status-badge avail" id="popup-status-badge">On auction</div>
         </div>
         <div class="popup-body">
-            <!-- Gift Image с Lottie -->
+            <!-- Gift Image -->
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
                 <div class="tm-lottie frozen" id="popup-lottie-container">
                     <div class="tm-lottie-fallback" id="popup-lottie-fallback">🎁</div>
@@ -1193,7 +1212,12 @@
                 <span class="popup-detail-value" id="popup-detail-owner">—</span>
             </div>
             
-            <!-- КНОПКИ ПО ЦЕНТРУ -->
+            <!-- История владения для NFT -->
+            <div class="popup-ownership" id="popup-ownership" style="display:none;">
+                <div class="popup-ownership-header">Ownership History</div>
+                <div id="popup-ownership-list"></div>
+            </div>
+            
             <div class="popup-buttons">
                 <button class="btn-primary" id="popup-bid-btn">Place Bid</button>
                 <button class="btn-secondary" id="popup-buy-btn">Buy Now</button>
@@ -1219,35 +1243,50 @@ const offersData = [
     { id: 2, name: 'heal', type: 'Username', price: 4444, minBid: 4666, bidStep: 222, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 8, endsIn: '1d 3h 42m' },
     { id: 3, name: 'tier', type: 'Username', price: 3333, minBid: 3500, bidStep: 167, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 5, endsIn: '3d 12h 8m' },
     { id: 4, name: 'failed', type: 'Username', price: 2222, minBid: 2333, bidStep: 111, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 3, endsIn: '—' },
-    { id: 5, name: 'cloud', type: 'Username', price: 5000, minBid: 5250, bidStep: 250, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 7, endsIn: '5d 6h 22m' },
-    { id: 6, name: 'storm', type: 'Username', price: 3200, minBid: 3360, bidStep: 160, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 4, endsIn: '2d 1h 55m' },
-    { id: 7, name: 'shadow', type: 'Username', price: 2800, minBid: 2940, bidStep: 140, status: 'avail', label: 'On auction', date: 'Sep 1, 2025', bids: 6, endsIn: '4d 8h 30m' },
-    { id: 8, name: 'light', type: 'Username', price: 1900, minBid: 1995, bidStep: 95, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 2, endsIn: '1d 14h 10m' },
-    { id: 9, name: 'phantom', type: 'Username', price: 4500, minBid: 4725, bidStep: 225, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9, endsIn: '6d 2h 45m' },
-    { id: 10, name: 'cyber', type: 'Username', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 5, endsIn: '3d 7h 20m' },
 ];
 
 const numbersData = [
     { id: 101, name: '+888 123 4567', type: 'Number', price: 1200, minBid: 1260, bidStep: 60, status: 'avail', label: 'On auction', date: 'Sep 6, 2025', bids: 3, endsIn: '1d 2h 30m' },
     { id: 102, name: '+888 777 8888', type: 'Number', price: 2500, minBid: 2625, bidStep: 125, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 5, endsIn: '2d 5h 40m' },
-    { id: 103, name: '+888 999 0000', type: 'Number', price: 1800, minBid: 1890, bidStep: 90, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 2, endsIn: '—' },
-    { id: 104, name: '+888 555 1234', type: 'Number', price: 900, minBid: 945, bidStep: 45, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 1, endsIn: '4d 3h 15m' },
-    { id: 105, name: '+888 666 9999', type: 'Number', price: 3200, minBid: 3360, bidStep: 160, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 7, endsIn: '3d 12h 20m' },
 ];
 
-// Gifts с Lottie
-const giftsData = [
-    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/plushpepe-1821.tgs', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg', owner: 'UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Isg', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
-    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/plushpepe-1515.tgs', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg', owner: 'UQAL2kMK6J-vUj1P1RrF6lRG161pQdhYXXwb__hcEFxbXzw', attrs: { Model: 'Galaxy', Backdrop: 'Purple', Symbol: 'Dragon' } },
-    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/plushpepe-2658.tgs', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
-    { id: 4, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/swisswatch-7799.tgs', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Classic', Material: 'Gold', Band: 'Leather' } },
-    { id: 5, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/heartlocket-875.tgs', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg', owner: 'EQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', attrs: { Material: 'Gold', Gem: 'Ruby', Chain: 'Silver' } },
-    { id: 6, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/scaredcat-2920.tgs', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg', owner: 'UQCa8-iCRxjI-e38jJ-tF3YkyX1suJqghWynrZrjlUsKMzst', attrs: { Color: 'Orange', Expression: 'Surprised', Eyes: 'Big' } },
-    { id: 7, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/lootbag-11217.tgs', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg', owner: 'EQD_38Uzn8ZQJJ4jB9o89cp4pOkdp3k_KzpsWv84KpQ8TlsL', attrs: { Rarity: 'Legendary', Material: 'Velvet', Style: 'Retro' } },
-    { id: 8, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/sakuraflower-49643.tgs', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg', owner: 'EQCa7wMuLC-TDD_jZFTluCTfVMo9WhXJr_t3xIyazm78yAjR', attrs: { Color: 'Pink', Season: 'Spring', Bloom: 'Full' } },
-    { id: 9, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/lowrider-16593.tgs', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg', owner: 'EQD4aL6GYkycuVtfsbxEcCVmXBWbL5foTumHNX1oHXGyxeVJ', attrs: { Color: 'Purple', Style: 'Custom', Wheels: 'Spinner' } },
-    { id: 10, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', lottie: 'https://nft.fragment.com/gift/snoopdogg-12345.tgs', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg', owner: 'UQB_ziGN0OZ3yXptUqZrM6toMgB0jvS5_Ngm8_lm8FV72WxN', attrs: { Style: 'OG', Chain: 'Gold', Glasses: 'Shades' } },
-];
+// GENERATE MANY GIFTS
+const collections = ['Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags', 'Sakura Flowers', 'Low Riders', 'Snoop Doggs'];
+const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'Loot Bag', 'Sakura Flower', 'Low Rider', 'Snoop Dogg'];
+const emojis = ['🧸', '⌚', '💝', '🐱', '🎒', '🌸', '🚗', '🐶'];
+
+let giftsData = [];
+for (let i = 0; i < 45; i++) {
+    const colIdx = i % collections.length;
+    const status = i % 5 === 0 ? 'avail' : 'sold';
+    const label = status === 'avail' ? 'On auction' : 'Sold';
+    const price = Math.floor(Math.random() * 50000) + 5000;
+    giftsData.push({
+        id: i + 1,
+        name: giftNames[colIdx],
+        collection: collections[colIdx],
+        num: '#' + (1000 + i * 7),
+        price: price,
+        status: status,
+        label: label,
+        lottie: '',
+        image: '',
+        owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        attrs: { 
+            Model: ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'][colIdx],
+            Backdrop: ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'][colIdx % 4],
+            Symbol: ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'][colIdx % 6]
+        },
+        history: [
+            { price: 'Transferred', date: 'May 1, 2026', buyer: 'wallet_' + Math.random().toString(36).substring(2, 8) },
+            { price: 'Transferred', date: 'Apr 15, 2026', buyer: 'wallet_' + Math.random().toString(36).substring(2, 8) },
+            { price: 'Transferred', date: 'Mar 28, 2026', buyer: 'wallet_' + Math.random().toString(36).substring(2, 8) }
+        ]
+    });
+}
+
+let giftsPage = 0;
+const GIFTS_PER_PAGE = 12;
 
 // ========== RENDER ==========
 function renderOffers(search = '') {
@@ -1262,7 +1301,7 @@ function renderOffers(search = '') {
         return;
     }
     tbody.innerHTML = filtered.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null)">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
             <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1285,7 +1324,7 @@ function renderNumbers(search = '') {
         return;
     }
     tbody.innerHTML = filtered.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null)">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
             <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1304,39 +1343,38 @@ function renderGifts(collection = 'all', search = '') {
         return matchCollection && matchSearch;
     });
     
+    const start = 0;
+    const end = Math.min((giftsPage + 1) * GIFTS_PER_PAGE, filtered.length);
+    const pageItems = filtered.slice(start, end);
+    
     const grid = document.getElementById('gifts-grid');
     document.getElementById('gifts-count').textContent = `(${filtered.length})`;
     
-    if (filtered.length === 0) {
+    if (pageItems.length === 0) {
         grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`;
         return;
     }
     
-    grid.innerHTML = filtered.map(item => {
-        // Используем Lottie с картинкой как fallback
-        const lottieUrl = item.lottie || '';
-        const imgUrl = item.image || '';
-        const num = item.num || '';
+    const emoji = ['🧸','⌚','💝','🐱','🎒','🌸','🚗','🐶'];
+    
+    grid.innerHTML = pageItems.map((item, idx) => {
+        const emojiIcon = emoji[idx % emoji.length];
         const attrsStr = JSON.stringify(item.attrs || {});
         const ownerStr = item.owner || '';
-        const lottieData = lottieUrl + '|' + imgUrl;
-        
+        const historyStr = JSON.stringify(item.history || []);
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${lottieData}', '${item.collection}', ${attrsStr}, '${ownerStr}')">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <div class="tm-lottie frozen" data-lottie="${lottieUrl}" data-fallback="${imgUrl}">
-                        <img src="${imgUrl}" class="tm-grid-thumb" loading="lazy" 
-                             onerror="this.style.display='none';this.parentElement.querySelector('.tm-lottie-fallback')?.style.display='flex';"
-                             style="width:100%;height:100%;object-fit:cover;">
-                        <div class="tm-lottie-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:48px;background:#1a2026;color:#4db2ff;">🎁</div>
+                    <div class="tm-lottie frozen" style="display:flex;align-items:center;justify-content:center;font-size:64px;background:#1a2026;color:#4db2ff;width:100%;height:100%;">
+                        ${emojiIcon}
                     </div>
-                    <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${num}</div>
+                    <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
                     <div class="tm-grid-item-name">
                         <span class="item-name">${item.name}</span>
-                        <span class="item-num">&nbsp;${num}</span>
+                        <span class="item-num">&nbsp;${item.num}</span>
                     </div>
                     <div class="tm-grid-item-desc">${item.collection}</div>
                     <div class="tm-grid-item-values">
@@ -1347,6 +1385,13 @@ function renderGifts(collection = 'all', search = '') {
             </a>
         </div>
     `}).join('');
+    
+    const btn = document.getElementById('gifts-load-more');
+    if (end >= filtered.length) {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
 }
 
 function renderFilterCollections() {
@@ -1375,13 +1420,14 @@ function renderFilterCollections() {
         el.addEventListener('click', function() {
             container.querySelectorAll('.tm-main-filters-item').forEach(f => f.classList.remove('selected'));
             this.classList.add('selected');
+            giftsPage = 0;
             renderGifts(this.dataset.collection, document.getElementById('search-gifts').value);
         });
     });
 }
 
 // ========== DETAIL POPUP ==========
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, lottieData, collection, attrs, owner) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, lottieData, collection, attrs, owner, history) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
@@ -1396,40 +1442,21 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     statusBadge.textContent = label || 'On auction';
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
-    // Gift Lottie/Image
+    // Gift image
     const giftContainer = document.getElementById('popup-gift-image');
     const lottieContainer = document.getElementById('popup-lottie-container');
     const fallback = document.getElementById('popup-lottie-fallback');
     
-    if (lottieData && type === 'Gift') {
+    if (type === 'Gift') {
         giftContainer.style.display = 'flex';
-        const parts = lottieData.split('|');
-        const lottieUrl = parts[0] || '';
-        const imgUrl = parts[1] || '';
-        
-        // Показываем картинку как fallback для Lottie
-        if (imgUrl) {
-            fallback.style.display = 'none';
-            fallback.textContent = '🎁';
-            // Создаем img для превью
-            let img = lottieContainer.querySelector('img');
-            if (!img) {
-                img = document.createElement('img');
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.objectFit = 'cover';
-                lottieContainer.appendChild(img);
-            }
-            img.src = imgUrl;
-            img.onerror = function() {
-                this.style.display = 'none';
-                fallback.style.display = 'flex';
-            };
-            img.style.display = 'block';
-        } else {
-            fallback.style.display = 'flex';
-            fallback.textContent = '🎁';
-        }
+        const emojis = ['🧸','⌚','💝','🐱','🎒','🌸','🚗','🐶'];
+        const idx = Math.floor(Math.random() * emojis.length);
+        fallback.style.display = 'flex';
+        fallback.textContent = emojis[idx];
+        fallback.style.fontSize = '64px';
+        // Убираем старые img
+        const oldImg = lottieContainer.querySelector('img');
+        if (oldImg) oldImg.remove();
     } else {
         giftContainer.style.display = 'none';
     }
@@ -1463,6 +1490,22 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
         document.getElementById('popup-detail-owner').innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
     } else {
         ownerRow.style.display = 'none';
+    }
+    
+    // Ownership History
+    const ownershipContainer = document.getElementById('popup-ownership');
+    const ownershipList = document.getElementById('popup-ownership-list');
+    if (history && history.length > 0 && type === 'Gift') {
+        ownershipContainer.style.display = 'block';
+        ownershipList.innerHTML = history.map(h => `
+            <div class="popup-ownership-item">
+                <span>${h.price}</span>
+                <span>${h.date}</span>
+                <span class="owner">${h.buyer}</span>
+            </div>
+        `).join('');
+    } else {
+        ownershipContainer.style.display = 'none';
     }
     
     document.getElementById('detail-popup').classList.remove('hide');
@@ -1509,6 +1552,7 @@ document.getElementById('search-numbers').addEventListener('input', function() {
     renderNumbers(this.value);
 });
 document.getElementById('search-gifts').addEventListener('input', function() {
+    giftsPage = 0;
     const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
     const collection = selected ? selected.dataset.collection : 'all';
     renderGifts(collection, this.value);
@@ -1523,6 +1567,20 @@ document.querySelectorAll('.tm-search-clear').forEach(clear => {
             input.focus();
         }
     });
+});
+
+// ========== LOAD MORE ==========
+document.getElementById('offers-load-more').addEventListener('click', function() {
+    renderOffers(document.getElementById('search-offers').value);
+});
+document.getElementById('numbers-load-more').addEventListener('click', function() {
+    renderNumbers(document.getElementById('search-numbers').value);
+});
+document.getElementById('gifts-load-more').addEventListener('click', function() {
+    giftsPage++;
+    const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
+    const collection = selected ? selected.dataset.collection : 'all';
+    renderGifts(collection, document.getElementById('search-gifts').value);
 });
 
 // ========== FILTER TOGGLE ==========
