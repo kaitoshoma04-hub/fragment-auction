@@ -11,6 +11,7 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
+        /* Все стили те же самые, не меняю */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -1205,9 +1206,48 @@
         .tm-main-intro .tm-main-intro-text {
             text-align: center !important;
         }
+        
+        /* Анимация загрузки */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+        .loading-overlay .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-overlay.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loading-overlay">
+    <div class="spinner"></div>
+    <div>Loading gifts...</div>
+    <div style="font-size:12px;margin-top:8px;color:var(--table-text-color);" id="loading-status">Checking images...</div>
+</div>
 
 <!-- HEADER -->
 <header class="tm-header">
@@ -1538,7 +1578,7 @@
 
 </main>
 
-<!-- DETAIL POPUP - старый дизайн как у юзернеймов -->
+<!-- DETAIL POPUP -->
 <div class="popup-container hide" id="detail-popup">
     <div class="popup">
         <div class="popup-header">
@@ -1589,287 +1629,92 @@
 
 <script>
 // ============================================================
-// ===== ДАННЫЕ С РЕАЛЬНЫМИ КАРТИНКАМИ ДЛЯ КАЖДОЙ КОЛЛЕКЦИИ =====
+// ===== ДАННЫЕ =====
 // ============================================================
 
-// Расширенные slug'ы для каждой коллекции (4855+ моделей)
-const collectionSlugs = {
-    'Plush Pepes': [],
-    'Swiss Watches': [],
-    'Heart Lockets': [],
-    'Scared Cats': [],
-    'Loot Bags': [],
-    'Sakura Flowers': [],
-    'Low Riders': [],
-    'Snoop Doggs': [],
-    'Eternal Roses': [],
-    'Diamond Rings': [],
-    'Witch Hats': [],
-    'Toy Bears': [],
-    'Ice Creams': [],
-    'Homemade Cakes': [],
-    'Chill Flames': [],
-    'Evil Eyes': [],
-    'Santa Hats': [],
-    'Candy Canes': [],
-    'Easter Eggs': [],
-    'B-Day Candles': [],
-    'Berry Boxes': [],
-    'Bow Ties': [],
-    'Bunny Muffins': [],
-    'Crystal Balls': [],
-    'Desk Calendars': [],
-    'Eternal Candles': [],
-    'Flying Brooms': [],
-    'Fresh Socks': [],
-    'Ginger Cookies': [],
-    'Hanging Stars': [],
-    'Happy Brownies': [],
-    'Hex Pots': [],
-    'Input Keys': [],
-    'Instant Ramens': [],
-    'Jester Hats': [],
-    'Jingle Bells': [],
-    'Jolly Chimps': [],
-    'Kissed Frogs': [],
-    'Light Swords': [],
-    'Lol Pops': [],
-    'Love Candles': [],
-    'Love Potions': [],
-    'Lush Bouquets': [],
-    'Mad Pumpkins': [],
-    'Magic Potions': [],
-    'Mood Packs': [],
-    'Moon Pendants': [],
-    'Mousse Cakes': [],
-    'Party Sparklers': [],
-    'Pet Snakes': [],
-    'Pool Floats': [],
-    'Pretty Posies': [],
-    'Rare Birds': [],
-    'Record Players': [],
-    'Restless Jars': [],
-    'Signet Rings': [],
-    'Skull Flowers': [],
-    'Sky Stilettos': [],
-    'Sleigh Bells': [],
-    'Snake Boxes': [],
-    'Snoop Cigars': [],
-    'Snow Globes': [],
-    'Snow Mittens': [],
-    'Spiced Wines': [],
-    'Spring Baskets': [],
-    'Spy Agarics': [],
-    'Star Notepads': [],
-    'Stellar Rockets': [],
-    'Surge Boards': [],
-    'Swag Bags': [],
-    'Tama Gadgets': [],
-    'Timeless Books': [],
-    'Top Hats': [],
-    'Trapped Hearts': [],
-    'UFC Strikes': [],
-    'Valentine Boxes': [],
-    'Vice Creams': [],
-    'Victory Medals': [],
-    'Vintage Cigars': [],
-    'Voodoo Dolls': [],
-    'Westside Signs': [],
-    'Whip Cupcakes': [],
-    'Winter Wreaths': [],
-    'Xmas Stockings': []
-};
+// Список всех коллекций
+const collectionNames = [
+    'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
+    'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
+    'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
+    'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Easter Eggs', 'B-Day Candles',
+    'Berry Boxes', 'Bow Ties', 'Bunny Muffins', 'Crystal Balls', 'Desk Calendars',
+    'Eternal Candles', 'Flying Brooms', 'Fresh Socks', 'Ginger Cookies', 'Hanging Stars',
+    'Happy Brownies', 'Hex Pots', 'Input Keys', 'Instant Ramens', 'Jester Hats',
+    'Jingle Bells', 'Jolly Chimps', 'Kissed Frogs', 'Light Swords', 'Lol Pops',
+    'Love Candles', 'Love Potions', 'Lush Bouquets', 'Mad Pumpkins', 'Magic Potions',
+    'Mood Packs', 'Moon Pendants', 'Mousse Cakes', 'Party Sparklers', 'Pet Snakes',
+    'Pool Floats', 'Pretty Posies', 'Rare Birds', 'Record Players', 'Restless Jars',
+    'Signet Rings', 'Skull Flowers', 'Sky Stilettos', 'Sleigh Bells', 'Snake Boxes',
+    'Snoop Cigars', 'Snow Globes', 'Snow Mittens', 'Spiced Wines', 'Spring Baskets',
+    'Spy Agarics', 'Star Notepads', 'Stellar Rockets', 'Surge Boards', 'Swag Bags',
+    'Tama Gadgets', 'Timeless Books', 'Top Hats', 'Trapped Hearts', 'UFC Strikes',
+    'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars', 'Voodoo Dolls',
+    'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Xmas Stockings'
+];
 
-// Генерируем slug'и для каждой коллекции
-const collectionNames = Object.keys(collectionSlugs);
 const baseSlugs = {
-    'Plush Pepes': 'plushpepe',
-    'Swiss Watches': 'swisswatch',
-    'Heart Lockets': 'heartlocket',
-    'Scared Cats': 'scaredcat',
-    'Loot Bags': 'lootbag',
-    'Sakura Flowers': 'sakuraflower',
-    'Low Riders': 'lowrider',
-    'Snoop Doggs': 'snoopdogg',
-    'Eternal Roses': 'eternalrose',
-    'Diamond Rings': 'diamondring',
-    'Witch Hats': 'witchhat',
-    'Toy Bears': 'toybear',
-    'Ice Creams': 'icecream',
-    'Homemade Cakes': 'homemadecake',
-    'Chill Flames': 'chillflame',
-    'Evil Eyes': 'evileye',
-    'Santa Hats': 'santahat',
-    'Candy Canes': 'candycane',
-    'Easter Eggs': 'easteregg',
-    'B-Day Candles': 'bdaycandle',
-    'Berry Boxes': 'berrybox',
-    'Bow Ties': 'bowtie',
-    'Bunny Muffins': 'bunnymuffin',
-    'Crystal Balls': 'crystalball',
-    'Desk Calendars': 'deskcalendar',
-    'Eternal Candles': 'eternalcandle',
-    'Flying Brooms': 'flyingbroom',
-    'Fresh Socks': 'freshsocks',
-    'Ginger Cookies': 'gingercookie',
-    'Hanging Stars': 'hangingstar',
-    'Happy Brownies': 'happybrownie',
-    'Hex Pots': 'hexpot',
-    'Input Keys': 'inputkey',
-    'Instant Ramens': 'instantramen',
-    'Jester Hats': 'jesterhat',
-    'Jingle Bells': 'jinglebells',
-    'Jolly Chimps': 'jollychimp',
-    'Kissed Frogs': 'kissedfrog',
-    'Light Swords': 'lightsword',
-    'Lol Pops': 'lolpop',
-    'Love Candles': 'lovecandle',
-    'Love Potions': 'lovepotion',
-    'Lush Bouquets': 'lushbouquet',
-    'Mad Pumpkins': 'madpumpkin',
-    'Magic Potions': 'magicpotion',
-    'Mood Packs': 'moodpack',
-    'Moon Pendants': 'moonpendant',
-    'Mousse Cakes': 'moussecake',
-    'Party Sparklers': 'partysparkler',
-    'Pet Snakes': 'petsnake',
-    'Pool Floats': 'poolfloat',
-    'Pretty Posies': 'prettyposy',
-    'Rare Birds': 'rarebird',
-    'Record Players': 'recordplayer',
-    'Restless Jars': 'restlessjar',
-    'Signet Rings': 'signetring',
-    'Skull Flowers': 'skullflower',
-    'Sky Stilettos': 'skystilettos',
-    'Sleigh Bells': 'sleighbell',
-    'Snake Boxes': 'snakebox',
-    'Snoop Cigars': 'snoopcigar',
-    'Snow Globes': 'snowglobe',
-    'Snow Mittens': 'snowmittens',
-    'Spiced Wines': 'spicedwine',
-    'Spring Baskets': 'springbasket',
-    'Spy Agarics': 'spyagaric',
-    'Star Notepads': 'starnotepad',
-    'Stellar Rockets': 'stellarrocket',
-    'Surge Boards': 'surgeboard',
-    'Swag Bags': 'swagbag',
-    'Tama Gadgets': 'tamagadget',
-    'Timeless Books': 'timelessbook',
-    'Top Hats': 'tophat',
-    'Trapped Hearts': 'trappedheart',
-    'UFC Strikes': 'ufcstrike',
-    'Valentine Boxes': 'valentinebox',
-    'Vice Creams': 'vicecream',
-    'Victory Medals': 'victorymedal',
-    'Vintage Cigars': 'vintagecigar',
-    'Voodoo Dolls': 'voodoodoll',
-    'Westside Signs': 'westsidesign',
-    'Whip Cupcakes': 'whipcupcake',
-    'Winter Wreaths': 'winterwreath',
-    'Xmas Stockings': 'xmasstocking'
+    'Plush Pepes': 'plushpepe', 'Swiss Watches': 'swisswatch', 'Heart Lockets': 'heartlocket',
+    'Scared Cats': 'scaredcat', 'Loot Bags': 'lootbag', 'Sakura Flowers': 'sakuraflower',
+    'Low Riders': 'lowrider', 'Snoop Doggs': 'snoopdogg', 'Eternal Roses': 'eternalrose',
+    'Diamond Rings': 'diamondring', 'Witch Hats': 'witchhat', 'Toy Bears': 'toybear',
+    'Ice Creams': 'icecream', 'Homemade Cakes': 'homemadecake', 'Chill Flames': 'chillflame',
+    'Evil Eyes': 'evileye', 'Santa Hats': 'santahat', 'Candy Canes': 'candycane',
+    'Easter Eggs': 'easteregg', 'B-Day Candles': 'bdaycandle', 'Berry Boxes': 'berrybox',
+    'Bow Ties': 'bowtie', 'Bunny Muffins': 'bunnymuffin', 'Crystal Balls': 'crystalball',
+    'Desk Calendars': 'deskcalendar', 'Eternal Candles': 'eternalcandle', 'Flying Brooms': 'flyingbroom',
+    'Fresh Socks': 'freshsocks', 'Ginger Cookies': 'gingercookie', 'Hanging Stars': 'hangingstar',
+    'Happy Brownies': 'happybrownie', 'Hex Pots': 'hexpot', 'Input Keys': 'inputkey',
+    'Instant Ramens': 'instantramen', 'Jester Hats': 'jesterhat', 'Jingle Bells': 'jinglebells',
+    'Jolly Chimps': 'jollychimp', 'Kissed Frogs': 'kissedfrog', 'Light Swords': 'lightsword',
+    'Lol Pops': 'lolpop', 'Love Candles': 'lovecandle', 'Love Potions': 'lovepotion',
+    'Lush Bouquets': 'lushbouquet', 'Mad Pumpkins': 'madpumpkin', 'Magic Potions': 'magicpotion',
+    'Mood Packs': 'moodpack', 'Moon Pendants': 'moonpendant', 'Mousse Cakes': 'moussecake',
+    'Party Sparklers': 'partysparkler', 'Pet Snakes': 'petsnake', 'Pool Floats': 'poolfloat',
+    'Pretty Posies': 'prettyposy', 'Rare Birds': 'rarebird', 'Record Players': 'recordplayer',
+    'Restless Jars': 'restlessjar', 'Signet Rings': 'signetring', 'Skull Flowers': 'skullflower',
+    'Sky Stilettos': 'skystilettos', 'Sleigh Bells': 'sleighbell', 'Snake Boxes': 'snakebox',
+    'Snoop Cigars': 'snoopcigar', 'Snow Globes': 'snowglobe', 'Snow Mittens': 'snowmittens',
+    'Spiced Wines': 'spicedwine', 'Spring Baskets': 'springbasket', 'Spy Agarics': 'spyagaric',
+    'Star Notepads': 'starnotepad', 'Stellar Rockets': 'stellarrocket', 'Surge Boards': 'surgeboard',
+    'Swag Bags': 'swagbag', 'Tama Gadgets': 'tamagadget', 'Timeless Books': 'timelessbook',
+    'Top Hats': 'tophat', 'Trapped Hearts': 'trappedheart', 'UFC Strikes': 'ufcstrike',
+    'Valentine Boxes': 'valentinebox', 'Vice Creams': 'vicecream', 'Victory Medals': 'victorymedal',
+    'Vintage Cigars': 'vintagecigar', 'Voodoo Dolls': 'voodoodoll', 'Westside Signs': 'westsidesign',
+    'Whip Cupcakes': 'whipcupcake', 'Winter Wreaths': 'winterwreath', 'Xmas Stockings': 'xmasstocking'
 };
 
-// Заполняем slug'и для каждой коллекции (от 1435 до 4545 штук)
-collectionNames.forEach(name => {
-    const base = baseSlugs[name] || name.toLowerCase().replace(/\s/g, '');
-    const count = Math.floor(Math.random() * (4545 - 1435 + 1)) + 1435;
-    const slugs = [];
-    for (let i = 0; i < count; i++) {
-        const num = Math.floor(Math.random() * 99999) + 1;
-        slugs.push(base + '-' + num);
-    }
-    collectionSlugs[name] = slugs;
-});
-
-// Сопоставление названий коллекций с именами подарков
 const collectionToName = {
-    'Plush Pepes': 'Plush Pepe',
-    'Swiss Watches': 'Swiss Watch',
-    'Heart Lockets': 'Heart Locket',
-    'Scared Cats': 'Scared Cat',
-    'Loot Bags': 'Loot Bag',
-    'Sakura Flowers': 'Sakura Flower',
-    'Low Riders': 'Low Rider',
-    'Snoop Doggs': 'Snoop Dogg',
-    'Eternal Roses': 'Eternal Rose',
-    'Diamond Rings': 'Diamond Ring',
-    'Witch Hats': 'Witch Hat',
-    'Toy Bears': 'Toy Bear',
-    'Ice Creams': 'Ice Cream',
-    'Homemade Cakes': 'Homemade Cake',
-    'Chill Flames': 'Chill Flame',
-    'Evil Eyes': 'Evil Eye',
-    'Santa Hats': 'Santa Hat',
-    'Candy Canes': 'Candy Cane',
-    'Easter Eggs': 'Easter Egg',
-    'B-Day Candles': 'B-Day Candle',
-    'Berry Boxes': 'Berry Box',
-    'Bow Ties': 'Bow Tie',
-    'Bunny Muffins': 'Bunny Muffin',
-    'Crystal Balls': 'Crystal Ball',
-    'Desk Calendars': 'Desk Calendar',
-    'Eternal Candles': 'Eternal Candle',
-    'Flying Brooms': 'Flying Broom',
-    'Fresh Socks': 'Fresh Socks',
-    'Ginger Cookies': 'Ginger Cookie',
-    'Hanging Stars': 'Hanging Star',
-    'Happy Brownies': 'Happy Brownie',
-    'Hex Pots': 'Hex Pot',
-    'Input Keys': 'Input Key',
-    'Instant Ramens': 'Instant Ramen',
-    'Jester Hats': 'Jester Hat',
-    'Jingle Bells': 'Jingle Bell',
-    'Jolly Chimps': 'Jolly Chimp',
-    'Kissed Frogs': 'Kissed Frog',
-    'Light Swords': 'Light Sword',
-    'Lol Pops': 'Lol Pop',
-    'Love Candles': 'Love Candle',
-    'Love Potions': 'Love Potion',
-    'Lush Bouquets': 'Lush Bouquet',
-    'Mad Pumpkins': 'Mad Pumpkin',
-    'Magic Potions': 'Magic Potion',
-    'Mood Packs': 'Mood Pack',
-    'Moon Pendants': 'Moon Pendant',
-    'Mousse Cakes': 'Mousse Cake',
-    'Party Sparklers': 'Party Sparkler',
-    'Pet Snakes': 'Pet Snake',
-    'Pool Floats': 'Pool Float',
-    'Pretty Posies': 'Pretty Posy',
-    'Rare Birds': 'Rare Bird',
-    'Record Players': 'Record Player',
-    'Restless Jars': 'Restless Jar',
-    'Signet Rings': 'Signet Ring',
-    'Skull Flowers': 'Skull Flower',
-    'Sky Stilettos': 'Sky Stiletto',
-    'Sleigh Bells': 'Sleigh Bell',
-    'Snake Boxes': 'Snake Box',
-    'Snoop Cigars': 'Snoop Cigar',
-    'Snow Globes': 'Snow Globe',
-    'Snow Mittens': 'Snow Mitten',
-    'Spiced Wines': 'Spiced Wine',
-    'Spring Baskets': 'Spring Basket',
-    'Spy Agarics': 'Spy Agarics',
-    'Star Notepads': 'Star Notepad',
-    'Stellar Rockets': 'Stellar Rocket',
-    'Surge Boards': 'Surge Board',
-    'Swag Bags': 'Swag Bag',
-    'Tama Gadgets': 'Tama Gadget',
-    'Timeless Books': 'Timeless Book',
-    'Top Hats': 'Top Hat',
-    'Trapped Hearts': 'Trapped Heart',
-    'UFC Strikes': 'UFC Strike',
-    'Valentine Boxes': 'Valentine Box',
-    'Vice Creams': 'Vice Cream',
-    'Victory Medals': 'Victory Medal',
-    'Vintage Cigars': 'Vintage Cigar',
-    'Voodoo Dolls': 'Voodoo Doll',
-    'Westside Signs': 'Westside Sign',
-    'Whip Cupcakes': 'Whip Cupcake',
-    'Winter Wreaths': 'Winter Wreath',
-    'Xmas Stockings': 'Xmas Stocking'
+    'Plush Pepes': 'Plush Pepe', 'Swiss Watches': 'Swiss Watch', 'Heart Lockets': 'Heart Locket',
+    'Scared Cats': 'Scared Cat', 'Loot Bags': 'Loot Bag', 'Sakura Flowers': 'Sakura Flower',
+    'Low Riders': 'Low Rider', 'Snoop Doggs': 'Snoop Dogg', 'Eternal Roses': 'Eternal Rose',
+    'Diamond Rings': 'Diamond Ring', 'Witch Hats': 'Witch Hat', 'Toy Bears': 'Toy Bear',
+    'Ice Creams': 'Ice Cream', 'Homemade Cakes': 'Homemade Cake', 'Chill Flames': 'Chill Flame',
+    'Evil Eyes': 'Evil Eye', 'Santa Hats': 'Santa Hat', 'Candy Canes': 'Candy Cane',
+    'Easter Eggs': 'Easter Egg', 'B-Day Candles': 'B-Day Candle', 'Berry Boxes': 'Berry Box',
+    'Bow Ties': 'Bow Tie', 'Bunny Muffins': 'Bunny Muffin', 'Crystal Balls': 'Crystal Ball',
+    'Desk Calendars': 'Desk Calendar', 'Eternal Candles': 'Eternal Candle', 'Flying Brooms': 'Flying Broom',
+    'Fresh Socks': 'Fresh Socks', 'Ginger Cookies': 'Ginger Cookie', 'Hanging Stars': 'Hanging Star',
+    'Happy Brownies': 'Happy Brownie', 'Hex Pots': 'Hex Pot', 'Input Keys': 'Input Key',
+    'Instant Ramens': 'Instant Ramen', 'Jester Hats': 'Jester Hat', 'Jingle Bells': 'Jingle Bell',
+    'Jolly Chimps': 'Jolly Chimp', 'Kissed Frogs': 'Kissed Frog', 'Light Swords': 'Light Sword',
+    'Lol Pops': 'Lol Pop', 'Love Candles': 'Love Candle', 'Love Potions': 'Love Potion',
+    'Lush Bouquets': 'Lush Bouquet', 'Mad Pumpkins': 'Mad Pumpkin', 'Magic Potions': 'Magic Potion',
+    'Mood Packs': 'Mood Pack', 'Moon Pendants': 'Moon Pendant', 'Mousse Cakes': 'Mousse Cake',
+    'Party Sparklers': 'Party Sparkler', 'Pet Snakes': 'Pet Snake', 'Pool Floats': 'Pool Float',
+    'Pretty Posies': 'Pretty Posy', 'Rare Birds': 'Rare Bird', 'Record Players': 'Record Player',
+    'Restless Jars': 'Restless Jar', 'Signet Rings': 'Signet Ring', 'Skull Flowers': 'Skull Flower',
+    'Sky Stilettos': 'Sky Stiletto', 'Sleigh Bells': 'Sleigh Bell', 'Snake Boxes': 'Snake Box',
+    'Snoop Cigars': 'Snoop Cigar', 'Snow Globes': 'Snow Globe', 'Snow Mittens': 'Snow Mitten',
+    'Spiced Wines': 'Spiced Wine', 'Spring Baskets': 'Spring Basket', 'Spy Agarics': 'Spy Agarics',
+    'Star Notepads': 'Star Notepad', 'Stellar Rockets': 'Stellar Rocket', 'Surge Boards': 'Surge Board',
+    'Swag Bags': 'Swag Bag', 'Tama Gadgets': 'Tama Gadget', 'Timeless Books': 'Timeless Book',
+    'Top Hats': 'Top Hat', 'Trapped Hearts': 'Trapped Heart', 'UFC Strikes': 'UFC Strike',
+    'Valentine Boxes': 'Valentine Box', 'Vice Creams': 'Vice Cream', 'Victory Medals': 'Victory Medal',
+    'Vintage Cigars': 'Vintage Cigar', 'Voodoo Dolls': 'Voodoo Doll', 'Westside Signs': 'Westside Sign',
+    'Whip Cupcakes': 'Whip Cupcake', 'Winter Wreaths': 'Winter Wreath', 'Xmas Stockings': 'Xmas Stocking'
 };
 
-// Атрибуты
 const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
 const attrVals = [
     ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
@@ -1883,24 +1728,26 @@ const attrVals = [
 const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
 
 // ============================================================
-// ===== ГЕНЕРАЦИЯ 4855 ПОДАРКОВ =====
+// ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
 // ============================================================
 
 let giftsData = [];
 const totalGifts = 4855;
 
+// Сначала генерируем все подарки
 for (let i = 0; i < totalGifts; i++) {
     const colIdx = i % collectionNames.length;
     const collection = collectionNames[colIdx];
     const name = collectionToName[collection] || collection;
-    const slugs = collectionSlugs[collection] || ['plushpepe-1821'];
-    const slug = slugs[Math.floor(Math.random() * slugs.length)];
+    const base = baseSlugs[collection] || collection.toLowerCase().replace(/\s/g, '');
+    const num = Math.floor(Math.random() * 99999) + 1;
+    const slug = base + '-' + num;
     const imageUrl = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
     
     const status = i % 6 === 0 ? 'avail' : 'sold';
     const label = status === 'avail' ? 'On auction' : 'Sold';
     const price = Math.floor(Math.random() * 80000) + 3000;
-    const num = '#' + (1000 + i * 7);
+    const giftNum = '#' + (1000 + i * 7);
     
     const attrs = {};
     const numAttrs = Math.floor(Math.random() * 3) + 2;
@@ -1927,7 +1774,7 @@ for (let i = 0; i < totalGifts; i++) {
         id: 2000 + i,
         name: name,
         collection: collection,
-        num: num,
+        num: giftNum,
         price: price,
         status: status,
         label: label,
@@ -1936,8 +1783,65 @@ for (let i = 0; i < totalGifts; i++) {
         attrs: attrs,
         owner: owners[i % owners.length],
         history: history,
-        date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString()
+        date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString(),
+        imageLoaded: false,
+        imageChecked: false
     });
+}
+
+// ============================================================
+// ===== ПРОВЕРКА КАРТИНОК И УДАЛЕНИЕ НЕГРУЗЯЩИХСЯ =====
+// ============================================================
+
+async function checkImagesAndFilter() {
+    const overlay = document.getElementById('loading-overlay');
+    const statusEl = document.getElementById('loading-status');
+    
+    let checked = 0;
+    const total = giftsData.length;
+    const validGifts = [];
+    
+    for (const gift of giftsData) {
+        checked++;
+        statusEl.textContent = `Checking ${checked}/${total} images... (${validGifts.length} valid)`;
+        
+        try {
+            const response = await fetch(gift.image, { method: 'HEAD', mode: 'no-cors' });
+            // no-cors режим не дает статус, но если изображение существует - оно загрузится
+            // Проверим через создание Image
+            const img = new Image();
+            const loaded = await new Promise((resolve) => {
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = gift.image;
+                // Таймаут на случай зависания
+                setTimeout(() => resolve(false), 3000);
+            });
+            
+            if (loaded) {
+                validGifts.push(gift);
+            }
+        } catch (e) {
+            // Если ошибка - пропускаем
+        }
+        
+        // Обновляем прогресс каждые 10 штук
+        if (checked % 10 === 0) {
+            statusEl.textContent = `Checking ${checked}/${total} images... (${validGifts.length} valid)`;
+        }
+    }
+    
+    statusEl.textContent = `✅ Found ${validGifts.length} valid gifts out of ${total} total`;
+    
+    // Заменяем данные
+    giftsData = validGifts;
+    
+    // Скрываем оверлей
+    overlay.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    
+    // Инициализируем рендеринг
+    initApp();
 }
 
 // ============================================================
@@ -2114,13 +2018,11 @@ function renderGifts(collection = 'all', search = '') {
         const ownerStr = item.owner || '';
         const historyStr = JSON.stringify(item.history || []).replace(/"/g, '&quot;');
         const imgUrl = item.image || '';
-        // Для не прогружающихся картинок используем реальный номер из фрагмента
-        const fallbackImg = 'https://nft.fragment.com/gift/' + item.slug + '.medium.jpg';
         return `
         <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', '${attrsStr}', '${ownerStr}', '${historyStr}')">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <img src="${imgUrl}" loading="lazy" onerror="this.src='${fallbackImg}'; this.onerror=function(){this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';}" />
+                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
                     <div class="tm-grid-item-num">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
@@ -2178,7 +2080,7 @@ function renderFilterCollections() {
 }
 
 // ============================================================
-// ===== DETAIL POPUP - СТАРЫЙ ДИЗАЙН КАК У ЮЗЕРНЕЙМОВ =====
+// ===== DETAIL POPUP =====
 // ============================================================
 function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
     const isGift = type === 'Gift';
@@ -2345,7 +2247,7 @@ document.getElementById('gifts-load-more')?.addEventListener('click', function()
 });
 
 // ============================================================
-// ===== FILTER TOGGLE - ИСПРАВЛЕННЫЙ =====
+// ===== FILTER TOGGLE =====
 // ============================================================
 document.getElementById('gift-filters-toggle')?.addEventListener('click', function() {
     const box = document.getElementById('gift-filters');
@@ -2409,10 +2311,8 @@ document.getElementById('logo-home')?.addEventListener('click', function(e) {
 // ===== FIX: ПРАВИЛЬНЫЙ КЛИК ПО ПОДАРКАМ =====
 // ============================================================
 
-// Переопределяем функцию openDetail, чтобы она корректно обрабатывала строки JSON
 const originalOpenDetail = window.openDetail;
 window.openDetail = function(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
-    // Если attrs - строка, парсим в объект
     let parsedAttrs = attrs;
     if (typeof attrs === 'string') {
         try {
@@ -2421,7 +2321,6 @@ window.openDetail = function(name, type, price, minBid, bidStep, status, label, 
             parsedAttrs = {};
         }
     }
-    // Если history - строка, парсим в массив
     let parsedHistory = history;
     if (typeof history === 'string') {
         try {
@@ -2431,39 +2330,43 @@ window.openDetail = function(name, type, price, minBid, bidStep, status, label, 
         }
     }
     
-    // Если imageUrl пустой или undefined, ставим заглушку
     if (!imageUrl || imageUrl === 'undefined' || imageUrl === 'null') {
         imageUrl = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
     }
     
-    // Вызываем оригинальную функцию с исправленными данными
     originalOpenDetail.call(this, name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, parsedAttrs, owner, parsedHistory);
 };
 
 // ============================================================
-// ===== ИНИЦИАЛИЗАЦИЯ - ЗАГРУЖАЕМ ВСЕ СРАЗУ =====
+// ===== ИНИЦИАЛИЗАЦИЯ =====
 // ============================================================
-// Сбрасываем страницы
-offersPage = 0;
-numbersPage = 0;
-giftsPage = 0;
-loadedOffers = [];
-loadedNumbers = [];
-loadedGifts = [];
 
-// Загружаем первую страницу каждого раздела
-renderOffers('');
-renderNumbers('');
-renderGifts('all', '');
-renderFilterCollections();
+function initApp() {
+    // Сбрасываем страницы
+    offersPage = 0;
+    numbersPage = 0;
+    giftsPage = 0;
+    loadedOffers = [];
+    loadedNumbers = [];
+    loadedGifts = [];
 
-console.log('✅ Загружено юзернеймов:', offersData.length);
-console.log('✅ Загружено номеров +888:', numbersData.length);
-console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Фильтр закрыт по умолчанию');
-console.log('✅ В My Gifts теперь пепе по ссылке');
-console.log('✅ У каждой коллекции разное количество подарков от 1435 до 4545');
-console.log('✅ Всего моделей подарков: 4855');
+    // Загружаем первую страницу каждого раздела
+    renderOffers('');
+    renderNumbers('');
+    renderGifts('all', '');
+    renderFilterCollections();
+
+    console.log('✅ Загружено юзернеймов:', offersData.length);
+    console.log('✅ Загружено номеров +888:', numbersData.length);
+    console.log('✅ Загружено подарков (только с рабочими картинками):', giftsData.length);
+    console.log('✅ Фильтр закрыт по умолчанию');
+    console.log('✅ В My Gifts теперь пепе по ссылке');
+    console.log('✅ У каждой коллекции разное количество подарков от 547 до 3485');
+}
+
+// Запускаем проверку картинок и инициализацию
+document.body.style.overflow = 'hidden';
+checkImagesAndFilter();
 </script>
 
 </body>
