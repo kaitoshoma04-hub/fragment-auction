@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="header-tabs">
 <head>
     <meta charset="utf-8">
     <title>Fragment - Buy Telegram Usernames &amp; Numbers</title>
@@ -8,9 +8,10 @@
     <link href="font-roboto.css@1.css" rel="stylesheet" type="text/css">
     <link href="bootstrap.min.css@3.css" rel="stylesheet">
     <link href="bootstrap-extra.css@2.css" rel="stylesheet">
-    <link href="auction.css@94.css" rel="stylesheet">
+    <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
+        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -224,42 +225,54 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        .tm-section-header {
-            display: flex;
-            padding: 18px 0 14px;
-            width: 100%;
-            max-width: 960px;
-            margin-left: auto;
-            margin-right: auto;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+        /* ===== STARS SECTION ===== */
+        .tm-main-premium .tm-main-intro {
+            padding: 20px 12px 10px;
+            text-align: center;
         }
-        .tm-section-header-text {
-            font-size: 18px;
-            line-height: 28px;
+        .tm-main-intro-header {
+            font-size: 24px;
+            line-height: 32px;
             font-weight: bold;
             color: var(--header-color);
             margin: 0;
-            flex-grow: 1;
         }
-        @media (min-width: 768px) {
-            .tm-section-header-text { font-size: 22px; line-height: 36px; }
+        .tm-main-intro-header i.icon-telegram-stars {
+            display: inline-block;
+            width: 28px;
+            height: 36px;
+            background-image: url('data:image/svg+xml,%3Csvg height="36" viewBox="0 0 26 36" width="26" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z" fill="%23248bda"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+        .tm-main-intro-text {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-top: 4px;
         }
         
-        /* SEARCH */
         .tm-main-search-form {
-            max-width: 960px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 680px;
+            margin: 0 auto 20px;
+        }
+        .tm-main-form-group {
+            margin-bottom: 20px;
+        }
+        .tm-main-form-label {
+            font-size: 15px;
+            line-height: 23px;
+            margin: 0 0 8px 6px;
+            color: var(--header-color);
+            display: block;
         }
         .tm-search-field {
             border-radius: var(--def-border-radius);
             background: var(--field-bg-color);
             position: relative;
         }
-        .tm-main-search-form { margin-bottom: 20px; }
-        .tm-main-search-form .tm-search-input {
+        .tm-search-field .tm-search-input {
             height: auto;
             font-size: 15px;
             line-height: 20px;
@@ -273,8 +286,13 @@
             border-radius: var(--def-border-radius);
             font-family: inherit;
         }
-        .tm-main-search-form .tm-search-input:focus { outline: none; }
-        .tm-main-search-form .icon-search:before {
+        .tm-search-field .tm-search-input:focus { outline: none; }
+        .tm-search-field:before {
+            position: absolute;
+            margin: 14px 18px 14px 22px;
+            pointer-events: none;
+        }
+        .icon-search:before {
             content: '';
             display: inline-block;
             vertical-align: top;
@@ -284,11 +302,6 @@
             width: 18px;
             height: 20px;
             background-image: url('data:image/svg+xml,%3Csvg height="24" viewBox="0 0 20 24" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd" stroke="%238494a3" stroke-width="2"%3E%3Cellipse cx="11.66" cy="10.4" rx="6.34" ry="6.4"/%3E%3Cpath d="m2 21 5.34-5.39" stroke-linecap="round"/%3E%3C/g%3E%3C/svg%3E');
-        }
-        .tm-search-field:before {
-            position: absolute;
-            margin: 14px 18px 14px 22px;
-            pointer-events: none;
         }
         .tm-search-clear {
             position: absolute;
@@ -310,7 +323,224 @@
             opacity: 0;
         }
         
-        /* TABLE - С ОТСТУПАМИ МЕЖДУ СТРОКАМИ */
+        .icon-stars:before {
+            content: '';
+            display: inline-block;
+            vertical-align: top;
+            background-position: 0 center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 18px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M6.02 4.99l2.21-4.42c.25-.51.86-.72 1.37-.46.2.1.36.27.46.47l2.08 4.26c.17.34.5.58.88.63l4.36.52c.59.08 1.02.62.95 1.22-.03.24-.14.47-.32.65l-3.45 3.42c-.14.13-.2.33-.18.53l.57 4.61c.09.66-.38 1.27-1.03 1.35-.25.03-.5-.02-.72-.14l-3.64-2c-.26-.14-.58-.15-.85-.01l-3.77 1.95c-.53.27-1.18.06-1.45-.48-.11-.2-.14-.43-.11-.65l.3-2.12c.15-1.04.79-1.93 1.71-2.41l4.19-2.15c.11-.06.15-.2.1-.31-.05-.09-.14-.14-.24-.12l-5.12.74c-.78.11-1.58-.11-2.19-.62l-1.71-1.4c-.49-.4-.56-1.12-.17-1.62.19-.22.45-.37.74-.41l4.38-.57c.28-.03.52-.21.65-.46z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
+        }
+        .form-control-wrap {
+            display: flex;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            position: relative;
+        }
+        .form-control-wrap .tm-amount-input {
+            height: auto;
+            font-size: 15px;
+            line-height: 20px;
+            padding: 14px 50px 14px 56px;
+            box-shadow: none !important;
+            border: none;
+            background: transparent;
+            color: var(--field-color);
+            width: 100%;
+            border-radius: var(--def-border-radius);
+            font-family: inherit;
+        }
+        .form-control-wrap .tm-amount-input:focus { outline: none; }
+        .form-control-wrap.icon-stars:before {
+            position: absolute;
+            margin: 14px 18px 14px 22px;
+            pointer-events: none;
+        }
+        .tm-stars-price {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--value-color);
+            pointer-events: none;
+        }
+        
+        .tm-search-field-error {
+            font-size: 12px;
+            line-height: 15px;
+            height: 15px;
+            margin: 6px 12px -6px;
+            color: var(--danger-color);
+        }
+        
+        .tm-form-radio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: -4px 0;
+        }
+        .tm-form-radio-item {
+            display: block;
+            position: relative;
+            padding: 0;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .tm-form-radio-item input.radio {
+            position: absolute;
+            left: -5000px;
+        }
+        .tm-form-radio-label {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            line-height: 18px;
+            padding: 8px 14px;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            box-shadow: 0 0 0 0px var(--accent-color);
+            transition: box-shadow .2s ease;
+            color: var(--field-color);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            gap: 8px;
+        }
+        .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label {
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+        .tm-form-radio-label .tm-radio-label {
+            flex-grow: 1;
+        }
+        .tm-form-radio-label .tm-value {
+            font-weight: bold;
+            color: var(--value-color);
+        }
+        .tm-form-radio-label .tm-radio-desc {
+            font-weight: normal;
+            color: var(--table-text-color);
+        }
+        .tm-form-radio-label svg {
+            vertical-align: middle;
+        }
+        
+        .tm-currency-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tm-currency-tab {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--field-color);
+            transition: box-shadow .2s ease;
+        }
+        .tm-currency-tab input.radio {
+            position: absolute;
+            left: -5000px;
+        }
+        .tm-currency-tab:has(input:checked) {
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+        .tm-currency-tab-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .tab-icon-ton {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5V7.5l5 4.5-5 4.5z" fill="%234db2ff"/%3E%3C/svg%3E');
+        }
+        .tab-icon-usdt {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E');
+        }
+        .tab-icon-usdt-ton {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$T%3C/text%3E%3C/svg%3E');
+        }
+        .tab-icon-usdt-pol {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$P%3C/text%3E%3C/svg%3E');
+        }
+        .tab-icon-usdc {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E');
+        }
+        .tab-icon-usdc-base {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$B%3C/text%3E%3C/svg%3E');
+        }
+        .tab-icon-usdc-pol {
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$P%3C/text%3E%3C/svg%3E');
+        }
+        .tab-network {
+            font-size: 10px;
+            color: var(--table-text-color);
+        }
+        .dropdown-toggle.icon-after:after {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 15 18" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m2 7.5 5.11 5.15c.2.19.52.19.71 0l5.18-5.15" fill="none" stroke="%23677a8c" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-left: 4px;
+        }
+        .tm-dropdown .dropdown-menu {
+            background: var(--field-bg-color);
+            border: none;
+            border-radius: var(--def-border-radius);
+            padding: 4px 0;
+        }
+        .tm-dropdown .dropdown-menu .tm-currency-tab {
+            border-radius: 0;
+            padding: 8px 16px;
+        }
+        .tm-dropdown .dropdown-menu .tm-currency-tab:hover {
+            background: var(--btn-default-bg-hover-color);
+        }
+        .btn-group.tm-dropdown {
+            display: inline-block;
+        }
+        
+        .btn-primary.btn-block {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            font-size: 15px;
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+            border: none;
+            border-radius: var(--def-border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            transition: background .2s ease;
+        }
+        .btn-primary.btn-block:hover { background: var(--btn-primary-bg-hover-color); }
+        .btn-primary.btn-block:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .tm-main-form-link-wrap {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        .tm-main-form-link-wrap a {
+            color: var(--accent-color);
+        }
+        
+        /* ===== TABLE ===== */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -389,7 +619,6 @@
         .tm-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
         .tm-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
         .tm-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
-        .tm-status-badge.premium { color: #ffd951; background: rgba(255,217,81,0.12); }
         
         .tm-username-link {
             color: #fff;
@@ -406,14 +635,13 @@
             .tm-table .tm-value { font-size: 13px; }
             .tm-table-wrap { max-width: 100%; }
         }
-        
         .tm-table-scroll {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             border-radius: var(--def-border-radius);
         }
         
-        /* GIFT CARDS */
+        /* ===== GIFT CARDS ===== */
         .tm-catalog-grid-wrap { 
             --gap: 12px;
             background: transparent;
@@ -466,10 +694,22 @@
             justify-content: center;
             overflow: hidden;
         }
-        .tm-grid-thumb {
+        .tm-grid-item-thumb .tm-lottie {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tm-grid-item-thumb .tm-lottie-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            background: #1a2026;
+            color: #4db2ff;
         }
         .tm-grid-item-content {
             text-align: center;
@@ -541,7 +781,7 @@
             .tm-grid-item-status { font-size: 11px; line-height: 16px; padding: 2px 7px; }
         }
         
-        /* FILTERS */
+        /* ===== FILTERS ===== */
         .tm-main-filters-wrap { 
             margin-bottom: 20px; 
             max-width: 960px; 
@@ -596,7 +836,7 @@
         .tm-main-filters-count { font-size: 15px; line-height: 18px; color: var(--table-text-color); }
         .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
         
-        /* FOOTER */
+        /* ===== FOOTER ===== */
         .tm-footer {
             background-color: #111417;
             margin-top: 30px;
@@ -616,14 +856,14 @@
         }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* DETAIL POPUP - БЕЗ ПОЛЗУНКОВ, КНОПКИ ПО ЦЕНТРУ */
+        /* ===== DETAIL POPUP - КНОПКИ ВНИЗУ ПО ЦЕНТРУ ===== */
         .popup-container {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 200;
             display: flex;
             justify-content: center;
@@ -637,7 +877,7 @@
             border-radius: 14px;
             max-width: 520px;
             width: 100%;
-            max-height: 95vh;
+            max-height: 90vh;
             overflow-y: auto;
             padding: 0;
             color: #fff;
@@ -645,11 +885,12 @@
             transition: transform .25s ease;
             border: 1px solid rgba(255,255,255,0.06);
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
         }
         .popup-container.hide .popup { transform: scale(0.96); }
         .popup-container:not(.hide) .popup { transform: scale(1); }
         
-        /* Скрываем скролл у попапа */
         .popup::-webkit-scrollbar { width: 4px; }
         .popup::-webkit-scrollbar-track { background: transparent; }
         .popup::-webkit-scrollbar-thumb { background: #3f4e60; border-radius: 4px; }
@@ -660,6 +901,7 @@
             position: relative;
             background: var(--table-bg-color);
             border-radius: 14px 14px 0 0;
+            flex-shrink: 0;
         }
         .popup-close {
             position: absolute;
@@ -706,13 +948,14 @@
         
         .popup-body {
             padding: 18px 24px 24px;
+            flex: 1;
+            overflow-y: auto;
         }
         
-        /* Gift image в попапе */
         .popup-gift-image {
             width: 100%;
-            max-width: 200px;
-            margin: 0 auto 16px;
+            max-width: 180px;
+            margin: 0 auto 14px;
             border-radius: 12px;
             overflow: hidden;
             background: #1a2026;
@@ -721,22 +964,20 @@
             align-items: center;
             justify-content: center;
         }
-        .popup-gift-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .popup-gift-image .tm-lottie-fallback {
+            font-size: 56px;
         }
         
         .popup-bid-info {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
             overflow: hidden;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .popup-bid-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 14px;
+            padding: 8px 14px;
             border-bottom: 1px solid #1a2026;
         }
         .popup-bid-row:last-child { border-bottom: none; }
@@ -761,24 +1002,17 @@
             margin-right: 4px;
             background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
-        .popup-bid-value .usd {
-            font-weight: normal;
-            color: var(--table-text-color);
-            font-size: 12px;
-            margin-left: 4px;
-        }
         
-        /* Атрибуты для подарков */
         .popup-attributes {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
             overflow: hidden;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .popup-attr-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 14px;
+            padding: 6px 14px;
             border-bottom: 1px solid #1a2026;
         }
         .popup-attr-row:last-child { border-bottom: none; }
@@ -803,9 +1037,9 @@
         .popup-countdown {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
-            padding: 12px 14px;
+            padding: 10px 14px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .popup-countdown-label {
             font-size: 12px;
@@ -819,48 +1053,10 @@
             margin-top: 2px;
         }
         
-        /* КНОПКИ - ПО ЦЕНТРУ, МЕНЬШЕ */
-        .popup-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 6px;
-        }
-        .popup-buttons .btn-primary {
-            display: inline-block;
-            background: var(--btn-primary-bg-color);
-            color: #fff;
-            padding: 10px 22px;
-            border: none;
-            border-radius: var(--def-border-radius);
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 13px;
-            transition: background .2s ease;
-            text-align: center;
-            min-width: 110px;
-        }
-        .popup-buttons .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
-        .popup-buttons .btn-secondary {
-            display: inline-block;
-            background: var(--btn-default-bg-color);
-            color: #fff;
-            padding: 10px 22px;
-            border: none;
-            border-radius: var(--def-border-radius);
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 13px;
-            transition: background .2s ease;
-            text-align: center;
-            min-width: 110px;
-        }
-        .popup-buttons .btn-secondary:hover { background: var(--btn-default-bg-hover-color); }
-        
         .popup-detail-row {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
+            padding: 4px 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         .popup-detail-row:last-child { border-bottom: none; }
@@ -872,10 +1068,78 @@
             font-family: monospace;
         }
         
+        .popup-ownership {
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .popup-ownership-header {
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--value-color);
+            border-bottom: 1px solid #1a2026;
+        }
+        .popup-ownership-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 14px;
+            border-bottom: 1px solid #1a2026;
+            font-size: 12px;
+            color: var(--table-text-color);
+        }
+        .popup-ownership-item:last-child { border-bottom: none; }
+        .popup-ownership-item .owner {
+            color: var(--accent-color);
+        }
+        
+        /* ===== КНОПКИ ВНИЗУ ПО ЦЕНТРУ ===== */
+        .popup-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding: 12px 0 0;
+            margin-top: 4px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .popup-buttons .btn-primary {
+            display: inline-block;
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+            padding: 10px 24px;
+            border: none;
+            border-radius: var(--def-border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background .2s ease;
+            text-align: center;
+            min-width: 120px;
+        }
+        .popup-buttons .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
+        .popup-buttons .btn-secondary {
+            display: inline-block;
+            background: var(--btn-default-bg-color);
+            color: #fff;
+            padding: 10px 24px;
+            border: none;
+            border-radius: var(--def-border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background .2s ease;
+            text-align: center;
+            min-width: 120px;
+        }
+        .popup-buttons .btn-secondary:hover { background: var(--btn-default-bg-hover-color); }
+        
         .section-hidden { display: none; }
         .section-active { display: block; }
         
-        /* LOAD MORE */
+        /* ===== LOAD MORE ===== */
         .tm-load-more {
             display: block;
             text-align: center;
@@ -901,6 +1165,35 @@
             color: var(--table-text-color);
             margin-left: 12px;
         }
+        
+        .tm-section-header {
+            display: flex;
+            padding: 18px 0 14px;
+            width: 100%;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .tm-section-header-text {
+            font-size: 18px;
+            line-height: 28px;
+            font-weight: bold;
+            color: var(--header-color);
+            margin: 0;
+            flex-grow: 1;
+        }
+        @media (min-width: 768px) {
+            .tm-section-header-text { font-size: 22px; line-height: 36px; }
+        }
+        
+        .tm-main-search-form-catalog {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -916,10 +1209,10 @@
     <div class="tm-header-body">
         <div class="tm-header-tabs-wrap">
             <div class="tm-header-tabs">
-                <button class="tm-header-tab tab-active" data-section="offers">Usernames</button>
+                <button class="tm-header-tab" data-section="offers">Usernames</button>
                 <button class="tm-header-tab" data-section="numbers">Numbers</button>
                 <button class="tm-header-tab" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
-                <button class="tm-header-tab" data-section="stars">Stars</button>
+                <button class="tm-header-tab tab-active" data-section="stars">Stars</button>
                 <button class="tm-header-tab" data-section="premium">Premium</button>
                 <button class="tm-header-tab" data-section="ads">Ads</button>
             </div>
@@ -938,11 +1231,78 @@
 </header>
 
 <!-- MAIN -->
-<main class="tm-main">
+<main class="tm-main tm-main-premium">
 
-    <!-- SECTION: OFFERS -->
-    <div id="section-offers" class="section-active">
-        <div class="tm-main-search-form">
+    <!-- ===== SECTION: STARS ===== -->
+    <div id="section-stars" class="section-active">
+        <section class="tm-main-intro">
+            <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
+            <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
+        </section>
+        
+        <form class="tm-section tm-main-search-form js-stars-form">
+            <div class="tm-main-form-group">
+                <label class="tm-main-form-label">Choose recipient</label>
+                <div class="icon-before icon-search tm-field tm-search-field">
+                    <input type="search" class="tm-search-input" placeholder="Enter Telegram username..." autocomplete="off" spellcheck="false">
+                    <span class="tm-search-clear"></span>
+                </div>
+                <div class="tm-search-field-error"></div>
+            </div>
+            
+            <div class="tm-main-form-group">
+                <label class="tm-main-form-label">Choose quantity of Telegram Stars</label>
+                <div class="icon-before icon-stars form-control-wrap tm-coin-field">
+                    <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 50 to 10,000,000" autocomplete="off" spellcheck="false">
+                    <span class="tm-stars-price">~ $0.00</span>
+                    <span class="tm-search-clear"></span>
+                </div>
+                <div class="tm-search-field-error"></div>
+            </div>
+            
+            <div class="tm-main-form-group">
+                <div class="tm-stars-options">
+                    <label class="tm-main-form-label">Or select a package</label>
+                    <div class="tm-form-radio-items">
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="50" checked><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 50 Stars</span><span class="tm-value">0.51 TON</span><span class="tm-radio-desc">$0.75</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="100"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐ 100 Stars</span><span class="tm-value">1.02 TON</span><span class="tm-radio-desc">$1.50</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="250"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐⭐ 250 Stars</span><span class="tm-value">2.55 TON</span><span class="tm-radio-desc">$3.75</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="500"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐⭐⭐ 500 Stars</span><span class="tm-value">5.10 TON</span><span class="tm-radio-desc">$7.50</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="1000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐⭐⭐⭐ 1,000 Stars</span><span class="tm-value">10.19 TON</span><span class="tm-radio-desc">$15.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="2500"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 2,500 Stars</span><span class="tm-value">25.49 TON</span><span class="tm-radio-desc">$37.50</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="5000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 5,000 Stars</span><span class="tm-value">50.97 TON</span><span class="tm-radio-desc">$75.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="10000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 10,000 Stars</span><span class="tm-value">101.95 TON</span><span class="tm-radio-desc">$150.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="25000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 25,000 Stars</span><span class="tm-value">254.86 TON</span><span class="tm-radio-desc">$375.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="50000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 50,000 Stars</span><span class="tm-value">509.73 TON</span><span class="tm-radio-desc">$750.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="100000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 100,000 Stars</span><span class="tm-value">1,019.46 TON</span><span class="tm-radio-desc">$1,500.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="1000000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 1,000,000 Stars</span><span class="tm-value">10,194.56 TON</span><span class="tm-radio-desc">$15,000.00</span></div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tm-main-form-group">
+                <label class="tm-main-form-label">Payment Method</label>
+                <div class="tm-currency-tabs">
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>TON</span></label>
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdt"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdc"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
+                </div>
+            </div>
+        </form>
+        
+        <div class="tm-section" style="max-width:680px;margin:0 auto;">
+            <button class="btn btn-primary btn-block js-stars-buy-btn">
+                <span class="tm-button-label">Buy 50 Telegram Stars</span>
+            </button>
+            <div class="tm-main-form-link-wrap">
+                <a href="#">View Transactions History</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION: OFFERS (Usernames) ===== -->
+    <div id="section-offers" class="section-hidden">
+        <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
                 <div class="tm-search-clear"></div>
@@ -951,7 +1311,7 @@
         
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">Username Offers <span class="tm-items-count" id="offers-count"></span></h3>
-            <div style="font-size:13px;color:var(--table-text-color);">Buy instantly or place a bid</div>
+            <div style="font-size:13px;color:var(--table-text-color);">643 usernames available</div>
         </div>
         
         <div class="tm-table-scroll">
@@ -974,9 +1334,9 @@
         <button class="tm-load-more" id="offers-load-more">Load More Usernames</button>
     </div>
 
-    <!-- SECTION: NUMBERS -->
+    <!-- ===== SECTION: NUMBERS (+888) ===== -->
     <div id="section-numbers" class="section-hidden">
-        <div class="tm-main-search-form">
+        <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search numbers..." id="search-numbers" autocomplete="off">
                 <div class="tm-search-clear"></div>
@@ -985,7 +1345,7 @@
         
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">+888 Numbers <span class="tm-items-count" id="numbers-count"></span></h3>
-            <div style="font-size:13px;color:var(--table-text-color);">Virtual numbers on auction</div>
+            <div style="font-size:13px;color:var(--table-text-color);">103 numbers on auction</div>
         </div>
         
         <div class="tm-table-scroll">
@@ -1008,9 +1368,9 @@
         <button class="tm-load-more" id="numbers-load-more">Load More Numbers</button>
     </div>
 
-    <!-- SECTION: GIFTS -->
+    <!-- ===== SECTION: GIFTS ===== -->
     <div id="section-gifts" class="section-hidden">
-        <div class="tm-main-search-form">
+        <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
                 <div class="tm-search-clear"></div>
@@ -1038,19 +1398,6 @@
             <div class="tm-catalog-grid" id="gifts-grid"></div>
         </div>
         <button class="tm-load-more" id="gifts-load-more">Load More Gifts</button>
-    </div>
-
-    <!-- STARS -->
-    <div id="section-stars" class="section-hidden">
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">⭐ Telegram Stars</h3>
-        </div>
-        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:960px;margin:0 auto;">
-            <div style="font-size:56px;margin-bottom:16px;">⭐</div>
-            <div style="font-size:20px;color:#fff;">Stars Marketplace</div>
-            <div style="font-size:15px;margin-top:10px;">Buy and sell Telegram Stars with TON</div>
-            <div style="margin-top:24px;font-size:13px;color:var(--text-color);">Coming soon</div>
-        </div>
     </div>
 
     <!-- PREMIUM -->
@@ -1091,51 +1438,31 @@
             <div class="popup-status-badge avail" id="popup-status-badge">On auction</div>
         </div>
         <div class="popup-body">
-            <!-- Gift Image (показывается только для подарков) -->
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
-                <img id="popup-gift-img" src="" alt="Gift">
+                <div class="tm-lottie-fallback" id="popup-lottie-fallback">🎁</div>
             </div>
             
             <div class="popup-bid-info">
-                <div class="popup-bid-row">
-                    <span class="popup-bid-label">Highest Bid</span>
-                    <span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span>
-                </div>
-                <div class="popup-bid-row">
-                    <span class="popup-bid-label">Minimum Bid</span>
-                    <span class="popup-bid-value icon-ton" id="popup-min-bid">0</span>
-                </div>
-                <div class="popup-bid-row">
-                    <span class="popup-bid-label">Bid Step</span>
-                    <span class="popup-bid-value icon-ton" id="popup-bid-step">0</span>
-                </div>
-                <div class="popup-bid-row">
-                    <span class="popup-bid-label">Total Bids</span>
-                    <span class="popup-bid-value" id="popup-total-bids">0</span>
-                </div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Highest Bid</span><span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span></div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Minimum Bid</span><span class="popup-bid-value icon-ton" id="popup-min-bid">0</span></div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Bid Step</span><span class="popup-bid-value icon-ton" id="popup-bid-step">0</span></div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Total Bids</span><span class="popup-bid-value" id="popup-total-bids">0</span></div>
             </div>
             
-            <!-- Attributes (только для подарков) -->
-            <div class="popup-attributes" id="popup-attributes" style="display:none;">
-                <!-- JS заполняет -->
-            </div>
+            <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
             
             <div class="popup-countdown">
                 <span class="popup-countdown-label">Auction ends in</span>
                 <div class="popup-countdown-timer" id="popup-countdown">--</div>
             </div>
             
-            <div class="popup-detail-row">
-                <span class="popup-detail-label">Status</span>
-                <span class="popup-detail-value" id="popup-detail-status">Available</span>
-            </div>
-            <div class="popup-detail-row">
-                <span class="popup-detail-label">Listed</span>
-                <span class="popup-detail-value" id="popup-detail-date">Today</span>
-            </div>
-            <div class="popup-detail-row" id="popup-owner-row" style="display:none;">
-                <span class="popup-detail-label">Owner</span>
-                <span class="popup-detail-value" id="popup-detail-owner">—</span>
+            <div class="popup-detail-row"><span class="popup-detail-label">Status</span><span class="popup-detail-value" id="popup-detail-status">Available</span></div>
+            <div class="popup-detail-row"><span class="popup-detail-label">Listed</span><span class="popup-detail-value" id="popup-detail-date">Today</span></div>
+            <div class="popup-detail-row" id="popup-owner-row" style="display:none;"><span class="popup-detail-label">Owner</span><span class="popup-detail-value" id="popup-detail-owner">—</span></div>
+            
+            <div class="popup-ownership" id="popup-ownership" style="display:none;">
+                <div class="popup-ownership-header">Ownership History</div>
+                <div id="popup-ownership-list"></div>
             </div>
             
             <div class="popup-buttons">
@@ -1157,174 +1484,157 @@
 </footer>
 
 <script>
-// ========== BIG DATA ==========
-const offersData = [
-    { id: 1, name: 'middlemen', type: 'Username', price: 8888, minBid: 9333, bidStep: 445, status: 'avail', label: 'On auction', date: 'Sep 7, 2025', bids: 12, endsIn: '2d 4h 16m' },
-    { id: 2, name: 'heal', type: 'Username', price: 4444, minBid: 4666, bidStep: 222, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 8, endsIn: '1d 3h 42m' },
-    { id: 3, name: 'tier', type: 'Username', price: 3333, minBid: 3500, bidStep: 167, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 5, endsIn: '3d 12h 8m' },
-    { id: 4, name: 'failed', type: 'Username', price: 2222, minBid: 2333, bidStep: 111, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 3, endsIn: '—' },
-    { id: 5, name: 'cloud', type: 'Username', price: 5000, minBid: 5250, bidStep: 250, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 7, endsIn: '5d 6h 22m' },
-    { id: 6, name: 'storm', type: 'Username', price: 3200, minBid: 3360, bidStep: 160, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 4, endsIn: '2d 1h 55m' },
-    { id: 7, name: 'shadow', type: 'Username', price: 2800, minBid: 2940, bidStep: 140, status: 'avail', label: 'On auction', date: 'Sep 1, 2025', bids: 6, endsIn: '4d 8h 30m' },
-    { id: 8, name: 'light', type: 'Username', price: 1900, minBid: 1995, bidStep: 95, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 2, endsIn: '1d 14h 10m' },
-    { id: 9, name: 'phantom', type: 'Username', price: 4500, minBid: 4725, bidStep: 225, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9, endsIn: '6d 2h 45m' },
-    { id: 10, name: 'cyber', type: 'Username', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 5, endsIn: '3d 7h 20m' },
-    { id: 11, name: 'matrix', type: 'Username', price: 6100, minBid: 6405, bidStep: 305, status: 'avail', label: 'On auction', date: 'Aug 28, 2025', bids: 11, endsIn: '7d 12h 5m' },
-    { id: 12, name: 'neon', type: 'Username', price: 2700, minBid: 2835, bidStep: 135, status: 'avail', label: 'On auction', date: 'Aug 27, 2025', bids: 3, endsIn: '2d 20h 40m' },
-    { id: 13, name: 'vortex', type: 'Username', price: 3400, minBid: 3570, bidStep: 170, status: 'avail', label: 'On auction', date: 'Aug 26, 2025', bids: 6, endsIn: '4d 5h 15m' },
-    { id: 14, name: 'echo', type: 'Username', price: 1600, minBid: 1680, bidStep: 80, status: 'avail', label: 'On auction', date: 'Aug 25, 2025', bids: 1, endsIn: '1d 9h 30m' },
-    { id: 15, name: 'nova', type: 'Username', price: 5200, minBid: 5460, bidStep: 260, status: 'avail', label: 'On auction', date: 'Aug 24, 2025', bids: 8, endsIn: '5d 14h 50m' },
-    { id: 16, name: 'zen', type: 'Username', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 23, 2025', bids: 4, endsIn: '3d 1h 10m' },
-    { id: 17, name: 'flux', type: 'Username', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 22, 2025', bids: 7, endsIn: '4d 18h 25m' },
-    { id: 18, name: 'pulse', type: 'Username', price: 2900, minBid: 3045, bidStep: 145, status: 'avail', label: 'On auction', date: 'Aug 21, 2025', bids: 3, endsIn: '2d 6h 40m' },
-    { id: 19, name: 'core', type: 'Username', price: 4600, minBid: 4830, bidStep: 230, status: 'avail', label: 'On auction', date: 'Aug 20, 2025', bids: 6, endsIn: '6d 3h 30m' },
-    { id: 20, name: 'apex', type: 'Username', price: 5400, minBid: 5670, bidStep: 270, status: 'avail', label: 'On auction', date: 'Aug 19, 2025', bids: 9, endsIn: '7d 9h 15m' },
-    { id: 21, name: 'nexus', type: 'Username', price: 3900, minBid: 4095, bidStep: 195, status: 'avail', label: 'On auction', date: 'Aug 18, 2025', bids: 5, endsIn: '4d 2h 20m' },
-    { id: 22, name: 'prime', type: 'Username', price: 7200, minBid: 7560, bidStep: 360, status: 'avail', label: 'On auction', date: 'Aug 17, 2025', bids: 14, endsIn: '8d 5h 45m' },
-    { id: 23, name: 'elite', type: 'Username', price: 8300, minBid: 8715, bidStep: 415, status: 'avail', label: 'On auction', date: 'Aug 16, 2025', bids: 10, endsIn: '9d 2h 30m' },
-    { id: 24, name: 'alpha', type: 'Username', price: 6600, minBid: 6930, bidStep: 330, status: 'taken', label: 'Taken', date: 'Aug 15, 2025', bids: 8, endsIn: '—' },
-    { id: 25, name: 'omega', type: 'Username', price: 5800, minBid: 6090, bidStep: 290, status: 'avail', label: 'On auction', date: 'Aug 14, 2025', bids: 6, endsIn: '6d 14h 10m' },
-    { id: 26, name: 'legend', type: 'Username', price: 9100, minBid: 9555, bidStep: 455, status: 'avail', label: 'On auction', date: 'Aug 13, 2025', bids: 15, endsIn: '10d 3h 20m' },
-    { id: 27, name: 'myth', type: 'Username', price: 4700, minBid: 4935, bidStep: 235, status: 'avail', label: 'On auction', date: 'Aug 12, 2025', bids: 7, endsIn: '5d 8h 40m' },
-    { id: 28, name: 'solar', type: 'Username', price: 3600, minBid: 3780, bidStep: 180, status: 'avail', label: 'On auction', date: 'Aug 11, 2025', bids: 4, endsIn: '3d 11h 25m' },
-    { id: 29, name: 'lunar', type: 'Username', price: 3100, minBid: 3255, bidStep: 155, status: 'avail', label: 'On auction', date: 'Aug 10, 2025', bids: 5, endsIn: '4d 22h 15m' },
-    { id: 30, name: 'stellar', type: 'Username', price: 5900, minBid: 6195, bidStep: 295, status: 'avail', label: 'On auction', date: 'Aug 9, 2025', bids: 9, endsIn: '7d 6h 50m' },
-];
+// ============================================================
+// ===== GENERATE DATA =====
+// ============================================================
 
-const numbersData = [
-    { id: 101, name: '+888 123 4567', type: 'Number', price: 1200, minBid: 1260, bidStep: 60, status: 'avail', label: 'On auction', date: 'Sep 6, 2025', bids: 3, endsIn: '1d 2h 30m' },
-    { id: 102, name: '+888 777 8888', type: 'Number', price: 2500, minBid: 2625, bidStep: 125, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 5, endsIn: '2d 5h 40m' },
-    { id: 103, name: '+888 999 0000', type: 'Number', price: 1800, minBid: 1890, bidStep: 90, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 2, endsIn: '—' },
-    { id: 104, name: '+888 555 1234', type: 'Number', price: 900, minBid: 945, bidStep: 45, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 1, endsIn: '4d 3h 15m' },
-    { id: 105, name: '+888 666 9999', type: 'Number', price: 3200, minBid: 3360, bidStep: 160, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 7, endsIn: '3d 12h 20m' },
-    { id: 106, name: '+888 111 2222', type: 'Number', price: 1500, minBid: 1575, bidStep: 75, status: 'avail', label: 'On auction', date: 'Sep 1, 2025', bids: 4, endsIn: '2d 6h 10m' },
-    { id: 107, name: '+888 444 7777', type: 'Number', price: 2800, minBid: 2940, bidStep: 140, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 6, endsIn: '5d 8h 45m' },
-    { id: 108, name: '+888 888 1111', type: 'Number', price: 4000, minBid: 4200, bidStep: 200, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9, endsIn: '6d 14h 30m' },
-    { id: 109, name: '+888 222 3333', type: 'Number', price: 1100, minBid: 1155, bidStep: 55, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 2, endsIn: '1d 18h 20m' },
-    { id: 110, name: '+888 000 9999', type: 'Number', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 28, 2025', bids: 5, endsIn: '3d 4h 15m' },
-    { id: 111, name: '+888 333 4444', type: 'Number', price: 1600, minBid: 1680, bidStep: 80, status: 'avail', label: 'On auction', date: 'Aug 27, 2025', bids: 3, endsIn: '2d 12h 40m' },
-    { id: 112, name: '+888 555 6666', type: 'Number', price: 2700, minBid: 2835, bidStep: 135, status: 'avail', label: 'On auction', date: 'Aug 26, 2025', bids: 6, endsIn: '4d 7h 20m' },
-    { id: 113, name: '+888 777 9999', type: 'Number', price: 3500, minBid: 3675, bidStep: 175, status: 'avail', label: 'On auction', date: 'Aug 25, 2025', bids: 8, endsIn: '5d 11h 55m' },
-    { id: 114, name: '+888 111 0000', type: 'Number', price: 800, minBid: 840, bidStep: 40, status: 'avail', label: 'On auction', date: 'Aug 24, 2025', bids: 1, endsIn: '1d 3h 10m' },
-    { id: 115, name: '+888 222 5555', type: 'Number', price: 1900, minBid: 1995, bidStep: 95, status: 'taken', label: 'Taken', date: 'Aug 23, 2025', bids: 4, endsIn: '—' },
-    { id: 116, name: '+888 333 7777', type: 'Number', price: 2300, minBid: 2415, bidStep: 115, status: 'avail', label: 'On auction', date: 'Aug 22, 2025', bids: 5, endsIn: '3d 5h 30m' },
-    { id: 117, name: '+888 444 8888', type: 'Number', price: 3100, minBid: 3255, bidStep: 155, status: 'avail', label: 'On auction', date: 'Aug 21, 2025', bids: 7, endsIn: '4d 18h 40m' },
-    { id: 118, name: '+888 555 9999', type: 'Number', price: 2600, minBid: 2730, bidStep: 130, status: 'avail', label: 'On auction', date: 'Aug 20, 2025', bids: 4, endsIn: '2d 9h 15m' },
-    { id: 119, name: '+888 666 1111', type: 'Number', price: 1800, minBid: 1890, bidStep: 90, status: 'avail', label: 'On auction', date: 'Aug 19, 2025', bids: 3, endsIn: '3d 14h 25m' },
-    { id: 120, name: '+888 777 2222', type: 'Number', price: 2200, minBid: 2310, bidStep: 110, status: 'avail', label: 'On auction', date: 'Aug 18, 2025', bids: 5, endsIn: '4d 2h 35m' },
-    { id: 121, name: '+888 888 3333', type: 'Number', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 17, 2025', bids: 8, endsIn: '6d 11h 20m' },
-    { id: 122, name: '+888 999 4444', type: 'Number', price: 2900, minBid: 3045, bidStep: 145, status: 'avail', label: 'On auction', date: 'Aug 16, 2025', bids: 6, endsIn: '5d 6h 10m' },
-    { id: 123, name: '+888 000 1111', type: 'Number', price: 700, minBid: 735, bidStep: 35, status: 'avail', label: 'On auction', date: 'Aug 15, 2025', bids: 1, endsIn: '1d 1h 40m' },
-    { id: 124, name: '+888 111 3333', type: 'Number', price: 1300, minBid: 1365, bidStep: 65, status: 'avail', label: 'On auction', date: 'Aug 14, 2025', bids: 2, endsIn: '2d 3h 55m' },
-    { id: 125, name: '+888 222 4444', type: 'Number', price: 1700, minBid: 1785, bidStep: 85, status: 'avail', label: 'On auction', date: 'Aug 13, 2025', bids: 3, endsIn: '3d 8h 30m' },
-    { id: 126, name: '+888 333 5555', type: 'Number', price: 2000, minBid: 2100, bidStep: 100, status: 'avail', label: 'On auction', date: 'Aug 12, 2025', bids: 4, endsIn: '2d 14h 45m' },
-    { id: 127, name: '+888 444 6666', type: 'Number', price: 2400, minBid: 2520, bidStep: 120, status: 'avail', label: 'On auction', date: 'Aug 11, 2025', bids: 5, endsIn: '4d 5h 20m' },
-    { id: 128, name: '+888 555 7777', type: 'Number', price: 3000, minBid: 3150, bidStep: 150, status: 'avail', label: 'On auction', date: 'Aug 10, 2025', bids: 6, endsIn: '5d 12h 10m' },
-    { id: 129, name: '+888 666 8888', type: 'Number', price: 3300, minBid: 3465, bidStep: 165, status: 'avail', label: 'On auction', date: 'Aug 9, 2025', bids: 7, endsIn: '6d 3h 35m' },
-    { id: 130, name: '+888 777 3333', type: 'Number', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 8, 2025', bids: 4, endsIn: '3d 7h 50m' },
-];
+// ----- 643 USERS -----
+const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega'];
+const usernameExtras = ['x','z','q','v','w','y','k','j','f','b','h','m','n','c','d','g','l','r','s','t','p'];
+let offersData = [];
+for (let i = 0; i < 643; i++) {
+    const w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
+    const w2 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
+    const num = Math.floor(Math.random() * 1000);
+    const name = (i < 50) ? usernameWords[i % usernameWords.length] + num : w1 + w2 + num;
+    const price = Math.floor(Math.random() * 15000) + 500;
+    const status = Math.random() > 0.7 ? 'taken' : 'avail';
+    const label = status === 'avail' ? 'On auction' : 'Taken';
+    offersData.push({
+        id: i + 1,
+        name: name.substring(0, 20),
+        type: 'Username',
+        price: price,
+        minBid: Math.round(price * 1.05),
+        bidStep: Math.round(price * 0.05),
+        status: status,
+        label: label,
+        date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleDateString(),
+        bids: Math.floor(Math.random() * 15) + 1,
+        endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
+    });
+}
 
-// ВСЕ КОЛЛЕКЦИИ ПОДАРКОВ
-const collectionsList = [
-    'Artisan Bricks', 'Astral Shards', 'B-Day Candles', 'Berry Boxes', 'Big Years',
-    'Bling Binkies', 'Bonded Rings', 'Bow Ties', 'Bunny Muffins', 'Candy Canes',
-    'Chill Flames', 'Clover Pins', 'Cookie Hearts', 'Crystal Balls', 'Cupid Charms',
-    'Desk Calendars', 'Diamond Rings', 'Durov\'s Caps', 'Easter Eggs', 'Electric Skulls',
-    'Eternal Candles', 'Eternal Roses', 'Evil Eyes', 'Faith Amulets', 'Flying Brooms',
-    'Fresh Socks', 'Gem Signets', 'Genie Lamps', 'Ginger Cookies', 'Hanging Stars',
-    'Happy Brownies', 'Heart Lockets', 'Heroic Helmets', 'Hex Pots', 'Holiday Drinks',
-    'Homemade Cakes', 'Hypno Lollipops', 'Ice Creams', 'Input Keys', 'Instant Ramens',
-    'Ion Gems', 'Ionic Dryers', 'Jacks-in-the-Box', 'Jelly Bunnies', 'Jester Hats',
-    'Jingle Bells', 'Jolly Chimps', 'Joyful Bundles', 'Khabib\'s Papakhas', 'Kissed Frogs',
-    'Light Swords', 'Lol Pops', 'Loot Bags', 'Love Candles', 'Love Potions',
-    'Low Riders', 'Lunar Snakes', 'Lush Bouquets', 'Mad Pumpkins', 'Magic Potions',
-    'Mighty Arms', 'Mini Oscars', 'Money Pots', 'Mood Packs', 'Moon Pendants',
-    'Mousse Cakes', 'Nail Bracelets', 'Neko Helmets', 'Party Sparklers', 'Perfume Bottles',
-    'Pet Snakes', 'Plush Pepes', 'Pool Floats', 'Precious Peaches', 'Pretty Posies',
-    'Rare Birds', 'Record Players', 'Restless Jars', 'Sakura Flowers', 'Santa Hats',
-    'Scared Cats', 'Sharp Tongues', 'Signet Rings', 'Skull Flowers', 'Sky Stilettos',
-    'Sleigh Bells', 'Snake Boxes', 'Snoop Cigars', 'Snoop Doggs', 'Snow Globes',
-    'Snow Mittens', 'Spiced Wines', 'Spring Baskets', 'Spy Agarics', 'Star Notepads',
-    'Stellar Rockets', 'Surge Boards', 'Swag Bags', 'Swiss Watches', 'Tama Gadgets',
-    'Timeless Books', 'Top Hats', 'Toy Bears', 'Trapped Hearts', 'UFC Strikes',
-    'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars', 'Voodoo Dolls',
-    'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Witch Hats', 'Xmas Stockings'
-];
+// ----- 103 NUMBERS +888 -----
+let numbersData = [];
+for (let i = 0; i < 103; i++) {
+    const p1 = String(Math.floor(Math.random() * 900) + 100);
+    const p2 = String(Math.floor(Math.random() * 900) + 100);
+    const p3 = String(Math.floor(Math.random() * 9000) + 1000);
+    const name = '+888 ' + p1 + ' ' + p2 + ' ' + p3;
+    const price = Math.floor(Math.random() * 5000) + 300;
+    const status = Math.random() > 0.75 ? 'taken' : 'avail';
+    const label = status === 'avail' ? 'On auction' : 'Taken';
+    numbersData.push({
+        id: 1000 + i,
+        name: name,
+        type: 'Number',
+        price: price,
+        minBid: Math.round(price * 1.05),
+        bidStep: Math.round(price * 0.05),
+        status: status,
+        label: label,
+        date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleDateString(),
+        bids: Math.floor(Math.random() * 10) + 1,
+        endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
+    });
+}
 
-// Генерируем подарки для всех коллекций
+// ----- GIFTS с Lottie -----
+const giftCollections = [
+    'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
+    'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
+    'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
+    'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Easter Eggs', 'B-Day Candles'
+];
+const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'Loot Bag',
+    'Sakura Flower', 'Low Rider', 'Snoop Dogg', 'Eternal Rose', 'Diamond Ring',
+    'Witch Hat', 'Toy Bear', 'Ice Cream', 'Homemade Cake', 'Chill Flame',
+    'Evil Eye', 'Santa Hat', 'Candy Cane', 'Easter Egg', 'B-Day Candle'
+];
+const giftEmojis = ['🧸', '⌚', '💝', '🐱', '🎒', '🌸', '🚗', '🐶', '🌹', '💍', '🧙', '🐻', '🍦', '🍰', '🔥', '👁️', '🎅', '🍬', '🥚', '🕯️'];
+const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
+const attrVals = [
+    ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
+    ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
+    ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
+    ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
+    ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
+    ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
+    ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
+];
+const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
+
 let giftsData = [];
-const collectionsWithGifts = {};
-
-// Добавляем существующие подарки
-const existingGifts = [
-    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg', owner: 'UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Isg', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
-    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg', owner: 'UQAL2kMK6J-vUj1P1RrF6lRG161pQdhYXXwb__hcEFxbXzw', attrs: { Model: 'Galaxy', Backdrop: 'Purple', Symbol: 'Dragon' } },
-    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
-    { id: 4, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Classic', Material: 'Gold', Band: 'Leather' } },
-    { id: 5, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg', owner: 'EQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', attrs: { Material: 'Gold', Gem: 'Ruby', Chain: 'Silver' } },
-    { id: 6, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg', owner: 'UQCa8-iCRxjI-e38jJ-tF3YkyX1suJqghWynrZrjlUsKMzst', attrs: { Color: 'Orange', Expression: 'Surprised', Eyes: 'Big' } },
-    { id: 7, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg', owner: 'EQD_38Uzn8ZQJJ4jB9o89cp4pOkdp3k_KzpsWv84KpQ8TlsL', attrs: { Rarity: 'Legendary', Material: 'Velvet', Style: 'Retro' } },
-    { id: 8, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg', owner: 'EQCa7wMuLC-TDD_jZFTluCTfVMo9WhXJr_t3xIyazm78yAjR', attrs: { Color: 'Pink', Season: 'Spring', Bloom: 'Full' } },
-    { id: 9, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg', owner: 'EQD4aL6GYkycuVtfsbxEcCVmXBWbL5foTumHNX1oHXGyxeVJ', attrs: { Color: 'Purple', Style: 'Custom', Wheels: 'Spinner' } },
-    { id: 10, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg', owner: 'UQB_ziGN0OZ3yXptUqZrM6toMgB0jvS5_Ngm8_lm8FV72WxN', attrs: { Style: 'OG', Chain: 'Gold', Glasses: 'Shades' } },
-];
-
-// Генерируем подарки для каждой коллекции
-collectionsList.forEach(col => {
-    // Пропускаем уже существующие коллекции
-    if (existingGifts.some(g => g.collection === col)) return;
+for (let i = 0; i < 120; i++) {
+    const colIdx = i % giftCollections.length;
+    const status = i % 6 === 0 ? 'avail' : 'sold';
+    const label = status === 'avail' ? 'On auction' : 'Sold';
+    const price = Math.floor(Math.random() * 80000) + 3000;
+    const attrs = {};
+    const numAttrs = Math.floor(Math.random() * 3) + 2;
+    for (let a = 0; a < numAttrs; a++) {
+        const keyIdx = (i + a) % attrKeys.length;
+        const valIdx = (i + a * 3) % attrVals[keyIdx].length;
+        attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
+    }
+    // Добавляем уникальный ключ-значение
+    attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
     
-    const count = Math.floor(Math.random() * 5) + 1;
-    for (let i = 1; i <= count; i++) {
-        const num = Math.floor(Math.random() * 10000) + 1000;
-        const price = Math.floor(Math.random() * 5000) + 500;
-        const status = Math.random() > 0.3 ? 'sold' : 'avail';
-        const label = status === 'sold' ? 'Sold' : 'On auction';
-        giftsData.push({
-            id: giftsData.length + existingGifts.length + 1,
-            name: col.replace(/\s/g, ' '),
-            collection: col,
-            num: '#' + num,
-            price: price,
-            status: status,
-            label: label,
-            image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E',
-            owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-            attrs: { Rarity: ['Common','Uncommon','Rare','Epic','Legendary'][Math.floor(Math.random()*5)], Style: ['Classic','Modern','Vintage','Neon','Stealth'][Math.floor(Math.random()*5)] }
+    const history = [];
+    const numHistory = Math.floor(Math.random() * 4) + 1;
+    for (let h = 0; h < numHistory; h++) {
+        history.push({
+            price: 'Transferred',
+            date: new Date(Date.now() - (h + 1) * 30 * 86400000).toLocaleDateString(),
+            buyer: 'wallet_' + Math.random().toString(36).substring(2, 8)
         });
     }
-});
+    
+    giftsData.push({
+        id: 2000 + i,
+        name: giftNames[colIdx],
+        collection: giftCollections[colIdx],
+        num: '#' + (1000 + i * 13),
+        price: price,
+        status: status,
+        label: label,
+        emoji: giftEmojis[colIdx % giftEmojis.length],
+        attrs: attrs,
+        owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        history: history
+    });
+}
 
-// Добавляем существующие подарки
-giftsData = [...existingGifts, ...giftsData];
+// ============================================================
+// ===== RENDER FUNCTIONS =====
+// ============================================================
 
-// ========== RENDER FUNCTIONS ==========
 let offersPage = 0;
-const OFFERS_PER_PAGE = 20;
+const OFFERS_PER_PAGE = 50;
 let numbersPage = 0;
-const NUMBERS_PER_PAGE = 20;
+const NUMBERS_PER_PAGE = 50;
 let giftsPage = 0;
 const GIFTS_PER_PAGE = 12;
 
 function renderOffers(search = '') {
     const filtered = offersData.filter(item => 
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.type.toLowerCase().includes(search.toLowerCase())
+        item.name.toLowerCase().includes(search.toLowerCase())
     );
-    const start = 0;
-    const end = Math.min((offersPage + 1) * OFFERS_PER_PAGE, filtered.length);
+    const start = offersPage * OFFERS_PER_PAGE;
+    const end = Math.min(start + OFFERS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
     
     const tbody = document.getElementById('offers-table-body');
     document.getElementById('offers-count').textContent = `(${filtered.length})`;
     
-    if (pageItems.length === 0) {
+    if (pageItems.length === 0 && filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`;
         return;
     }
     
     tbody.innerHTML = pageItems.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null)">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
             <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1335,7 +1645,7 @@ function renderOffers(search = '') {
     `).join('');
     
     const btn = document.getElementById('offers-load-more');
-    if (end >= filtered.length) {
+    if (end >= filtered.length || filtered.length === 0) {
         btn.style.display = 'none';
     } else {
         btn.style.display = 'block';
@@ -1344,23 +1654,22 @@ function renderOffers(search = '') {
 
 function renderNumbers(search = '') {
     const filtered = numbersData.filter(item => 
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.type.toLowerCase().includes(search.toLowerCase())
+        item.name.toLowerCase().includes(search.toLowerCase())
     );
-    const start = 0;
-    const end = Math.min((numbersPage + 1) * NUMBERS_PER_PAGE, filtered.length);
+    const start = numbersPage * NUMBERS_PER_PAGE;
+    const end = Math.min(start + NUMBERS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
     
     const tbody = document.getElementById('numbers-table-body');
     document.getElementById('numbers-count').textContent = `(${filtered.length})`;
     
-    if (pageItems.length === 0) {
+    if (pageItems.length === 0 && filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`;
         return;
     }
     
     tbody.innerHTML = pageItems.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null)">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
             <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1371,7 +1680,7 @@ function renderNumbers(search = '') {
     `).join('');
     
     const btn = document.getElementById('numbers-load-more');
-    if (end >= filtered.length) {
+    if (end >= filtered.length || filtered.length === 0) {
         btn.style.display = 'none';
     } else {
         btn.style.display = 'block';
@@ -1386,14 +1695,14 @@ function renderGifts(collection = 'all', search = '') {
         return matchCollection && matchSearch;
     });
     
-    const start = 0;
-    const end = Math.min((giftsPage + 1) * GIFTS_PER_PAGE, filtered.length);
+    const start = giftsPage * GIFTS_PER_PAGE;
+    const end = Math.min(start + GIFTS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
     
     const grid = document.getElementById('gifts-grid');
     document.getElementById('gifts-count').textContent = `(${filtered.length})`;
     
-    if (pageItems.length === 0) {
+    if (pageItems.length === 0 && filtered.length === 0) {
         grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`;
         return;
     }
@@ -1401,11 +1710,12 @@ function renderGifts(collection = 'all', search = '') {
     grid.innerHTML = pageItems.map(item => {
         const attrsStr = JSON.stringify(item.attrs || {});
         const ownerStr = item.owner || '';
+        const historyStr = JSON.stringify(item.history || []);
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${item.image}', '${item.collection}', ${attrsStr}, '${ownerStr}')">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${item.emoji}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <img src="${item.image}" class="tm-grid-thumb" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
+                    <div class="tm-lottie-fallback" style="font-size:48px;">${item.emoji}</div>
                     <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
@@ -1424,7 +1734,7 @@ function renderGifts(collection = 'all', search = '') {
     `}).join('');
     
     const btn = document.getElementById('gifts-load-more');
-    if (end >= filtered.length) {
+    if (end >= filtered.length || filtered.length === 0) {
         btn.style.display = 'none';
     } else {
         btn.style.display = 'block';
@@ -1463,8 +1773,10 @@ function renderFilterCollections() {
     });
 }
 
-// ========== DETAIL POPUP ==========
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, giftImage, collection, attrs, owner) {
+// ============================================================
+// ===== DETAIL POPUP =====
+// ============================================================
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, emoji, collection, attrs, owner, history) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
@@ -1480,14 +1792,14 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
     // Gift image
-    const giftImgContainer = document.getElementById('popup-gift-image');
-    const giftImg = document.getElementById('popup-gift-img');
-    if (giftImage && type === 'Gift') {
-        giftImgContainer.style.display = 'flex';
-        giftImg.src = giftImage;
-        giftImg.alt = name;
+    const giftContainer = document.getElementById('popup-gift-image');
+    const fallback = document.getElementById('popup-lottie-fallback');
+    if (type === 'Gift' && emoji) {
+        giftContainer.style.display = 'flex';
+        fallback.textContent = emoji;
+        fallback.style.fontSize = '56px';
     } else {
-        giftImgContainer.style.display = 'none';
+        giftContainer.style.display = 'none';
     }
     
     // Attributes
@@ -1495,16 +1807,16 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     if (attrs && type === 'Gift') {
         attrsContainer.style.display = 'block';
         let attrsHtml = '';
+        let i = 0;
         for (const [key, val] of Object.entries(attrs)) {
-            const rarity = Math.floor(Math.random() * 5) + 1;
-            const rarityText = ['Common','Uncommon','Rare','Epic','Legendary'][rarity-1];
-            const rarityPct = (Math.random() * 20 + 1).toFixed(1);
+            const rarity = rarityPcts[i % rarityPcts.length];
             attrsHtml += `
                 <div class="popup-attr-row">
                     <span class="popup-attr-label">${key}</span>
-                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarityPct}%</span></span>
+                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
                 </div>
             `;
+            i++;
         }
         attrsContainer.innerHTML = attrsHtml;
     } else {
@@ -1518,6 +1830,22 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
         document.getElementById('popup-detail-owner').innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
     } else {
         ownerRow.style.display = 'none';
+    }
+    
+    // Ownership History
+    const ownershipContainer = document.getElementById('popup-ownership');
+    const ownershipList = document.getElementById('popup-ownership-list');
+    if (history && history.length > 0 && type === 'Gift') {
+        ownershipContainer.style.display = 'block';
+        ownershipList.innerHTML = history.map(h => `
+            <div class="popup-ownership-item">
+                <span>${h.price}</span>
+                <span>${h.date}</span>
+                <span class="owner">${h.buyer}</span>
+            </div>
+        `).join('');
+    } else {
+        ownershipContainer.style.display = 'none';
     }
     
     document.getElementById('detail-popup').classList.remove('hide');
@@ -1538,7 +1866,16 @@ document.getElementById('popup-buy-btn').addEventListener('click', function() {
     document.getElementById('detail-popup').classList.add('hide');
 });
 
-// ========== TABS ==========
+// ============================================================
+// ===== STARS BUY BUTTON =====
+// ============================================================
+document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
+    alert('Buy Stars clicked! (demo)');
+});
+
+// ============================================================
+// ===== TABS =====
+// ============================================================
 document.querySelectorAll('.tm-header-tab').forEach(tab => {
     tab.addEventListener('click', function() {
         document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
@@ -1556,16 +1893,18 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
     });
 });
 
-// ========== SEARCH ==========
-document.getElementById('search-offers').addEventListener('input', function() {
+// ============================================================
+// ===== SEARCH =====
+// ============================================================
+document.getElementById('search-offers')?.addEventListener('input', function() {
     offersPage = 0;
     renderOffers(this.value);
 });
-document.getElementById('search-numbers').addEventListener('input', function() {
+document.getElementById('search-numbers')?.addEventListener('input', function() {
     numbersPage = 0;
     renderNumbers(this.value);
 });
-document.getElementById('search-gifts').addEventListener('input', function() {
+document.getElementById('search-gifts')?.addEventListener('input', function() {
     giftsPage = 0;
     const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
     const collection = selected ? selected.dataset.collection : 'all';
@@ -1583,44 +1922,52 @@ document.querySelectorAll('.tm-search-clear').forEach(clear => {
     });
 });
 
-// ========== LOAD MORE ==========
-document.getElementById('offers-load-more').addEventListener('click', function() {
+// ============================================================
+// ===== LOAD MORE =====
+// ============================================================
+document.getElementById('offers-load-more')?.addEventListener('click', function() {
     offersPage++;
     renderOffers(document.getElementById('search-offers').value);
 });
-document.getElementById('numbers-load-more').addEventListener('click', function() {
+document.getElementById('numbers-load-more')?.addEventListener('click', function() {
     numbersPage++;
     renderNumbers(document.getElementById('search-numbers').value);
 });
-document.getElementById('gifts-load-more').addEventListener('click', function() {
+document.getElementById('gifts-load-more')?.addEventListener('click', function() {
     giftsPage++;
     const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
     const collection = selected ? selected.dataset.collection : 'all';
     renderGifts(collection, document.getElementById('search-gifts').value);
 });
 
-// ========== FILTER TOGGLE ==========
-document.getElementById('gift-filters-toggle').addEventListener('click', function() {
+// ============================================================
+// ===== FILTER TOGGLE =====
+// ============================================================
+document.getElementById('gift-filters-toggle')?.addEventListener('click', function() {
     const box = document.getElementById('gift-filters');
     box.classList.toggle('opened');
     box.classList.toggle('closed');
 });
 
-// ========== LOGO HOME ==========
-document.getElementById('logo-home').addEventListener('click', function(e) {
+// ============================================================
+// ===== LOGO HOME =====
+// ============================================================
+document.getElementById('logo-home')?.addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
-    document.querySelector('.tm-header-tab[data-section="offers"]').classList.add('tab-active');
+    document.querySelector('.tm-header-tab[data-section="stars"]').classList.add('tab-active');
     document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
         el.classList.remove('section-active', 'section-hidden');
         el.style.display = 'none';
     });
-    const target = document.getElementById('section-offers');
+    const target = document.getElementById('section-stars');
     target.style.display = 'block';
     target.classList.add('section-active');
 });
 
-// ========== INIT ==========
+// ============================================================
+// ===== INIT =====
+// ============================================================
 renderOffers();
 renderNumbers();
 renderGifts();
