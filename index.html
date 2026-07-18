@@ -11,7 +11,6 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
-        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -225,7 +224,7 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        /* ===== STARS SECTION ===== */
+        /* STARS SECTION */
         .tm-main-premium .tm-main-intro {
             padding: 20px 12px 10px;
             text-align: center;
@@ -257,9 +256,7 @@
             max-width: 680px;
             margin: 0 auto 20px;
         }
-        .tm-main-form-group {
-            margin-bottom: 20px;
-        }
+        .tm-main-form-group { margin-bottom: 20px; }
         .tm-main-form-label {
             font-size: 15px;
             line-height: 23px;
@@ -318,10 +315,7 @@
             height: 20px;
             background-image: url('data:image/svg+xml,%3Csvg height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5 17 12-12m-12 0 12 12" stroke="%238494a3" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
         }
-        .tm-search-input:placeholder-shown ~ .tm-search-clear {
-            visibility: hidden;
-            opacity: 0;
-        }
+        .tm-search-input:placeholder-shown ~ .tm-search-clear { visibility: hidden; opacity: 0; }
         
         .icon-stars:before {
             content: '';
@@ -391,10 +385,7 @@
             margin-bottom: 0;
             cursor: pointer;
         }
-        .tm-form-radio-item input.radio {
-            position: absolute;
-            left: -5000px;
-        }
+        .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
         .tm-form-radio-label {
             display: flex;
             align-items: center;
@@ -411,23 +402,11 @@
             overflow: hidden;
             gap: 8px;
         }
-        .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label {
-            box-shadow: 0 0 0 2px var(--accent-color);
-        }
-        .tm-form-radio-label .tm-radio-label {
-            flex-grow: 1;
-        }
-        .tm-form-radio-label .tm-value {
-            font-weight: bold;
-            color: var(--value-color);
-        }
-        .tm-form-radio-label .tm-radio-desc {
-            font-weight: normal;
-            color: var(--table-text-color);
-        }
-        .tm-form-radio-label svg {
-            vertical-align: middle;
-        }
+        .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
+        .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
+        .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
+        .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
+        .tm-form-radio-label svg { vertical-align: middle; }
         
         .tm-currency-tabs {
             display: flex;
@@ -446,13 +425,8 @@
             color: var(--field-color);
             transition: box-shadow .2s ease;
         }
-        .tm-currency-tab input.radio {
-            position: absolute;
-            left: -5000px;
-        }
-        .tm-currency-tab:has(input:checked) {
-            box-shadow: 0 0 0 2px var(--accent-color);
-        }
+        .tm-currency-tab input.radio { position: absolute; left: -5000px; }
+        .tm-currency-tab:has(input:checked) { box-shadow: 0 0 0 2px var(--accent-color); }
         .tm-currency-tab-icon {
             width: 20px;
             height: 20px;
@@ -461,31 +435,14 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-        .tab-icon-ton {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5V7.5l5 4.5-5 4.5z" fill="%234db2ff"/%3E%3C/svg%3E');
-        }
-        .tab-icon-usdt {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E');
-        }
-        .tab-icon-usdt-ton {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$T%3C/text%3E%3C/svg%3E');
-        }
-        .tab-icon-usdt-pol {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$P%3C/text%3E%3C/svg%3E');
-        }
-        .tab-icon-usdc {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E');
-        }
-        .tab-icon-usdc-base {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$B%3C/text%3E%3C/svg%3E');
-        }
-        .tab-icon-usdc-pol {
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$P%3C/text%3E%3C/svg%3E');
-        }
-        .tab-network {
-            font-size: 10px;
-            color: var(--table-text-color);
-        }
+        .tab-icon-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5V7.5l5 4.5-5 4.5z" fill="%234db2ff"/%3E%3C/svg%3E'); }
+        .tab-icon-usdt { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
+        .tab-icon-usdt-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$T%3C/text%3E%3C/svg%3E'); }
+        .tab-icon-usdt-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$P%3C/text%3E%3C/svg%3E'); }
+        .tab-icon-usdc { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
+        .tab-icon-usdc-base { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$B%3C/text%3E%3C/svg%3E'); }
+        .tab-icon-usdc-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$P%3C/text%3E%3C/svg%3E'); }
+        .tab-network { font-size: 10px; color: var(--table-text-color); }
         .dropdown-toggle.icon-after:after {
             content: '';
             display: inline-block;
@@ -502,16 +459,9 @@
             border-radius: var(--def-border-radius);
             padding: 4px 0;
         }
-        .tm-dropdown .dropdown-menu .tm-currency-tab {
-            border-radius: 0;
-            padding: 8px 16px;
-        }
-        .tm-dropdown .dropdown-menu .tm-currency-tab:hover {
-            background: var(--btn-default-bg-hover-color);
-        }
-        .btn-group.tm-dropdown {
-            display: inline-block;
-        }
+        .tm-dropdown .dropdown-menu .tm-currency-tab { border-radius: 0; padding: 8px 16px; }
+        .tm-dropdown .dropdown-menu .tm-currency-tab:hover { background: var(--btn-default-bg-hover-color); }
+        .btn-group.tm-dropdown { display: inline-block; }
         
         .btn-primary.btn-block {
             display: block;
@@ -527,20 +477,11 @@
             transition: background .2s ease;
         }
         .btn-primary.btn-block:hover { background: var(--btn-primary-bg-hover-color); }
-        .btn-primary.btn-block:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .tm-main-form-link-wrap {
-            text-align: center;
-            margin-top: 16px;
-            font-size: 14px;
-        }
-        .tm-main-form-link-wrap a {
-            color: var(--accent-color);
-        }
+        .btn-primary.btn-block:disabled { opacity: 0.5; cursor: not-allowed; }
+        .tm-main-form-link-wrap { text-align: center; margin-top: 16px; font-size: 14px; }
+        .tm-main-form-link-wrap a { color: var(--accent-color); }
         
-        /* ===== TABLE ===== */
+        /* TABLE */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -620,11 +561,7 @@
         .tm-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
         .tm-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
         
-        .tm-username-link {
-            color: #fff;
-            font-weight: bold;
-            font-size: 15px;
-        }
+        .tm-username-link { color: #fff; font-weight: bold; font-size: 15px; }
         .tm-username-link:hover { color: var(--accent-color); text-decoration: none; }
         
         .tm-table .hide-mobile { display: table-cell; }
@@ -641,7 +578,7 @@
             border-radius: var(--def-border-radius);
         }
         
-        /* ===== GIFT CARDS ===== */
+        /* ===== GIFT CARDS С LOTTIE ===== */
         .tm-catalog-grid-wrap { 
             --gap: 12px;
             background: transparent;
@@ -694,12 +631,31 @@
             justify-content: center;
             overflow: hidden;
         }
-        .tm-grid-item-thumb .tm-lottie {
+        /* LOTTIE В КАРТОЧКЕ */
+        .tm-grid-item-thumb .tm-lottie-container {
             width: 100%;
             height: 100%;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .tm-grid-item-thumb .tm-lottie-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+        }
+        .tm-grid-item-thumb .tm-lottie-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .tm-grid-item-thumb .tm-lottie-container.fallback img {
+            display: block;
+        }
+        .tm-grid-item-thumb .tm-lottie-container.fallback canvas {
+            display: none;
         }
         .tm-grid-item-thumb .tm-lottie-fallback {
             width: 100%;
@@ -710,6 +666,17 @@
             font-size: 48px;
             background: #1a2026;
             color: #4db2ff;
+        }
+        .tm-grid-item-thumb .tm-grid-item-num {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.6);
+            font-size: 10px;
+            padding: 2px 6px;
+            color: #fff;
+            margin: 4px;
         }
         .tm-grid-item-content {
             text-align: center;
@@ -781,7 +748,7 @@
             .tm-grid-item-status { font-size: 11px; line-height: 16px; padding: 2px 7px; }
         }
         
-        /* ===== FILTERS ===== */
+        /* FILTERS */
         .tm-main-filters-wrap { 
             margin-bottom: 20px; 
             max-width: 960px; 
@@ -836,7 +803,7 @@
         .tm-main-filters-count { font-size: 15px; line-height: 18px; color: var(--table-text-color); }
         .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
         
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         .tm-footer {
             background-color: #111417;
             margin-top: 30px;
@@ -850,13 +817,10 @@
             justify-content: center;
             gap: 32px;
         }
-        .tm-footer-link, .tm-footer-link:hover {
-            color: #6d8394;
-            text-decoration: none;
-        }
+        .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* ===== DETAIL POPUP - КНОПКИ ВНИЗУ ПО ЦЕНТРУ ===== */
+        /* DETAIL POPUP */
         .popup-container {
             position: fixed;
             top: 0;
@@ -917,22 +881,9 @@
             border-radius: 6px;
             transition: all .2s ease;
         }
-        .popup-close:hover { 
-            color: #fff;
-            background: rgba(255,255,255,0.12);
-        }
-        .popup-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #fff;
-            margin: 0;
-            padding-right: 40px;
-        }
-        .popup-subtitle {
-            font-size: 13px;
-            color: var(--table-text-color);
-            margin-top: 2px;
-        }
+        .popup-close:hover { color: #fff; background: rgba(255,255,255,0.12); }
+        .popup-title { font-size: 22px; font-weight: bold; color: #fff; margin: 0; padding-right: 40px; }
+        .popup-subtitle { font-size: 13px; color: var(--table-text-color); margin-top: 2px; }
         .popup-status-badge {
             display: inline-block;
             font-size: 11px;
@@ -946,12 +897,9 @@
         .popup-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
         .popup-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
         
-        .popup-body {
-            padding: 18px 24px 24px;
-            flex: 1;
-            overflow-y: auto;
-        }
+        .popup-body { padding: 18px 24px 24px; flex: 1; overflow-y: auto; }
         
+        /* LOTTIE В ПОПАПЕ */
         .popup-gift-image {
             width: 100%;
             max-width: 180px;
@@ -963,9 +911,39 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+        }
+        .popup-gift-image .tm-lottie-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .popup-gift-image .tm-lottie-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+        }
+        .popup-gift-image .tm-lottie-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .popup-gift-image .tm-lottie-container.fallback img {
+            display: block;
+        }
+        .popup-gift-image .tm-lottie-container.fallback canvas {
+            display: none;
         }
         .popup-gift-image .tm-lottie-fallback {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 56px;
+            background: #1a2026;
+            color: #4db2ff;
         }
         
         .popup-bid-info {
@@ -981,15 +959,8 @@
             border-bottom: 1px solid #1a2026;
         }
         .popup-bid-row:last-child { border-bottom: none; }
-        .popup-bid-label {
-            color: var(--table-text-color);
-            font-size: 13px;
-        }
-        .popup-bid-value {
-            font-weight: bold;
-            color: var(--value-color);
-            font-size: 14px;
-        }
+        .popup-bid-label { color: var(--table-text-color); font-size: 13px; }
+        .popup-bid-value { font-weight: bold; color: var(--value-color); font-size: 14px; }
         .popup-bid-value.icon-ton:before {
             content: '';
             display: inline-block;
@@ -1016,15 +987,8 @@
             border-bottom: 1px solid #1a2026;
         }
         .popup-attr-row:last-child { border-bottom: none; }
-        .popup-attr-label {
-            color: var(--table-text-color);
-            font-size: 13px;
-        }
-        .popup-attr-value {
-            color: var(--value-color);
-            font-size: 14px;
-            font-weight: 500;
-        }
+        .popup-attr-label { color: var(--table-text-color); font-size: 13px; }
+        .popup-attr-value { color: var(--value-color); font-size: 14px; font-weight: 500; }
         .popup-attr-rarity {
             font-size: 11px;
             color: var(--accent-color);
@@ -1041,17 +1005,8 @@
             text-align: center;
             margin-bottom: 12px;
         }
-        .popup-countdown-label {
-            font-size: 12px;
-            color: var(--table-text-color);
-            display: block;
-        }
-        .popup-countdown-timer {
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            margin-top: 2px;
-        }
+        .popup-countdown-label { font-size: 12px; color: var(--table-text-color); display: block; }
+        .popup-countdown-timer { font-size: 18px; font-weight: bold; color: #fff; margin-top: 2px; }
         
         .popup-detail-row {
             display: flex;
@@ -1062,11 +1017,7 @@
         .popup-detail-row:last-child { border-bottom: none; }
         .popup-detail-label { color: var(--table-text-color); font-size: 12px; }
         .popup-detail-value { color: var(--value-color); font-size: 13px; font-weight: 500; }
-        .popup-detail-value .tm-wallet {
-            color: var(--accent-color);
-            font-size: 12px;
-            font-family: monospace;
-        }
+        .popup-detail-value .tm-wallet { color: var(--accent-color); font-size: 12px; font-family: monospace; }
         
         .popup-ownership {
             background: var(--table-bg-color);
@@ -1090,11 +1041,9 @@
             color: var(--table-text-color);
         }
         .popup-ownership-item:last-child { border-bottom: none; }
-        .popup-ownership-item .owner {
-            color: var(--accent-color);
-        }
+        .popup-ownership-item .owner { color: var(--accent-color); }
         
-        /* ===== КНОПКИ ВНИЗУ ПО ЦЕНТРУ ===== */
+        /* КНОПКИ ВНИЗУ ПО ЦЕНТРУ */
         .popup-buttons {
             display: flex;
             gap: 10px;
@@ -1139,7 +1088,6 @@
         .section-hidden { display: none; }
         .section-active { display: block; }
         
-        /* ===== LOAD MORE ===== */
         .tm-load-more {
             display: block;
             text-align: center;
@@ -1160,11 +1108,7 @@
         }
         .tm-load-more:hover { background: var(--btn-default-bg-hover-color); }
         
-        .tm-items-count {
-            font-size: 13px;
-            color: var(--table-text-color);
-            margin-left: 12px;
-        }
+        .tm-items-count { font-size: 13px; color: var(--table-text-color); margin-left: 12px; }
         
         .tm-section-header {
             display: flex;
@@ -1211,8 +1155,8 @@
             <div class="tm-header-tabs">
                 <button class="tm-header-tab" data-section="offers">Usernames</button>
                 <button class="tm-header-tab" data-section="numbers">Numbers</button>
-                <button class="tm-header-tab" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
-                <button class="tm-header-tab tab-active" data-section="stars">Stars</button>
+                <button class="tm-header-tab tab-active" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
+                <button class="tm-header-tab" data-section="stars">Stars</button>
                 <button class="tm-header-tab" data-section="premium">Premium</button>
                 <button class="tm-header-tab" data-section="ads">Ads</button>
             </div>
@@ -1231,10 +1175,10 @@
 </header>
 
 <!-- MAIN -->
-<main class="tm-main tm-main-premium">
+<main class="tm-main">
 
     <!-- ===== SECTION: STARS ===== -->
-    <div id="section-stars" class="section-active">
+    <div id="section-stars" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
             <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
@@ -1275,7 +1219,6 @@
                         <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="25000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 25,000 Stars</span><span class="tm-value">254.86 TON</span><span class="tm-radio-desc">$375.00</span></div></div>
                         <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="50000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 50,000 Stars</span><span class="tm-value">509.73 TON</span><span class="tm-radio-desc">$750.00</span></div></div>
                         <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="100000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 100,000 Stars</span><span class="tm-value">1,019.46 TON</span><span class="tm-radio-desc">$1,500.00</span></div></div>
-                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="1000000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 1,000,000 Stars</span><span class="tm-value">10,194.56 TON</span><span class="tm-radio-desc">$15,000.00</span></div></div>
                     </div>
                 </div>
             </div>
@@ -1368,8 +1311,8 @@
         <button class="tm-load-more" id="numbers-load-more">Load More Numbers</button>
     </div>
 
-    <!-- ===== SECTION: GIFTS ===== -->
-    <div id="section-gifts" class="section-hidden">
+    <!-- ===== SECTION: GIFTS (С LOTTIE) ===== -->
+    <div id="section-gifts" class="section-active">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
@@ -1402,9 +1345,7 @@
 
     <!-- PREMIUM -->
     <div id="section-premium" class="section-hidden">
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">👑 Telegram Premium</h3>
-        </div>
+        <div class="tm-section-header"><h3 class="tm-section-header-text">👑 Telegram Premium</h3></div>
         <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:960px;margin:0 auto;">
             <div style="font-size:56px;margin-bottom:16px;">👑</div>
             <div style="font-size:20px;color:#fff;">Premium Subscriptions</div>
@@ -1415,9 +1356,7 @@
 
     <!-- ADS -->
     <div id="section-ads" class="section-hidden">
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">📢 Telegram Ads</h3>
-        </div>
+        <div class="tm-section-header"><h3 class="tm-section-header-text">📢 Telegram Ads</h3></div>
         <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:960px;margin:0 auto;">
             <div style="font-size:56px;margin-bottom:16px;">📢</div>
             <div style="font-size:20px;color:#fff;">Ad Credits</div>
@@ -1439,7 +1378,9 @@
         </div>
         <div class="popup-body">
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
-                <div class="tm-lottie-fallback" id="popup-lottie-fallback">🎁</div>
+                <div class="tm-lottie-container" id="popup-lottie-container">
+                    <div class="tm-lottie-fallback">🎁</div>
+                </div>
             </div>
             
             <div class="popup-bid-info">
@@ -1483,14 +1424,110 @@
     </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <script>
+// ============================================================
+// ===== LOTTIE LOADER =====
+// ============================================================
+function loadLottie(container, url, fallbackUrl) {
+    if (!container) return;
+    
+    const fallbackEl = container.querySelector('.tm-lottie-fallback');
+    
+    // Если есть URL Lottie
+    if (url && url.endsWith('.tgs')) {
+        try {
+            // Пробуем загрузить через Lottie
+            const anim = lottie.loadAnimation({
+                container: container,
+                renderer: 'canvas',
+                loop: false,
+                autoplay: false,
+                path: url
+            });
+            
+            anim.addEventListener('data_ready', function() {
+                container.classList.remove('fallback');
+                if (fallbackEl) fallbackEl.style.display = 'none';
+                anim.play();
+                setTimeout(() => anim.stop(), 100);
+            });
+            
+            anim.addEventListener('data_failed', function() {
+                // Если Lottie не загрузился - показываем картинку
+                container.classList.add('fallback');
+                if (fallbackEl) {
+                    fallbackEl.style.display = 'flex';
+                    // Пробуем загрузить картинку
+                    if (fallbackUrl) {
+                        const img = document.createElement('img');
+                        img.src = fallbackUrl;
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        img.onload = function() {
+                            fallbackEl.style.display = 'none';
+                            container.querySelectorAll('img').forEach(el => el.remove());
+                            const imgNew = document.createElement('img');
+                            imgNew.src = fallbackUrl;
+                            imgNew.style.width = '100%';
+                            imgNew.style.height = '100%';
+                            imgNew.style.objectFit = 'cover';
+                            container.appendChild(imgNew);
+                        };
+                        img.onerror = function() {
+                            fallbackEl.style.display = 'flex';
+                        };
+                    }
+                }
+            });
+            
+            return anim;
+        } catch(e) {
+            // Fallback на картинку
+            container.classList.add('fallback');
+            if (fallbackEl) fallbackEl.style.display = 'flex';
+            if (fallbackUrl) {
+                const img = document.createElement('img');
+                img.src = fallbackUrl;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.onload = function() {
+                    fallbackEl.style.display = 'none';
+                    container.querySelectorAll('img').forEach(el => el.remove());
+                    const imgNew = document.createElement('img');
+                    imgNew.src = fallbackUrl;
+                    imgNew.style.width = '100%';
+                    imgNew.style.height = '100%';
+                    imgNew.style.objectFit = 'cover';
+                    container.appendChild(imgNew);
+                };
+                container.appendChild(img);
+            }
+        }
+    } else if (fallbackUrl) {
+        // Если нет Lottie - сразу картинка
+        container.classList.add('fallback');
+        if (fallbackEl) fallbackEl.style.display = 'none';
+        const img = document.createElement('img');
+        img.src = fallbackUrl;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.onerror = function() {
+            if (fallbackEl) fallbackEl.style.display = 'flex';
+        };
+        container.appendChild(img);
+    }
+}
+
 // ============================================================
 // ===== GENERATE DATA =====
 // ============================================================
 
-// ----- 643 USERS -----
+// 643 Users
 const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega'];
-const usernameExtras = ['x','z','q','v','w','y','k','j','f','b','h','m','n','c','d','g','l','r','s','t','p'];
 let offersData = [];
 for (let i = 0; i < 643; i++) {
     const w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
@@ -1515,7 +1552,7 @@ for (let i = 0; i < 643; i++) {
     });
 }
 
-// ----- 103 NUMBERS +888 -----
+// 103 Numbers +888
 let numbersData = [];
 for (let i = 0; i < 103; i++) {
     const p1 = String(Math.floor(Math.random() * 900) + 100);
@@ -1540,7 +1577,7 @@ for (let i = 0; i < 103; i++) {
     });
 }
 
-// ----- GIFTS с Lottie -----
+// GIFTS с Lottie
 const giftCollections = [
     'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
     'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
@@ -1552,7 +1589,6 @@ const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'L
     'Witch Hat', 'Toy Bear', 'Ice Cream', 'Homemade Cake', 'Chill Flame',
     'Evil Eye', 'Santa Hat', 'Candy Cane', 'Easter Egg', 'B-Day Candle'
 ];
-const giftEmojis = ['🧸', '⌚', '💝', '🐱', '🎒', '🌸', '🚗', '🐶', '🌹', '💍', '🧙', '🐻', '🍦', '🍰', '🔥', '👁️', '🎅', '🍬', '🥚', '🕯️'];
 const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
 const attrVals = [
     ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
@@ -1578,7 +1614,6 @@ for (let i = 0; i < 120; i++) {
         const valIdx = (i + a * 3) % attrVals[keyIdx].length;
         attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
     }
-    // Добавляем уникальный ключ-значение
     attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
     
     const history = [];
@@ -1591,6 +1626,20 @@ for (let i = 0; i < 120; i++) {
         });
     }
     
+    // Реальные Lottie URL для некоторых подарков
+    let lottieUrl = '';
+    let imageUrl = '';
+    // Для первых 30 подарков пробуем реальные URL
+    if (i < 30) {
+        const giftSlugs = ['plushpepe-1821', 'plushpepe-1515', 'plushpepe-2658', 'plushpepe-1521', 'plushpepe-318',
+            'swisswatch-7799', 'heartlocket-875', 'scaredcat-2920', 'lootbag-11217', 'sakuraflower-49643',
+            'lowrider-16593', 'snoopdogg-12345', 'plushpepe-858', 'plushpepe-982', 'plushpepe-177',
+            'plushpepe-899', 'plushpepe-1921', 'plushpepe-1106', 'plushpepe-91', 'plushpepe-328'];
+        const slug = giftSlugs[i % giftSlugs.length];
+        lottieUrl = 'https://nft.fragment.com/gift/' + slug + '.tgs';
+        imageUrl = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+    }
+    
     giftsData.push({
         id: 2000 + i,
         name: giftNames[colIdx],
@@ -1599,7 +1648,8 @@ for (let i = 0; i < 120; i++) {
         price: price,
         status: status,
         label: label,
-        emoji: giftEmojis[colIdx % giftEmojis.length],
+        lottie: lottieUrl,
+        image: imageUrl,
         attrs: attrs,
         owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
         history: history
@@ -1711,12 +1761,16 @@ function renderGifts(collection = 'all', search = '') {
         const attrsStr = JSON.stringify(item.attrs || {});
         const ownerStr = item.owner || '';
         const historyStr = JSON.stringify(item.history || []);
+        const lottieUrl = item.lottie || '';
+        const imageUrl = item.image || '';
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${item.emoji}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${lottieUrl}|${imageUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <div class="tm-lottie-fallback" style="font-size:48px;">${item.emoji}</div>
-                    <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
+                    <div class="tm-lottie-container" id="lottie-${item.id}" data-lottie="${lottieUrl}" data-image="${imageUrl}">
+                        <div class="tm-lottie-fallback">🎁</div>
+                    </div>
+                    <div class="tm-grid-item-num">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
                     <div class="tm-grid-item-name">
@@ -1732,6 +1786,17 @@ function renderGifts(collection = 'all', search = '') {
             </a>
         </div>
     `}).join('');
+    
+    // Загружаем Lottie для всех видимых карточек
+    setTimeout(() => {
+        document.querySelectorAll('.tm-lottie-container').forEach(container => {
+            const lottieUrl = container.dataset.lottie;
+            const imageUrl = container.dataset.image;
+            if (lottieUrl || imageUrl) {
+                loadLottie(container, lottieUrl, imageUrl);
+            }
+        });
+    }, 100);
     
     const btn = document.getElementById('gifts-load-more');
     if (end >= filtered.length || filtered.length === 0) {
@@ -1776,7 +1841,7 @@ function renderFilterCollections() {
 // ============================================================
 // ===== DETAIL POPUP =====
 // ============================================================
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, emoji, collection, attrs, owner, history) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, lottieData, collection, attrs, owner, history) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
@@ -1791,13 +1856,29 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     statusBadge.textContent = label || 'On auction';
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
-    // Gift image
+    // Gift image with Lottie
     const giftContainer = document.getElementById('popup-gift-image');
-    const fallback = document.getElementById('popup-lottie-fallback');
-    if (type === 'Gift' && emoji) {
+    const lottieContainer = document.getElementById('popup-lottie-container');
+    
+    if (type === 'Gift' && lottieData) {
         giftContainer.style.display = 'flex';
-        fallback.textContent = emoji;
-        fallback.style.fontSize = '56px';
+        const parts = lottieData.split('|');
+        const lottieUrl = parts[0] || '';
+        const imageUrl = parts[1] || '';
+        
+        // Очищаем контейнер
+        lottieContainer.innerHTML = '';
+        const fallback = document.createElement('div');
+        fallback.className = 'tm-lottie-fallback';
+        fallback.textContent = '🎁';
+        lottieContainer.appendChild(fallback);
+        
+        // Загружаем Lottie
+        if (lottieUrl) {
+            loadLottie(lottieContainer, lottieUrl, imageUrl);
+        } else if (imageUrl) {
+            loadLottie(lottieContainer, '', imageUrl);
+        }
     } else {
         giftContainer.style.display = 'none';
     }
@@ -1867,7 +1948,7 @@ document.getElementById('popup-buy-btn').addEventListener('click', function() {
 });
 
 // ============================================================
-// ===== STARS BUY BUTTON =====
+// ===== STARS BUY =====
 // ============================================================
 document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
     alert('Buy Stars clicked! (demo)');
@@ -1889,6 +1970,18 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
         if (target) {
             target.style.display = 'block';
             target.classList.add('section-active');
+            // Загружаем Lottie для подарков при переключении на вкладку Gifts
+            if (section === 'gifts') {
+                setTimeout(() => {
+                    document.querySelectorAll('.tm-lottie-container').forEach(container => {
+                        const lottieUrl = container.dataset.lottie;
+                        const imageUrl = container.dataset.image;
+                        if (lottieUrl || imageUrl) {
+                            loadLottie(container, lottieUrl, imageUrl);
+                        }
+                    });
+                }, 200);
+            }
         }
     });
 });
@@ -1955,14 +2048,23 @@ document.getElementById('gift-filters-toggle')?.addEventListener('click', functi
 document.getElementById('logo-home')?.addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
-    document.querySelector('.tm-header-tab[data-section="stars"]').classList.add('tab-active');
+    document.querySelector('.tm-header-tab[data-section="gifts"]').classList.add('tab-active');
     document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
         el.classList.remove('section-active', 'section-hidden');
         el.style.display = 'none';
     });
-    const target = document.getElementById('section-stars');
+    const target = document.getElementById('section-gifts');
     target.style.display = 'block';
     target.classList.add('section-active');
+    setTimeout(() => {
+        document.querySelectorAll('.tm-lottie-container').forEach(container => {
+            const lottieUrl = container.dataset.lottie;
+            const imageUrl = container.dataset.image;
+            if (lottieUrl || imageUrl) {
+                loadLottie(container, lottieUrl, imageUrl);
+            }
+        });
+    }, 200);
 });
 
 // ============================================================
