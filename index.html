@@ -2,36 +2,25 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Fragment - Buy Telegram Usernames</title>
+    <title>Fragment - Buy Telegram Usernames &amp; Numbers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="MobileOptimized" content="176" />
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="twitter:card" content="summary" />
-    <meta property="og:title" content="Fragment - Buy Telegram Usernames" />
-    <meta property="og:description" content="Auction platform for Telegram usernames and collectibles." />
-    <meta property="og:site_name" content="Fragment Auctions" />
-    <link rel="shortcut icon" href="fragment.ico" type="image/x-icon" />
-    
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z' fill='%23fff'/%3E%3C/svg%3E" type="image/x-icon" />
     <link href="font-roboto.css@1.css" rel="stylesheet" type="text/css">
     <link href="bootstrap.min.css@3.css" rel="stylesheet">
     <link href="bootstrap-extra.css@2.css" rel="stylesheet">
     <link href="auction.css@94.css" rel="stylesheet">
     
     <style>
-        /* Кастомные стили для главной страницы */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
-            --accent-rgb: 77, 178, 255;
+            --accent-rgb: 77,178,255;
             --header-color: #fff;
-            --bg-rgb: 26, 32, 38;
-            --bg-color: rgb(var(--bg-rgb));
-            --header-bg-rgb: 33, 42, 51;
-            --header-bg-color: rgba(var(--header-bg-rgb), .9);
-            --table-bg-rgb: 33, 42, 51;
-            --table-bg-color: rgb(var(--table-bg-rgb));
+            --bg-color: #1a2026;
+            --bg-rgb: 26,32,38;
+            --header-bg-color: rgba(33,42,51,0.9);
+            --table-bg-color: #212a33;
+            --table-bg-rgb: 33,42,51;
             --table-text-color: #8c9aa9;
             --value-color: #fff;
             --field-bg-color: #242e38;
@@ -39,41 +28,33 @@
             --field-placeholder-color: #8a98a6;
             --btn-primary-bg-color: #248bda;
             --btn-primary-bg-hover-color: #207cc2;
-            --btn-default-bg-color: #242e38;
-            --btn-default-bg-hover-color: #293440;
+            --btn-default-bg-color: #293440;
+            --btn-default-bg-hover-color: #3f4e60;
             --def-border-radius: 8px;
             --header-height: 48px;
+            --danger-color: #ff5863;
+            --warning-color: #ff9953;
+            --success-color: #5aec8c;
         }
-
-        * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
+        
+        * { box-sizing: border-box; }
         
         body {
             font-family: ProductSans, -apple-system, system-ui, sans-serif;
             font-variant-ligatures: none;
             -webkit-font-smoothing: antialiased;
             background: #111417;
-            position: relative;
             padding: 0;
-            color: var(--text-color);
             margin: 0;
+            color: var(--text-color);
             font-size: 12px;
             line-height: 1.42857143;
         }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-        a:hover {
-            color: var(--accent-color);
-            text-decoration: underline;
-        }
-
-        /* Header */
+        
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { color: var(--accent-color); text-decoration: underline; }
+        
+        /* HEADER */
         .tm-header {
             display: flex;
             margin: 0 auto;
@@ -82,132 +63,187 @@
             right: 0;
             top: 0;
             z-index: 100;
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
             background-color: var(--header-bg-color);
             -webkit-backdrop-filter: blur(25px);
             backdrop-filter: blur(25px);
             height: var(--header-height);
+            flex-wrap: wrap;
+            padding: 0 16px;
         }
-        .tm-header-logo {
-            min-width: auto;
+        .tm-header-logo { 
+            display: flex;
+            align-items: center;
         }
         .tm-logo {
             display: inline-flex;
-            padding: 15px 14px;
+            padding: 15px 14px 15px 0;
+            align-items: center;
         }
         .tm-logo-icon {
-            display: inline-block;
-            vertical-align: top;
-            background-position: 0 0;
-            background-repeat: no-repeat;
-            background-size: cover;
-            pointer-events: none;
             width: 18px;
             height: 18px;
             padding: 8px;
             margin: -8px;
             box-sizing: content-box;
-            background-image: url('data:image/svg+xml,%3Csvg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M 126.3 153.6 L 252 209.2 C 255.2 210.7 259.2 210.5 264.2 208.2 L 388 153.5 C 394.6 151.1 390.9 143.7 385.7 144.5 L 129.1 143.4 C 121.9 143.7 119.9 150.9 126.3 153.6 Z M 116.2 182.1 L 234.6 366.1 C 238.3 372.1 247.7 368.7 247.4 363.3 L 247.2 237.1 C 247.1 230 245.3 228.4 240.8 226.5 L 122.4 173.8 C 118.1 171.4 112.3 175.4 116.2 182.1 Z M 267.5 234.8 L 267.8 361.8 C 267.9 370.3 276.4 371.9 281.3 364.7 L 384.2 205.3 L 386.4 201.9 L 388.3 199 L 388.3 198.9 L 399.1 182.3 C 402.4 176.8 397.2 170.5 389.4 174.2 L 272 227.1 C 271.8 227.2 271.6 227.3 271.4 227.4 C 269.9 228.3 268.9 229.2 268.4 230.3 C 267.7 231.5 267.5 233 267.5 234.8 Z" fill="%23fff" fill-rule="evenodd"/%3E%3C/svg%3E');
-        }
-        .tm-logo-text {
+            background-image: url('data:image/svg+xml,%3Csvg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: cover;
+            background-position: 0 0;
+            background-repeat: no-repeat;
             display: inline-block;
             vertical-align: top;
-            background-position: left center;
-            background-repeat: no-repeat;
-            background-size: contain;
             pointer-events: none;
+        }
+        .tm-logo-text {
             width: 77px;
             height: 18px;
-            background-image: url('data:image/svg+xml,%3Csvg height="53" viewBox="0 0 226 53" width="226" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m 23.84 48 h 6.82 v -18.91 h 8.8 v -6.2 h -8.8 v -12.09 h 11.22 v -6.2 h -18.04 z m 21.81 0 h 6.82 v -18.6 h 2.36 c 3.1 0 4.28 1.3 4.28 5.33 v 7.94 c 0 3.53 0.24 4.21 0.62 5.33 h 6.94 c -0.68 -1.61 -0.74 -3.16 -0.74 -5.27 v -7.63 c 0 -4.89 -1.12 -8.12 -4.53 -9.17 v -0.13 c 3.04 -1.24 4.46 -4.09 4.46 -8.55 v -2.67 c 0 -6.69 -3.03 -9.98 -10.1 -9.98 h -10.11 z m 6.82 -24.8 v -12.4 h 3.1 c 2.42 0 3.47 1.36 3.47 4.46 v 3.35 c 0 3.47 -1.55 4.59 -4.09 4.59 z m 16.86 24.8 h 6.32 l 1.24 -8.49 h 7.75 v -0.13 l 1.24 8.62 h 6.82 l -7.07 -43.4 h -9.23 z m 8.37 -14.38 l 2.97 -21.46 h 0.13 l 3.04 21.46 z m 28.32 15 c 6.7 0 10.17 -3.97 10.17 -10.91 v -14.2 h -9.86 v 6.2 h 3.41 v 8.49 c 0 3.1 -1.36 4.22 -3.53 4.22 s -3.53 -1.12 -3.53 -4.22 v -23.74 c 0 -3.1 1.36 -4.28 3.53 -4.28 s 3.53 1.18 3.53 4.28 v 4.15 h 6.45 v -3.72 c 0 -6.94 -3.47 -10.91 -10.17 -10.91 c -6.69 0 -10.16 3.97 -10.16 10.91 v 22.82 c 0 6.94 3.47 10.91 10.16 10.91 z m 15.06 -0.62 h 5.95 v -32.86 h 0.13 l 4.96 32.86 h 5.7 l 4.96 -32.86 h 0.13 v 32.86 h 6.44 v -43.4 h -9.73 l -4.34 31.06 h -0.12 l -4.34 -31.06 h -9.74 z m 33.85 0 h 18.6 v -6.2 h -11.78 v -13.33 h 9.36 v -6.2 h -9.36 v -11.47 h 11.78 v -6.2 h -18.6 z m 22.99 0 h 6.08 v -31.68 h 0.12 l 8.18 31.68 h 7.01 v -43.4 h -6.08 v 25.98 h -0.12 l -6.63 -25.98 h -8.56 z m 32.29 0 h 6.82 v -37.2 h 7.13 v -6.2 h -21.08 v 6.2 h 7.13 z" fill="%23fff" fill-rule="evenodd"/%3E%3C/svg%3E');
+            background-image: url('data:image/svg+xml,%3Csvg height="53" viewBox="0 0 226 53" width="226" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m23.84 48h6.82v-18.91h8.8v-6.2h-8.8v-12.09h11.22v-6.2h-18.04zm21.81 0h6.82v-18.6h2.36c3.1 0 4.28 1.3 4.28 5.33v7.94c0 3.53.24 4.21.62 5.33h6.94c-.68-1.61-.74-3.16-.74-5.27v-7.63c0-4.89-1.12-8.12-4.53-9.17v-.13c3.04-1.24 4.46-4.09 4.46-8.55v-2.67c0-6.69-3.03-9.98-10.1-9.98h-10.11zm6.82-24.8v-12.4h3.1c2.42 0 3.47 1.36 3.47 4.46v3.35c0 3.47-1.55 4.59-4.09 4.59zm16.86 24.8h6.32l1.24-8.49h7.75v-.13l1.24 8.62h6.82l-7.07-43.4h-9.23zm8.37-14.38l2.97-21.46h.13l3.04 21.46zm28.32 15c6.7 0 10.17-3.97 10.17-10.91v-14.2h-9.86v6.2h3.41v8.49c0 3.1-1.36 4.22-3.53 4.22s-3.53-1.12-3.53-4.22v-23.74c0-3.1 1.36-4.28 3.53-4.28s3.53 1.18 3.53 4.28v4.15h6.45v-3.72c0-6.94-3.47-10.91-10.17-10.91-6.69 0-10.16 3.97-10.16 10.91v22.82c0 6.94 3.47 10.91 10.16 10.91zm15.06-.62h5.95v-32.86h.13l4.96 32.86h5.7l4.96-32.86h.13v32.86h6.44v-43.4h-9.73l-4.34 31.06h-.12l-4.34-31.06h-9.74zm33.85 0h18.6v-6.2h-11.78v-13.33h9.36v-6.2h-9.36v-11.47h11.78v-6.2h-18.6zm22.99 0h6.08v-31.68h.12l8.18 31.68h7.01v-43.4h-6.08v25.98h-.12l-6.63-25.98h-8.56zm32.29 0h6.82v-37.2h7.13v-6.2h-21.08v6.2h7.13z" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-position: left center;
+            background-repeat: no-repeat;
+            display: inline-block;
+            vertical-align: top;
+            pointer-events: none;
         }
-        .tm-header-body {
-            flex-grow: 1;
-        }
-        .tm-header-actions {
-            margin: 10px 16px;
+        .tm-header-body { flex-grow: 1; display: flex; align-items: center; }
+        .tm-header-actions { 
+            display: flex; 
+            align-items: center;
+            gap: 10px;
         }
         .tm-header-button {
             font-size: 13px;
             line-height: 18px;
-            padding: 5px 9px;
+            padding: 5px 12px;
             color: #fff;
-            background-color: #293440;
+            background-color: var(--btn-default-bg-color);
             border: none;
             border-radius: var(--def-border-radius);
             display: inline-flex;
             font-weight: bold;
             justify-content: center;
             cursor: pointer;
+            align-items: center;
         }
-        .tm-header-button:hover {
-            background-color: #3f4e60;
-        }
+        .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
         .icon-connect-ton {
             width: 17px;
             height: 18px;
             background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd" stroke="%23fff" stroke-width="1.7"%3E%3Cpath d="m1.84 3h13.3c.28 0 .5.22.5.5 0 .09-.02.15-.06.25l-6.33 11.18c-.27.48-.88.65-1.36.38-.16-.09-.3-.23-.38-.39l-6.11-11.18c-.13-.24-.04-.55.2-.68.08-.04.16-.06.24-.06z"/%3E%3Cpath d="m8.5 15v-12"/%3E%3C/g%3E%3C/svg%3E');
             display: inline-block;
             vertical-align: top;
+            background-size: contain;
             background-position: 0 center;
             background-repeat: no-repeat;
-            background-size: contain;
-            margin-right: 8px;
-            margin-left: -1px;
+            margin-right: 6px;
         }
         .icon-connect-telegram {
             width: 17px;
             height: 18px;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m.32 8.22c4.81-2.07 8.02-3.43 9.62-4.08 3.48-1.43 4.87-1.96 5.61-2.13.23-.06 1.45.29 1.45 1.18 0 2.58-1.32 8.8-1.87 11.67-.23 1.22-1.88 1.6-3.74.45-1.47-.91-2.27-1.52-3.68-2.44-1.63-1.05-.58-1.63.35-2.58.25-.25 4.47-4.03 4.55-4.37.01-.04.02-.2-.08-.29-.09-.08-.24-.05-.34-.03-.14.03-2.46 1.54-6.96 4.53-.66.44-1.25.66-1.79.65-.59-.02-1.15-.05-2.56-.6-.94-.37-1.13-1.02-.56-1.96z" fill="%23fff" fill-rule="evenodd"/%3E%3C/svg%3E');
+            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m.32 8.22c4.81-2.07 8.02-3.43 9.62-4.08 3.48-1.43 4.87-1.96 5.61-2.13.23-.06 1.45.29 1.45 1.18 0 2.58-1.32 8.8-1.87 11.67-.23 1.22-1.88 1.6-3.74.45-1.47-.91-2.27-1.52-3.68-2.44-1.63-1.05-.58-1.63.35-2.58.25-.25 4.47-4.03 4.55-4.37.01-.04.02-.2-.08-.29-.09-.08-.24-.05-.34-.03-.14.03-2.46 1.54-6.96 4.53-.66.44-1.25.66-1.79.65-.59-.02-1.15-.05-2.56-.6-.94-.37-1.13-1.02-.56-1.96z" fill="%23fff"/%3E%3C/svg%3E');
             display: inline-block;
             vertical-align: top;
+            background-size: contain;
             background-position: 0 center;
             background-repeat: no-repeat;
-            background-size: contain;
-            margin-right: 9px;
-            margin-left: -2px;
+            margin-right: 6px;
         }
-
-        /* Main Content */
+        
+        /* TABS */
+        .tm-header-tabs-wrap {
+            width: 100%;
+            padding: 0 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            display: flex;
+            align-items: center;
+        }
+        .tm-header-tabs-wrap::-webkit-scrollbar { display: none; }
+        .tm-header-tabs {
+            display: flex;
+            padding: 0;
+            gap: 0;
+            white-space: nowrap;
+            min-width: 100%;
+        }
+        .tm-header-tab {
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: bold;
+            padding: 10px 0;
+            margin-right: 24px;
+            color: rgba(203,215,229,0.7);
+            transition: color .2s ease;
+            position: relative;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+        .tm-header-tab:hover { color: rgba(203,215,229,0.9); }
+        .tm-header-tab.tab-active {
+            color: #fff;
+        }
+        .tm-header-tab.tab-active:after {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 3px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #248bda;
+            border-radius: 3px 3px 0 0;
+        }
+        .tm-label-new {
+            font-size: 10px;
+            line-height: 14px;
+            font-weight: bold;
+            padding: 1px 5px;
+            background-color: #248bda;
+            display: inline-block;
+            margin-left: 4px;
+            color: #fff;
+            border-radius: 4px;
+            vertical-align: top;
+            margin-top: 1px;
+        }
+        
+        @media (min-width: 768px) {
+            .tm-header { flex-wrap: nowrap; height: 56px; }
+            .tm-header-tabs-wrap { 
+                width: auto; 
+                border-top: none; 
+                padding: 0;
+                flex-grow: 1;
+            }
+            .tm-header-tabs { min-width: auto; }
+            .tm-header-tab { 
+                padding: 19px 0;
+                margin-right: 26px;
+            }
+        }
+        
+        /* MAIN */
         .tm-main {
             margin: 0 auto;
-            width: 480px;
-            max-width: 100%;
-            padding: 80px 10px 70px;
+            width: 100%;
+            max-width: 1096px;
+            padding: 80px 16px 70px;
             flex-grow: 1;
         }
         @media (min-width: 768px) {
-            .tm-main {
-                width: 720px;
-                padding: 80px 0 70px;
-            }
+            .tm-main { padding: 90px 32px 70px; }
         }
-        @media (min-width: 1096px) {
-            .tm-main.tm-main-catalog {
-                width: 1096px;
-            }
-            .tm-main-catalog-wrap {
-                display: flex;
-                padding: 0 32px;
-            }
-            .tm-main-catalog-filters {
-                width: 294px;
-                padding-top: 30px;
-                margin-right: 30px;
-                flex-shrink: 0;
-            }
-            .tm-main-catalog-content {
-                flex-grow: 1;
-            }
-        }
-
-        .tm-section {
-            padding: 0 0 5px;
-        }
+        
         .tm-section-header {
             display: flex;
-            padding: 18px 0 9px;
+            padding: 18px 0 14px;
             width: 100%;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .tm-section-header-text {
             font-size: 18px;
@@ -215,21 +251,19 @@
             font-weight: bold;
             color: var(--header-color);
             margin: 0;
-            padding: 0 6px;
             flex-grow: 1;
-            display: flex;
-            align-items: center;
         }
-
-        /* Поиск */
+        @media (min-width: 768px) {
+            .tm-section-header-text { font-size: 22px; line-height: 36px; }
+        }
+        
+        /* SEARCH */
         .tm-search-field {
             border-radius: var(--def-border-radius);
             background: var(--field-bg-color);
             position: relative;
         }
-        .tm-main-search-form {
-            margin-bottom: 20px;
-        }
+        .tm-main-search-form { margin-bottom: 20px; }
         .tm-main-search-form .tm-search-input {
             height: auto;
             font-size: 14px;
@@ -242,10 +276,9 @@
             text-overflow: ellipsis;
             width: 100%;
             border-radius: var(--def-border-radius);
+            font-family: inherit;
         }
-        .tm-main-search-form .tm-search-input:focus {
-            outline: none;
-        }
+        .tm-main-search-form .tm-search-input:focus { outline: none; }
         .tm-main-search-form .icon-search:before {
             content: '';
             display: inline-block;
@@ -281,109 +314,85 @@
             visibility: hidden;
             opacity: 0;
         }
-
-        /* Фильтры */
-        .tm-main-filters-wrap {
-            display: block;
-        }
-        .tm-main-filters-box {
-            background-color: var(--table-bg-color);
+        
+        /* TABLE/OFFERS */
+        .tm-table-wrap {
             border-radius: var(--def-border-radius);
-            margin-top: 10px;
-            position: relative;
             overflow: hidden;
+            background: var(--table-bg-color);
         }
-        .tm-main-filters-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: normal;
-            position: relative;
-            padding: 12px 16px;
-            cursor: pointer;
-            margin: 0;
-            color: #fff;
-            font-size: 15px;
-        }
-        .tm-main-filters-header:after {
-            content: '';
-            margin-right: -5px;
-            margin-left: 6px;
-            width: 18px;
-            height: 18px;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m3.5 7.2 5.11 5.15c.2.19.52.19.71 0l5.18-5.15" fill="none" stroke="%23838f9c" stroke-linecap="round" stroke-width="1.8"/%3E%3C/svg%3E');
-            transition: transform .2s ease;
-        }
-        .tm-main-filters-box.opened .tm-main-filters-header:after {
-            transform: rotate(180deg);
-        }
-        .tm-main-filters-content {
-            transition: opacity .2s ease, visibility .2s ease, height .2s ease;
-        }
-        .tm-main-filters-box.closed .tm-main-filters-content {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            height: 0 !important;
-            overflow: hidden;
-        }
-        .tm-main-filters-item {
-            display: flex;
-            justify-content: space-between;
-            font-weight: normal;
-            position: relative;
-            padding: 10px 16px;
-            cursor: pointer;
-            margin: 0;
-            color: #fff;
-        }
-        .tm-main-filters-item:hover {
-            background-color: #293440;
-        }
-        .tm-main-filters-name {
-            font-size: 15px;
-            line-height: 18px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            flex-grow: 1;
-            color: #fff;
-        }
-        .tm-main-filters-count {
-            font-size: 15px;
-            line-height: 18px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
+        .tm-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
             color: var(--table-text-color);
         }
-        .tm-main-filters-search {
-            position: relative;
+        .tm-table thead th {
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: bold;
+            background-color: #293440;
+            padding: 10px 16px;
+            text-align: left;
+            color: var(--table-text-color);
+            border-bottom: none;
         }
-        .tm-main-filters-box .tm-input.tm-main-filter-search-field {
-            font-size: 15px;
-            line-height: 18px;
-            padding: 10px 42px 10px 16px;
-            border-radius: 0;
-            background-color: transparent;
-            border: none;
-            width: 100%;
-            color: #fff;
+        .tm-table tbody tr {
+            cursor: pointer;
+            transition: background .15s ease;
         }
-        .tm-main-filters-box .tm-input.tm-main-filter-search-field:focus {
-            outline: none;
+        .tm-table tbody tr:hover { background: #293440; }
+        .tm-table tbody td {
+            padding: 12px 16px;
+            border-top: 1px solid #1a2026;
+            font-size: 14px;
+            line-height: 19px;
+            vertical-align: middle;
         }
-        .tm-main-filters-box .tm-main-filters-search .tm-search-clear {
-            padding: 10px 11px;
+        .tm-table .tm-value {
+            font-weight: bold;
+            color: var(--value-color);
         }
-        .tm-main-filters-list {
-            max-height: 285px;
-            overflow-y: auto;
+        .tm-table .tm-value.icon-ton:before {
+            content: '';
+            display: inline-block;
+            vertical-align: top;
+            background-position: 0 center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            width: 13px;
+            height: 16px;
+            margin-right: 4px;
+            background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
-
-        /* Сетка каталога */
-        .tm-catalog-grid-wrap {
-            --gap: 5px;
+        .tm-status-badge {
+            display: inline-block;
+            font-size: 11px;
+            line-height: 16px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
         }
+        .tm-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.1); }
+        .tm-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.1); }
+        .tm-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.1); }
+        .tm-status-badge.premium { color: #ffd951; background: rgba(255,217,81,0.1); }
+        
+        .tm-wallet {
+            color: var(--accent-color);
+            font-family: monospace;
+        }
+        .tm-wallet:hover { text-decoration: underline; }
+        
+        @media (max-width: 767px) {
+            .tm-table thead th { font-size: 10px; padding: 8px 10px; }
+            .tm-table tbody td { font-size: 12px; padding: 8px 10px; }
+            .tm-table .hide-mobile { display: none; }
+        }
+        
+        /* GIFT CARDS */
+        .tm-catalog-grid-wrap { --gap: 5px; }
         .tm-catalog-grid {
             display: flex;
             flex-wrap: wrap;
@@ -404,12 +413,9 @@
             background-color: var(--table-bg-color);
             margin-bottom: var(--gap);
             cursor: pointer;
-            transition: background-color .2s ease;
+            transition: background .2s ease;
         }
-        .tm-catalog-grid .tm-grid-item:hover {
-            background-color: #293440;
-            text-decoration: none;
-        }
+        .tm-catalog-grid .tm-grid-item:hover { background: #293440; }
         .tm-catalog-grid .tm-grid-item a {
             text-decoration: none;
             color: inherit;
@@ -418,33 +424,22 @@
             flex-grow: 1;
         }
         @media (min-width: 768px) {
-            .tm-catalog-grid-wrap {
-                --gap: 12px;
-            }
-            .tm-catalog-grid .tm-grid-item {
-                min-width: 168px;
-                max-width: 168px;
-            }
+            .tm-catalog-grid-wrap { --gap: 12px; }
+            .tm-catalog-grid .tm-grid-item { min-width: 168px; max-width: 168px; }
         }
         .tm-grid-item-thumb {
             position: relative;
             background: #1a2026;
-        }
-        .tm-grid-thumb {
-            width: 100%;
-            vertical-align: top;
             aspect-ratio: 1;
-            display: block;
-            font-size: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #4db2ff;
-            background: #1a2026;
+            overflow: hidden;
         }
-        .tm-grid-thumb .tm-grid-item-emoji {
-            font-size: 48px;
-            line-height: 1;
+        .tm-grid-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .tm-grid-item-content {
             text-align: center;
@@ -459,12 +454,9 @@
             justify-content: center;
             white-space: nowrap;
         }
-        .tm-grid-item-name .item-name {
-            flex-shrink: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .tm-grid-item-content .tm-grid-item-desc {
+        .tm-grid-item-name .item-name { overflow: hidden; text-overflow: ellipsis; }
+        .tm-grid-item-name .item-num { flex-shrink: 0; }
+        .tm-grid-item-desc {
             font-size: 13px;
             line-height: 19px;
             color: var(--table-text-color);
@@ -485,53 +477,7 @@
             font-weight: bold;
             color: var(--value-color);
         }
-        .tm-grid-item-status {
-            display: inline-block;
-            font-size: 10px;
-            line-height: 13px;
-            font-weight: bold;
-            padding: 2px 5px;
-            vertical-align: top;
-            border-radius: 5px;
-            white-space: nowrap;
-        }
-        .tm-status-avail {
-            color: #5aec8c;
-            background-color: rgba(90, 236, 140, .1);
-        }
-        .tm-status-taken {
-            color: #ff9953;
-            background-color: rgba(255, 153, 83, .1);
-        }
-        .tm-status-unavail {
-            color: #ff5863;
-            background-color: rgba(255, 88, 99, .1);
-        }
-        @media (min-width: 768px) {
-            .tm-grid-item-content {
-                padding: 10px 10px 13px;
-            }
-            .tm-grid-item-values {
-                line-height: 20px;
-                padding: 7px 0 0;
-            }
-            .tm-grid-item-value.tm-value {
-                font-size: 14px;
-            }
-            .tm-grid-item-status {
-                font-size: 13px;
-                line-height: 16px;
-                padding: 2px 6px;
-            }
-            .tm-grid-thumb {
-                font-size: 64px;
-            }
-            .tm-grid-thumb .tm-grid-item-emoji {
-                font-size: 64px;
-            }
-        }
-
-        .tm-value.icon-before.icon-ton:before {
+        .tm-grid-item-value.tm-value.icon-ton:before {
             content: '';
             display: inline-block;
             vertical-align: top;
@@ -543,13 +489,80 @@
             margin-right: 2px;
             background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
-
-        /* Подвал */
+        .tm-grid-item-status {
+            display: inline-block;
+            font-size: 10px;
+            line-height: 13px;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+        .tm-grid-item-status.avail { color: #5aec8c; background: rgba(90,236,140,0.1); }
+        .tm-grid-item-status.sold { color: #ff5863; background: rgba(255,88,99,0.1); }
+        .tm-grid-item-status.taken { color: #ff9953; background: rgba(255,153,83,0.1); }
+        
+        @media (min-width: 768px) {
+            .tm-grid-item-content { padding: 10px 10px 13px; }
+            .tm-grid-item-values { line-height: 20px; padding: 7px 0 0; }
+            .tm-grid-item-value.tm-value { font-size: 14px; }
+            .tm-grid-item-status { font-size: 13px; line-height: 16px; padding: 2px 6px; }
+        }
+        
+        /* FILTERS */
+        .tm-main-filters-wrap { margin-bottom: 20px; }
+        .tm-main-filters-box {
+            background-color: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            overflow: hidden;
+        }
+        .tm-main-filters-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 15px;
+            font-weight: normal;
+            user-select: none;
+        }
+        .tm-main-filters-header:after {
+            content: '';
+            width: 18px;
+            height: 18px;
+            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m3.5 7.2 5.11 5.15c.2.19.52.19.71 0l5.18-5.15" fill="none" stroke="%23838f9c" stroke-linecap="round" stroke-width="1.8"/%3E%3C/svg%3E');
+            transition: transform .2s ease;
+        }
+        .tm-main-filters-box.opened .tm-main-filters-header:after { transform: rotate(180deg); }
+        .tm-main-filters-content {
+            transition: opacity .2s ease, max-height .3s ease;
+            overflow: hidden;
+            max-height: 500px;
+        }
+        .tm-main-filters-box.closed .tm-main-filters-content {
+            opacity: 0;
+            max-height: 0;
+            pointer-events: none;
+        }
+        .tm-main-filters-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 16px;
+            cursor: pointer;
+            color: #fff;
+            border-top: 1px solid #1a2026;
+            transition: background .15s ease;
+        }
+        .tm-main-filters-item:hover { background: #293440; }
+        .tm-main-filters-item.selected { background: #248bda; color: #fff; }
+        .tm-main-filters-name { font-size: 15px; line-height: 18px; }
+        .tm-main-filters-count { font-size: 15px; line-height: 18px; color: var(--table-text-color); }
+        .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
+        
+        /* FOOTER */
         .tm-footer {
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
             background-color: #111417;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .tm-footer-links {
             display: flex;
@@ -557,318 +570,548 @@
             line-height: 16px;
             padding: 14px 20px;
             justify-content: center;
+            gap: 32px;
         }
-        .tm-footer-link + .tm-footer-link {
-            margin-left: 32px;
-        }
-        .tm-footer-link,
-        .tm-footer-link:hover {
+        .tm-footer-link, .tm-footer-link:hover {
             color: #6d8394;
             text-decoration: none;
         }
-        .tm-footer-link:hover {
-            text-decoration: underline;
+        .tm-footer-link:hover { text-decoration: underline; }
+        
+        /* POPUP */
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: opacity .2s ease;
         }
-
-        /* Адаптив */
-        @media (max-width: 767px) {
-            .tm-header-actions .tm-header-button .tm-button-label {
-                display: none;
-            }
-            .tm-header-actions .tm-header-button .icon-connect-ton {
-                margin-right: 0;
-            }
-            .tm-main-search-form .tm-search-input {
-                font-size: 14px;
-                padding: 10px 38px 10px 42px;
-            }
-            .tm-search-field:before {
-                margin: 10px 12px 10px 16px;
-            }
-            .tm-search-field:before .icon-search:before {
-                width: 14px;
-                height: 16px;
-            }
+        .popup-container.hide {
+            opacity: 0;
+            pointer-events: none;
         }
+        .popup {
+            background: var(--bg-color);
+            border-radius: 12px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            color: #fff;
+            transform: scale(0.95);
+            transition: transform .2s ease;
+        }
+        .popup-container.hide .popup { transform: scale(0.95); }
+        .popup-container:not(.hide) .popup { transform: scale(1); }
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-color);
+            background: none;
+            border: none;
+            padding: 0 0 10px 10px;
+        }
+        .popup-close:hover { color: #fff; }
+        .popup h2 { margin: 0 0 10px; font-size: 24px; }
+        .popup .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .popup .detail-label { color: var(--table-text-color); }
+        .popup .detail-value { font-weight: bold; color: var(--value-color); }
+        .popup .btn-primary {
+            display: inline-block;
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--def-border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .popup .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
+        
+        .section-hidden { display: none; }
+        .section-active { display: block; }
     </style>
 </head>
 <body>
-    <div id="aj_content">
-        <!-- Header -->
-        <header class="tm-header">
-            <div class="tm-header-logo">
-                <a href="#" class="tm-logo">
-                    <i class="tm-logo-icon"></i>
-                    <i class="tm-logo-text"></i>
-                </a>
+
+<!-- HEADER -->
+<header class="tm-header">
+    <div class="tm-header-logo">
+        <a href="#" class="tm-logo" id="logo-home">
+            <i class="tm-logo-icon"></i>
+            <i class="tm-logo-text"></i>
+        </a>
+    </div>
+    <div class="tm-header-body">
+        <div class="tm-header-tabs-wrap">
+            <div class="tm-header-tabs">
+                <button class="tm-header-tab tab-active" data-section="offers">Usernames</button>
+                <button class="tm-header-tab" data-section="numbers">Numbers</button>
+                <button class="tm-header-tab" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
+                <button class="tm-header-tab" data-section="stars">Stars</button>
+                <button class="tm-header-tab" data-section="premium">Premium</button>
+                <button class="tm-header-tab" data-section="ads">Ads</button>
             </div>
-            <div class="tm-header-body"></div>
-            <div class="tm-header-actions">
-                <button class="tm-header-button">
-                    <i class="icon-connect-telegram"></i>
-                    <span class="tm-button-label">Connect Telegram</span>
-                </button>
-                <button class="tm-header-button" style="margin-left:14px;">
-                    <i class="icon-connect-ton"></i>
-                    <span class="tm-button-label">Connect TON</span>
-                </button>
+        </div>
+    </div>
+    <div class="tm-header-actions">
+        <button class="tm-header-button">
+            <i class="icon-connect-telegram"></i>
+            <span class="tm-button-label">Telegram</span>
+        </button>
+        <button class="tm-header-button">
+            <i class="icon-connect-ton"></i>
+            <span class="tm-button-label">Connect TON</span>
+        </button>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="tm-main">
+
+    <!-- SECTION: OFFERS (Usernames + Numbers как офферы) -->
+    <div id="section-offers" class="section-active">
+        <div class="tm-main-search-form">
+            <div class="tm-search-field icon-before icon-search">
+                <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
+                <div class="tm-search-clear"></div>
             </div>
-        </header>
-
-        <!-- Main -->
-        <main class="tm-main tm-main-catalog">
-            <div class="tm-main-catalog-wrap">
-                <!-- Фильтры -->
-                <div class="tm-main-catalog-filters">
-                    <div class="tm-main-filters-wrap">
-                        <div class="tm-main-filters-box closed">
-                            <div class="tm-main-filters-header js-filters-toggle">
-                                <span>Filter</span>
-                                <span class="tm-main-filters-count" id="filter-count">All</span>
-                            </div>
-                            <div class="tm-main-filters-content">
-                                <div class="tm-main-filters-search">
-                                    <input type="text" class="tm-input tm-main-filter-search-field" placeholder="Search filters..." id="filter-search">
-                                    <div class="tm-search-clear"></div>
-                                </div>
-                                <div class="tm-main-filters-list" id="filter-list">
-                                    <div class="tm-main-filters-item" data-filter="all">
-                                        <span class="tm-main-filters-name">All Items</span>
-                                        <span class="tm-main-filters-count" id="count-all">0</span>
-                                    </div>
-                                    <div class="tm-main-filters-item" data-filter="username">
-                                        <span class="tm-main-filters-name">Usernames</span>
-                                        <span class="tm-main-filters-count" id="count-username">0</span>
-                                    </div>
-                                    <div class="tm-main-filters-item" data-filter="number">
-                                        <span class="tm-main-filters-name">+888 Numbers</span>
-                                        <span class="tm-main-filters-count" id="count-number">0</span>
-                                    </div>
-                                    <div class="tm-main-filters-item" data-filter="premium">
-                                        <span class="tm-main-filters-name">Premium</span>
-                                        <span class="tm-main-filters-count" id="count-premium">0</span>
-                                    </div>
-                                    <div class="tm-main-filters-item" data-filter="nft">
-                                        <span class="tm-main-filters-name">NFT</span>
-                                        <span class="tm-main-filters-count" id="count-nft">0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Контент -->
-                <div class="tm-main-catalog-content">
-                    <!-- Поиск -->
-                    <div class="tm-main-search-form">
-                        <div class="tm-search-field icon-before icon-search">
-                            <input type="search" class="tm-search-input" placeholder="Search usernames or numbers" id="search-input" autocomplete="off">
-                            <div class="tm-search-clear"></div>
-                        </div>
-                    </div>
-
-                    <!-- Заголовок -->
-                    <div class="tm-section">
-                        <div class="tm-section-header">
-                            <h3 class="tm-section-header-text">Popular Usernames &amp; Numbers</h3>
-                        </div>
-                    </div>
-
-                    <!-- Сетка -->
-                    <div class="tm-catalog-grid-wrap">
-                        <div class="tm-catalog-grid" id="catalog-grid">
-                            <!-- Карточки будут добавлены через JS -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="tm-footer">
-            <div class="tm-footer-links">
-                <a href="#" class="tm-footer-link">Top Auctions</a>
-                <a href="#" class="tm-footer-link">About</a>
-                <a href="#" class="tm-footer-link">Terms</a>
-                <a href="#" class="tm-footer-link">Privacy</a>
-            </div>
-        </footer>
+        </div>
+        
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">Username Offers</h3>
+            <div style="font-size:13px;color:var(--table-text-color);">Buy instantly or place a bid</div>
+        </div>
+        
+        <div class="tm-table-wrap">
+            <table class="tm-table">
+                <thead>
+                    <tr>
+                        <th style="width:25%;">Username</th>
+                        <th style="width:25%;">Type</th>
+                        <th style="width:20%;">Price</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;" class="hide-mobile">Listed</th>
+                    </tr>
+                </thead>
+                <tbody id="offers-table-body">
+                    <!-- JS рендерит -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <script>
-        // Данные для каталога
-        const items = [
-            // Usernames
-            { id: 1, type: 'username', name: 'middlemen', emoji: '🤝', price: 8888, status: 'avail', label: 'On auction' },
-            { id: 2, type: 'username', name: 'heal', emoji: '💊', price: 4444, status: 'avail', label: 'On auction' },
-            { id: 3, type: 'username', name: 'tier', emoji: '🏆', price: 3333, status: 'avail', label: 'On auction' },
-            { id: 4, type: 'username', name: 'failed', emoji: '❌', price: 2222, status: 'taken', label: 'Taken' },
-            { id: 5, type: 'username', name: 'cloud', emoji: '☁️', price: 5000, status: 'avail', label: 'On auction' },
-            { id: 6, type: 'username', name: 'storm', emoji: '🌩️', price: 3200, status: 'avail', label: 'On auction' },
-            { id: 7, type: 'username', name: 'shadow', emoji: '🌑', price: 2800, status: 'taken', label: 'Taken' },
-            { id: 8, type: 'username', name: 'light', emoji: '💡', price: 1900, status: 'avail', label: 'On auction' },
-            { id: 9, type: 'username', name: 'phantom', emoji: '👻', price: 4500, status: 'avail', label: 'On auction' },
-            { id: 10, type: 'username', name: 'cyber', emoji: '💻', price: 3800, status: 'avail', label: 'On auction' },
-            { id: 11, type: 'username', name: 'matrix', emoji: '🧊', price: 6100, status: 'avail', label: 'On auction' },
-            { id: 12, type: 'username', name: 'neon', emoji: '🌈', price: 2700, status: 'avail', label: 'On auction' },
-            { id: 13, type: 'username', name: 'vortex', emoji: '🌀', price: 3400, status: 'avail', label: 'On auction' },
-            { id: 14, type: 'username', name: 'echo', emoji: '🔊', price: 1600, status: 'avail', label: 'On auction' },
-            { id: 15, type: 'username', name: 'nova', emoji: '🌟', price: 5200, status: 'avail', label: 'On auction' },
-            
-            // +888 Numbers
-            { id: 101, type: 'number', name: '+888 123 4567', emoji: '📱', price: 1200, status: 'avail', label: 'On auction' },
-            { id: 102, type: 'number', name: '+888 777 8888', emoji: '📱', price: 2500, status: 'avail', label: 'On auction' },
-            { id: 103, type: 'number', name: '+888 999 0000', emoji: '📱', price: 1800, status: 'taken', label: 'Taken' },
-            { id: 104, type: 'number', name: '+888 555 1234', emoji: '📱', price: 900, status: 'avail', label: 'On auction' },
-            { id: 105, type: 'number', name: '+888 666 9999', emoji: '📱', price: 3200, status: 'avail', label: 'On auction' },
-            { id: 106, type: 'number', name: '+888 111 2222', emoji: '📱', price: 1500, status: 'avail', label: 'On auction' },
-            { id: 107, type: 'number', name: '+888 444 7777', emoji: '📱', price: 2800, status: 'avail', label: 'On auction' },
-            { id: 108, type: 'number', name: '+888 888 1111', emoji: '📱', price: 4000, status: 'avail', label: 'On auction' },
-            { id: 109, type: 'number', name: '+888 222 3333', emoji: '📱', price: 1100, status: 'avail', label: 'On auction' },
-            { id: 110, type: 'number', name: '+888 000 9999', emoji: '📱', price: 2100, status: 'avail', label: 'On auction' },
-            
-            // Premium/NFT
-            { id: 201, type: 'premium', name: '@premium', emoji: '⭐', price: 15000, status: 'avail', label: 'Premium' },
-            { id: 202, type: 'nft', name: 'NFT #1', emoji: '🎨', price: 8800, status: 'avail', label: 'NFT' },
-            { id: 203, type: 'nft', name: 'NFT #2', emoji: '🖼️', price: 7200, status: 'avail', label: 'NFT' },
-            { id: 204, type: 'premium', name: '@elite', emoji: '👑', price: 12000, status: 'taken', label: 'Taken' },
-            { id: 205, type: 'nft', name: 'NFT #3', emoji: '💎', price: 9500, status: 'avail', label: 'NFT' },
-            { id: 206, type: 'premium', name: '@legend', emoji: '🏅', price: 18000, status: 'avail', label: 'Premium' },
-        ];
+    <!-- SECTION: NUMBERS (+888 офферы) -->
+    <div id="section-numbers" class="section-hidden">
+        <div class="tm-main-search-form">
+            <div class="tm-search-field icon-before icon-search">
+                <input type="search" class="tm-search-input" placeholder="Search numbers..." id="search-numbers" autocomplete="off">
+                <div class="tm-search-clear"></div>
+            </div>
+        </div>
+        
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">+888 Numbers</h3>
+            <div style="font-size:13px;color:var(--table-text-color);">Virtual numbers on auction</div>
+        </div>
+        
+        <div class="tm-table-wrap">
+            <table class="tm-table">
+                <thead>
+                    <tr>
+                        <th style="width:25%;">Number</th>
+                        <th style="width:25%;">Type</th>
+                        <th style="width:20%;">Price</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;" class="hide-mobile">Listed</th>
+                    </tr>
+                </thead>
+                <tbody id="numbers-table-body">
+                    <!-- JS рендерит -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        // Функция рендеринга
-        function renderItems(filterType = 'all', searchQuery = '') {
-            const grid = document.getElementById('catalog-grid');
-            const filtered = items.filter(item => {
-                const matchType = filterType === 'all' || item.type === filterType;
-                const matchSearch = searchQuery === '' || 
-                    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    item.name.includes(searchQuery);
-                return matchType && matchSearch;
-            });
-
-            // Обновляем счетчики
-            updateCounts();
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">
-                        No items found matching your criteria.
+    <!-- SECTION: GIFTS (карточки как на Fragment) -->
+    <div id="section-gifts" class="section-hidden">
+        <div class="tm-main-search-form">
+            <div class="tm-search-field icon-before icon-search">
+                <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
+                <div class="tm-search-clear"></div>
+            </div>
+        </div>
+        
+        <div class="tm-main-filters-wrap">
+            <div class="tm-main-filters-box opened" id="gift-filters">
+                <div class="tm-main-filters-header" id="gift-filters-toggle">
+                    <span>Collections</span>
+                    <span class="tm-main-filters-count" id="gift-filter-count">All</span>
+                </div>
+                <div class="tm-main-filters-content" id="gift-filter-content">
+                    <div class="tm-main-filters-item selected" data-collection="all">
+                        <span class="tm-main-filters-name">All Collections</span>
+                        <span class="tm-main-filters-count">0</span>
                     </div>
-                `;
-                return;
-            }
+                    <!-- JS добавит коллекции -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">Top Gifts</h3>
+            <div style="font-size:13px;color:var(--table-text-color);">Limited edition Telegram gifts</div>
+        </div>
+        
+        <div class="tm-catalog-grid-wrap">
+            <div class="tm-catalog-grid" id="gifts-grid">
+                <!-- JS рендерит карточки -->
+            </div>
+        </div>
+    </div>
 
-            grid.innerHTML = filtered.map(item => {
-                const statusClass = item.status === 'avail' ? 'tm-status-avail' : 
-                                   item.status === 'taken' ? 'tm-status-taken' : 'tm-status-unavail';
-                const priceFormatted = item.price.toLocaleString();
-                return `
-                    <div class="tm-grid-item" data-type="${item.type}" data-name="${item.name}">
-                        <a href="#">
-                            <div class="tm-grid-item-thumb">
-                                <div class="tm-grid-thumb">
-                                    <span class="tm-grid-item-emoji">${item.emoji}</span>
-                                </div>
-                            </div>
-                            <div class="tm-grid-item-content">
-                                <div class="tm-grid-item-name">
-                                    <span class="item-name">${item.name}</span>
-                                </div>
-                                <div class="tm-grid-item-desc">
-                                    ${item.type === 'username' ? '@' + item.name : item.type === 'number' ? 'Virtual Number' : item.type === 'premium' ? 'Premium' : 'Collectible'}
-                                </div>
-                                <div class="tm-grid-item-values">
-                                    <span class="tm-grid-item-value tm-value icon-before icon-ton">${priceFormatted}</span>
-                                    <span class="tm-grid-item-status ${statusClass}">${item.label}</span>
-                                </div>
-                            </div>
-                        </a>
+    <!-- SECTION: STARS (заглушка) -->
+    <div id="section-stars" class="section-hidden">
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">⭐ Telegram Stars</h3>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+            <div style="font-size:48px;margin-bottom:16px;">⭐</div>
+            <div style="font-size:18px;color:#fff;">Stars Marketplace</div>
+            <div style="font-size:14px;margin-top:8px;">Buy and sell Telegram Stars with TON</div>
+            <div style="margin-top:20px;font-size:13px;color:var(--text-color);">Coming soon</div>
+        </div>
+    </div>
+
+    <!-- SECTION: PREMIUM (заглушка) -->
+    <div id="section-premium" class="section-hidden">
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">👑 Telegram Premium</h3>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+            <div style="font-size:48px;margin-bottom:16px;">👑</div>
+            <div style="font-size:18px;color:#fff;">Premium Subscriptions</div>
+            <div style="font-size:14px;margin-top:8px;">Gift Telegram Premium to others</div>
+            <div style="margin-top:20px;font-size:13px;color:var(--text-color);">Coming soon</div>
+        </div>
+    </div>
+
+    <!-- SECTION: ADS (заглушка) -->
+    <div id="section-ads" class="section-hidden">
+        <div class="tm-section-header">
+            <h3 class="tm-section-header-text">📢 Telegram Ads</h3>
+        </div>
+        <div style="padding:40px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+            <div style="font-size:48px;margin-bottom:16px;">📢</div>
+            <div style="font-size:18px;color:#fff;">Ad Credits</div>
+            <div style="font-size:14px;margin-top:8px;">Purchase advertising credits for Telegram</div>
+            <div style="margin-top:20px;font-size:13px;color:var(--text-color);">Coming soon</div>
+        </div>
+    </div>
+
+</main>
+
+<!-- DETAIL POPUP -->
+<div class="popup-container hide" id="detail-popup">
+    <div class="popup">
+        <button class="popup-close" id="popup-close">&times;</button>
+        <h2 id="popup-title">@username</h2>
+        <div id="popup-body">
+            <div class="detail-row"><span class="detail-label">Type</span><span class="detail-value" id="popup-type">Username</span></div>
+            <div class="detail-row"><span class="detail-label">Price</span><span class="detail-value" id="popup-price">0 TON</span></div>
+            <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value" id="popup-status">Available</span></div>
+            <div class="detail-row"><span class="detail-label">Listed</span><span class="detail-value" id="popup-date">Today</span></div>
+            <button class="btn-primary" id="popup-action">Place Bid</button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="tm-footer">
+    <div class="tm-footer-links">
+        <a href="#" class="tm-footer-link">Top Auctions</a>
+        <a href="#" class="tm-footer-link">About</a>
+        <a href="#" class="tm-footer-link">Terms</a>
+        <a href="#" class="tm-footer-link">Privacy</a>
+    </div>
+</footer>
+
+<script>
+// ========== DATA ==========
+const offersData = [
+    { id: 1, name: 'middlemen', type: 'Username', price: 8888, status: 'avail', label: 'On auction', date: 'Sep 7, 2025' },
+    { id: 2, name: 'heal', type: 'Username', price: 4444, status: 'avail', label: 'On auction', date: 'Sep 5, 2025' },
+    { id: 3, name: 'tier', type: 'Username', price: 3333, status: 'avail', label: 'On auction', date: 'Sep 5, 2025' },
+    { id: 4, name: 'failed', type: 'Username', price: 2222, status: 'taken', label: 'Taken', date: 'Sep 4, 2025' },
+    { id: 5, name: 'cloud', type: 'Username', price: 5000, status: 'avail', label: 'On auction', date: 'Sep 3, 2025' },
+    { id: 6, name: 'storm', type: 'Username', price: 3200, status: 'avail', label: 'On auction', date: 'Sep 2, 2025' },
+    { id: 7, name: 'shadow', type: 'Username', price: 2800, status: 'avail', label: 'On auction', date: 'Sep 1, 2025' },
+    { id: 8, name: 'light', type: 'Username', price: 1900, status: 'avail', label: 'On auction', date: 'Aug 31, 2025' },
+    { id: 9, name: 'phantom', type: 'Username', price: 4500, status: 'avail', label: 'On auction', date: 'Aug 30, 2025' },
+    { id: 10, name: 'cyber', type: 'Username', price: 3800, status: 'avail', label: 'On auction', date: 'Aug 29, 2025' },
+    { id: 11, name: 'matrix', type: 'Username', price: 6100, status: 'avail', label: 'On auction', date: 'Aug 28, 2025' },
+    { id: 12, name: 'neon', type: 'Username', price: 2700, status: 'avail', label: 'On auction', date: 'Aug 27, 2025' },
+];
+
+const numbersData = [
+    { id: 101, name: '+888 123 4567', type: 'Number', price: 1200, status: 'avail', label: 'On auction', date: 'Sep 6, 2025' },
+    { id: 102, name: '+888 777 8888', type: 'Number', price: 2500, status: 'avail', label: 'On auction', date: 'Sep 5, 2025' },
+    { id: 103, name: '+888 999 0000', type: 'Number', price: 1800, status: 'taken', label: 'Taken', date: 'Sep 4, 2025' },
+    { id: 104, name: '+888 555 1234', type: 'Number', price: 900, status: 'avail', label: 'On auction', date: 'Sep 3, 2025' },
+    { id: 105, name: '+888 666 9999', type: 'Number', price: 3200, status: 'avail', label: 'On auction', date: 'Sep 2, 2025' },
+    { id: 106, name: '+888 111 2222', type: 'Number', price: 1500, status: 'avail', label: 'On auction', date: 'Sep 1, 2025' },
+    { id: 107, name: '+888 444 7777', type: 'Number', price: 2800, status: 'avail', label: 'On auction', date: 'Aug 31, 2025' },
+    { id: 108, name: '+888 888 1111', type: 'Number', price: 4000, status: 'avail', label: 'On auction', date: 'Aug 30, 2025' },
+];
+
+const giftsData = [
+    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg' },
+    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg' },
+    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg' },
+    { id: 4, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1521', price: 28555, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1521.medium.jpg' },
+    { id: 5, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#318', price: 23519, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-318.medium.jpg' },
+    { id: 6, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg' },
+    { id: 7, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg' },
+    { id: 8, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg' },
+    { id: 9, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg' },
+    { id: 10, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg' },
+    { id: 11, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg' },
+    { id: 12, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg' },
+];
+
+const collections = [
+    'All Collections', 'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 
+    'Scared Cats', 'Loot Bags', 'Sakura Flowers', 'Low Riders', 'Snoop Doggs'
+];
+
+// ========== RENDER FUNCTIONS ==========
+function renderOffers(data, search = '') {
+    const filtered = data.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.type.toLowerCase().includes(search.toLowerCase())
+    );
+    const tbody = document.getElementById('offers-table-body');
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--table-text-color);">No offers found</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = filtered.map(item => `
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, '${item.status}', '${item.label}', '${item.date}')">
+            <td><strong style="color:#fff;">@${item.name}</strong></td>
+            <td>${item.type}</td>
+            <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
+            <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
+            <td class="hide-mobile">${item.date}</td>
+        </tr>
+    `).join('');
+}
+
+function renderNumbers(data, search = '') {
+    const filtered = data.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.type.toLowerCase().includes(search.toLowerCase())
+    );
+    const tbody = document.getElementById('numbers-table-body');
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--table-text-color);">No numbers found</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = filtered.map(item => `
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, '${item.status}', '${item.label}', '${item.date}')">
+            <td><strong style="color:#fff;">${item.name}</strong></td>
+            <td>${item.type}</td>
+            <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
+            <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
+            <td class="hide-mobile">${item.date}</td>
+        </tr>
+    `).join('');
+}
+
+function renderGifts(data, collection = 'all', search = '') {
+    const filtered = data.filter(item => {
+        const matchCollection = collection === 'all' || item.collection === collection;
+        const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
+                            item.collection.toLowerCase().includes(search.toLowerCase());
+        return matchCollection && matchSearch;
+    });
+    const grid = document.getElementById('gifts-grid');
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`;
+        return;
+    }
+    grid.innerHTML = filtered.map(item => `
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, '${item.status}', '${item.label}', 'Today')">
+            <a href="#">
+                <div class="tm-grid-item-thumb">
+                    <img src="${item.image}" class="tm-grid-thumb" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23212a33%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
+                    <div class="tm-grid-item-num thin-only" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.5);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
+                </div>
+                <div class="tm-grid-item-content">
+                    <div class="tm-grid-item-name wide-only">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-num">&nbsp;${item.num}</span>
                     </div>
-                `;
-            }).join('');
-        }
+                    <div class="tm-grid-item-desc wide-only">${item.collection}</div>
+                    <div class="tm-grid-item-values">
+                        <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
+                        <div class="tm-grid-item-status ${item.status}">${item.label}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    `).join('');
+}
 
-        // Подсчет количества
-        function updateCounts() {
-            const counts = {
-                all: items.length,
-                username: items.filter(i => i.type === 'username').length,
-                number: items.filter(i => i.type === 'number').length,
-                premium: items.filter(i => i.type === 'premium').length,
-                nft: items.filter(i => i.type === 'nft').length,
-            };
-            document.getElementById('count-all').textContent = counts.all;
-            document.getElementById('count-username').textContent = counts.username;
-            document.getElementById('count-number').textContent = counts.number;
-            document.getElementById('count-premium').textContent = counts.premium;
-            document.getElementById('count-nft').textContent = counts.nft;
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            let currentFilter = 'all';
-            let currentSearch = '';
-
-            renderItems(currentFilter, currentSearch);
-
-            // Фильтры
-            const filterItems = document.querySelectorAll('.tm-main-filters-item');
-            filterItems.forEach(el => {
-                el.addEventListener('click', function() {
-                    const filter = this.dataset.filter;
-                    currentFilter = filter;
-                    document.querySelectorAll('.tm-main-filters-item').forEach(f => f.style.background = '');
-                    this.style.background = '#248bda';
-                    renderItems(currentFilter, currentSearch);
-                });
-            });
-            // По умолчанию выбираем "All"
-            document.querySelector('.tm-main-filters-item[data-filter="all"]').style.background = '#248bda';
-
-            // Toggle фильтров
-            const filtersToggle = document.querySelector('.js-filters-toggle');
-            const filtersBox = document.querySelector('.tm-main-filters-box');
-            filtersToggle.addEventListener('click', function() {
-                filtersBox.classList.toggle('closed');
-                filtersBox.classList.toggle('opened');
-            });
-
-            // Поиск
-            const searchInput = document.getElementById('search-input');
-            const searchClear = document.querySelector('.tm-main-search-form .tm-search-clear');
-            searchInput.addEventListener('input', function() {
-                currentSearch = this.value;
-                renderItems(currentFilter, currentSearch);
-            });
-            searchClear.addEventListener('click', function() {
-                searchInput.value = '';
-                currentSearch = '';
-                renderItems(currentFilter, currentSearch);
-                searchInput.focus();
-            });
-
-            // Поиск в фильтрах
-            const filterSearch = document.getElementById('filter-search');
-            filterSearch.addEventListener('input', function() {
-                const q = this.value.toLowerCase();
-                document.querySelectorAll('.tm-main-filters-item').forEach(el => {
-                    const name = el.querySelector('.tm-main-filters-name').textContent.toLowerCase();
-                    el.style.display = name.includes(q) ? 'flex' : 'none';
-                });
-            });
-
-            // Клик по карточке
-            document.addEventListener('click', function(e) {
-                const item = e.target.closest('.tm-grid-item');
-                if (item) {
-                    e.preventDefault();
-                    const name = item.dataset.name;
-                    alert('You clicked on: ' + name + '\nThis would navigate to the auction page.');
-                }
-            });
+function renderFilterCollections(data) {
+    const container = document.getElementById('gift-filter-content');
+    const collectionsMap = {};
+    data.forEach(item => {
+        collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1;
+    });
+    
+    let html = `<div class="tm-main-filters-item selected" data-collection="all">
+        <span class="tm-main-filters-name">All Collections</span>
+        <span class="tm-main-filters-count">${data.length}</span>
+    </div>`;
+    
+    Object.keys(collectionsMap).sort().forEach(name => {
+        html += `<div class="tm-main-filters-item" data-collection="${name}">
+            <span class="tm-main-filters-name">${name}</span>
+            <span class="tm-main-filters-count">${collectionsMap[name]}</span>
+        </div>`;
+    });
+    
+    container.innerHTML = html;
+    
+    // Обновляем счетчик в заголовке
+    document.getElementById('gift-filter-count').textContent = data.length;
+    
+    // Клики по фильтрам
+    container.querySelectorAll('.tm-main-filters-item').forEach(el => {
+        el.addEventListener('click', function() {
+            container.querySelectorAll('.tm-main-filters-item').forEach(f => f.classList.remove('selected'));
+            this.classList.add('selected');
+            const collection = this.dataset.collection;
+            const search = document.getElementById('search-gifts').value;
+            renderGifts(giftsData, collection, search);
         });
-    </script>
+    });
+}
+
+// ========== DETAIL POPUP ==========
+function openDetail(name, type, price, status, label, date) {
+    document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
+    document.getElementById('popup-type').textContent = type;
+    document.getElementById('popup-price').textContent = price.toLocaleString() + ' TON';
+    document.getElementById('popup-status').textContent = label;
+    document.getElementById('popup-date').textContent = date || 'Today';
+    document.getElementById('detail-popup').classList.remove('hide');
+}
+
+document.getElementById('popup-close').addEventListener('click', function() {
+    document.getElementById('detail-popup').classList.add('hide');
+});
+
+document.getElementById('detail-popup').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.add('hide');
+});
+
+document.getElementById('popup-action').addEventListener('click', function() {
+    alert('Bid placed! (demo)');
+    document.getElementById('detail-popup').classList.add('hide');
+});
+
+// ========== TABS ==========
+document.querySelectorAll('.tm-header-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
+        this.classList.add('tab-active');
+        
+        const section = this.dataset.section;
+        document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
+            el.classList.remove('section-active', 'section-hidden');
+            el.style.display = 'none';
+        });
+        
+        const target = document.getElementById('section-' + section);
+        if (target) {
+            target.style.display = 'block';
+            target.classList.add('section-active');
+        }
+    });
+});
+
+// ========== SEARCH ==========
+document.getElementById('search-offers').addEventListener('input', function() {
+    renderOffers(offersData, this.value);
+});
+
+document.getElementById('search-numbers').addEventListener('input', function() {
+    renderNumbers(numbersData, this.value);
+});
+
+document.getElementById('search-gifts').addEventListener('input', function() {
+    const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
+    const collection = selected ? selected.dataset.collection : 'all';
+    renderGifts(giftsData, collection, this.value);
+});
+
+// Clear search
+document.querySelectorAll('.tm-search-clear').forEach(clear => {
+    clear.addEventListener('click', function() {
+        const input = this.parentElement.querySelector('input');
+        if (input) {
+            input.value = '';
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        }
+    });
+});
+
+// ========== FILTER TOGGLE ==========
+document.getElementById('gift-filters-toggle').addEventListener('click', function() {
+    const box = document.getElementById('gift-filters');
+    box.classList.toggle('opened');
+    box.classList.toggle('closed');
+});
+
+// ========== INIT ==========
+renderOffers(offersData);
+renderNumbers(numbersData);
+renderGifts(giftsData);
+renderFilterCollections(giftsData);
+
+// Logo home
+document.getElementById('logo-home').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
+    document.querySelector('.tm-header-tab[data-section="offers"]').classList.add('tab-active');
+    document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
+        el.classList.remove('section-active', 'section-hidden');
+        el.style.display = 'none';
+    });
+    const target = document.getElementById('section-offers');
+    target.style.display = 'block';
+    target.classList.add('section-active');
+});
+</script>
+
 </body>
 </html>
