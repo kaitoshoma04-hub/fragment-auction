@@ -528,6 +528,20 @@
             background: #293440;
             transform: translateY(-2px);
         }
+        .tm-catalog-grid .tm-grid-item a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        @media (max-width: 767px) {
+            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(50% - var(--gap)); min-width: 120px; }
+            .tm-catalog-grid-wrap { --gap: 8px; }
+        }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(25% - var(--gap)); }
+        }
         .tm-grid-item-thumb {
             position: relative;
             background: #1a2026;
@@ -698,7 +712,7 @@
         .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* PREMIUM */
+        /* PREMIUM - исправленный */
         .tm-form-radio-items {
             display: flex;
             gap: 12px;
@@ -1165,10 +1179,6 @@
         }
         .tm-wallet .head { color: var(--accent-color); }
         .tm-wallet .tail { color: var(--table-text-color); }
-        
-        .tm-grid-item {
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -1336,7 +1346,7 @@
         </div>
     </div>
 
-    <!-- PREMIUM -->
+    <!-- PREMIUM - исправленный -->
     <div id="section-premium" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
@@ -1500,7 +1510,7 @@
 
 </main>
 
-<!-- DETAIL POPUP -->
+<!-- DETAIL POPUP - старый дизайн как у юзернеймов -->
 <div class="popup-container hide" id="detail-popup">
     <div class="popup">
         <div class="popup-header">
@@ -1976,25 +1986,25 @@ function renderGifts(collection = 'all', search = '') {
         const ownerStr = item.owner || '';
         const historyStr = JSON.stringify(item.history || []).replace(/"/g, '&quot;');
         const imgUrl = item.image || '';
-        const escapedName = item.name.replace(/'/g, "\\'");
-        const escapedNum = item.num.replace(/'/g, "\\'");
         return `
-        <div class="tm-grid-item" onclick="openDetail('${escapedName} ${escapedNum}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', ${JSON.stringify(item.attrs)}, '${ownerStr}', ${JSON.stringify(item.history)})">
-            <div class="tm-grid-item-thumb">
-                <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
-                <div class="tm-grid-item-num">${item.num}</div>
-            </div>
-            <div class="tm-grid-item-content">
-                <div class="tm-grid-item-name">
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-num">&nbsp;${item.num}</span>
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', '${attrsStr}', '${ownerStr}', '${historyStr}')">
+            <a href="#">
+                <div class="tm-grid-item-thumb">
+                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
+                    <div class="tm-grid-item-num">${item.num}</div>
                 </div>
-                <div class="tm-grid-item-desc">${item.collection}</div>
-                <div class="tm-grid-item-values">
-                    <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
-                    <div class="tm-grid-item-status ${item.status}">${item.label}</div>
+                <div class="tm-grid-item-content">
+                    <div class="tm-grid-item-name">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-num">&nbsp;${item.num}</span>
+                    </div>
+                    <div class="tm-grid-item-desc">${item.collection}</div>
+                    <div class="tm-grid-item-values">
+                        <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
+                        <div class="tm-grid-item-status ${item.status}">${item.label}</div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     `}).join('');
     
@@ -2038,7 +2048,7 @@ function renderFilterCollections() {
 }
 
 // ============================================================
-// ===== DETAIL POPUP =====
+// ===== DETAIL POPUP - СТАРЫЙ ДИЗАЙН КАК У ЮЗЕРНЕЙМОВ =====
 // ============================================================
 function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
     const isGift = type === 'Gift';
@@ -2096,7 +2106,7 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     // Owner
     const ownerRow = document.getElementById('popup-owner-row');
     const ownerEl = document.getElementById('popup-detail-owner');
-    if (owner && isGift) {
+    if (owner) {
         ownerRow.style.display = 'flex';
         ownerEl.innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
     } else {
@@ -2261,17 +2271,44 @@ document.getElementById('logo-home')?.addEventListener('click', function(e) {
 });
 
 // ============================================================
-// ===== INIT =====
+// ===== FIX: ПРАВИЛЬНЫЙ КЛИК ПО ПОДАРКАМ =====
 // ============================================================
-renderOffers();
-renderNumbers();
-renderGifts();
-renderFilterCollections();
+
+// Переопределяем функцию openDetail, чтобы она корректно обрабатывала строки JSON
+const originalOpenDetail = window.openDetail;
+window.openDetail = function(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
+    // Если attrs - строка, парсим в объект
+    let parsedAttrs = attrs;
+    if (typeof attrs === 'string') {
+        try {
+            parsedAttrs = JSON.parse(attrs);
+        } catch (e) {
+            parsedAttrs = {};
+        }
+    }
+    // Если history - строка, парсим в массив
+    let parsedHistory = history;
+    if (typeof history === 'string') {
+        try {
+            parsedHistory = JSON.parse(history);
+        } catch (e) {
+            parsedHistory = [];
+        }
+    }
+    
+    // Если imageUrl пустой или undefined, ставим заглушку
+    if (!imageUrl || imageUrl === 'undefined' || imageUrl === 'null') {
+        imageUrl = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
+    }
+    
+    // Вызываем оригинальную функцию с исправленными данными
+    originalOpenDetail.call(this, name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, parsedAttrs, owner, parsedHistory);
+};
 
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Клик по подаркам работает, детальный просмотр с карточкой работает');
+console.log('✅ Фикс кликов по подаркам применен. Клик теперь открывает попап с картинкой.');
 </script>
 
 </body>
