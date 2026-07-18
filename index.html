@@ -11,7 +11,7 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
-        /* ===== ВСЕ СТИЛИ КАК В ПРЕДЫДУЩЕЙ ВЕРСИИ, НО БЕЗ PREMIUM ПАКЕТОВ ===== */
+        /* ===== ВСЕ СТИЛИ КАК В ПОСЛЕДНЕЙ РАБОЧЕЙ ВЕРСИИ ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -53,7 +53,6 @@
         a { color: var(--accent-color); text-decoration: none; }
         a:hover { color: var(--accent-color); text-decoration: underline; }
         
-        /* HEADER */
         .tm-header {
             display: flex;
             margin: 0 auto;
@@ -220,7 +219,7 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        /* ===== СТИЛИ ДЛЯ STARS И PREMIUM ===== */
+        /* ===== STARS ===== */
         .tm-main-premium .tm-main-intro {
             padding: 20px 12px 10px;
             text-align: center;
@@ -393,31 +392,8 @@
         }
         .tab-icon-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5V7.5l5 4.5-5 4.5z" fill="%234db2ff"/%3E%3C/svg%3E'); }
         .tab-icon-usdt { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdt-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$T%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdt-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$P%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdc { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdc-base { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$B%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdc-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="1" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$P%3C/text%3E%3C/svg%3E'); }
         .tab-network { font-size: 10px; color: var(--table-text-color); }
-        .dropdown-toggle.icon-after:after {
-            content: '';
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 15 18" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m2 7.5 5.11 5.15c.2.19.52.19.71 0l5.18-5.15" fill="none" stroke="%23677a8c" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-repeat: no-repeat;
-            margin-left: 4px;
-        }
-        .tm-dropdown .dropdown-menu {
-            background: var(--field-bg-color);
-            border: none;
-            border-radius: var(--def-border-radius);
-            padding: 4px 0;
-        }
-        .tm-dropdown .dropdown-menu .tm-currency-tab { border-radius: 0; padding: 8px 16px; }
-        .tm-dropdown .dropdown-menu .tm-currency-tab:hover { background: var(--btn-default-bg-hover-color); }
-        .btn-group.tm-dropdown { display: inline-block; }
         
         .btn-primary.btn-block {
             display: block;
@@ -736,7 +712,6 @@
         .tm-main-filters-count { font-size: 15px; line-height: 18px; color: var(--table-text-color); }
         .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
         
-        /* ===== FOOTER ===== */
         .tm-footer {
             background-color: #111417;
             margin-top: 30px;
@@ -1086,7 +1061,7 @@
             text-decoration: none;
         }
         
-        /* PREMIUM - убираем выбор длительности */
+        /* PREMIUM - скрываем выбор длительности */
         .js-premium-options {
             display: none !important;
         }
@@ -1379,7 +1354,7 @@
         </div>
     </div>
 
-    <!-- PREMIUM -->
+    <!-- PREMIUM - убрали выбор длительности -->
     <div id="section-premium" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
@@ -1634,7 +1609,7 @@ function renderOffers(search = '') {
     document.getElementById('offers-count').textContent = `(${filtered.length})`;
     if (loadedOffers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`; return; }
     tbody.innerHTML = loadedOffers.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null)">
+        <tr>
             <td><a href="#" class="tm-username-link" onclick="event.preventDefault();openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null);">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1658,7 +1633,7 @@ function renderNumbers(search = '') {
     document.getElementById('numbers-count').textContent = `(${filtered.length})`;
     if (loadedNumbers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`; return; }
     tbody.innerHTML = loadedNumbers.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null)">
+        <tr>
             <td><a href="#" class="tm-username-link" onclick="event.preventDefault();openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null);">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
