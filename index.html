@@ -18,7 +18,7 @@
             --header-color: #fff;
             --bg-color: #1a2026;
             --bg-rgb: 26,32,38;
-            --header-bg-color: rgba(33,42,51,0.9);
+            --header-bg-color: rgba(33,42,51,0.95);
             --table-bg-color: #212a33;
             --table-bg-rgb: 33,42,51;
             --table-text-color: #8c9aa9;
@@ -43,7 +43,7 @@
             font-family: ProductSans, -apple-system, system-ui, sans-serif;
             font-variant-ligatures: none;
             -webkit-font-smoothing: antialiased;
-            background: #111417;
+            background: var(--bg-color);
             padding: 0;
             margin: 0;
             color: var(--text-color);
@@ -69,6 +69,7 @@
             height: var(--header-height);
             flex-wrap: wrap;
             padding: 0 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .tm-header-logo { display: flex; align-items: center; }
         .tm-logo {
@@ -116,6 +117,7 @@
             justify-content: center;
             cursor: pointer;
             align-items: center;
+            transition: background .2s ease;
         }
         .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
         .icon-connect-ton {
@@ -208,13 +210,14 @@
             .tm-header-tab { padding: 19px 0; margin-right: 26px; }
         }
         
-        /* MAIN */
+        /* MAIN - СЕРЫЙ ФОН КАК ВО ВСЁМ САЙТЕ */
         .tm-main {
             margin: 0 auto;
             width: 100%;
-            max-width: 1400px;
-            padding: 80px 16px 70px;
+            max-width: 1200px;
+            padding: 80px 20px 70px;
             flex-grow: 1;
+            background: var(--bg-color);
         }
         @media (min-width: 768px) {
             .tm-main { padding: 90px 32px 70px; }
@@ -298,12 +301,14 @@
             opacity: 0;
         }
         
-        /* TABLE - РАСШИРЕННЫЙ ФОРМАТ */
+        /* TABLE - КОМПАКТНАЯ, НЕ РАСТЯНУТАЯ */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
             background: var(--table-bg-color);
             width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
         }
         .tm-table {
             width: 100%;
@@ -317,7 +322,7 @@
             line-height: 18px;
             font-weight: bold;
             background-color: #293440;
-            padding: 14px 20px;
+            padding: 14px 18px;
             text-align: left;
             color: var(--table-text-color);
             border-bottom: none;
@@ -331,7 +336,7 @@
         }
         .tm-table tbody tr:hover { background: #293440; }
         .tm-table tbody td {
-            padding: 14px 20px;
+            padding: 14px 18px;
             border-top: 1px solid #1a2026;
             font-size: 14px;
             line-height: 20px;
@@ -381,22 +386,26 @@
             .tm-table tbody td { font-size: 12px; padding: 10px 12px; }
             .tm-table .hide-mobile { display: none; }
             .tm-table .tm-value { font-size: 13px; }
+            .tm-table-wrap { max-width: 100%; }
         }
         
-        /* SCROLLABLE TABLE WRAP */
         .tm-table-scroll {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             border-radius: var(--def-border-radius);
         }
         
-        /* GIFT CARDS */
-        .tm-catalog-grid-wrap { --gap: 5px; }
+        /* GIFT CARDS - С ОТСТУПАМИ И СЕРЫМ ФОНОМ */
+        .tm-catalog-grid-wrap { 
+            --gap: 12px;
+            background: transparent;
+        }
         .tm-catalog-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
             gap: var(--gap);
+            background: transparent;
         }
         .tm-catalog-grid .tm-grid-item {
             flex: 0 0 calc(20% - var(--gap));
@@ -406,10 +415,14 @@
             border-radius: var(--def-border-radius);
             background-color: var(--table-bg-color);
             cursor: pointer;
-            transition: background .2s ease;
+            transition: background .2s ease, transform .2s ease;
             min-width: 140px;
+            border: 1px solid rgba(255,255,255,0.04);
         }
-        .tm-catalog-grid .tm-grid-item:hover { background: #293440; }
+        .tm-catalog-grid .tm-grid-item:hover { 
+            background: #293440;
+            transform: translateY(-2px);
+        }
         .tm-catalog-grid .tm-grid-item a {
             text-decoration: none;
             color: inherit;
@@ -419,9 +432,13 @@
         }
         @media (max-width: 767px) {
             .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(50% - var(--gap)); min-width: 120px; }
+            .tm-catalog-grid-wrap { --gap: 8px; }
         }
         @media (min-width: 768px) and (max-width: 1024px) {
             .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(25% - var(--gap)); }
+        }
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(20% - var(--gap)); }
         }
         .tm-grid-item-thumb {
             position: relative;
@@ -439,7 +456,8 @@
         }
         .tm-grid-item-content {
             text-align: center;
-            padding: 10px 8px 9px;
+            padding: 12px 8px 11px;
+            background: var(--table-bg-color);
         }
         .tm-grid-item-name {
             font-size: 14px;
@@ -453,23 +471,24 @@
         .tm-grid-item-name .item-name { overflow: hidden; text-overflow: ellipsis; }
         .tm-grid-item-name .item-num { flex-shrink: 0; }
         .tm-grid-item-desc {
-            font-size: 13px;
-            line-height: 19px;
+            font-size: 12px;
+            line-height: 18px;
             color: var(--table-text-color);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            margin-top: 2px;
         }
         .tm-grid-item-values {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             line-height: 17px;
-            gap: 3px 5px;
-            margin-top: 4px;
+            gap: 4px 6px;
+            margin-top: 6px;
         }
         .tm-grid-item-value.tm-value {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: bold;
             color: var(--value-color);
         }
@@ -482,31 +501,31 @@
             background-size: contain;
             width: 13px;
             height: 16px;
-            margin-right: 2px;
+            margin-right: 3px;
             background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
         .tm-grid-item-status {
             display: inline-block;
             font-size: 10px;
-            line-height: 13px;
+            line-height: 14px;
             font-weight: bold;
-            padding: 2px 5px;
-            border-radius: 5px;
+            padding: 2px 6px;
+            border-radius: 4px;
             white-space: nowrap;
         }
-        .tm-grid-item-status.avail { color: #5aec8c; background: rgba(90,236,140,0.1); }
-        .tm-grid-item-status.sold { color: #ff5863; background: rgba(255,88,99,0.1); }
-        .tm-grid-item-status.taken { color: #ff9953; background: rgba(255,153,83,0.1); }
+        .tm-grid-item-status.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
+        .tm-grid-item-status.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
+        .tm-grid-item-status.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
         
         @media (min-width: 768px) {
-            .tm-grid-item-content { padding: 10px 10px 13px; }
-            .tm-grid-item-values { line-height: 20px; padding: 7px 0 0; }
+            .tm-grid-item-content { padding: 12px 10px 13px; }
+            .tm-grid-item-values { line-height: 20px; padding: 6px 0 0; }
             .tm-grid-item-value.tm-value { font-size: 14px; }
-            .tm-grid-item-status { font-size: 13px; line-height: 16px; padding: 2px 6px; }
+            .tm-grid-item-status { font-size: 11px; line-height: 16px; padding: 2px 7px; }
         }
         
         /* FILTERS */
-        .tm-main-filters-wrap { margin-bottom: 20px; }
+        .tm-main-filters-wrap { margin-bottom: 20px; max-width: 960px; margin-left: auto; margin-right: auto; }
         .tm-main-filters-box {
             background-color: var(--table-bg-color);
             border-radius: var(--def-border-radius);
@@ -559,6 +578,7 @@
         .tm-footer {
             background-color: #111417;
             margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.04);
         }
         .tm-footer-links {
             display: flex;
@@ -581,7 +601,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.75);
             z-index: 200;
             display: flex;
             justify-content: center;
@@ -601,6 +621,7 @@
             color: #fff;
             transform: scale(0.95);
             transition: transform .2s ease;
+            border: 1px solid rgba(255,255,255,0.06);
         }
         .popup-container.hide .popup { transform: scale(0.95); }
         .popup-container:not(.hide) .popup { transform: scale(1); }
@@ -658,6 +679,9 @@
             border: none;
             font-size: 14px;
             width: 100%;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .tm-load-more:hover { background: var(--btn-default-bg-hover-color); }
         
@@ -665,6 +689,18 @@
             font-size: 13px;
             color: var(--table-text-color);
             margin-left: 12px;
+        }
+        
+        /* SECTION HEADER WITH COUNT - ЦЕНТРИРОВАНИЕ */
+        .tm-section-header {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tm-main-search-form {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -725,11 +761,11 @@
                     <thead>
                         <tr>
                             <th style="width:22%;">Username</th>
-                            <th style="width:18%;">Type</th>
+                            <th style="width:16%;">Type</th>
                             <th style="width:18%;">Price</th>
                             <th style="width:14%;">Status</th>
-                            <th style="width:14%;" class="hide-mobile">Listed</th>
-                            <th style="width:14%;" class="hide-mobile">Bids</th>
+                            <th style="width:15%;" class="hide-mobile">Listed</th>
+                            <th style="width:15%;" class="hide-mobile">Bids</th>
                         </tr>
                     </thead>
                     <tbody id="offers-table-body"></tbody>
@@ -759,11 +795,11 @@
                     <thead>
                         <tr>
                             <th style="width:22%;">Number</th>
-                            <th style="width:18%;">Type</th>
+                            <th style="width:16%;">Type</th>
                             <th style="width:18%;">Price</th>
                             <th style="width:14%;">Status</th>
-                            <th style="width:14%;" class="hide-mobile">Listed</th>
-                            <th style="width:14%;" class="hide-mobile">Bids</th>
+                            <th style="width:15%;" class="hide-mobile">Listed</th>
+                            <th style="width:15%;" class="hide-mobile">Bids</th>
                         </tr>
                     </thead>
                     <tbody id="numbers-table-body"></tbody>
@@ -810,7 +846,7 @@
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">⭐ Telegram Stars</h3>
         </div>
-        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:960px;margin:0 auto;">
             <div style="font-size:56px;margin-bottom:16px;">⭐</div>
             <div style="font-size:20px;color:#fff;">Stars Marketplace</div>
             <div style="font-size:15px;margin-top:10px;">Buy and sell Telegram Stars with TON</div>
@@ -823,7 +859,7 @@
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">👑 Telegram Premium</h3>
         </div>
-        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:960px;margin:0 auto;">
             <div style="font-size:56px;margin-bottom:16px;">👑</div>
             <div style="font-size:20px;color:#fff;">Premium Subscriptions</div>
             <div style="font-size:15px;margin-top:10px;">Gift Telegram Premium to others</div>
@@ -836,7 +872,7 @@
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">📢 Telegram Ads</h3>
         </div>
-        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);">
+        <div style="padding:60px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:960px;margin:0 auto;">
             <div style="font-size:56px;margin-bottom:16px;">📢</div>
             <div style="font-size:20px;color:#fff;">Ad Credits</div>
             <div style="font-size:15px;margin-top:10px;">Purchase advertising credits for Telegram</div>
@@ -940,7 +976,6 @@ const numbersData = [
     { id: 130, name: '+888 777 3333', type: 'Number', price: 2100, status: 'avail', label: 'On auction', date: 'Aug 8, 2025', bids: 4 },
 ];
 
-// GIFTS DATA (без изменений)
 const giftsData = [
     { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg' },
     { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg' },
@@ -1000,7 +1035,6 @@ function renderOffers(search = '') {
         </tr>
     `).join('');
     
-    // Показываем/скрываем кнопку Load More
     const btn = document.getElementById('offers-load-more');
     if (end >= filtered.length) {
         btn.style.display = 'none';
@@ -1069,7 +1103,7 @@ function renderGifts(collection = 'all', search = '') {
         <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, '${item.status}', '${item.label}', 'Today', 0)">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <img src="${item.image}" class="tm-grid-thumb" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23212a33%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
+                    <img src="${item.image}" class="tm-grid-thumb" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
                     <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
