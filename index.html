@@ -3,53 +3,34 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <title>Fragment — Auction Platform</title>
+    <title>Fragment — NFT Marketplace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
-        /* ============================================
+        /* ============================================================
            RESET & BASE
-           ============================================ */
-        *,
-        *::before,
-        *::after {
+           ============================================================ */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             background: #0b0b12;
             color: #e8e8f0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            position: relative;
+            padding-bottom: 80px;
         }
-        
-        /* Зернистая текстура как на оригинале */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(110, 75, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(110, 75, 255, 0.02) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        /* Скрытый скроллбар как на оригинале */
+
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
         }
         ::-webkit-scrollbar-track {
             background: #14141f;
@@ -58,1113 +39,486 @@
             background: #6e4bff;
             border-radius: 10px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #7d5cff;
-        }
-        
-        /* ============================================
-           TYPOGRAPHY
-           ============================================ */
-        .gradient-text {
-            background: linear-gradient(135deg, #6e4bff 0%, #9b7cff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .text-gradient-glow {
-            text-shadow: 0 0 40px rgba(110, 75, 255, 0.15);
-        }
-        
-        /* ============================================
+
+        /* ============================================================
            HEADER
-           ============================================ */
+           ============================================================ */
         .header {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(11, 11, 18, 0.92);
+            background: rgba(11, 11, 18, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 0 32px;
-            height: 68px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0 16px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        
-        .header-logo {
+
+        .header-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            cursor: pointer;
-            user-select: none;
-            text-decoration: none;
         }
-        
-        .header-logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #6e4bff, #9b7cff);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 16px;
-            color: #fff;
-            box-shadow: 0 0 20px rgba(110, 75, 255, 0.25);
-        }
-        
-        .header-logo-text {
-            font-size: 22px;
+
+        .header-logo {
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #ffffff 60%, #9b7cff);
+            background: linear-gradient(135deg, #6e4bff, #9b7cff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            cursor: pointer;
         }
-        
-        .header-logo-badge {
+
+        .header-logo small {
             font-size: 10px;
             font-weight: 600;
             color: #6e4bff;
+            -webkit-text-fill-color: #6e4bff;
             background: rgba(110, 75, 255, 0.12);
-            padding: 2px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(110, 75, 255, 0.15);
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 6px;
         }
-        
-        .header-nav {
+
+        .header-close {
+            color: #808099;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-close span {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .header-close:hover {
+            color: #e8e8f0;
+        }
+
+        /* ============================================================
+           TOP BANNER
+           ============================================================ */
+        .top-banner {
+            background: linear-gradient(135deg, rgba(110, 75, 255, 0.08), rgba(155, 124, 255, 0.04));
+            border: 1px solid rgba(110, 75, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin: 12px 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .top-banner .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
-        .header-nav-link {
+
+        .top-banner .title i {
+            color: #6e4bff;
+        }
+
+        .top-banner .sub {
+            font-size: 12px;
+            color: #808099;
+        }
+
+        .top-banner .btn-banner {
+            background: linear-gradient(135deg, #6e4bff, #8b6cff);
+            border: none;
+            border-radius: 10px;
+            padding: 6px 16px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .top-banner .btn-banner:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(110, 75, 255, 0.3);
+        }
+
+        /* ============================================================
+           TABS
+           ============================================================ */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 0;
+        }
+
+        .tab {
             padding: 8px 16px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: #808099;
-            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            user-select: none;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.2s;
+            white-space: nowrap;
             position: relative;
+            user-select: none;
         }
-        
-        .header-nav-link:hover {
-            color: #d0d0e0;
-            background: rgba(255, 255, 255, 0.04);
+
+        .tab:hover {
+            color: #e8e8f0;
+            background: rgba(255, 255, 255, 0.03);
         }
-        
-        .header-nav-link.active {
+
+        .tab.active {
             color: #fff;
-            background: rgba(110, 75, 255, 0.12);
+            background: rgba(110, 75, 255, 0.08);
         }
-        
-        .header-nav-link.active::after {
+
+        .tab.active::after {
             content: '';
             position: absolute;
-            bottom: 2px;
+            bottom: -1px;
             left: 50%;
             transform: translateX(-50%);
-            width: 20px;
+            width: 24px;
             height: 2px;
             background: #6e4bff;
             border-radius: 10px;
         }
-        
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .header-status {
+
+        /* ============================================================
+           SEARCH BAR
+           ============================================================ */
+        .search-bar {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 13px;
-            color: #808099;
-        }
-        
-        .header-status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #44d4a0;
-            box-shadow: 0 0 12px rgba(68, 212, 160, 0.3);
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(0.85);
-            }
-        }
-        
-        .header-wallet-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 20px;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.25);
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 0.2px;
-        }
-        
-        .header-wallet-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.35);
-        }
-        
-        .header-wallet-btn:active {
-            transform: scale(0.97);
-        }
-        
-        .header-wallet-btn i {
-            font-size: 16px;
-            opacity: 0.8;
-        }
-        
-        /* ============================================
-           CONTAINER
-           ============================================ */
-        .container {
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 0 32px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* ============================================
-           PAGE HEADER
-           ============================================ */
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 28px 0 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 28px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             flex-wrap: wrap;
-            gap: 16px;
         }
-        
-        .page-title {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .page-title .highlight {
-            background: linear-gradient(135deg, #6e4bff, #9b7cff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .page-stats {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-size: 14px;
-            color: #808099;
-        }
-        
-        .page-stats span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .page-stats .num {
-            color: #e8e8f0;
-            font-weight: 600;
-        }
-        
-        .page-actions {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .btn-create {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: rgba(110, 75, 255, 0.10);
-            border: 1px solid rgba(110, 75, 255, 0.15);
-            border-radius: 12px;
-            color: #6e4bff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .btn-create:hover {
-            background: rgba(110, 75, 255, 0.18);
-            border-color: rgba(110, 75, 255, 0.25);
-        }
-        
-        /* ============================================
-           GRID
-           ============================================ */
-        .auction-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 48px;
-        }
-        
-        /* ============================================
-           AUCTION CARD
-           ============================================ */
-        .auction-card {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 20px 20px 18px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .auction-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(110, 75, 255, 0.02), transparent 50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            border-radius: 16px;
-        }
-        
-        .auction-card:hover {
-            border-color: rgba(110, 75, 255, 0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(110, 75, 255, 0.04);
-        }
-        
-        .auction-card:hover::before {
-            opacity: 1;
-        }
-        
-        .auction-card.ended {
-            opacity: 0.5;
-            cursor: default;
-        }
-        
-        .auction-card.ended:hover {
-            transform: none;
-            border-color: rgba(255, 255, 255, 0.06);
-            box-shadow: none;
-        }
-        
-        .auction-card.ended:hover::before {
-            opacity: 0;
-        }
-        
-        .auction-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 14px;
-        }
-        
-        .auction-number {
-            font-family: 'Inter', monospace;
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.3px;
-            transition: color 0.2s;
-            word-break: break-all;
-        }
-        
-        .auction-card:not(.ended):hover .auction-number {
-            color: #9b7cff;
-        }
-        
-        .auction-id-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: #6e4bff;
-            background: rgba(110, 75, 255, 0.08);
-            padding: 2px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(110, 75, 255, 0.08);
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-        
-        .auction-card-body {
+
+        .search-bar input {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .auction-bid-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-        
-        .auction-bid-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: #808099;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .auction-bid-amount {
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.3px;
-        }
-        
-        .auction-bid-amount .currency {
-            font-size: 16px;
-            font-weight: 600;
-            color: #808099;
-            margin-left: 2px;
-        }
-        
-        .auction-timer {
-            text-align: right;
-        }
-        
-        .auction-timer-label {
-            font-size: 11px;
-            font-weight: 500;
-            color: #808099;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-        
-        .auction-timer-value {
-            font-family: 'Inter', monospace;
-            font-size: 16px;
-            font-weight: 600;
-            color: #e8e8f0;
-            letter-spacing: 0.2px;
-            margin-top: 2px;
-        }
-        
-        .auction-timer-value.urgent {
-            color: #ff6b6b;
-            animation: timer-pulse 1s ease-in-out infinite;
-        }
-        
-        @keyframes timer-pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.4;
-            }
-        }
-        
-        .auction-card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 4px;
-        }
-        
-        .auction-bids-count {
+            min-width: 120px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 8px 14px;
             font-size: 13px;
+            color: #e8e8f0;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-bar input::placeholder {
+            color: #4a4a62;
+        }
+
+        .search-bar input:focus {
+            border-color: rgba(110, 75, 255, 0.3);
+        }
+
+        .search-bar .filter-group {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar .filter-btn {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 500;
             color: #808099;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
-        
-        .auction-bids-count i {
-            font-size: 12px;
-            opacity: 0.5;
+
+        .search-bar .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e8e8f0;
         }
-        
-        .auction-start-price {
+
+        .search-bar .filter-btn.active {
+            background: rgba(110, 75, 255, 0.12);
+            border-color: rgba(110, 75, 255, 0.2);
+            color: #6e4bff;
+        }
+
+        .search-bar .filter-btn i {
+            font-size: 10px;
+        }
+
+        /* ============================================================
+           STATS BAR
+           ============================================================ */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
             font-size: 13px;
             color: #5a5a72;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-        
-        .auction-start-price .val {
-            color: #808099;
+
+        .stats-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stats-bar .left span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stats-bar .left .num {
+            color: #e8e8f0;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           NFT GRID
+           ============================================================ */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 12px 16px;
+        }
+
+        .nft-card {
+            background: #14141f;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 14px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nft-card:hover {
+            border-color: rgba(110, 75, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nft-card .name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .nft-card .sub {
+            font-size: 11px;
+            color: #5a5a72;
+            margin-bottom: 8px;
+        }
+
+        .nft-card .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .nft-card .price-row .price {
+            color: #6e4bff;
+        }
+
+        .nft-card .price-row .change {
+            font-size: 11px;
             font-weight: 500;
         }
-        
-        /* БЫСТРАЯ СТАВКА */
-        .auction-bid-form {
+
+        .nft-card .price-row .change.up {
+            color: #44d4a0;
+        }
+
+        .nft-card .price-row .change.down {
+            color: #ff6b6b;
+        }
+
+        .nft-card .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(110, 75, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(110, 75, 255, 0.1);
+        }
+
+        /* ============================================================
+           FILTERS PANEL (как на скринах)
+           ============================================================ */
+        .filters-panel {
+            background: #14141f;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            margin: 0 16px 12px;
+            padding: 16px 18px;
+            display: none;
+        }
+
+        .filters-panel.open {
+            display: block;
+        }
+
+        .filters-panel .filter-section {
+            margin-bottom: 14px;
+        }
+
+        .filters-panel .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filters-panel .filter-section .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #5a5a72;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .filters-panel .filter-section .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .filters-panel .filter-section .options .opt {
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #808099;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filters-panel .filter-section .options .opt:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .filters-panel .filter-section .options .opt.active {
+            background: rgba(110, 75, 255, 0.12);
+            border-color: rgba(110, 75, 255, 0.2);
+            color: #6e4bff;
+        }
+
+        .filters-panel .filter-actions {
             display: flex;
             gap: 8px;
             margin-top: 12px;
             padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
-        .auction-bid-form input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+
+        .filters-panel .filter-actions button {
+            padding: 8px 20px;
             border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.2s ease;
-            min-width: 0;
-        }
-        
-        .auction-bid-form input::placeholder {
-            color: #4a4a62;
-            font-weight: 400;
-        }
-        
-        .auction-bid-form input:focus {
-            border-color: rgba(110, 75, 255, 0.3);
-            box-shadow: 0 0 20px rgba(110, 75, 255, 0.05);
-        }
-        
-        .auction-bid-form input::-webkit-outer-spin-button,
-        .auction-bid-form input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .auction-bid-form input[type=number] {
-            -moz-appearance: textfield;
-        }
-        
-        .auction-bid-form button {
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
             font-size: 13px;
             font-weight: 600;
+            border: none;
             cursor: pointer;
-            transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-            box-shadow: 0 2px 16px rgba(110, 75, 255, 0.2);
+            transition: all 0.2s;
         }
-        
-        .auction-bid-form button:hover {
-            transform: scale(1.02);
+
+        .filters-panel .filter-actions .btn-clear {
+            background: rgba(255, 255, 255, 0.04);
+            color: #808099;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .filters-panel .filter-actions .btn-clear:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .filters-panel .filter-actions .btn-apply {
+            background: linear-gradient(135deg, #6e4bff, #8b6cff);
+            color: #fff;
+            box-shadow: 0 2px 16px rgba(110, 75, 255, 0.2);
+            flex: 1;
+        }
+
+        .filters-panel .filter-actions .btn-apply:hover {
             box-shadow: 0 4px 24px rgba(110, 75, 255, 0.3);
         }
-        
-        .auction-bid-form button:active {
-            transform: scale(0.96);
-        }
-        
-        .auction-bid-form button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        /* ============================================
-           DETAIL PAGE
-           ============================================ */
-        .detail-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #808099;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-            text-decoration: none;
-            margin-bottom: 24px;
-        }
-        
-        .detail-back:hover {
-            color: #e8e8f0;
-        }
-        
-        .detail-container {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 40px;
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 48px;
-        }
-        
-        @media (max-width: 900px) {
-            .detail-container {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                padding: 24px;
-            }
-        }
-        
-        .detail-number {
-            font-family: 'Inter', monospace;
-            font-size: 40px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
-        
-        .detail-id {
-            font-size: 14px;
-            color: #5a5a72;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .detail-id .status-badge {
-            padding: 2px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        .detail-id .status-badge.active {
-            background: rgba(68, 212, 160, 0.12);
-            color: #44d4a0;
-            border: 1px solid rgba(68, 212, 160, 0.1);
-        }
-        
-        .detail-id .status-badge.ended {
-            background: rgba(255, 107, 107, 0.08);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 107, 107, 0.08);
-        }
-        
-        .detail-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
-            margin: 24px 0 28px;
-        }
-        
-        .detail-stat {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            padding: 16px 18px;
-        }
-        
-        .detail-stat-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: #5a5a72;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        .detail-stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
-            margin-top: 4px;
-        }
-        
-        .detail-stat-value .ton {
-            font-size: 16px;
-            color: #808099;
-            font-weight: 500;
-        }
-        
-        .detail-timer-block {
-            margin-bottom: 28px;
-        }
-        
-        .detail-timer-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #808099;
-        }
-        
-        .detail-timer-value {
-            font-family: 'Inter', monospace;
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-            margin-top: 4px;
-        }
-        
-        .detail-timer-value.urgent {
-            color: #ff6b6b;
-            animation: timer-pulse 1s ease-in-out infinite;
-        }
-        
-        .detail-bid-form {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-        }
-        
-        .detail-bid-form input {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 14px 18px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        
-        .detail-bid-form input::placeholder {
-            color: #4a4a62;
-        }
-        
-        .detail-bid-form input:focus {
-            border-color: rgba(110, 75, 255, 0.3);
-            box-shadow: 0 0 30px rgba(110, 75, 255, 0.06);
-        }
-        
-        .detail-bid-form button {
-            padding: 14px 32px;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.25);
-        }
-        
-        .detail-bid-form button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.35);
-        }
-        
-        .detail-bid-form button:active {
-            transform: scale(0.96);
-        }
-        
-        .detail-bid-form button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-        
-        .detail-ended-info {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            padding: 20px 24px;
-            margin-top: 12px;
-        }
-        
-        .detail-ended-info .winner {
-            color: #44d4a0;
-            font-weight: 600;
-        }
-        
-        .detail-ended-info .winner-amount {
-            color: #fff;
-            font-weight: 700;
-        }
-        
-        .detail-history {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 20px;
-        }
-        
-        .detail-history-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #808099;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        
-        .detail-history-title .count {
-            color: #5a5a72;
-            font-weight: 500;
-            font-size: 13px;
-        }
-        
-        .detail-history-list {
-            max-height: 360px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .detail-history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            transition: background 0.2s;
-        }
-        
-        .detail-history-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-        }
-        
-        .detail-history-item .bidder {
-            font-size: 13px;
-            font-weight: 500;
-            color: #c0c0d0;
-        }
-        
-        .detail-history-item .bidder .time {
-            font-size: 11px;
-            color: #5a5a72;
-            font-weight: 400;
-            margin-left: 8px;
-        }
-        
-        .detail-history-item .amount {
-            font-weight: 700;
-            color: #9b7cff;
-            font-size: 14px;
-        }
-        
-        .detail-history-empty {
-            text-align: center;
-            padding: 32px 0;
-            color: #5a5a72;
-            font-size: 14px;
-        }
-        
-        /* ============================================
-           WALLET PAGE
-           ============================================ */
-        .wallet-container {
-            max-width: 560px;
-            margin: 0 auto;
-        }
-        
-        .wallet-card {
-            background: #14141f;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .wallet-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle, rgba(110, 75, 255, 0.04), transparent 70%);
-            pointer-events: none;
-        }
-        
-        .wallet-balance {
-            margin-bottom: 24px;
-        }
-        
-        .wallet-balance-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #808099;
-        }
-        
-        .wallet-balance-amount {
-            font-size: 44px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -1px;
-            margin-top: 4px;
-        }
-        
-        .wallet-balance-amount .ton {
-            font-size: 22px;
-            color: #808099;
-            font-weight: 600;
-            margin-left: 4px;
-        }
-        
-        .wallet-address {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            padding: 16px 18px;
-            margin-bottom: 16px;
-        }
-        
-        .wallet-address-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: #5a5a72;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        .wallet-address-value {
-            font-family: 'Inter', monospace;
-            font-size: 14px;
-            color: #6e4bff;
-            word-break: break-all;
-            margin-top: 4px;
-            opacity: 0.8;
-        }
-        
-        .wallet-username {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            color: #e8e8f0;
-            padding: 8px 0;
-        }
-        
-        .wallet-username .at {
-            color: #5a5a72;
-            font-weight: 400;
-        }
-        
-        .wallet-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 24px;
-        }
-        
-        .wallet-action-btn {
-            padding: 14px;
-            border-radius: 14px;
-            border: none;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-            display: flex;
+
+        /* ============================================================
+           DETAIL CARD (как на скрине Precious Peach)
+           ============================================================ */
+        .detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: none;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            padding: 16px;
         }
-        
-        .wallet-action-btn.primary {
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            color: #fff;
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.2);
+
+        .detail-overlay.open {
+            display: flex;
         }
-        
-        .wallet-action-btn.primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.3);
-        }
-        
-        .wallet-action-btn.secondary {
-            background: rgba(255, 255, 255, 0.04);
-            color: #808099;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        
-        .wallet-action-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #e8e8f0;
-        }
-        
-        .wallet-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #5a5a72;
-            cursor: pointer;
-            font-size: 14px;
-            transition: color 0.2s;
-            margin-top: 24px;
-        }
-        
-        .wallet-back:hover {
-            color: #808099;
-        }
-        
-        /* ============================================
-           CREATE PAGE
-           ============================================ */
-        .create-container {
-            max-width: 560px;
-            margin: 0 auto;
-        }
-        
-        .create-card {
+
+        .detail-card {
             background: #14141f;
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
-            padding: 40px;
-        }
-        
-        .create-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .create-form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .create-form-group label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #808099;
-        }
-        
-        .create-form-group input {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 14px 18px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        
-        .create-form-group input::placeholder {
-            color: #4a4a62;
-        }
-        
-        .create-form-group input:focus {
-            border-color: rgba(110, 75, 255, 0.3);
-            box-shadow: 0 0 30px rgba(110, 75, 255, 0.06);
-        }
-        
-        .create-submit {
-            padding: 16px;
-            background: linear-gradient(135deg, #6e4bff, #8b6cff);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.2);
-            margin-top: 8px;
-        }
-        
-        .create-submit:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.3);
-        }
-        
-        .create-submit:active {
-            transform: scale(0.97);
-        }
-        
-        .create-cancel {
-            text-align: center;
-            color: #5a5a72;
-            cursor: pointer;
-            font-size: 14px;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            padding: 8px;
-        }
-        
-        .create-cancel:hover {
-            color: #808099;
-        }
-        
-        /* ============================================
-           TOAST
-           ============================================ */
-        .toast-container {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-width: 420px;
+            padding: 28px 30px;
+            max-width: 480px;
             width: 100%;
-            pointer-events: none;
+            position: relative;
+            animation: slideUp 0.3s ease;
         }
-        
-        .toast {
-            background: #1a1a2e;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 16px 20px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            pointer-events: auto;
-            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -1175,230 +529,706 @@
                 transform: translateY(0) scale(1);
             }
         }
-        
-        .toast-icon {
-            font-size: 18px;
-            flex-shrink: 0;
+
+        .detail-card .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 20px;
+            color: #5a5a72;
+            cursor: pointer;
+            transition: color 0.2s;
         }
-        
-        .toast.success .toast-icon {
-            color: #44d4a0;
+
+        .detail-card .close-btn:hover {
+            color: #e8e8f0;
         }
-        .toast.error .toast-icon {
-            color: #ff6b6b;
+
+        .detail-card .nft-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
         }
-        .toast.info .toast-icon {
+
+        .detail-card .nft-id {
+            font-size: 13px;
+            color: #5a5a72;
+            margin-bottom: 12px;
+        }
+
+        .detail-card .attrs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 12px 0 16px;
+        }
+
+        .detail-card .attrs .attr {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 8px 10px;
+        }
+
+        .detail-card .attrs .attr .label {
+            font-size: 10px;
+            font-weight: 500;
+            color: #5a5a72;
+            text-transform: uppercase;
+        }
+
+        .detail-card .attrs .attr .value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e8e8f0;
+            margin-top: 2px;
+        }
+
+        .detail-card .floors {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #808099;
+            margin-bottom: 16px;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .detail-card .floors .floor span {
+            color: #e8e8f0;
+            font-weight: 600;
+        }
+
+        .detail-card .offer-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .detail-card .offer-row .offer-price {
+            font-size: 24px;
+            font-weight: 800;
             color: #6e4bff;
         }
-        
-        .toast-message {
+
+        .detail-card .offer-row .offer-label {
+            font-size: 13px;
+            color: #5a5a72;
+        }
+
+        .detail-card .btn-add {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6e4bff, #8b6cff);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            margin-top: 12px;
+            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.2);
+        }
+
+        .detail-card .btn-add:hover {
+            transform: scale(1.01);
+            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.3);
+        }
+
+        /* ============================================================
+           ORDERS PAGE (как на скрине)
+           ============================================================ */
+        .orders-list {
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #14141f;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 12px 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .order-item .info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .order-item .info .name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .order-item .info .qty {
+            font-size: 12px;
+            color: #5a5a72;
+        }
+
+        .order-item .price {
+            font-weight: 700;
+            color: #6e4bff;
+            font-size: 15px;
+        }
+
+        .order-item .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .order-item .actions button {
+            padding: 4px 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .order-item .actions .btn-detail {
+            background: rgba(255, 255, 255, 0.04);
+            color: #808099;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .order-item .actions .btn-detail:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .order-item .actions .btn-sell {
+            background: rgba(110, 75, 255, 0.12);
+            color: #6e4bff;
+            border: 1px solid rgba(110, 75, 255, 0.1);
+        }
+
+        .order-item .actions .btn-sell:hover {
+            background: rgba(110, 75, 255, 0.2);
+        }
+
+        .create-order-btn {
+            margin: 12px 16px;
+            padding: 14px;
+            background: rgba(110, 75, 255, 0.08);
+            border: 1px dashed rgba(110, 75, 255, 0.2);
+            border-radius: 14px;
+            color: #6e4bff;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .create-order-btn:hover {
+            background: rgba(110, 75, 255, 0.14);
+        }
+
+        /* ============================================================
+           TASKS / HUB (как на скрине PlayHub)
+           ============================================================ */
+        .hub-header {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, rgba(110, 75, 255, 0.06), rgba(155, 124, 255, 0.02));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 8px;
+        }
+
+        .hub-header .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .hub-header .sub {
+            font-size: 13px;
+            color: #808099;
+            margin-top: 2px;
+        }
+
+        .hub-header .prize {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6e4bff;
+            margin-top: 4px;
+        }
+
+        .hub-tabs {
+            display: flex;
+            gap: 16px;
+            padding: 8px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 13px;
+            font-weight: 500;
+            color: #808099;
+        }
+
+        .hub-tabs .htab {
+            cursor: pointer;
+            padding: 4px 0;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .hub-tabs .htab:hover {
+            color: #e8e8f0;
+        }
+
+        .hub-tabs .htab.active {
+            color: #fff;
+        }
+
+        .hub-tabs .htab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #6e4bff;
+            border-radius: 10px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .task-item .desc {
             font-size: 14px;
             font-weight: 500;
             color: #e8e8f0;
-            flex: 1;
         }
-        
-        .toast-close {
-            background: none;
-            border: none;
+
+        .task-item .progress {
+            font-size: 12px;
             color: #5a5a72;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 4px;
-            transition: color 0.2s;
         }
-        
-        .toast-close:hover {
-            color: #e8e8f0;
-        }
-        
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 768px) {
-            .header {
-                padding: 0 16px;
-                height: 60px;
-            }
-            .header-logo-text {
-                font-size: 18px;
-            }
-            .header-logo-badge {
-                display: none;
-            }
-            .header-nav {
-                gap: 4px;
-            }
-            .header-nav-link {
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            .header-status {
-                display: none;
-            }
-            .header-wallet-btn {
-                font-size: 12px;
-                padding: 6px 14px;
-            }
-            .header-wallet-btn span {
-                display: none;
-            }
-            
-            .container {
-                padding: 0 16px;
-            }
-            
-            .page-title {
-                font-size: 22px;
-            }
-            .page-stats {
-                font-size: 12px;
-                gap: 12px;
-            }
-            .btn-create {
-                font-size: 12px;
-                padding: 8px 14px;
-            }
-            .btn-create span {
-                display: none;
-            }
-            
-            .auction-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 14px;
-            }
-            
-            .auction-number {
-                font-size: 17px;
-            }
-            .auction-bid-amount {
-                font-size: 18px;
-            }
-            
-            .detail-container {
-                padding: 20px;
-            }
-            .detail-number {
-                font-size: 28px;
-            }
-            .detail-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-            .detail-stat-value {
-                font-size: 20px;
-            }
-            .detail-timer-value {
-                font-size: 24px;
-            }
-            .detail-bid-form {
-                flex-direction: column;
-            }
-            .detail-bid-form button {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .wallet-card {
-                padding: 24px;
-            }
-            .wallet-balance-amount {
-                font-size: 32px;
-            }
-            
-            .create-card {
-                padding: 24px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header-nav-link:not(.active) {
-                display: none;
-            }
-            .header-nav-link.active {
-                padding: 6px 10px;
-                font-size: 11px;
-            }
-            .auction-grid {
-                grid-template-columns: 1fr;
-            }
-            .detail-stats {
-                grid-template-columns: 1fr;
-            }
-            .wallet-actions {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* ============================================
-           UTILITY
-           ============================================ */
-        .hidden {
-            display: none !important;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .mt-8 {
-            margin-top: 8px;
-        }
-        .mt-16 {
-            margin-top: 16px;
-        }
-        .mt-24 {
-            margin-top: 24px;
-        }
-        .mb-16 {
-            margin-bottom: 16px;
-        }
-        .mb-24 {
-            margin-bottom: 24px;
-        }
-        
-        .flex-center {
+
+        .task-item .task-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
-        }
-        
-        .gap-8 {
-            gap: 8px;
-        }
-        .gap-12 {
             gap: 12px;
         }
-        .gap-16 {
-            gap: 16px;
-        }
-        
-        .color-accent {
+
+        .task-item .task-actions .reward {
+            font-size: 13px;
+            font-weight: 600;
             color: #6e4bff;
         }
-        .color-success {
-            color: #44d4a0;
-        }
-        .color-danger {
-            color: #ff6b6b;
-        }
-        .color-muted {
+
+        .task-item .task-actions .timer {
+            font-size: 12px;
             color: #5a5a72;
+            font-family: monospace;
         }
-        
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #6e4bff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+
+        .task-item .task-actions .btn-start {
+            padding: 4px 16px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #6e4bff, #8b6cff);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
         }
-        
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
+
+        .task-item .task-actions .btn-start:hover {
+            transform: scale(1.02);
+        }
+
+        .task-item .task-actions .btn-start:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ============================================================
+           BOTTOM NAV (как на скринах)
+           ============================================================ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 11, 18, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 0 env(safe-area-inset-bottom, 8px);
+            z-index: 150;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #5a5a72;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 4px 12px;
+            border: none;
+            background: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .bottom-nav .nav-item i {
+            font-size: 20px;
+        }
+
+        .bottom-nav .nav-item:hover {
+            color: #808099;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: #6e4bff;
+        }
+
+        .bottom-nav .nav-item .badge {
+            background: #ff6b6b;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 10px;
+            position: absolute;
+            top: -2px;
+            right: -4px;
+        }
+
+        .bottom-nav .nav-item {
+            position: relative;
+        }
+
+        /* ============================================================
+           GIFT / STARS (как на скринах)
+           ============================================================ */
+        .gift-section {
+            padding: 16px;
+        }
+
+        .gift-section .gift-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .gift-section .gift-sub {
+            font-size: 13px;
+            color: #808099;
+            margin-bottom: 16px;
+        }
+
+        .gift-section .gift-options {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .gift-section .gift-options .gopt {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            color: #808099;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gift-section .gift-options .gopt:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .gift-section .gift-options .gopt.active {
+            background: rgba(110, 75, 255, 0.12);
+            border-color: rgba(110, 75, 255, 0.2);
+            color: #6e4bff;
+        }
+
+        .gift-section .gift-receiver {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .gift-section .gift-receiver input {
+            flex: 1;
+            min-width: 140px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #e8e8f0;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .gift-section .gift-receiver input::placeholder {
+            color: #4a4a62;
+        }
+
+        .gift-section .gift-receiver .btn-self {
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            color: #808099;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+
+        .gift-section .gift-receiver .btn-self:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .gift-section .gift-fee {
+            font-size: 13px;
+            color: #5a5a72;
+            margin-bottom: 12px;
+        }
+
+        .gift-section .gift-fee .val {
+            color: #808099;
+        }
+
+        .gift-section .btn-buy {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6e4bff, #8b6cff);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            box-shadow: 0 4px 24px rgba(110, 75, 255, 0.2);
+        }
+
+        .gift-section .btn-buy:hover {
+            box-shadow: 0 6px 32px rgba(110, 75, 255, 0.3);
+        }
+
+        .gift-section .gift-agree {
+            font-size: 11px;
+            color: #4a4a62;
+            margin-top: 10px;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast-container {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 12px 24px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            max-width: 90%;
+            backdrop-filter: blur(12px);
+        }
+
+        .toast-container.show {
+            display: flex;
+        }
+
+        .toast-container .icon {
+            color: #6e4bff;
+        }
+
+        .toast-container .msg {
+            font-size: 14px;
+            font-weight: 500;
+            color: #e8e8f0;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 600px) {
+            .nft-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 8px;
+                padding: 8px 12px;
             }
+
+            .nft-card {
+                padding: 10px;
+            }
+
+            .nft-card .name {
+                font-size: 12px;
+            }
+
+            .nft-card .price-row {
+                font-size: 12px;
+            }
+
+            .detail-card {
+                padding: 20px;
+                margin: 8px;
+            }
+
+            .detail-card .attrs {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-bar .filter-group .filter-btn {
+                font-size: 10px;
+                padding: 4px 10px;
+            }
+
+            .top-banner .sub {
+                display: none;
+            }
+
+            .header-logo {
+                font-size: 15px;
+            }
+
+            .tab {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+
+            .order-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .order-item .info {
+                justify-content: space-between;
+            }
+
+            .order-item .actions {
+                justify-content: flex-end;
+            }
+
+            .task-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .task-item .task-actions {
+                justify-content: flex-end;
+            }
+
+            .gift-section .gift-receiver {
+                flex-direction: column;
+            }
+
+            .gift-section .gift-receiver .btn-self {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .nft-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ============================================================
+           HIDDEN PAGES
+           ============================================================ */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-content {
+            padding-bottom: 20px;
+        }
+
+        /* ============================================================
+           COLLECTIONS GRID (как на скринах)
+           ============================================================ */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 12px 16px;
+        }
+
+        .collection-card {
+            background: #14141f;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .collection-card:hover {
+            border-color: rgba(110, 75, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .collection-card .icon {
+            font-size: 32px;
+            margin-bottom: 6px;
+        }
+
+        .collection-card .name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .collection-card .count {
+            font-size: 12px;
+            color: #5a5a72;
         }
     </style>
 </head>
@@ -1406,744 +1236,751 @@
 
     <!-- ===== HEADER ===== -->
     <header class="header">
-        <a class="header-logo" onclick="navigate('home')">
-            <div class="header-logo-icon">F</div>
-            <span class="header-logo-text">Fragment</span>
-            <span class="header-logo-badge">Live</span>
-        </a>
-
-        <nav class="header-nav">
-            <a class="header-nav-link active" data-page="home" onclick="navigate('home')">Buy</a>
-            <a class="header-nav-link" data-page="home" onclick="navigate('home')">Sell</a>
-            <a class="header-nav-link" data-page="home" onclick="navigate('home')">Auction</a>
-            <a class="header-nav-link" data-page="wallet" onclick="navigate('wallet')">Wallet</a>
-            <a class="header-nav-link" data-page="create" onclick="navigate('create')">
-                <i class="fas fa-plus" style="font-size:12px;margin-right:4px;"></i> Create
-            </a>
-        </nav>
-
-        <div class="header-right">
-            <div class="header-status">
-                <span class="header-status-dot"></span>
-                <span>Live</span>
+        <div class="header-left">
+            <div class="header-logo" onclick="switchPage('market')">
+                Fragment <small>NFT</small>
             </div>
-            <button class="header-wallet-btn" onclick="navigate('wallet')">
-                <i class="fas fa-wallet"></i>
-                <span id="wallet-balance-header">0.00 TON</span>
-            </button>
+        </div>
+        <div class="header-close" onclick="showToast('Закрыто', 'info')">
+            <i class="fas fa-times"></i>
+            <span>Закрыть</span>
         </div>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <div class="container" id="main-content">
-        <!-- рендерится через JS -->
+    <!-- ===== TOP BANNER ===== -->
+    <div class="top-banner">
+        <div>
+            <div class="title"><i class="fas fa-fire"></i> WEB Лидерборд и задания</div>
+            <div class="sub">$50,000 призовой фонд</div>
+        </div>
+        <button class="btn-banner" onclick="showToast('Узнать больше', 'info')">Узнать больше</button>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer style="border-top:1px solid rgba(255,255,255,0.04);padding:20px 0;margin-top:48px;">
-        <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-            <span style="font-size:13px;color:#3a3a52;">© 2026 Fragment — симуляция аукционов</span>
-            <span style="font-size:12px;color:#2a2a3e;">
-                <i class="fas fa-code" style="margin-right:6px;"></i>
-                Amur Shik · Патрик
+    <!-- ===== TABS ===== -->
+    <div class="tabs" id="mainTabs">
+        <span class="tab active" data-tab="gifts" onclick="switchTab('gifts')">Подарки</span>
+        <span class="tab" data-tab="stars" onclick="switchTab('stars')">Звезды и Прем</span>
+        <span class="tab" data-tab="collections" onclick="switchTab('collections')">Коллекции</span>
+        <span class="tab" data-tab="feed" onclick="switchTab('feed')">Feed</span>
+    </div>
+
+    <!-- ===== SEARCH BAR ===== -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Поиск по названию NFT / номеру" oninput="filterNFTs()" />
+        <div class="filter-group">
+            <button class="filter-btn active" onclick="toggleFilter(this, 'nft')">NFT <i class="fas fa-chevron-down"></i></button>
+            <button class="filter-btn" onclick="toggleFilter(this, 'model')">Модель <i class="fas fa-chevron-down"></i></button>
+            <button class="filter-btn" onclick="toggleFilter(this, 'bg')">Фон <i class="fas fa-chevron-down"></i></button>
+            <button class="filter-btn" onclick="toggleFilter(this, 'symbol')">Символ <i class="fas fa-chevron-down"></i></button>
+            <button class="filter-btn" onclick="toggleFiltersPanel()"><i class="fas fa-sliders-h"></i></button>
+        </div>
+    </div>
+
+    <!-- ===== FILTERS PANEL ===== -->
+    <div class="filters-panel" id="filtersPanel">
+        <div class="filter-section">
+            <span class="label">Номер подарка #</span>
+            <div class="options">
+                <span class="opt active" onclick="selectOpt(this)">Все</span>
+                <span class="opt" onclick="selectOpt(this)">1-100</span>
+                <span class="opt" onclick="selectOpt(this)">101-500</span>
+                <span class="opt" onclick="selectOpt(this)">501+</span>
+            </div>
+        </div>
+        <div class="filter-section">
+            <span class="label">Сортировать по</span>
+            <div class="options">
+                <span class="opt active" onclick="selectOpt(this)">Цена</span>
+                <span class="opt" onclick="selectOpt(this)">Дата</span>
+                <span class="opt" onclick="selectOpt(this)">Популярность</span>
+            </div>
+        </div>
+        <div class="filter-section">
+            <span class="label">Теги</span>
+            <div class="options">
+                <span class="opt" onclick="selectOpt(this)">NFT</span>
+                <span class="opt" onclick="selectOpt(this)">Модель</span>
+                <span class="opt" onclick="selectOpt(this)">Фон</span>
+                <span class="opt" onclick="selectOpt(this)">Символ</span>
+            </div>
+        </div>
+        <div class="filter-actions">
+            <button class="btn-clear" onclick="clearFilters()">Очистить все</button>
+            <button class="btn-apply" onclick="applyFilters()">Показать результаты</button>
+        </div>
+    </div>
+
+    <!-- ===== STATS BAR ===== -->
+    <div class="stats-bar" id="statsBar">
+        <div class="left">
+            <span><span class="num" id="nftCount">0</span> NFT</span>
+            <span>·</span>
+            <span>На продаже (<span class="num" id="onSaleCount">0</span>)</span>
+            <span>·</span>
+            <span>Хранилище (<span class="num" id="storageCount">0</span>)</span>
+        </div>
+        <div>
+            <span id="viewMode" style="cursor:pointer;" onclick="toggleView()">
+                <i class="fas fa-th"></i>
             </span>
         </div>
-    </footer>
+    </div>
 
-    <!-- ===== TOAST CONTAINER ===== -->
-    <div class="toast-container" id="toast-container"></div>
+    <!-- ============================================================
+    PAGES
+    ============================================================ -->
+
+    <!-- ===== MARKET PAGE ===== -->
+    <div class="page active" id="page-market">
+        <div class="page-content">
+            <div class="nft-grid" id="nftGrid"></div>
+        </div>
+    </div>
+
+    <!-- ===== ORDERS PAGE ===== -->
+    <div class="page" id="page-orders">
+        <div class="page-content">
+            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Ордеры</div>
+            <div style="padding:0 16px 8px;font-size:13px;color:#5a5a72;">Мои ордеры</div>
+            <div class="orders-list" id="ordersList"></div>
+            <div class="create-order-btn" onclick="showToast('Создать ордер', 'info')">
+                <i class="fas fa-plus"></i> Создать ордер
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HUB PAGE ===== -->
+    <div class="page" id="page-hub">
+        <div class="page-content">
+            <div class="hub-header">
+                <div class="title">PlayHub Сезон 1: Гонка за 100K GRAM началась!</div>
+                <div class="sub">Играйте в любимые игры и получайте награды</div>
+                <div class="prize">🎮 100K GRAM уже тут!</div>
+            </div>
+            <div style="padding:8px 16px;font-size:14px;color:#808099;">
+                Доступные награды <span style="color:#6e4bff;font-weight:700;">+731</span>
+            </div>
+            <div style="padding:8px 16px 0;font-size:13px;color:#5a5a72;">
+                Нажмите «Начать» перед выполнением задания
+            </div>
+            <div class="hub-tabs">
+                <span class="htab active" onclick="switchHubTab(this, 'hot')">Горящие (6)</span>
+                <span class="htab" onclick="switchHubTab(this, 'more')">Больше наград</span>
+            </div>
+            <div id="tasksList"></div>
+        </div>
+    </div>
+
+    <!-- ===== TASKS PAGE ===== -->
+    <div class="page" id="page-tasks">
+        <div class="page-content">
+            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Задания</div>
+            <div id="tasksList2"></div>
+        </div>
+    </div>
+
+    <!-- ===== STORAGE PAGE ===== -->
+    <div class="page" id="page-storage">
+        <div class="page-content">
+            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Хранилище</div>
+            <div style="padding:4px 16px 8px;font-size:13px;color:#5a5a72;">Здесь будут ваши NFT</div>
+            <div class="nft-grid" id="storageGrid"></div>
+        </div>
+    </div>
+
+    <!-- ===== GIFTS / STARS PAGE (вкладки) ===== -->
+    <div class="page" id="page-gifts">
+        <div class="page-content">
+            <div class="gift-section">
+                <div class="gift-title">🎁 Подарки Звезды и Прем Коллекции</div>
+                <div class="gift-sub">Что вы хотите купить?</div>
+
+                <div class="gift-options">
+                    <span class="gopt active" onclick="selectGiftOption(this)">Выбрать</span>
+                    <span class="gopt" onclick="selectGiftOption(this)">Звезды</span>
+                    <span class="gopt" onclick="selectGiftOption(this)">Премиум</span>
+                </div>
+
+                <div style="font-size:14px;font-weight:500;color:#808099;margin-bottom:8px;">Получатель</div>
+                <div class="gift-receiver">
+                    <input type="text" placeholder="Введите Телеграм юзернейм" />
+                    <button class="btn-self" onclick="showToast('Отправлено себе', 'success')">Отправить себе</button>
+                </div>
+
+                <div class="gift-fee">
+                    Комиссия маркетплейса: <span class="val">-</span>
+                </div>
+
+                <button class="btn-buy" onclick="showToast('Покупка оформлена!', 'success')">
+                    <i class="fas fa-shopping-bag" style="margin-right:8px;"></i> Купить
+                </button>
+
+                <div class="gift-agree">
+                    Покупая Звезды или Премиум, вы соглашаетесь с нашими Условиями использования, и подтверждаете, что вы не резидент США
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== STARS PAGE ===== -->
+    <div class="page" id="page-stars">
+        <div class="page-content">
+            <div style="padding:16px;">
+                <div style="font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:12px;">
+                    ⭐ Телеграм звезды
+                    <span style="font-size:14px;color:#5a5a72;font-weight:400;">·</span>
+                    <span style="font-size:16px;color:#6e4bff;font-weight:600;">Телеграм премиум</span>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="gopt active" onclick="showToast('Звезды выбраны', 'info')" style="padding:8px 20px;background:rgba(110,75,255,0.12);border:1px solid rgba(110,75,255,0.2);border-radius:10px;color:#6e4bff;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;">⭐ Звезды</button>
+                    <button class="gopt" onclick="showToast('Премиум выбран', 'info')" style="padding:8px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;color:#808099;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;">💎 Премиум</button>
+                    <button class="gopt" onclick="showToast('Готово', 'success')" style="padding:8px 20px;background:rgba(68,212,160,0.12);border:1px solid rgba(68,212,160,0.15);border-radius:10px;color:#44d4a0;font-weight:500;cursor:pointer;font-family:Inter,sans-serif;">✅ Готово</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== COLLECTIONS PAGE ===== -->
+    <div class="page" id="page-collections">
+        <div class="page-content">
+            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Коллекции</div>
+            <div class="collection-grid" id="collectionsGrid"></div>
+        </div>
+    </div>
+
+    <!-- ===== FEED PAGE ===== -->
+    <div class="page" id="page-feed">
+        <div class="page-content">
+            <div style="padding:12px 16px 4px;font-size:18px;font-weight:700;color:#fff;">Feed</div>
+            <div style="padding:4px 16px 12px;font-size:13px;color:#5a5a72;">Активность в реальном времени</div>
+            <div style="padding:0 16px;">
+                <div style="background:#14141f;border:1px solid rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:center;color:#5a5a72;">
+                    <i class="fas fa-rss" style="font-size:24px;display:block;margin-bottom:8px;opacity:0.3;"></i>
+                    Лента событий пока пуста
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== DETAIL OVERLAY ===== -->
+    <div class="detail-overlay" id="detailOverlay">
+        <div class="detail-card">
+            <span class="close-btn" onclick="closeDetail()"><i class="fas fa-times"></i></span>
+            <div class="nft-title" id="detailName">Precious Peach</div>
+            <div class="nft-id" id="detailId">#2156</div>
+            <div class="attrs">
+                <div class="attr">
+                    <div class="label">Модель</div>
+                    <div class="value" id="detailModel">Sunset 1.5%</div>
+                </div>
+                <div class="attr">
+                    <div class="label">Фон</div>
+                    <div class="value" id="detailBg">Roman Silver 2%</div>
+                </div>
+                <div class="attr">
+                    <div class="label">Символ</div>
+                    <div class="value" id="detailSymbol">Passion Latte</div>
+                </div>
+            </div>
+            <div class="floors">
+                <div class="floor">Флор: <span id="detailFloor1">♥ 250.99</span></div>
+                <div class="floor">Sunset Флор: <span id="detailFloor2">♥ 285.6</span></div>
+            </div>
+            <div class="offer-row">
+                <div class="offer-label">Оффер</div>
+                <div class="offer-price" id="detailPrice">♥ 566.1</div>
+            </div>
+            <button class="btn-add" onclick="showToast('Добавлено в корзину!', 'success')">
+                <i class="fas fa-plus" style="margin-right:8px;"></i> Добавить
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <div class="bottom-nav">
+        <button class="nav-item active" data-page="market" onclick="switchPage('market')">
+            <i class="fas fa-store"></i>
+            <span>Маркет</span>
+        </button>
+        <button class="nav-item" data-page="orders" onclick="switchPage('orders')">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Ордеры</span>
+        </button>
+        <button class="nav-item" data-page="hub" onclick="switchPage('hub')">
+            <i class="fas fa-gamepad"></i>
+            <span>Игровой хаб</span>
+        </button>
+        <button class="nav-item" data-page="tasks" onclick="switchPage('tasks')">
+            <i class="fas fa-tasks"></i>
+            <span>Задания</span>
+            <span class="badge">3</span>
+        </button>
+        <button class="nav-item" data-page="storage" onclick="switchPage('storage')">
+            <i class="fas fa-box"></i>
+            <span>Хранилище</span>
+        </button>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer">
+        <span class="icon"><i class="fas fa-check-circle"></i></span>
+        <span class="msg" id="toastMsg">Готово</span>
+    </div>
 
     <script>
         // ================================================================
+        //  ДАННЫЕ
+        // ================================================================
+        const nftData = [
+            { name: 'Eternal Rose', id: '#1245', price: 20.7, change: '+1.2', floor: 1763.4, model: 'Rose 2.1%',
+                bg: 'Dark 1%', symbol: '♥ Passion', up: true },
+            { name: 'Evil Eye', id: '#5432', price: 5.82, change: '-0.3', floor: 857.74, model: 'Eye 1.8%',
+                bg: 'Black 0.5%', symbol: '👁️', up: false },
+            { name: 'Flying Broom', id: '#8765', price: 8.04, change: '-1.1', floor: 758.78, model: 'Broom 2.3%',
+                bg: 'Night 1.2%', symbol: '🧹', up: false },
+            { name: 'Gem Signet', id: '#9987', price: 52.44, change: '+4.2', floor: 2468.57, model: 'Gem 3.0%',
+                bg: 'Gold 0.8%', symbol: '💎', up: true },
+            { name: 'Genie Lamp', id: '#4532', price: 29.57, change: '-2.1', floor: 1344.96, model: 'Lamp 1.5%',
+                bg: 'Sand 1.0%', symbol: '🪔', up: false },
+            { name: 'Ginger Cookie', id: '#1223', price: 2.97, change: '-0.4', floor: 717.26, model: 'Cookie 0.8%',
+                bg: 'Brown 0.3%', symbol: '🍪', up: false },
+            { name: 'Hanging Star', id: '#8761', price: 6.34, change: '-0.7', floor: 457.35, model: 'Star 1.1%',
+                bg: 'Blue 0.6%', symbol: '⭐', up: false },
+            { name: 'Heart Locket', id: '#4321', price: 959, change: '+12.5', floor: 8851.81, model: 'Heart 4.2%',
+                bg: 'Gold 2.0%', symbol: '❤️', up: true },
+            { name: 'Heroic Helmet', id: '#7766', price: 175.94, change: '-8.3', floor: 1399.33, model: 'Helmet 3.5%',
+                bg: 'Steel 1.8%', symbol: '⚔️', up: false },
+            { name: 'Hex Pot', id: '#5544', price: 3.11, change: '-0.2', floor: 685.3, model: 'Pot 0.9%', bg: 'Dark 0.4%',
+                symbol: '🧪', up: false },
+            { name: 'Surge Board', id: '#7923', price: 5.95, change: '+0.8', floor: 3172.71, model: 'Board 1.2%',
+                bg: 'Wave 0.7%', symbol: '🏄', up: true },
+            { name: 'Liberty Figure', id: '#234020', price: 3.35, change: '+0.2', floor: 14354.62, model: 'Figure 0.8%',
+                bg: 'Statue 0.5%', symbol: '🗽', up: true },
+            { name: 'Astral Shard', id: '#11223', price: 112.45, change: '-5.6', floor: 4433.58, model: 'Shard 2.8%',
+                bg: 'Space 1.5%', symbol: '✨', up: false },
+            { name: 'B-Day Candle', id: '#33445', price: 4.68, change: '+0.9', floor: 1836.7, model: 'Candle 1.0%',
+                bg: 'Yellow 0.6%', symbol: '🕯️', up: true },
+            { name: 'Berry Box', id: '#55667', price: 6.49, change: '-0.5', floor: 387.97, model: 'Box 1.3%',
+                bg: 'Red 0.8%', symbol: '🍓', up: false },
+            { name: 'Big Year', id: '#77889', price: 2.6, change: '-0.3', floor: 426.11, model: 'Year 0.7%',
+                bg: 'Gold 0.4%', symbol: '🎉', up: false },
+            { name: 'Bonded Ring', id: '#99001', price: 35.69, change: '-2.1', floor: 1987.73, model: 'Ring 2.0%',
+                bg: 'Silver 1.0%', symbol: '💍', up: false },
+            { name: 'Bow Tie', id: '#22334', price: 3.87, change: '-0.3', floor: 379.35, model: 'Tie 0.9%',
+                bg: 'Black 0.5%', symbol: '🎀', up: false },
+            { name: 'Bunny Muffin', id: '#44556', price: 6.01, change: '-0.2', floor: 471.36, model: 'Muffin 1.1%',
+                bg: 'Pink 0.6%', symbol: '🐰', up: false },
+            { name: 'Candy Cane', id: '#66778', price: 2.58, change: '+0.3', floor: 693.28, model: 'Cane 0.6%',
+                bg: 'Red 0.3%', symbol: '🍬', up: true },
+            { name: 'Cookie Heart', id: '#88990', price: 3.57, change: '-0.2', floor: 517.13, model: 'Heart 0.8%',
+                bg: 'Pink 0.4%', symbol: '🍪', up: false },
+            { name: 'Crystal Ball', id: '#10112', price: 8.92, change: '-0.6', floor: 991.98, model: 'Ball 1.5%',
+                bg: 'Purple 0.8%', symbol: '🔮', up: false },
+            { name: 'Diamond Ring', id: '#13141', price: 25.7, change: '-3.2', floor: 2838.63, model: 'Diamond 2.5%',
+                bg: 'White 1.2%', symbol: '💎', up: false },
+            { name: "Durov's Cap", id: '#15161', price: 395.24, change: '+45.1', floor: 12944.1, model: 'Cap 5.0%',
+                bg: 'Black 2.5%', symbol: '🧢', up: true },
+            { name: 'Easter Egg', id: '#17181', price: 2.83, change: '-0.1', floor: 579.95, model: 'Egg 0.5%',
+                bg: 'Colorful 0.3%', symbol: '🥚', up: false },
+            { name: 'Electric Skull', id: '#19201', price: 21.58, change: '-1.8', floor: 1172.62, model: 'Skull 2.2%',
+                bg: 'Dark 1.0%', symbol: '💀', up: false },
+            { name: 'Gravestone', id: '#99999', price: 39.11, change: '+2.3', floor: 2100.0, model: 'Stone 2.0%',
+                bg: 'Grey 1.0%', symbol: '🪦', up: true },
+            { name: 'Mask', id: '#88888', price: 5.73, change: '-0.4', floor: 450.0, model: 'Mask 0.8%', bg: 'Black 0.4%',
+                symbol: '🎭', up: false },
+            { name: 'Coffin', id: '#77777', price: 18.21, change: '-1.2', floor: 900.0, model: 'Coffin 1.5%',
+                bg: 'Dark 0.8%', symbol: '⚰️', up: false },
+            { name: 'Airplane', id: '#66666', price: 4000, change: '+150', floor: 15000, model: 'Plane 8.0%',
+                bg: 'Sky 4.0%', symbol: '✈️', up: true },
+            { name: "Khabib's Papakha", id: '#55555', price: 50.5, change: '+5.2', floor: 3200, model: 'Papakha 3.0%',
+                bg: 'White 1.5%', symbol: '🧢', up: true },
+            { name: 'UFC box', id: '#44444', price: 31, change: '-2.1', floor: 1800, model: 'Box 2.0%', bg: 'Red 1.0%',
+                symbol: '🥊', up: false },
+            { name: 'Trojan Horse', id: '#33333', price: 31, change: '+1.5', floor: 1700, model: 'Horse 2.0%',
+                bg: 'Wood 1.0%', symbol: '🐴', up: true },
+            { name: 'Precious Peach', id: '#2156', price: 566.1, change: '+23.4', floor: 250.99, model: 'Sunset 1.5%',
+                bg: 'Roman Silver 2%', symbol: 'Passion Latte', up: true },
+            { name: 'Pretty Posy', id: '#27312', price: 19.91, change: '-1.2', floor: 200.0, model: 'Posy 1.0%',
+                bg: 'Pink 0.5%', symbol: '🌸', up: false },
+            { name: 'Spring Basket', id: '#97299', price: 25.52, change: '+2.3', floor: 300.0, model: 'Basket 1.5%',
+                bg: 'Green 0.8%', symbol: '🧺', up: true },
+            { name: 'Mousse Cake', id: '#79997', price: 3.99, change: '-0.2', floor: 180.0, model: 'Cake 0.6%',
+                bg: 'Brown 0.3%', symbol: '🍰', up: false },
+            { name: 'Mood Pack', id: '#38888', price: 9.8, change: '-0.5', floor: 220.0, model: 'Pack 1.0%',
+                bg: 'Blue 0.5%', symbol: '😊', up: false },
+            { name: 'Joyful Bundle', id: '#15477', price: 6.11, change: '+0.4', floor: 190.0, model: 'Bundle 0.8%',
+                bg: 'Yellow 0.4%', symbol: '🎁', up: true },
+            { name: 'Snoop Cigar', id: '#12345', price: 10.61, change: '+0.9', floor: 250.0, model: 'Cigar 1.2%',
+                bg: 'Brown 0.6%', symbol: '🚬', up: true },
+            { name: 'Jester Hat', id: '#67890', price: 2.89, change: '-0.1', floor: 117.0, model: 'Hat 0.5%',
+                bg: 'Colorful 0.3%', symbol: '🎭', up: false },
+            { name: 'Easter Egg #45412', id: '#45412', price: 20.63, change: '+1.2', floor: 180.0, model: 'Egg 1.2%',
+                bg: 'Colorful 0.6%', symbol: '🥚', up: true },
+            { name: 'Spring Basket #32254', id: '#32254', price: 9.2, change: '-0.3', floor: 150.0, model: 'Basket 0.8%',
+                bg: 'Green 0.4%', symbol: '🧺', up: false },
+        ];
+
+        const ordersData = [
+            { name: 'Gravestone', qty: 1, price: 39.11 },
+            { name: 'Mask', qty: 1, price: 5.73 },
+            { name: 'Coffin', qty: 1, price: 18.21 },
+            { name: 'Airplane', qty: 1, price: 4000 },
+            { name: "Khabib's Papakha", qty: 1, price: 50.5 },
+            { name: 'UFC box', qty: 1, price: 31 },
+            { name: 'Trojan Horse', qty: 1, price: 31 },
+        ];
+
+        const tasksData = [
+            { title: 'Выиграть в Бойцовско...', progress: '0/1', reward: 25, timer: '00:14:57' },
+            { title: 'Сыграть в Бойцовский ...', progress: '0/1', reward: 2, timer: '00:14:57' },
+            { title: 'Выиграть в Игре в Кал...', progress: '0/1', reward: 25, timer: '00:14:57' },
+            { title: 'Сыграть в Игру в Каль...', progress: '0/1', reward: 2, timer: '00:14:57' },
+            { title: 'Выиграть в BANG', progress: '0/1', reward: 5, timer: '--:--:--' },
+        ];
+
+        const collectionsData = [
+            { name: 'Подарки', icon: '🎁', count: 156 },
+            { name: 'Звезды', icon: '⭐', count: 89 },
+            { name: 'Премиум', icon: '💎', count: 43 },
+            { name: 'NFT', icon: '🖼️', count: 234 },
+            { name: 'Модели', icon: '🎨', count: 67 },
+            { name: 'Фоны', icon: '🌄', count: 45 },
+            { name: 'Символы', icon: '🔣', count: 32 },
+            { name: 'Коллекции', icon: '📚', count: 78 },
+        ];
+
+        const storageData = [
+            { name: 'Precious Peach', id: '#2156', price: 566.1 },
+            { name: 'Easter Egg', id: '#45412', price: 20.63 },
+            { name: 'Spring Basket', id: '#32254', price: 9.2 },
+        ];
+
+        // ================================================================
         //  СОСТОЯНИЕ
         // ================================================================
-        const STATE = {
-            auctions: [],
-            users: [],
-            currentPage: 'home',
-            selectedAuctionId: null,
-            walletAddress: null,
-            toastTimeout: null,
-            botInterval: null,
-            timerInterval: null,
-            isBidding: false,
-        };
+        let currentPage = 'market';
+        let currentTab = 'gifts';
+        let currentView = 'grid';
+        let filteredNFTs = [...nftData];
 
         // ================================================================
-        //  ГЕНЕРАЦИЯ ДАННЫХ
+        //  РЕНДЕРИНГ
         // ================================================================
-        function generateUsers(count = 60) {
-            const users = [];
-            for (let i = 0; i < count; i++) {
-                const addr = 'EQCD' + Array.from({ length: 30 }, () =>
-                    'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' [Math.floor(Math.random() * 36)]
-                ).join('');
-                users.push({
-                    address: addr,
-                    username: `user_${String(1000 + i).padStart(4, '0')}`,
-                    balance: parseFloat((Math.random() * 8000 + 20).toFixed(2)),
-                });
-            }
-            return users;
-        }
-
-        function generatePhone() {
-            if (Math.random() > 0.4) {
-                return '+7' + Array.from({ length: 10 }, () => Math.floor(Math.random() * 10)).join('');
-            }
-            return Array.from({ length: 11 }, () => Math.floor(Math.random() * 10)).join('');
-        }
-
-        function generateAuction(id) {
-            const start = parseFloat((Math.random() * 60 + 0.5).toFixed(2));
-            const current = parseFloat((start + Math.random() * 40 + 1).toFixed(2));
-            const hours = Math.floor(Math.random() * 48) + 2;
-            const end = new Date(Date.now() + hours * 3600000);
-            return {
-                id,
-                number: generatePhone(),
-                current_bid: current,
-                start_price: start,
-                end_time: end.toISOString(),
-                status: 'active',
-                winner_address: null,
-                bids_count: 0,
-                bids: [],
-            };
-        }
-
-        function initData() {
-            STATE.users = generateUsers(60);
-            STATE.auctions = [];
-            for (let i = 1; i <= 35; i++) {
-                STATE.auctions.push(generateAuction(i));
-            }
-            STATE.walletAddress = STATE.users[0].address;
-
-            // Добавляем историю ставок
-            STATE.auctions.forEach(auction => {
-                const count = Math.floor(Math.random() * 18) + 1;
-                for (let i = 0; i < count; i++) {
-                    const user = STATE.users[Math.floor(Math.random() * STATE.users.length)];
-                    const amount = parseFloat((auction.current_bid + Math.random() * 12 + 0.1).toFixed(2));
-                    if (amount > auction.current_bid) auction.current_bid = amount;
-                    auction.bids.push({
-                        id: Date.now() + i + Math.random() * 1000,
-                        bidder_address: user.address,
-                        bidder_name: user.username,
-                        amount: amount,
-                        created_at: new Date(Date.now() - Math.random() * 7200000).toISOString(),
-                    });
-                }
-                auction.bids.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                auction.bids_count = auction.bids.length;
+        function renderNFTs(data) {
+            const grid = document.getElementById('nftGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            data.forEach(nft => {
+                const changeClass = nft.up ? 'up' : 'down';
+                const changeSymbol = nft.up ? '↑' : '↓';
+                const card = document.createElement('div');
+                card.className = 'nft-card';
+                card.innerHTML = `
+                    <div class="badge">${nft.id}</div>
+                    <div class="name">${nft.name}</div>
+                    <div class="sub">${nft.id}</div>
+                    <div class="price-row">
+                        <span class="price">♥ ${nft.price.toFixed(2)}</span>
+                        <span class="change ${changeClass}">${changeSymbol} ${nft.change}</span>
+                    </div>
+                `;
+                card.onclick = () => openDetail(nft);
+                grid.appendChild(card);
             });
-
-            updateHeaderBalance();
+            document.getElementById('nftCount').textContent = data.length;
+            document.getElementById('onSaleCount').textContent = data.filter(n => n.price > 0).length;
+            document.getElementById('storageCount').textContent = storageData.length;
         }
 
-        function updateHeaderBalance() {
-            const user = STATE.users.find(u => u.address === STATE.walletAddress);
-            if (user) {
-                document.getElementById('wallet-balance-header').textContent = user.balance.toFixed(2) + ' TON';
-            }
-        }
-
-        // ================================================================
-        //  ЛОГИКА АУКЦИОНОВ
-        // ================================================================
-        function placeBid(auctionId, amount, bidderAddress = null) {
-            if (STATE.isBidding) return false;
-            STATE.isBidding = true;
-
-            const auction = STATE.auctions.find(a => a.id === auctionId);
-            if (!auction) { showToast('Аукцион не найден', 'error');
-                STATE.isBidding = false; return false; }
-            if (auction.status !== 'active') { showToast('Аукцион завершен', 'error');
-                STATE.isBidding = false; return false; }
-            if (new Date(auction.end_time) <= new Date()) {
-                auction.status = 'ended';
-                showToast('Аукцион истек', 'error');
-                STATE.isBidding = false;
-                renderCurrentPage();
-                return false;
-            }
-            if (amount <= auction.current_bid) {
-                showToast(`Минимальная ставка: ${(auction.current_bid + 0.01).toFixed(2)} TON`, 'error');
-                STATE.isBidding = false;
-                return false;
-            }
-
-            let user = STATE.users.find(u => u.address === bidderAddress);
-            if (!user) user = STATE.users[Math.floor(Math.random() * STATE.users.length)];
-            if (user.balance < amount) {
-                showToast('Недостаточно средств на кошельке', 'error');
-                STATE.isBidding = false;
-                return false;
-            }
-
-            user.balance = parseFloat((user.balance - amount).toFixed(2));
-            auction.current_bid = amount;
-            auction.bids.push({
-                id: Date.now(),
-                bidder_address: user.address,
-                bidder_name: user.username,
-                amount: amount,
-                created_at: new Date().toISOString(),
-            });
-            auction.bids_count = auction.bids.length;
-
-            updateHeaderBalance();
-            showToast(`${user.username} сделал ставку ${amount.toFixed(2)} TON`, 'success');
-            STATE.isBidding = false;
-            renderCurrentPage();
-            return true;
-        }
-
-        function closeExpiredAuctions() {
-            const now = new Date();
-            STATE.auctions.forEach(a => {
-                if (a.status === 'active' && new Date(a.end_time) <= now) {
-                    a.status = 'ended';
-                    if (a.bids.length > 0) {
-                        a.winner_address = a.bids[0].bidder_address;
-                        const winner = STATE.users.find(u => u.address === a.winner_address);
-                        if (winner) {
-                            showToast(`Аукцион ${a.number} завершен! Победитель: ${winner.username}`, 'info');
-                        }
-                    }
-                }
+        function renderOrders() {
+            const list = document.getElementById('ordersList');
+            if (!list) return;
+            list.innerHTML = '';
+            ordersData.forEach(order => {
+                const item = document.createElement('div');
+                item.className = 'order-item';
+                item.innerHTML = `
+                    <div class="info">
+                        <span class="name">${order.name}</span>
+                        <span class="qty">Количество: ${order.qty}</span>
+                    </div>
+                    <span class="price">♥ ${order.price.toFixed(2)}</span>
+                    <div class="actions">
+                        <button class="btn-detail" onclick="showToast('Детали ордера', 'info')">Детали</button>
+                        <button class="btn-sell" onclick="showToast('Выставлено на продажу', 'success')">Продать</button>
+                    </div>
+                `;
+                list.appendChild(item);
             });
         }
 
-        function createAuction(number, startPrice, hours) {
-            const id = STATE.auctions.reduce((max, a) => Math.max(max, a.id), 0) + 1;
-            const end = new Date(Date.now() + hours * 3600000);
-            const newAuction = {
-                id,
-                number,
-                current_bid: parseFloat(startPrice),
-                start_price: parseFloat(startPrice),
-                end_time: end.toISOString(),
-                status: 'active',
-                winner_address: null,
-                bids_count: 0,
-                bids: [],
-            };
-            STATE.auctions.push(newAuction);
-            showToast(`Аукцион #${id} создан!`, 'success');
-            navigate('home');
-            return id;
+        function renderTasks() {
+            const list = document.getElementById('tasksList');
+            if (!list) return;
+            list.innerHTML = '';
+            tasksData.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'task-item';
+                const timerDisplay = task.timer !== '--:--:--' ? `<span class="timer">🕒 ${task.timer}</span>` : '';
+                item.innerHTML = `
+                    <span class="desc">${task.title}</span>
+                    <span class="progress">${task.progress}</span>
+                    <div class="task-actions">
+                        <span class="reward">🎲 ${task.reward}</span>
+                        ${timerDisplay}
+                        <button class="btn-start" onclick="showToast('Задание начато!', 'success')">Начать</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function renderTasks2() {
+            const list = document.getElementById('tasksList2');
+            if (!list) return;
+            list.innerHTML = '';
+            tasksData.slice(0, 3).forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'task-item';
+                item.innerHTML = `
+                    <span class="desc">${task.title}</span>
+                    <span class="progress">${task.progress}</span>
+                    <div class="task-actions">
+                        <span class="reward">🎲 ${task.reward}</span>
+                        <button class="btn-start" onclick="showToast('Задание начато!', 'success')">Начать</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function renderCollections() {
+            const grid = document.getElementById('collectionsGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            collectionsData.forEach(col => {
+                const card = document.createElement('div');
+                card.className = 'collection-card';
+                card.innerHTML = `
+                    <div class="icon">${col.icon}</div>
+                    <div class="name">${col.name}</div>
+                    <div class="count">${col.count} предметов</div>
+                `;
+                card.onclick = () => showToast(`Коллекция ${col.name}`, 'info');
+                grid.appendChild(card);
+            });
+        }
+
+        function renderStorage() {
+            const grid = document.getElementById('storageGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            storageData.forEach(nft => {
+                const card = document.createElement('div');
+                card.className = 'nft-card';
+                card.innerHTML = `
+                    <div class="badge">${nft.id}</div>
+                    <div class="name">${nft.name}</div>
+                    <div class="sub">${nft.id}</div>
+                    <div class="price-row">
+                        <span class="price">♥ ${nft.price.toFixed(2)}</span>
+                    </div>
+                `;
+                card.onclick = () => showToast(`${nft.name} - в хранилище`, 'info');
+                grid.appendChild(card);
+            });
         }
 
         // ================================================================
-        //  БОТЫ
+        //  ФИЛЬТРЫ
         // ================================================================
-        function botMakeBid() {
-            const active = STATE.auctions.filter(a =>
-                a.status === 'active' && new Date(a.end_time) > new Date()
+        function filterNFTs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            filteredNFTs = nftData.filter(n =>
+                n.name.toLowerCase().includes(query) ||
+                n.id.includes(query)
             );
-            if (active.length === 0) return;
+            renderNFTs(filteredNFTs);
+        }
 
-            const auction = active[Math.floor(Math.random() * active.length)];
-            const bidders = STATE.users.filter(u => u.balance > 2);
-            if (bidders.length === 0) return;
+        function toggleFilter(el, type) {
+            el.classList.toggle('active');
+        }
 
-            const user = bidders[Math.floor(Math.random() * bidders.length)];
-            const increase = parseFloat((Math.random() * 0.25 * auction.current_bid + 0.05).toFixed(2));
-            const newBid = parseFloat((auction.current_bid + increase).toFixed(2));
+        function toggleFiltersPanel() {
+            const panel = document.getElementById('filtersPanel');
+            panel.classList.toggle('open');
+        }
 
-            if (user.balance >= newBid && newBid > auction.current_bid) {
-                placeBid(auction.id, newBid, user.address);
+        function selectOpt(el) {
+            const parent = el.closest('.options');
+            parent.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.filters-panel .opt').forEach(o => o.classList.remove('active'));
+            document.querySelectorAll('.filters-panel .opt:first-child').forEach(o => o.classList.add('active'));
+            showToast('Фильтры очищены', 'info');
+        }
+
+        function applyFilters() {
+            showToast('Фильтры применены', 'success');
+            toggleFiltersPanel();
+        }
+
+        function toggleView() {
+            const grid = document.getElementById('nftGrid');
+            if (currentView === 'grid') {
+                currentView = 'list';
+                grid.style.display = 'block';
+                document.getElementById('viewMode').innerHTML = '<i class="fas fa-list"></i>';
+            } else {
+                currentView = 'grid';
+                grid.style.display = 'grid';
+                document.getElementById('viewMode').innerHTML = '<i class="fas fa-th"></i>';
             }
         }
 
-        function startBots() {
-            if (STATE.botInterval) clearInterval(STATE.botInterval);
-            STATE.botInterval = setInterval(() => {
-                if (Math.random() > 0.25) botMakeBid();
-            }, 2500);
+        // ================================================================
+        //  ДЕТАЛИ
+        // ================================================================
+        function openDetail(nft) {
+            document.getElementById('detailName').textContent = nft.name;
+            document.getElementById('detailId').textContent = nft.id;
+            document.getElementById('detailModel').textContent = nft.model || '—';
+            document.getElementById('detailBg').textContent = nft.bg || '—';
+            document.getElementById('detailSymbol').textContent = nft.symbol || '—';
+            document.getElementById('detailFloor1').textContent = `♥ ${nft.floor.toFixed(2)}`;
+            document.getElementById('detailFloor2').textContent = `♥ ${(nft.floor * 1.15).toFixed(2)}`;
+            document.getElementById('detailPrice').textContent = `♥ ${nft.price.toFixed(2)}`;
+            document.getElementById('detailOverlay').classList.add('open');
         }
 
-        function startTimers() {
-            if (STATE.timerInterval) clearInterval(STATE.timerInterval);
-            STATE.timerInterval = setInterval(() => {
-                closeExpiredAuctions();
-                if (STATE.currentPage === 'home' || STATE.currentPage === 'detail') {
-                    renderCurrentPage();
-                }
-            }, 4000);
+        function closeDetail() {
+            document.getElementById('detailOverlay').classList.remove('open');
+        }
+
+        // ================================================================
+        //  НАВИГАЦИЯ
+        // ================================================================
+        function switchPage(page) {
+            currentPage = page;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(`page-${page}`);
+            if (target) target.classList.add('active');
+
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+            const navBtn = document.querySelector(`.bottom-nav .nav-item[data-page="${page}"]`);
+            if (navBtn) navBtn.classList.add('active');
+
+            if (page === 'orders') renderOrders();
+            if (page === 'hub') renderTasks();
+            if (page === 'tasks') renderTasks2();
+            if (page === 'storage') renderStorage();
+            if (page === 'collections') renderCollections();
+
+            // Скрываем верхние табы на некоторых страницах
+            const tabs = document.getElementById('mainTabs');
+            if (['orders', 'hub', 'tasks', 'storage', 'collections', 'feed'].includes(page)) {
+                tabs.style.display = 'none';
+                document.querySelector('.search-bar').style.display = 'none';
+                document.querySelector('.stats-bar').style.display = 'none';
+                document.getElementById('filtersPanel').classList.remove('open');
+            } else {
+                tabs.style.display = 'flex';
+                document.querySelector('.search-bar').style.display = 'flex';
+                document.querySelector('.stats-bar').style.display = 'flex';
+            }
+
+            // Показываем/скрываем баннер
+            const banner = document.querySelector('.top-banner');
+            if (page === 'market') {
+                banner.style.display = 'flex';
+            } else {
+                banner.style.display = 'none';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+            const el = document.querySelector(`.tabs .tab[data-tab="${tab}"]`);
+            if (el) el.classList.add('active');
+
+            // Переключаем страницы для вкладок
+            if (tab === 'gifts') {
+                switchPage('gifts');
+            } else if (tab === 'stars') {
+                switchPage('stars');
+            } else if (tab === 'collections') {
+                switchPage('collections');
+            } else if (tab === 'feed') {
+                switchPage('feed');
+            }
+        }
+
+        function switchHubTab(el, type) {
+            document.querySelectorAll('.hub-tabs .htab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            showToast(type === 'hot' ? 'Горящие задания' : 'Больше наград', 'info');
+        }
+
+        function selectGiftOption(el) {
+            document.querySelectorAll('.gift-options .gopt').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
         }
 
         // ================================================================
         //  TOAST
         // ================================================================
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
+        let toastTimer = null;
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const msgEl = document.getElementById('toastMsg');
+            const icon = container.querySelector('.icon i');
+
             const icons = {
                 success: 'fa-check-circle',
                 error: 'fa-exclamation-circle',
                 info: 'fa-info-circle',
             };
 
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <span class="toast-icon"><i class="fas ${icons[type] || icons.info}"></i></span>
-                <span class="toast-message">${message}</span>
-                <button class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
-            `;
-            container.appendChild(toast);
+            icon.className = `fas ${icons[type] || icons.info}`;
+            msgEl.textContent = msg;
+            container.classList.add('show');
 
-            if (STATE.toastTimeout) clearTimeout(STATE.toastTimeout);
-            STATE.toastTimeout = setTimeout(() => {
-                if (container.children.length > 0) {
-                    container.children[0].remove();
-                }
-            }, 4000);
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                container.classList.remove('show');
+            }, 3000);
         }
-
-        // ================================================================
-        //  РЕНДЕРИНГ
-        // ================================================================
-        function getTimeLeft(endTimeStr) {
-            const end = new Date(endTimeStr);
-            const now = new Date();
-            const diff = end - now;
-            if (diff <= 0) return 'Ended';
-
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff % 86400000) / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-
-            if (d > 0) return `${d}d ${h}h`;
-            if (h > 0) return `${h}h ${m}m`;
-            if (m > 0) return `${m}m ${s}s`;
-            return `${s}s`;
-        }
-
-        function isUrgent(endTimeStr) {
-            const diff = new Date(endTimeStr) - new Date();
-            return diff > 0 && diff < 600000; // менее 10 минут
-        }
-
-        function renderAuctionCard(auction) {
-            const ended = auction.status === 'ended';
-            const timeLeft = getTimeLeft(auction.end_time);
-            const urgent = !ended && isUrgent(auction.end_time);
-            const winner = auction.winner_address ? STATE.users.find(u => u.address === auction.winner_address) : null;
-
-            let html = `
-                <div class="auction-card ${ended ? 'ended' : ''}" onclick="${!ended ? `navigate('detail', ${auction.id})` : ''}">
-                    <div class="auction-card-top">
-                        <span class="auction-number">${auction.number}</span>
-                        <span class="auction-id-badge">#${auction.id}</span>
-                    </div>
-                    <div class="auction-card-body">
-                        <div class="auction-bid-row">
-                            <div>
-                                <div class="auction-bid-label">Current Bid</div>
-                                <div class="auction-bid-amount">${auction.current_bid.toFixed(2)} <span class="currency">TON</span></div>
-                            </div>
-                            <div class="auction-timer">
-                                <div class="auction-timer-label">${ended ? 'Ended' : 'Ends in'}</div>
-                                <div class="auction-timer-value ${urgent ? 'urgent' : ''}">${ended ? '✅' : timeLeft}</div>
-                            </div>
-                        </div>
-                        <div class="auction-card-footer">
-                            <span class="auction-bids-count"><i class="fas fa-gavel"></i> ${auction.bids_count} bids</span>
-                            <span class="auction-start-price">from <span class="val">${auction.start_price.toFixed(2)} TON</span></span>
-                        </div>
-                        ${ended && winner ? `
-                            <div style="margin-top:6px;font-size:12px;color:#44d4a0;display:flex;align-items:center;gap:6px;">
-                                <i class="fas fa-trophy"></i> ${winner.username}
-                            </div>
-                        ` : ''}
-                    </div>
-                    ${!ended ? `
-                        <div class="auction-bid-form" onclick="event.stopPropagation()">
-                            <input type="number" step="0.1" id="bid-input-${auction.id}" placeholder="Bid TON" />
-                            <button onclick="handleQuickBid(${auction.id})">Bid</button>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-            return html;
-        }
-
-        function renderHome() {
-            const active = STATE.auctions.filter(a => a.status === 'active');
-            const ended = STATE.auctions.filter(a => a.status === 'ended');
-
-            let html = `
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">
-                            <span class="highlight">Live</span> Auctions
-                        </div>
-                        <div class="page-stats" style="margin-top:4px;">
-                            <span><span class="num">${active.length}</span> active</span>
-                            <span>·</span>
-                            <span><span class="num">${ended.length}</span> ended</span>
-                            <span>·</span>
-                            <span><span class="num">${STATE.users.length}</span> participants</span>
-                        </div>
-                    </div>
-                    <div class="page-actions">
-                        <button class="btn-create" onclick="navigate('create')">
-                            <i class="fas fa-plus"></i>
-                            <span>New Auction</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            if (active.length === 0 && ended.length === 0) {
-                html += `
-                    <div class="text-center" style="padding:80px 0;color:#5a5a72;">
-                        <i class="fas fa-gavel" style="font-size:48px;opacity:0.2;margin-bottom:16px;display:block;"></i>
-                        <p style="font-size:18px;">No auctions yet</p>
-                        <p style="font-size:14px;margin-top:4px;">Create the first auction to get started</p>
-                    </div>
-                `;
-            } else {
-                html += `<div class="auction-grid">`;
-                active.forEach(a => { html += renderAuctionCard(a); });
-                html += `</div>`;
-
-                if (ended.length > 0) {
-                    html += `
-                        <div style="margin-top:48px;">
-                            <h3 style="font-size:18px;font-weight:600;color:#5a5a72;margin-bottom:16px;">
-                                Ended Auctions
-                            </h3>
-                            <div class="auction-grid" style="opacity:0.6;">
-                                ${ended.slice(0, 6).map(a => renderAuctionCard(a)).join('')}
-                            </div>
-                            ${ended.length > 6 ? `
-                                <div class="text-center" style="margin-top:12px;">
-                                    <span style="font-size:13px;color:#5a5a72;">+${ended.length - 6} more ended</span>
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                }
-            }
-
-            return html;
-        }
-
-        function renderDetail(auctionId) {
-            const auction = STATE.auctions.find(a => a.id === auctionId);
-            if (!auction) { showToast('Аукцион не найден', 'error');
-                navigate('home'); return ''; }
-
-            const ended = auction.status === 'ended';
-            const timeLeft = getTimeLeft(auction.end_time);
-            const urgent = !ended && isUrgent(auction.end_time);
-            const winner = auction.winner_address ? STATE.users.find(u => u.address === auction.winner_address) : null;
-
-            let html = `
-                <a class="detail-back" onclick="navigate('home')">
-                    <i class="fas fa-arrow-left"></i> Back to auctions
-                </a>
-                <div class="detail-container">
-                    <div>
-                        <div class="detail-number">${auction.number}</div>
-                        <div class="detail-id">
-                            Auction #${auction.id}
-                            <span class="status-badge ${ended ? 'ended' : 'active'}">${ended ? 'Ended' : 'Active'}</span>
-                        </div>
-
-                        <div class="detail-stats">
-                            <div class="detail-stat">
-                                <div class="detail-stat-label">Current Bid</div>
-                                <div class="detail-stat-value">${auction.current_bid.toFixed(2)} <span class="ton">TON</span></div>
-                            </div>
-                            <div class="detail-stat">
-                                <div class="detail-stat-label">Total Bids</div>
-                                <div class="detail-stat-value">${auction.bids_count}</div>
-                            </div>
-                            <div class="detail-stat">
-                                <div class="detail-stat-label">Start Price</div>
-                                <div class="detail-stat-value">${auction.start_price.toFixed(2)} <span class="ton">TON</span></div>
-                            </div>
-                            <div class="detail-stat">
-                                <div class="detail-stat-label">Status</div>
-                                <div class="detail-stat-value" style="color:${ended ? '#ff6b6b' : '#44d4a0'};font-size:20px;">
-                                    ${ended ? 'Ended' : 'Active'}
-                                </div>
-                            </div>
-                        </div>
-
-                        ${!ended ? `
-                            <div class="detail-timer-block">
-                                <div class="detail-timer-label">Time Remaining</div>
-                                <div class="detail-timer-value ${urgent ? 'urgent' : ''}">${timeLeft}</div>
-                            </div>
-
-                            <div class="detail-bid-form">
-                                <input type="number" step="0.1" id="detail-bid-input" placeholder="Enter bid amount (TON)" />
-                                <button onclick="handleDetailBid(${auction.id})" id="detail-bid-btn">
-                                    <i class="fas fa-gavel" style="margin-right:8px;"></i> Place Bid
-                                </button>
-                            </div>
-                            <div style="font-size:12px;color:#5a5a72;margin-top:8px;">
-                                Minimum bid: ${(auction.current_bid + 0.01).toFixed(2)} TON
-                            </div>
-                        ` : `
-                            <div class="detail-ended-info">
-                                ${winner ? `
-                                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                                        <span><i class="fas fa-trophy" style="color:#44d4a0;"></i></span>
-                                        <span>Winner: <span class="winner">${winner.username}</span></span>
-                                        <span>·</span>
-                                        <span>Amount: <span class="winner-amount">${auction.current_bid.toFixed(2)} TON</span></span>
-                                    </div>
-                                ` : `
-                                    <div style="color:#5a5a72;">No bids were placed on this auction</div>
-                                `}
-                            </div>
-                        `}
-                    </div>
-
-                    <div>
-                        <div class="detail-history">
-                            <div class="detail-history-title">
-                                <span><i class="fas fa-clock" style="margin-right:8px;color:#5a5a72;"></i> Bid History</span>
-                                <span class="count">${auction.bids.length} bids</span>
-                            </div>
-                            <div class="detail-history-list">
-                                ${auction.bids.length === 0 ? `
-                                    <div class="detail-history-empty">
-                                        <i class="fas fa-inbox" style="font-size:24px;display:block;margin-bottom:8px;opacity:0.3;"></i>
-                                        No bids yet
-                                    </div>
-                                ` : `
-                                    ${auction.bids.slice(0, 50).map(bid => `
-                                        <div class="detail-history-item">
-                                            <span class="bidder">
-                                                ${bid.bidder_name || 'Anon'}
-                                                <span class="time">${new Date(bid.created_at).toLocaleTimeString()}</span>
-                                            </span>
-                                            <span class="amount">${bid.amount.toFixed(2)} TON</span>
-                                        </div>
-                                    `).join('')}
-                                    ${auction.bids.length > 50 ? `
-                                        <div style="text-align:center;font-size:12px;color:#5a5a72;padding:8px 0;">
-                                            +${auction.bids.length - 50} more bids
-                                        </div>
-                                    ` : ''}
-                                `}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            return html;
-        }
-
-        function renderWallet() {
-            const user = STATE.users.find(u => u.address === STATE.walletAddress) || STATE.users[0];
-
-            let html = `
-                <div style="padding-top:16px;">
-                    <div class="wallet-container">
-                        <div class="wallet-card">
-                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;position:relative;z-index:1;">
-                                <h2 style="font-size:22px;font-weight:700;color:#fff;">
-                                    <i class="fas fa-wallet" style="color:#6e4bff;margin-right:12px;"></i> Wallet
-                                </h2>
-                                <span style="font-size:12px;color:#5a5a72;background:rgba(0,0,0,0.3);padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.04);">
-                                    <i class="fas fa-circle" style="color:#44d4a0;font-size:6px;margin-right:6px;vertical-align:middle;"></i>
-                                    connected
-                                </span>
-                            </div>
-
-                            <div class="wallet-balance">
-                                <div class="wallet-balance-label">Total Balance</div>
-                                <div class="wallet-balance-amount">${user.balance.toFixed(2)} <span class="ton">TON</span></div>
-                            </div>
-
-                            <div class="wallet-address">
-                                <div class="wallet-address-label">Address</div>
-                                <div class="wallet-address-value">${user.address}</div>
-                            </div>
-
-                            <div class="wallet-username">
-                                <span class="at">@</span>${user.username}
-                            </div>
-
-                            <div style="font-size:13px;color:#5a5a72;margin-top:4px;">
-                                <i class="far fa-calendar-alt" style="margin-right:6px;"></i>
-                                Joined ${new Date().toLocaleDateString()}
-                            </div>
-
-                            <div class="wallet-actions">
-                                <button class="wallet-action-btn primary">
-                                    <i class="fas fa-paper-plane"></i> Send
-                                </button>
-                                <button class="wallet-action-btn secondary">
-                                    <i class="fas fa-download"></i> Receive
-                                </button>
-                            </div>
-
-                            <button class="wallet-back" onclick="navigate('home')">
-                                <i class="fas fa-arrow-left"></i> Back to auctions
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            return html;
-        }
-
-        function renderCreate() {
-            let html = `
-                <div style="padding-top:16px;">
-                    <div class="create-container">
-                        <div class="create-card">
-                            <h2 style="font-size:22px;font-weight:700;color:#fff;margin-bottom:24px;">
-                                <i class="fas fa-plus-circle" style="color:#6e4bff;margin-right:12px;"></i> Create Auction
-                            </h2>
-                            <form class="create-form" onsubmit="handleCreateAuction(event)">
-                                <div class="create-form-group">
-                                    <label>Phone Number</label>
-                                    <input type="text" id="create-number" placeholder="+71234567890" required />
-                                </div>
-                                <div class="create-form-group">
-                                    <label>Start Price (TON)</label>
-                                    <input type="number" step="0.1" min="0.1" id="create-price" value="1.0" required />
-                                </div>
-                                <div class="create-form-group">
-                                    <label>Duration (hours)</label>
-                                    <input type="number" min="1" max="168" id="create-hours" value="24" required />
-                                </div>
-                                <button type="submit" class="create-submit">
-                                    <i class="fas fa-gavel" style="margin-right:8px;"></i> Create Auction
-                                </button>
-                                <button type="button" class="create-cancel" onclick="navigate('home')">
-                                    Cancel
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            `;
-            return html;
-        }
-
-        // ================================================================
-        //  НАВИГАЦИЯ
-        // ================================================================
-        function navigate(page, id = null) {
-            STATE.currentPage = page;
-            if (page === 'detail' && id) STATE.selectedAuctionId = id;
-            renderCurrentPage();
-
-            document.querySelectorAll('.header-nav-link').forEach(el => {
-                el.classList.remove('active');
-                if (el.dataset.page === page) {
-                    el.classList.add('active');
-                }
-            });
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function renderCurrentPage() {
-            const container = document.getElementById('main-content');
-            let html = '';
-            switch (STATE.currentPage) {
-                case 'home':
-                    html = renderHome();
-                    break;
-                case 'detail':
-                    html = renderDetail(STATE.selectedAuctionId);
-                    break;
-                case 'wallet':
-                    html = renderWallet();
-                    break;
-                case 'create':
-                    html = renderCreate();
-                    break;
-                default:
-                    html = renderHome();
-            }
-            container.innerHTML = html;
-        }
-
-        // ================================================================
-        //  ОБРАБОТЧИКИ
-        // ================================================================
-        window.handleQuickBid = function(auctionId) {
-            const input = document.getElementById(`bid-input-${auctionId}`);
-            if (!input) return;
-            const amount = parseFloat(input.value);
-            if (!amount || isNaN(amount) || amount <= 0) {
-                showToast('Введите сумму ставки', 'error');
-                return;
-            }
-            const success = placeBid(auctionId, amount);
-            if (success) input.value = '';
-        };
-
-        window.handleDetailBid = function(auctionId) {
-            const input = document.getElementById('detail-bid-input');
-            if (!input) return;
-            const amount = parseFloat(input.value);
-            if (!amount || isNaN(amount) || amount <= 0) {
-                showToast('Введите сумму ставки', 'error');
-                return;
-            }
-            const btn = document.getElementById('detail-bid-btn');
-            if (btn) btn.disabled = true;
-            const success = placeBid(auctionId, amount);
-            if (success) {
-                input.value = '';
-                renderCurrentPage();
-            }
-            if (btn) btn.disabled = false;
-        };
-
-        window.handleCreateAuction = function(e) {
-            e.preventDefault();
-            const number = document.getElementById('create-number').value.trim();
-            const price = parseFloat(document.getElementById('create-price').value);
-            const hours = parseInt(document.getElementById('create-hours').value);
-
-            if (!number) { showToast('Введите номер телефона', 'error'); return; }
-            if (isNaN(price) || price <= 0) { showToast('Цена должна быть больше 0', 'error'); return; }
-            if (isNaN(hours) || hours < 1) { showToast('Минимум 1 час', 'error'); return; }
-
-            createAuction(number, price, hours);
-        };
-
-        // ================================================================
-        //  КЛАВИАТУРНЫЕ КОМАНДЫ
-        // ================================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') navigate('home');
-            if (e.key === 'h' && !e.ctrlKey && !e.metaKey) navigate('home');
-            if (e.key === 'w' && !e.ctrlKey && !e.metaKey) navigate('wallet');
-            if (e.key === 'c' && !e.ctrlKey && !e.metaKey) navigate('create');
-        });
 
         // ================================================================
         //  ИНИЦИАЛИЗАЦИЯ
         // ================================================================
         function init() {
-            initData();
-            startBots();
-            startTimers();
-            navigate('home');
-            console.log('🔥 Fragment Live — полностью рабочая копия');
-            console.log(`📊 Активных аукционов: ${STATE.auctions.filter(a => a.status === 'active').length}`);
-            console.log(`👤 Пользователей: ${STATE.users.length}`);
-            console.log('⌨️  Hotkeys: H=Home, W=Wallet, C=Create, ESC=Home');
+            renderNFTs(nftData);
+            renderOrders();
+            renderTasks();
+            renderTasks2();
+            renderCollections();
+            renderStorage();
+            document.getElementById('nftCount').textContent = nftData.length;
+            document.getElementById('onSaleCount').textContent = nftData.filter(n => n.price > 0).length;
+            document.getElementById('storageCount').textContent = storageData.length;
+
+            // Закрываем детали по клику вне карточки
+            document.getElementById('detailOverlay').addEventListener('click', function(e) {
+                if (e.target === this) closeDetail();
+            });
+
+            console.log('🔥 Fragment Marketplace запущен!');
+            console.log(`📊 NFT: ${nftData.length}, Ордеров: ${ordersData.length}, Заданий: ${tasksData.length}`);
+            console.log('⌨️  Навигация через нижнее меню');
         }
 
         document.addEventListener('DOMContentLoaded', init);
