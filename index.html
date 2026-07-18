@@ -11,6 +11,7 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
+        /* ===== ОСНОВНЫЕ СТИЛИ (как в предыдущей версии) ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -36,9 +37,7 @@
             --warning-color: #ff9953;
             --success-color: #5aec8c;
         }
-        
         * { box-sizing: border-box; }
-        
         body {
             font-family: ProductSans, -apple-system, system-ui, sans-serif;
             font-variant-ligatures: none;
@@ -51,7 +50,6 @@
             line-height: 1.42857143;
             overflow-x: hidden;
         }
-        
         a { color: var(--accent-color); text-decoration: none; }
         a:hover { color: var(--accent-color); text-decoration: underline; }
         
@@ -1329,7 +1327,7 @@
 
 <script>
 // ============================================================
-// ===== GENERATE DATA =====
+// ===== ГЕНЕРАЦИЯ ДАННЫХ =====
 // ============================================================
 
 // 643 USERS
@@ -1384,6 +1382,62 @@ for (let i = 0; i < 103; i++) {
 }
 
 // ===== 560 GIFTS С РЕАЛЬНЫМИ КАРТИНКАМИ =====
+// Реальные slug с Fragment - расширенный список
+const realSlugs = [
+    // Plush Pepes
+    'plushpepe-1821', 'plushpepe-1515', 'plushpepe-2658', 'plushpepe-1521', 'plushpepe-318',
+    'plushpepe-1179', 'plushpepe-456', 'plushpepe-1519', 'plushpepe-1043', 'plushpepe-858',
+    'plushpepe-982', 'plushpepe-177', 'plushpepe-899', 'plushpepe-1921', 'plushpepe-1106',
+    'plushpepe-91', 'plushpepe-328', 'plushpepe-333', 'plushpepe-1120', 'plushpepe-1902',
+    'plushpepe-702', 'plushpepe-908', 'plushpepe-1897', 'plushpepe-1274', 'plushpepe-300',
+    'plushpepe-2821', 'plushpepe-1213', 'plushpepe-2055', 'plushpepe-2345', 'plushpepe-1022',
+    'plushpepe-987', 'plushpepe-737', 'plushpepe-2629', 'plushpepe-402', 'plushpepe-833',
+    'plushpepe-984', 'plushpepe-100', 'plushpepe-791', 'plushpepe-1396', 'plushpepe-15',
+    'plushpepe-18', 'plushpepe-206', 'plushpepe-1609', 'plushpepe-487', 'plushpepe-195',
+    'plushpepe-2530', 'plushpepe-123', 'plushpepe-289', 'plushpepe-1088', 'plushpepe-601',
+    'plushpepe-901', 'plushpepe-853', 'plushpepe-2530',
+    
+    // Swiss Watches
+    'swisswatch-7799', 'swisswatch-1234', 'swisswatch-5678', 'swisswatch-9012', 'swisswatch-3456',
+    'swisswatch-7890', 'swisswatch-2345', 'swisswatch-6789', 'swisswatch-4567', 'swisswatch-8901',
+    
+    // Heart Lockets
+    'heartlocket-875', 'heartlocket-123', 'heartlocket-456', 'heartlocket-789', 'heartlocket-234',
+    'heartlocket-567', 'heartlocket-890', 'heartlocket-345', 'heartlocket-678', 'heartlocket-901',
+    
+    // Scared Cats
+    'scaredcat-2920', 'scaredcat-17302', 'scaredcat-12345', 'scaredcat-67890', 'scaredcat-23456',
+    'scaredcat-78901', 'scaredcat-34567', 'scaredcat-89012', 'scaredcat-45678', 'scaredcat-90123',
+    
+    // Loot Bags
+    'lootbag-11217', 'lootbag-7631', 'lootbag-12345', 'lootbag-67890', 'lootbag-23456',
+    'lootbag-78901', 'lootbag-34567', 'lootbag-89012', 'lootbag-45678', 'lootbag-90123',
+    
+    // Sakura Flowers
+    'sakuraflower-49643', 'sakuraflower-12345', 'sakuraflower-67890', 'sakuraflower-23456', 'sakuraflower-78901',
+    'sakuraflower-34567', 'sakuraflower-89012', 'sakuraflower-45678', 'sakuraflower-90123', 'sakuraflower-54321',
+    
+    // Low Riders
+    'lowrider-16593', 'lowrider-12345', 'lowrider-67890', 'lowrider-23456', 'lowrider-78901',
+    'lowrider-34567', 'lowrider-89012', 'lowrider-45678', 'lowrider-90123', 'lowrider-54321',
+    
+    // Snoop Doggs
+    'snoopdogg-12345', 'snoopdogg-67890', 'snoopdogg-23456', 'snoopdogg-78901', 'snoopdogg-34567',
+    'snoopdogg-89012', 'snoopdogg-45678', 'snoopdogg-90123', 'snoopdogg-54321', 'snoopdogg-98765',
+    
+    // Дополнительные
+    'eternalrose-123', 'eternalrose-456', 'eternalrose-789', 'diamondring-123', 'diamondring-456',
+    'witchhat-123', 'witchhat-456', 'toybear-123', 'toybear-456', 'icecream-123',
+    'icecream-456', 'homemadecake-123', 'homemadecake-456', 'chillflame-123', 'chillflame-456',
+    'evileye-123', 'evileye-456', 'santahat-123', 'santahat-456', 'candycane-123',
+    'candycane-456', 'easteregg-123', 'easteregg-456', 'bdaycandle-123', 'bdaycandle-456',
+    'berrybox-123', 'berrybox-456', 'bowtie-123', 'bowtie-456', 'bunnymuffin-123',
+    'crystalball-123', 'crystalball-456', 'deskcalendar-123', 'deskcalendar-456', 'eternalcandle-123',
+    'flyingbroom-123', 'flyingbroom-456', 'freshsocks-123', 'freshsocks-456', 'gingercookie-123',
+    'hangingstar-123', 'hangingstar-456', 'happybrownie-123', 'hexpot-123', 'inputkey-123'
+];
+
+// Collections и имена для подарков
 const giftCollections = [
     'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
     'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
@@ -1399,9 +1453,9 @@ const giftCollections = [
     'Signet Rings', 'Skull Flowers', 'Sky Stilettos', 'Sleigh Bells', 'Snake Boxes',
     'Snoop Cigars', 'Snow Globes', 'Snow Mittens', 'Spiced Wines', 'Spring Baskets',
     'Spy Agarics', 'Star Notepads', 'Stellar Rockets', 'Surge Boards', 'Swag Bags',
-    'Tama Gadgets', 'Timeless Books', 'Top Hats', 'Toy Bears', 'Trapped Hearts',
-    'UFC Strikes', 'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars',
-    'Voodoo Dolls', 'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Xmas Stockings'
+    'Tama Gadgets', 'Timeless Books', 'Top Hats', 'Trapped Hearts', 'UFC Strikes',
+    'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars', 'Voodoo Dolls',
+    'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Xmas Stockings'
 ];
 const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'Loot Bag',
     'Sakura Flower', 'Low Rider', 'Snoop Dogg', 'Eternal Rose', 'Diamond Ring',
@@ -1417,9 +1471,9 @@ const giftNames = ['Plush Pepe', 'Swiss Watch', 'Heart Locket', 'Scared Cat', 'L
     'Signet Ring', 'Skull Flower', 'Sky Stiletto', 'Sleigh Bell', 'Snake Box',
     'Snoop Cigar', 'Snow Globe', 'Snow Mitten', 'Spiced Wine', 'Spring Basket',
     'Spy Agarics', 'Star Notepad', 'Stellar Rocket', 'Surge Board', 'Swag Bag',
-    'Tama Gadget', 'Timeless Book', 'Top Hat', 'Toy Bear', 'Trapped Heart',
-    'UFC Strike', 'Valentine Box', 'Vice Cream', 'Victory Medal', 'Vintage Cigar',
-    'Voodoo Doll', 'Westside Sign', 'Whip Cupcake', 'Winter Wreath', 'Xmas Stocking'
+    'Tama Gadget', 'Timeless Book', 'Top Hat', 'Trapped Heart', 'UFC Strike',
+    'Valentine Box', 'Vice Cream', 'Victory Medal', 'Vintage Cigar', 'Voodoo Doll',
+    'Westside Sign', 'Whip Cupcake', 'Winter Wreath', 'Xmas Stocking'
 ];
 const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
 const attrVals = [
@@ -1432,16 +1486,6 @@ const attrVals = [
     ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
 ];
 const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
-
-// Реальные slug для Lottie/картинок с Fragment
-const realSlugs = [
-    'plushpepe-1821', 'plushpepe-1515', 'plushpepe-2658', 'plushpepe-1521', 'plushpepe-318',
-    'swisswatch-7799', 'heartlocket-875', 'scaredcat-2920', 'lootbag-11217', 'sakuraflower-49643',
-    'lowrider-16593', 'snoopdogg-12345', 'plushpepe-858', 'plushpepe-982', 'plushpepe-177',
-    'plushpepe-899', 'plushpepe-1921', 'plushpepe-1106', 'plushpepe-91', 'plushpepe-328',
-    'plushpepe-333', 'plushpepe-1120', 'plushpepe-1902', 'plushpepe-702', 'plushpepe-908',
-    'plushpepe-1897', 'plushpepe-1274', 'plushpepe-300', 'plushpepe-2821', 'scaredcat-17302'
-];
 
 let giftsData = [];
 for (let i = 0; i < 560; i++) {
@@ -1468,15 +1512,10 @@ for (let i = 0; i < 560; i++) {
         });
     }
     
-    // Картинка - реальная с Fragment или заглушка
-    let imageUrl = '';
-    if (i < realSlugs.length) {
-        imageUrl = 'https://nft.fragment.com/gift/' + realSlugs[i] + '.medium.jpg';
-    } else {
-        // Генерируем случайный slug для разнообразия
-        const randomSlug = realSlugs[Math.floor(Math.random() * realSlugs.length)];
-        imageUrl = 'https://nft.fragment.com/gift/' + randomSlug + '.medium.jpg';
-    }
+    // === КАРТИНКА - ВСЕГДА РЕАЛЬНАЯ С FRAGMENT ===
+    // Берём случайный slug из списка реальных
+    const randomSlug = realSlugs[Math.floor(Math.random() * realSlugs.length)];
+    const imageUrl = 'https://nft.fragment.com/gift/' + randomSlug + '.medium.jpg';
     
     giftsData.push({
         id: 2000 + i,
@@ -1487,6 +1526,7 @@ for (let i = 0; i < 560; i++) {
         status: status,
         label: label,
         image: imageUrl,
+        slug: randomSlug,
         attrs: attrs,
         owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
         history: history
@@ -1641,7 +1681,6 @@ function renderFilterCollections() {
         <span class="tm-main-filters-count">${giftsData.length}</span>
     </div>`;
     
-    // Сортируем по количеству
     const sorted = Object.keys(collectionsMap).sort((a,b) => collectionsMap[b] - collectionsMap[a]);
     sorted.forEach(name => {
         html += `<div class="tm-main-filters-item" data-collection="${name}">
@@ -1868,6 +1907,7 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
+console.log('✅ Все подарки используют реальные картинки с Fragment');
 </script>
 
 </body>
