@@ -11,7 +11,7 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
-        /* ===== ВСЕ СТИЛИ КАК В ПОСЛЕДНЕЙ РАБОЧЕЙ ВЕРСИИ ===== */
+        /* ===== ВСЕ СТИЛИ КАК В ПРЕДЫДУЩЕЙ ВЕРСИИ ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -219,7 +219,7 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        /* ===== STARS ===== */
+        /* ===== STARS (с пакетами) ===== */
         .tm-main-premium .tm-main-intro {
             padding: 20px 12px 10px;
             text-align: center;
@@ -231,7 +231,6 @@
             color: var(--header-color);
             margin: 0;
         }
-        .tm-main-intro-text { font-size: 14px; color: var(--text-color); margin-top: 4px; }
         .tm-main-intro-header i.icon-telegram-stars {
             display: inline-block;
             width: 28px;
@@ -242,6 +241,7 @@
             vertical-align: middle;
             margin-left: 6px;
         }
+        .tm-main-intro-text { font-size: 14px; color: var(--text-color); margin-top: 4px; }
         
         .tm-main-search-form {
             max-width: 680px;
@@ -393,7 +393,6 @@
         .tab-icon-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5V7.5l5 4.5-5 4.5z" fill="%234db2ff"/%3E%3C/svg%3E'); }
         .tab-icon-usdt { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdc { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
-        .tab-network { font-size: 10px; color: var(--table-text-color); }
         
         .btn-primary.btn-block {
             display: block;
@@ -413,7 +412,46 @@
         .tm-main-form-link-wrap { text-align: center; margin-top: 16px; font-size: 14px; }
         .tm-main-form-link-wrap a { color: var(--accent-color); }
         
-        /* ===== ТАБЛИЦЫ ===== */
+        /* STARS пакеты */
+        .tm-stars-options {
+            display: block !important;
+        }
+        .tm-stars-options .tm-form-radio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: -4px 0;
+        }
+        .tm-stars-options .tm-form-radio-item {
+            display: block;
+            position: relative;
+            padding: 0;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .tm-stars-options .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
+        .tm-stars-options .tm-form-radio-label {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            line-height: 18px;
+            padding: 8px 14px;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            box-shadow: 0 0 0 0px var(--accent-color);
+            transition: box-shadow .2s ease;
+            color: var(--field-color);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            gap: 8px;
+        }
+        .tm-stars-options .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
+        .tm-stars-options .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
+        .tm-stars-options .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
+        .tm-stars-options .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
+        
+        /* TABLE */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -510,7 +548,7 @@
             border-radius: var(--def-border-radius);
         }
         
-        /* ===== GIFT CARDS ===== */
+        /* GIFT CARDS */
         .tm-catalog-grid-wrap { 
             --gap: 12px;
             background: transparent;
@@ -535,7 +573,6 @@
             transition: background .2s ease, transform .2s ease;
             min-width: 140px;
             border: 1px solid rgba(255,255,255,0.04);
-            position: relative;
         }
         .tm-catalog-grid .tm-grid-item:hover { 
             background: #293440;
@@ -653,7 +690,7 @@
             .tm-grid-item-status { font-size: 11px; line-height: 16px; padding: 2px 7px; }
         }
         
-        /* ===== FILTERS - ЗАКРЫТ ПО УМОЛЧАНИЮ ===== */
+        /* FILTERS */
         .tm-main-filters-wrap { 
             margin-bottom: 20px; 
             max-width: 960px; 
@@ -664,16 +701,6 @@
             background-color: var(--table-bg-color);
             border-radius: var(--def-border-radius);
             overflow: hidden;
-        }
-        .tm-main-filters-box.closed .tm-main-filters-content {
-            opacity: 0;
-            max-height: 0;
-            pointer-events: none;
-        }
-        .tm-main-filters-box.opened .tm-main-filters-content {
-            opacity: 1;
-            max-height: 500px;
-            pointer-events: auto;
         }
         .tm-main-filters-header {
             display: flex;
@@ -696,6 +723,12 @@
         .tm-main-filters-content {
             transition: opacity .2s ease, max-height .3s ease;
             overflow: hidden;
+            max-height: 500px;
+        }
+        .tm-main-filters-box.closed .tm-main-filters-content {
+            opacity: 0;
+            max-height: 0;
+            pointer-events: none;
         }
         .tm-main-filters-item {
             display: flex;
@@ -728,7 +761,175 @@
         .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* ===== DETAIL POPUP ===== */
+        /* ===== MY GIFTS ===== */
+        .tm-my-gifts-empty {
+            padding: 60px 20px;
+            text-align: center;
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .tm-my-gifts-empty-icon { font-size: 48px; margin-bottom: 16px; }
+        .tm-my-gifts-empty-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--header-color);
+            margin-bottom: 8px;
+        }
+        .tm-my-gifts-empty-text {
+            font-size: 14px;
+            color: var(--table-text-color);
+            margin-bottom: 24px;
+        }
+        .tm-my-gifts-empty .btn-primary {
+            display: inline-block;
+            padding: 12px 32px;
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+            border: none;
+            border-radius: var(--def-border-radius);
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background .2s ease;
+            text-decoration: none;
+        }
+        .tm-my-gifts-empty .btn-primary:hover {
+            background: var(--btn-primary-bg-hover-color);
+            text-decoration: none;
+        }
+        
+        /* ===== PREMIUM (по твоему образцу) ===== */
+        .tm-main-premium .tm-main-intro {
+            padding: 20px 12px 10px;
+            text-align: center;
+        }
+        .tm-main-intro-header {
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: bold;
+            color: var(--header-color);
+            margin: 0;
+        }
+        .tm-main-intro-text { font-size: 14px; color: var(--text-color); margin-top: 4px; }
+        
+        .tm-field .tm-amount-input {
+            height: auto;
+            font-size: 15px;
+            line-height: 20px;
+            padding: 14px 16px;
+            box-shadow: none !important;
+            border: none;
+            background: transparent;
+            color: var(--field-color);
+            width: 100%;
+            border-radius: var(--def-border-radius);
+            font-family: inherit;
+        }
+        .tm-field .tm-amount-input:focus { outline: none; }
+        .tm-premium-boost-label {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 18px;
+            padding: 3px 6px;
+            font-weight: bold;
+            background-color: #9f53ff;
+            color: #fff;
+            border-radius: 6px;
+            margin: 9px 10px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .icon-boost:before {
+            width: 11px;
+            height: 18px;
+            vertical-align: top;
+            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 11 18" width="11" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5.84.14-5.74 6.53c-.15.17-.13.43.04.58.07.07.17.1.27.1h2.14c.23 0 .41.19.41.41 0 .03 0 .05-.01.07l-.83 4.94c-.04.22.11.43.34.47.14.03.28-.03.38-.14l5.75-6.71c.15-.17.13-.43-.04-.58-.08-.06-.17-.1-.27-.1h-2.02c-.23 0-.41-.18-.41-.41 0-.02 0-.04 0-.06l.71-4.77c.03-.22-.13-.43-.35-.47-.14-.02-.28.04-.37.14z" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+        }
+        .tm-premium-boost-label.icon-boost:before { margin-right: 4px; }
+        .tm-search-field-photo {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 9px 14px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: none;
+        }
+        .tm-search-field-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .found .tm-search-field-photo { display: inline-block; }
+        .tm-search-error-icon {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 11px 12px 11px 16px;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="10" cy="10" fill="%23fff" r="9"/%3E%3Cpath d="M10 0c5.52 0 10 4.48 10 10s-4.48 10-10 10S0 15.52 0 10 4.48 0 10 0zm0 12.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm0-7.75c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1s1-.45 1-1v-5c0-.55-.45-1-1-1z" fill="%23ff5863"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .error .tm-search-error-icon { display: inline-block; }
+        .error.icon-search:before { display: none; }
+        
+        /* PREMIUM radio для длительности */
+        .js-premium-options .tm-form-radio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: -4px 0;
+        }
+        .js-premium-options .tm-form-radio-item {
+            display: block;
+            position: relative;
+            padding: 0;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .js-premium-options .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
+        .js-premium-options .tm-form-radio-label {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            line-height: 18px;
+            padding: 8px 14px;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            box-shadow: 0 0 0 0px var(--accent-color);
+            transition: box-shadow .2s ease;
+            color: var(--field-color);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            gap: 8px;
+        }
+        .js-premium-options .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
+        .js-premium-options .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
+        .js-premium-options .tm-form-radio-label .tm-radio-label-badge {
+            display: inline-block;
+            font-size: 11px;
+            line-height: 14px;
+            font-weight: bold;
+            padding: 2px 4px;
+            margin: 1px 4px 1px 8px;
+            vertical-align: top;
+            border-radius: 4px;
+            background-color: var(--field-accent-color);
+            white-space: nowrap;
+        }
+        .js-premium-options .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
+        .js-premium-options .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
+        .js-premium-options .tm-form-radio-label .tm-quantity { width: 60px; font-weight: normal; color: var(--dropdown-secondary-color); }
+        
+        /* ===== DETAIL POPUP (по твоему образцу) ===== */
         .popup-container {
             position: fixed;
             top: 0;
@@ -744,10 +945,11 @@
             transition: opacity .25s ease;
         }
         .popup-container.hide { opacity: 0; pointer-events: none; }
+        
         .popup {
             background: var(--bg-color);
             border-radius: 14px;
-            max-width: 520px;
+            max-width: 560px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -793,15 +995,25 @@
             transition: all .2s ease;
         }
         .popup-close:hover { color: #fff; background: rgba(255,255,255,0.12); }
-        .popup-title { font-size: 22px; font-weight: bold; color: #fff; margin: 0; flex: 1; }
+        .popup-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            margin: 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
         .popup-title .back-link {
             display: inline-block;
             margin-right: 10px;
             cursor: pointer;
             color: var(--text-color);
+            font-size: 20px;
         }
         .popup-title .back-link:hover { color: #fff; }
-        .popup-title .back-link:after { content: '←'; font-size: 20px; }
+        .popup-title .back-link:after { content: '←'; }
         .popup-status-badge {
             display: inline-block;
             font-size: 11px;
@@ -825,8 +1037,8 @@
         
         .popup-gift-image {
             width: 100%;
-            max-width: 180px;
-            margin: 0 auto 14px;
+            max-width: 200px;
+            margin: 0 auto 16px;
             border-radius: 12px;
             overflow: hidden;
             background: #1a2026;
@@ -834,8 +1046,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
-        .popup-gift-image img {
+        .popup-gift-image picture {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-gift-image picture source + img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -893,6 +1113,20 @@
             margin-left: 6px;
         }
         
+        .popup-owner-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 14px;
+            border-bottom: 1px solid #1a2026;
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            margin-bottom: 12px;
+        }
+        .popup-owner-row:last-child { border-bottom: none; }
+        .popup-owner-label { color: var(--table-text-color); font-size: 13px; }
+        .popup-owner-value { color: var(--value-color); font-size: 14px; font-weight: 500; }
+        .popup-owner-value .tm-wallet { color: var(--accent-color); font-size: 12px; font-family: monospace; }
+        
         .popup-countdown {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
@@ -926,6 +1160,17 @@
         }
         .popup-ownership-item:last-child { border-bottom: none; }
         .popup-ownership-item .owner { color: var(--accent-color); }
+        .popup-ownership-more {
+            display: block;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--accent-color);
+            cursor: pointer;
+            text-align: center;
+            border-top: 1px solid #1a2026;
+        }
+        .popup-ownership-more:hover { background: #293440; }
         
         .popup-buttons {
             display: flex;
@@ -1021,154 +1266,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-        
-        /* MY GIFTS */
-        .tm-my-gifts-empty {
-            padding: 60px 20px;
-            text-align: center;
-            background: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            max-width: 960px;
-            margin: 0 auto;
-        }
-        .tm-my-gifts-empty-icon { font-size: 48px; margin-bottom: 16px; }
-        .tm-my-gifts-empty-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--header-color);
-            margin-bottom: 8px;
-        }
-        .tm-my-gifts-empty-text {
-            font-size: 14px;
-            color: var(--table-text-color);
-            margin-bottom: 24px;
-        }
-        .tm-my-gifts-empty .btn-primary {
-            display: inline-block;
-            padding: 12px 32px;
-            background: var(--btn-primary-bg-color);
-            color: #fff;
-            border: none;
-            border-radius: var(--def-border-radius);
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background .2s ease;
-            text-decoration: none;
-        }
-        .tm-my-gifts-empty .btn-primary:hover {
-            background: var(--btn-primary-bg-hover-color);
-            text-decoration: none;
-        }
-        
-        /* PREMIUM - скрываем выбор длительности */
-        .js-premium-options {
-            display: none !important;
-        }
-        .tm-field .tm-amount-input {
-            height: auto;
-            font-size: 15px;
-            line-height: 20px;
-            padding: 14px 16px;
-            box-shadow: none !important;
-            border: none;
-            background: transparent;
-            color: var(--field-color);
-            width: 100%;
-            border-radius: var(--def-border-radius);
-            font-family: inherit;
-        }
-        .tm-field .tm-amount-input:focus { outline: none; }
-        .tm-premium-boost-label {
-            display: inline-block;
-            font-size: 14px;
-            line-height: 18px;
-            padding: 3px 6px;
-            font-weight: bold;
-            background-color: #9f53ff;
-            color: #fff;
-            border-radius: 6px;
-            margin: 9px 10px;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-        .icon-boost:before {
-            width: 11px;
-            height: 18px;
-            vertical-align: top;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 11 18" width="11" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5.84.14-5.74 6.53c-.15.17-.13.43.04.58.07.07.17.1.27.1h2.14c.23 0 .41.19.41.41 0 .03 0 .05-.01.07l-.83 4.94c-.04.22.11.43.34.47.14.03.28-.03.38-.14l5.75-6.71c.15-.17.13-.43-.04-.58-.08-.06-.17-.1-.27-.1h-2.02c-.23 0-.41-.18-.41-.41 0-.02 0-.04 0-.06l.71-4.77c.03-.22-.13-.43-.35-.47-.14-.02-.28.04-.37.14z" fill="%23fff"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-repeat: no-repeat;
-            display: inline-block;
-        }
-        .tm-premium-boost-label.icon-boost:before { margin-right: 4px; }
-        .tm-search-field-photo {
-            position: absolute;
-            left: 0;
-            top: 0;
-            margin: 9px 14px;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: none;
-        }
-        .tm-search-field-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .found .tm-search-field-photo { display: inline-block; }
-        .tm-search-error-icon {
-            display: none;
-            position: absolute;
-            left: 0;
-            top: 0;
-            margin: 11px 12px 11px 16px;
-            width: 20px;
-            height: 20px;
-            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="10" cy="10" fill="%23fff" r="9"/%3E%3Cpath d="M10 0c5.52 0 10 4.48 10 10s-4.48 10-10 10S0 15.52 0 10 4.48 0 10 0zm0 12.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm0-7.75c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1s1-.45 1-1v-5c0-.55-.45-1-1-1z" fill="%23ff5863"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-        .error .tm-search-error-icon { display: inline-block; }
-        .error.icon-search:before { display: none; }
-        
-        /* STARS пакеты */
-        .tm-stars-options {
-            display: block !important;
-        }
-        .tm-stars-options .tm-form-radio-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: -4px 0;
-        }
-        .tm-stars-options .tm-form-radio-item {
-            display: block;
-            position: relative;
-            padding: 0;
-            margin-bottom: 0;
-            cursor: pointer;
-        }
-        .tm-stars-options .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
-        .tm-stars-options .tm-form-radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            line-height: 18px;
-            padding: 8px 14px;
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            box-shadow: 0 0 0 0px var(--accent-color);
-            transition: box-shadow .2s ease;
-            color: var(--field-color);
-            white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-            gap: 8px;
-        }
-        .tm-stars-options .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
-        .tm-stars-options .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
-        .tm-stars-options .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
-        .tm-stars-options .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
     </style>
 </head>
 <body>
@@ -1224,7 +1321,7 @@
         <div class="tm-table-scroll">
             <div class="tm-table-wrap">
                 <table class="tm-table">
-                    <thead><tr><th style="width:25%;">Username</th><th style="width:20%;">Type</th><th style="width:25%;">Price</th><th style="width:30%;">Status</th></tr></thead>
+                    <thead><tr><th style="width:22%;">Username</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
                     <tbody id="offers-table-body"></tbody>
                 </table>
             </div>
@@ -1247,7 +1344,7 @@
         <div class="tm-table-scroll">
             <div class="tm-table-wrap">
                 <table class="tm-table">
-                    <thead><tr><th style="width:25%;">Number</th><th style="width:20%;">Type</th><th style="width:25%;">Price</th><th style="width:30%;">Status</th></tr></thead>
+                    <thead><tr><th style="width:22%;">Number</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
                     <tbody id="numbers-table-body"></tbody>
                 </table>
             </div>
@@ -1264,7 +1361,7 @@
             </div>
         </div>
         <div class="tm-main-filters-wrap">
-            <div class="tm-main-filters-box closed" id="gift-filters">
+            <div class="tm-main-filters-box opened" id="gift-filters">
                 <div class="tm-main-filters-header" id="gift-filters-toggle">
                     <span>Collections</span>
                     <span class="tm-main-filters-count" id="gift-filter-count">All</span>
@@ -1354,19 +1451,21 @@
         </div>
     </div>
 
-    <!-- PREMIUM - убрали выбор длительности -->
+    <!-- ===== PREMIUM (как ты скинул) ===== -->
     <div id="section-premium" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
-            <p class="tm-main-intro-text">Boost your Telegram channel by gifting Telegram Premium to your subscribers.</p>
+            <p class="tm-main-intro-text">
+                Boost your Telegram channel by gifting Telegram Premium to your subscribers.
+            </p>
         </section>
-        <form class="tm-section tm-main-search-form js-premium-form">
+        <form action="/premium" class="tm-section tm-main-search-form js-premium-form">
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Choose a channel</label>
                 <div class="icon-before icon-search tm-field tm-search-field js-premium-search-field">
                     <input type="search" class="tm-search-input" placeholder="Enter Telegram username or t.me link" autocomplete="off" spellcheck="false">
                     <span class="tm-search-clear"></span>
-                    <span class="tm-search-error-icon"></span>
+                    <span class="icon-before icon-search-error tm-search-error-icon"></span>
                     <span class="tm-search-field-photo js-premium-search-photo"></span>
                 </div>
                 <div class="tm-search-field-error js-search-field-error"></div>
@@ -1380,11 +1479,53 @@
                 <div class="tm-search-field-error js-quantity-field-error"></div>
             </div>
             <div class="tm-main-form-group">
+                <div class="js-premium-options">
+                    <label class="tm-main-form-label">Choose duration</label>
+                    <div class="tm-form-radio-items">
+                        <label class="tm-form-radio-item">
+                            <input type="radio" class="radio" name="months" value="12" checked>
+                            <div class="tm-form-radio-label">
+                                <div class="tm-radio-label">1 year<span class="tm-radio-label-badge">-40%</span></div>
+                                <div class="tm-quantity"></div>
+                                <div class="tm-value icon-before icon-ton">24.36</div>
+                                <div class="tm-radio-desc">$35.99</div>
+                            </div>
+                        </label>
+                        <label class="tm-form-radio-item">
+                            <input type="radio" class="radio" name="months" value="6">
+                            <div class="tm-form-radio-label">
+                                <div class="tm-radio-label">6 months<span class="tm-radio-label-badge">-33%</span></div>
+                                <div class="tm-quantity"></div>
+                                <div class="tm-value icon-before icon-ton">13.53</div>
+                                <div class="tm-radio-desc">$19.99</div>
+                            </div>
+                        </label>
+                        <label class="tm-form-radio-item">
+                            <input type="radio" class="radio" name="months" value="3">
+                            <div class="tm-form-radio-label">
+                                <div class="tm-radio-label">3 months</div>
+                                <div class="tm-quantity"></div>
+                                <div class="tm-value icon-before icon-ton">10.14</div>
+                                <div class="tm-radio-desc">$14.99</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Payment Method</label>
                 <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>GRAM</span><span class="tab-network">TON</span></label>
+                    <label class="tm-currency-tab">
+                        <input type="radio" class="radio" name="payment_method" value="ton" checked>
+                        <span class="tm-currency-tab-icon tab-icon-ton"></span>
+                        <span>GRAM</span>
+                        <span class="tab-network">TON</span>
+                    </label>
                     <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
+                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
+                            <span class="tm-currency-tab-icon tab-icon-usdt"></span>
+                            <span>USDT</span>
+                        </label>
                         <ul class="dropdown-menu">
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_eth"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span><span class="tab-network">ETH</span></label></li>
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_ton"><span class="tm-currency-tab-icon tab-icon-usdt-ton"></span><span>USDT</span><span class="tab-network">TON</span></label></li>
@@ -1392,7 +1533,10 @@
                         </ul>
                     </div>
                     <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
+                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
+                            <span class="tm-currency-tab-icon tab-icon-usdc"></span>
+                            <span>USDC</span>
+                        </label>
                         <ul class="dropdown-menu">
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_eth"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span><span class="tab-network">ETH</span></label></li>
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_base"><span class="tm-currency-tab-icon tab-icon-usdc-base"></span><span>USDC</span><span class="tab-network">Base</span></label></li>
@@ -1406,7 +1550,9 @@
             <button class="btn btn-primary btn-block js-giveaway-premium-btn" disabled>
                 <span class="tm-button-label js-prepay-premium-label">Buy Subscriptions</span>
             </button>
-            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
+            <div class="tm-main-form-link-wrap">
+                <a href="#">View Transactions History</a>
+            </div>
         </div>
     </div>
 
@@ -1423,7 +1569,7 @@
 
 </main>
 
-<!-- DETAIL POPUP -->
+<!-- ===== DETAIL POPUP (как ты скинул) ===== -->
 <div class="popup-container hide" id="detail-popup">
     <div class="popup">
         <div class="popup-header">
@@ -1436,22 +1582,45 @@
             <div class="popup-subtitle" id="popup-subtitle">Telegram Username</div>
         </div>
         <div class="popup-body">
+            <!-- Gift Image с Lottie -->
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
-                <img id="popup-gift-img" src="" alt="Gift">
+                <picture class="tm-section-auction-image tm-lottie js-lottie" autoplay playonce playbyclick>
+                    <source type="application/x-tgsticker" id="popup-lottie-source" srcset="">
+                    <img id="popup-gift-img" src="" alt="Gift">
+                </picture>
             </div>
-            <div class="popup-bid-info">
-                <div class="popup-bid-row"><span class="popup-bid-label">Sale Price</span><span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span></div>
-                <div class="popup-bid-row"><span class="popup-bid-label">Owner</span><span class="popup-bid-value" id="popup-owner-value">—</span></div>
+            
+            <!-- Owner -->
+            <div class="popup-owner-row">
+                <span class="popup-owner-label">Owner</span>
+                <span class="popup-owner-value" id="popup-owner-value">—</span>
             </div>
+            
+            <!-- Attributes -->
             <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
+            
+            <!-- Sale Price -->
+            <div class="popup-bid-info">
+                <div class="popup-bid-row">
+                    <span class="popup-bid-label">Sale Price</span>
+                    <span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span>
+                </div>
+            </div>
+            
+            <!-- Purchased date -->
             <div class="popup-countdown">
                 <span class="popup-countdown-label">Purchased on</span>
                 <div class="popup-countdown-timer" id="popup-countdown">—</div>
             </div>
+            
+            <!-- Ownership History -->
             <div class="popup-ownership" id="popup-ownership" style="display:none;">
                 <div class="popup-ownership-header">Ownership History</div>
                 <div id="popup-ownership-list"></div>
+                <div class="popup-ownership-more" id="popup-ownership-more">Show more</div>
             </div>
+            
+            <!-- Buttons -->
             <div class="popup-buttons">
                 <button class="btn-secondary" id="popup-bid-btn" style="display:none;">Place Bid</button>
                 <button class="btn-primary" id="popup-buy-btn">Buy Now</button>
@@ -1475,7 +1644,7 @@
 // ===== ДАННЫЕ =====
 // ============================================================
 
-// Gifts
+// Слагы для коллекций
 const collectionSlugs = {
     'Plush Pepes': ['plushpepe-1821','plushpepe-1515','plushpepe-2658','plushpepe-1521','plushpepe-318'],
     'Swiss Watches': ['swisswatch-7799','swisswatch-1234','swisswatch-5678'],
@@ -1520,6 +1689,7 @@ const attrVals = [
 ];
 const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
 
+// ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
 let giftsData = [];
 for (let i = 0; i < 560; i++) {
     const colIdx = i % collectionNames.length;
@@ -1528,31 +1698,48 @@ for (let i = 0; i < 560; i++) {
     const slugs = collectionSlugs[collection] || ['plushpepe-1821'];
     const slug = slugs[Math.floor(Math.random() * slugs.length)];
     const imageUrl = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+    const lottieUrl = 'https://nft.fragment.com/gift/' + slug + '.tgs';
     const status = i % 6 === 0 ? 'avail' : 'sold';
     const label = status === 'avail' ? 'On auction' : 'Sold';
     const price = Math.floor(Math.random() * 80000) + 3000;
     const num = '#' + (1000 + i * 7);
     const attrs = {};
-    for (let a = 0; a < Math.floor(Math.random() * 3) + 2; a++) {
+    const numAttrs = Math.floor(Math.random() * 3) + 2;
+    for (let a = 0; a < numAttrs; a++) {
         const keyIdx = (i + a) % attrKeys.length;
         const valIdx = (i + a * 3) % attrVals[keyIdx].length;
         attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
     }
     attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
     const history = [];
-    for (let h = 0; h < Math.floor(Math.random() * 4) + 1; h++) {
-        history.push({ price: 'Transferred', date: new Date(Date.now() - (h + 1) * 30 * 86400000).toLocaleDateString(), buyer: 'wallet_' + Math.random().toString(36).substring(2, 8) });
+    const numHistory = Math.floor(Math.random() * 4) + 1;
+    for (let h = 0; h < numHistory; h++) {
+        history.push({
+            price: 'Transferred',
+            date: new Date(Date.now() - (h + 1) * 30 * 86400000).toLocaleDateString(),
+            buyer: 'wallet_' + Math.random().toString(36).substring(2, 8)
+        });
     }
     giftsData.push({
-        id: 2000 + i, name: name, collection: collection, num: num,
-        price: price, status: status, label: label, image: imageUrl, slug: slug,
-        attrs: attrs, owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-        history: history, date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleDateString()
+        id: 2000 + i,
+        name: name,
+        collection: collection,
+        num: num,
+        price: price,
+        status: status,
+        label: label,
+        image: imageUrl,
+        lottie: lottieUrl,
+        slug: slug,
+        attrs: attrs,
+        owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        history: history,
+        date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleDateString()
     });
 }
 
-// USERS
-const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega'];
+// ===== ЮЗЕРНЕЙМЫ =====
+const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
 let offersData = [];
 for (let i = 0; i < 643; i++) {
     const w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
@@ -1563,14 +1750,21 @@ for (let i = 0; i < 643; i++) {
     const status = Math.random() > 0.7 ? 'taken' : 'avail';
     const label = status === 'avail' ? 'On auction' : 'Taken';
     offersData.push({
-        id: i + 1, name: name.substring(0, 20), type: 'Username',
-        price: price, minBid: Math.round(price * 1.05), bidStep: Math.round(price * 0.05),
-        status: status, label: label, date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleDateString(),
-        bids: Math.floor(Math.random() * 15) + 1
+        id: i + 1,
+        name: name.substring(0, 20),
+        type: 'Username',
+        price: price,
+        minBid: Math.round(price * 1.05),
+        bidStep: Math.round(price * 0.05),
+        status: status,
+        label: label,
+        date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleDateString(),
+        bids: Math.floor(Math.random() * 15) + 1,
+        endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
     });
 }
 
-// NUMBERS
+// ===== НОМЕРА +888 =====
 let numbersData = [];
 for (let i = 0; i < 103; i++) {
     const p1 = String(Math.floor(Math.random() * 900) + 100);
@@ -1581,10 +1775,17 @@ for (let i = 0; i < 103; i++) {
     const status = Math.random() > 0.75 ? 'taken' : 'avail';
     const label = status === 'avail' ? 'On auction' : 'Taken';
     numbersData.push({
-        id: 1000 + i, name: name, type: 'Number',
-        price: price, minBid: Math.round(price * 1.05), bidStep: Math.round(price * 0.05),
-        status: status, label: label, date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleDateString(),
-        bids: Math.floor(Math.random() * 10) + 1
+        id: 1000 + i,
+        name: name,
+        type: 'Number',
+        price: price,
+        minBid: Math.round(price * 1.05),
+        bidStep: Math.round(price * 0.05),
+        status: status,
+        label: label,
+        date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleDateString(),
+        bids: Math.floor(Math.random() * 10) + 1,
+        endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
     });
 }
 
@@ -1592,30 +1793,51 @@ for (let i = 0; i < 103; i++) {
 // ===== RENDER FUNCTIONS =====
 // ============================================================
 
-let offersPage = 0, numbersPage = 0, giftsPage = 0;
-const OFFERS_PER_PAGE = 20, NUMBERS_PER_PAGE = 20, GIFTS_PER_PAGE = 12;
-let loadedOffers = [], loadedNumbers = [], loadedGifts = [];
-let currentOffersSearch = '', currentNumbersSearch = '', currentGiftsSearch = '', currentGiftsCollection = 'all';
+let offersPage = 0;
+let numbersPage = 0;
+let giftsPage = 0;
+const OFFERS_PER_PAGE = 20;
+const NUMBERS_PER_PAGE = 20;
+const GIFTS_PER_PAGE = 12;
+
+let loadedOffers = [];
+let loadedNumbers = [];
+let loadedGifts = [];
+let currentOffersSearch = '';
+let currentNumbersSearch = '';
+let currentGiftsSearch = '';
+let currentGiftsCollection = 'all';
 
 function renderOffers(search = '') {
     currentOffersSearch = search;
-    const filtered = offersData.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+    const filtered = offersData.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase())
+    );
     if (offersPage === 0) loadedOffers = [];
     const start = offersPage * OFFERS_PER_PAGE;
     const end = Math.min(start + OFFERS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
     loadedOffers = [...loadedOffers, ...pageItems];
+    
     const tbody = document.getElementById('offers-table-body');
     document.getElementById('offers-count').textContent = `(${filtered.length})`;
-    if (loadedOffers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`; return; }
+    
+    if (loadedOffers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`;
+        return;
+    }
+    
     tbody.innerHTML = loadedOffers.map(item => `
-        <tr>
-            <td><a href="#" class="tm-username-link" onclick="event.preventDefault();openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null);">@${item.name}</a></td>
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
+            <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
+            <td class="hide-mobile">${item.endsIn || '—'}</td>
+            <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
+    
     const btn = document.getElementById('offers-load-more');
     if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
     else btn.style.display = 'block';
@@ -1623,23 +1845,34 @@ function renderOffers(search = '') {
 
 function renderNumbers(search = '') {
     currentNumbersSearch = search;
-    const filtered = numbersData.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
+    const filtered = numbersData.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase())
+    );
     if (numbersPage === 0) loadedNumbers = [];
     const start = numbersPage * NUMBERS_PER_PAGE;
     const end = Math.min(start + NUMBERS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
     loadedNumbers = [...loadedNumbers, ...pageItems];
+    
     const tbody = document.getElementById('numbers-table-body');
     document.getElementById('numbers-count').textContent = `(${filtered.length})`;
-    if (loadedNumbers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`; return; }
+    
+    if (loadedNumbers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`;
+        return;
+    }
+    
     tbody.innerHTML = loadedNumbers.map(item => `
-        <tr>
-            <td><a href="#" class="tm-username-link" onclick="event.preventDefault();openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null);">${item.name}</a></td>
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
+            <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
+            <td class="hide-mobile">${item.endsIn || '—'}</td>
+            <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
+    
     const btn = document.getElementById('numbers-load-more');
     if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
     else btn.style.display = 'block';
@@ -1648,26 +1881,36 @@ function renderNumbers(search = '') {
 function renderGifts(collection = 'all', search = '') {
     currentGiftsCollection = collection;
     currentGiftsSearch = search;
+    
     const filtered = giftsData.filter(item => {
         const matchCollection = collection === 'all' || item.collection === collection;
-        const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) || item.collection.toLowerCase().includes(search.toLowerCase());
+        const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
+                            item.collection.toLowerCase().includes(search.toLowerCase());
         return matchCollection && matchSearch;
     });
+    
     if (giftsPage === 0) loadedGifts = [];
     const start = giftsPage * GIFTS_PER_PAGE;
     const end = Math.min(start + GIFTS_PER_PAGE, filtered.length);
     const pageItems = filtered.slice(start, end);
     loadedGifts = [...loadedGifts, ...pageItems];
+    
     const grid = document.getElementById('gifts-grid');
     document.getElementById('gifts-count').textContent = `(${filtered.length})`;
-    if (loadedGifts.length === 0) { grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`; return; }
+    
+    if (loadedGifts.length === 0) {
+        grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`;
+        return;
+    }
+    
     grid.innerHTML = loadedGifts.map(item => {
         const attrsStr = JSON.stringify(item.attrs || {});
         const ownerStr = item.owner || '';
         const historyStr = JSON.stringify(item.history || []);
         const imgUrl = item.image || '';
+        const lottieUrl = item.lottie || '';
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '${imgUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${lottieUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
             <a href="#">
                 <div class="tm-grid-item-thumb">
                     <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
@@ -1687,6 +1930,7 @@ function renderGifts(collection = 'all', search = '') {
             </a>
         </div>
     `}).join('');
+    
     const btn = document.getElementById('gifts-load-more');
     if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
     else btn.style.display = 'block';
@@ -1695,41 +1939,78 @@ function renderGifts(collection = 'all', search = '') {
 function renderFilterCollections() {
     const container = document.getElementById('gift-filter-content');
     const collectionsMap = {};
-    giftsData.forEach(item => { collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1; });
-    let html = `<div class="tm-main-filters-item selected" data-collection="all"><span class="tm-main-filters-name">All Collections</span><span class="tm-main-filters-count">${giftsData.length}</span></div>`;
+    giftsData.forEach(item => {
+        collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1;
+    });
+    
+    let html = `<div class="tm-main-filters-item selected" data-collection="all">
+        <span class="tm-main-filters-name">All Collections</span>
+        <span class="tm-main-filters-count">${giftsData.length}</span>
+    </div>`;
+    
     const sorted = Object.keys(collectionsMap).sort((a,b) => collectionsMap[b] - collectionsMap[a]);
     sorted.forEach(name => {
-        html += `<div class="tm-main-filters-item" data-collection="${name}"><span class="tm-main-filters-name">${name}</span><span class="tm-main-filters-count">${collectionsMap[name]}</span></div>`;
+        html += `<div class="tm-main-filters-item" data-collection="${name}">
+            <span class="tm-main-filters-name">${name}</span>
+            <span class="tm-main-filters-count">${collectionsMap[name]}</span>
+        </div>`;
     });
+    
     container.innerHTML = html;
     document.getElementById('gift-filter-count').textContent = giftsData.length;
+    
     container.querySelectorAll('.tm-main-filters-item').forEach(el => {
         el.addEventListener('click', function() {
             container.querySelectorAll('.tm-main-filters-item').forEach(f => f.classList.remove('selected'));
             this.classList.add('selected');
-            giftsPage = 0; loadedGifts = [];
+            giftsPage = 0;
+            loadedGifts = [];
             renderGifts(this.dataset.collection, document.getElementById('search-gifts').value);
         });
     });
 }
 
 // ============================================================
-// ===== DETAIL POPUP =====
+// ===== DETAIL POPUP (по твоему образцу) =====
 // ============================================================
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, imageUrl, collection, attrs, owner, history) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, lottieUrl, collection, attrs, owner, history) {
     document.getElementById('popup-title-text').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
-    document.getElementById('popup-status-badge').textContent = label || 'On auction';
-    document.getElementById('popup-status-badge').className = 'popup-status-badge ' + (status || 'avail');
-    document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
+    
+    const statusBadge = document.getElementById('popup-status-badge');
+    statusBadge.textContent = label || 'On auction';
+    statusBadge.className = 'popup-status-badge ' + (status || 'avail');
+    
+    // Owner
     document.getElementById('popup-owner-value').innerHTML = owner ? `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>` : '—';
+    
+    // Price
+    document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
+    
+    // Date
+    document.getElementById('popup-countdown').textContent = date || '—';
+    
+    // Gift Image with Lottie
     const giftContainer = document.getElementById('popup-gift-image');
     const giftImg = document.getElementById('popup-gift-img');
-    if (type === 'Gift' && imageUrl) {
+    const lottieSource = document.getElementById('popup-lottie-source');
+    
+    if (type === 'Gift' && (imageUrl || lottieUrl)) {
         giftContainer.style.display = 'flex';
-        giftImg.src = imageUrl;
-        giftImg.onerror = function() { this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'; };
-    } else { giftContainer.style.display = 'none'; }
+        if (lottieUrl) {
+            lottieSource.srcset = lottieUrl;
+        }
+        if (imageUrl) {
+            giftImg.src = imageUrl;
+            giftImg.onerror = function() {
+                this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
+            };
+        }
+    } else {
+        giftContainer.style.display = 'none';
+    }
+    
+    // Attributes
     const attrsContainer = document.getElementById('popup-attributes');
     if (attrs && type === 'Gift') {
         attrsContainer.style.display = 'block';
@@ -1737,31 +2018,80 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
         let i = 0;
         for (const [key, val] of Object.entries(attrs)) {
             const rarity = rarityPcts[i % rarityPcts.length];
-            attrsHtml += `<div class="popup-attr-row"><span class="popup-attr-label">${key}</span><span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span></div>`;
+            attrsHtml += `
+                <div class="popup-attr-row">
+                    <span class="popup-attr-label">${key}</span>
+                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
+                </div>
+            `;
             i++;
         }
         attrsContainer.innerHTML = attrsHtml;
-    } else { attrsContainer.style.display = 'none'; }
-    document.getElementById('popup-countdown').textContent = date || '—';
+    } else {
+        attrsContainer.style.display = 'none';
+    }
+    
+    // Ownership History
     const ownershipContainer = document.getElementById('popup-ownership');
     const ownershipList = document.getElementById('popup-ownership-list');
+    const ownershipMore = document.getElementById('popup-ownership-more');
+    
     if (history && history.length > 0 && type === 'Gift') {
         ownershipContainer.style.display = 'block';
-        ownershipList.innerHTML = history.map(h => `<div class="popup-ownership-item"><span>${h.price}</span><span>${h.date}</span><span class="owner">${h.buyer}</span></div>`).join('');
-    } else { ownershipContainer.style.display = 'none'; }
+        const displayHistory = history.slice(0, 5);
+        ownershipList.innerHTML = displayHistory.map(h => `
+            <div class="popup-ownership-item">
+                <span>${h.price}</span>
+                <span>${h.date}</span>
+                <span class="owner">${h.buyer}</span>
+            </div>
+        `).join('');
+        if (history.length > 5) {
+            ownershipMore.style.display = 'block';
+            ownershipMore.onclick = function() {
+                ownershipList.innerHTML = history.map(h => `
+                    <div class="popup-ownership-item">
+                        <span>${h.price}</span>
+                        <span>${h.date}</span>
+                        <span class="owner">${h.buyer}</span>
+                    </div>
+                `).join('');
+                this.style.display = 'none';
+            };
+        } else {
+            ownershipMore.style.display = 'none';
+        }
+    } else {
+        ownershipContainer.style.display = 'none';
+    }
+    
+    // Buttons
     document.getElementById('popup-bid-btn').style.display = status === 'avail' ? 'inline-block' : 'none';
     document.getElementById('popup-buy-btn').textContent = status === 'avail' ? 'Place Bid' : 'View Details';
+    
     document.getElementById('detail-popup').classList.remove('hide');
 }
 
-document.getElementById('popup-close').addEventListener('click', function() { document.getElementById('detail-popup').classList.add('hide'); });
-document.getElementById('detail-popup').addEventListener('click', function(e) { if (e.target === this) this.classList.add('hide'); });
-document.getElementById('popup-back').addEventListener('click', function() { document.getElementById('detail-popup').classList.add('hide'); });
-document.getElementById('popup-bid-btn').addEventListener('click', function() { alert('Place Bid clicked! (demo)'); document.getElementById('detail-popup').classList.add('hide'); });
-document.getElementById('popup-buy-btn').addEventListener('click', function() { alert('Buy Now clicked! (demo)'); document.getElementById('detail-popup').classList.add('hide'); });
+document.getElementById('popup-close').addEventListener('click', function() {
+    document.getElementById('detail-popup').classList.add('hide');
+});
+document.getElementById('detail-popup').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.add('hide');
+});
+document.getElementById('popup-back').addEventListener('click', function() {
+    document.getElementById('detail-popup').classList.add('hide');
+});
+document.getElementById('popup-bid-btn').addEventListener('click', function() {
+    alert('Place Bid clicked! (demo)');
+    document.getElementById('detail-popup').classList.add('hide');
+});
+document.getElementById('popup-buy-btn').addEventListener('click', function() {
+    alert('Buy Now clicked! (demo)');
+    document.getElementById('detail-popup').classList.add('hide');
+});
 
 // ============================================================
-// ===== TABS, SEARCH, LOAD MORE, FILTER TOGGLE =====
+// ===== TABS, SEARCH, LOAD MORE =====
 // ============================================================
 
 document.querySelectorAll('.tm-header-tab').forEach(tab => {
@@ -1774,33 +2104,65 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
             el.style.display = 'none';
         });
         const target = document.getElementById('section-' + section);
-        if (target) { target.style.display = 'block'; target.classList.add('section-active'); }
+        if (target) {
+            target.style.display = 'block';
+            target.classList.add('section-active');
+        }
     });
 });
 
-document.getElementById('search-offers')?.addEventListener('input', function() { offersPage = 0; loadedOffers = []; renderOffers(this.value); });
-document.getElementById('search-numbers')?.addEventListener('input', function() { numbersPage = 0; loadedNumbers = []; renderNumbers(this.value); });
-document.getElementById('search-gifts')?.addEventListener('input', function() { giftsPage = 0; loadedGifts = []; renderGifts(currentGiftsCollection, this.value); });
+document.getElementById('search-offers')?.addEventListener('input', function() {
+    offersPage = 0;
+    loadedOffers = [];
+    renderOffers(this.value);
+});
+document.getElementById('search-numbers')?.addEventListener('input', function() {
+    numbersPage = 0;
+    loadedNumbers = [];
+    renderNumbers(this.value);
+});
+document.getElementById('search-gifts')?.addEventListener('input', function() {
+    giftsPage = 0;
+    loadedGifts = [];
+    renderGifts(currentGiftsCollection, this.value);
+});
 
 document.querySelectorAll('.tm-search-clear').forEach(clear => {
     clear.addEventListener('click', function() {
         const input = this.parentElement.querySelector('input');
-        if (input) { input.value = ''; input.dispatchEvent(new Event('input')); input.focus(); }
+        if (input) {
+            input.value = '';
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        }
     });
 });
 
-document.getElementById('offers-load-more')?.addEventListener('click', function() { offersPage++; renderOffers(currentOffersSearch); });
-document.getElementById('numbers-load-more')?.addEventListener('click', function() { numbersPage++; renderNumbers(currentNumbersSearch); });
-document.getElementById('gifts-load-more')?.addEventListener('click', function() { giftsPage++; renderGifts(currentGiftsCollection, currentGiftsSearch); });
+document.getElementById('offers-load-more')?.addEventListener('click', function() {
+    offersPage++;
+    renderOffers(currentOffersSearch);
+});
+document.getElementById('numbers-load-more')?.addEventListener('click', function() {
+    numbersPage++;
+    renderNumbers(currentNumbersSearch);
+});
+document.getElementById('gifts-load-more')?.addEventListener('click', function() {
+    giftsPage++;
+    renderGifts(currentGiftsCollection, currentGiftsSearch);
+});
 
 document.getElementById('gift-filters-toggle')?.addEventListener('click', function() {
     const box = document.getElementById('gift-filters');
-    box.classList.toggle('closed');
     box.classList.toggle('opened');
+    box.classList.toggle('closed');
 });
 
-document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() { alert('Buy Stars clicked! (demo)'); });
-document.querySelector('.js-giveaway-premium-btn')?.addEventListener('click', function() { alert('Buy Subscriptions clicked! (demo)'); });
+document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
+    alert('Buy Stars clicked! (demo)');
+});
+document.querySelector('.js-giveaway-premium-btn')?.addEventListener('click', function() {
+    alert('Buy Subscriptions clicked! (demo)');
+});
 
 document.getElementById('logo-home')?.addEventListener('click', function(e) {
     e.preventDefault();
