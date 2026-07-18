@@ -11,6 +11,7 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
+        /* ===== ВСЕ СТИЛИ КАК В ПРЕДЫДУЩЕЙ ВЕРСИИ, НО БЕЗ PREMIUM ПАКЕТОВ ===== */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -141,7 +142,6 @@
             margin-right: 6px;
         }
         
-        /* TABS */
         .tm-header-tabs-wrap {
             width: 100%;
             padding: 0 16px;
@@ -208,7 +208,6 @@
             .tm-header-tab { padding: 19px 0; margin-right: 26px; }
         }
         
-        /* MAIN */
         .tm-main {
             margin: 0 auto;
             width: 100%;
@@ -221,45 +220,7 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        /* ===== STARS ===== */
-        .tm-stars-options { display: block !important; }
-        .tm-stars-options .tm-form-radio-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: -4px 0;
-        }
-        .tm-stars-options .tm-form-radio-item {
-            display: block;
-            position: relative;
-            padding: 0;
-            margin-bottom: 0;
-            cursor: pointer;
-        }
-        .tm-stars-options .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
-        .tm-stars-options .tm-form-radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            line-height: 18px;
-            padding: 8px 14px;
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            box-shadow: 0 0 0 0px var(--accent-color);
-            transition: box-shadow .2s ease;
-            color: var(--field-color);
-            white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-            gap: 8px;
-        }
-        .tm-stars-options .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
-        .tm-stars-options .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
-        .tm-stars-options .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
-        .tm-stars-options .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
-        .tm-stars-options .tm-form-radio-label svg { vertical-align: middle; }
-        
-        /* ===== PREMIUM ===== */
+        /* ===== СТИЛИ ДЛЯ STARS И PREMIUM ===== */
         .tm-main-premium .tm-main-intro {
             padding: 20px 12px 10px;
             text-align: center;
@@ -476,7 +437,7 @@
         .tm-main-form-link-wrap { text-align: center; margin-top: 16px; font-size: 14px; }
         .tm-main-form-link-wrap a { color: var(--accent-color); }
         
-        /* TABLE - БЕЗ КОЛОНКИ ENDS IN */
+        /* ===== ТАБЛИЦЫ ===== */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -598,6 +559,7 @@
             transition: background .2s ease, transform .2s ease;
             min-width: 140px;
             border: 1px solid rgba(255,255,255,0.04);
+            position: relative;
         }
         .tm-catalog-grid .tm-grid-item:hover { 
             background: #293440;
@@ -715,7 +677,7 @@
             .tm-grid-item-status { font-size: 11px; line-height: 16px; padding: 2px 7px; }
         }
         
-        /* FILTERS - ЗАКРЫТ ПО УМОЛЧАНИЮ */
+        /* ===== FILTERS - ЗАКРЫТ ПО УМОЛЧАНИЮ ===== */
         .tm-main-filters-wrap { 
             margin-bottom: 20px; 
             max-width: 960px; 
@@ -774,7 +736,7 @@
         .tm-main-filters-count { font-size: 15px; line-height: 18px; color: var(--table-text-color); }
         .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
         
-        /* FOOTER */
+        /* ===== FOOTER ===== */
         .tm-footer {
             background-color: #111417;
             margin-top: 30px;
@@ -791,7 +753,7 @@
         .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* DETAIL POPUP */
+        /* ===== DETAIL POPUP ===== */
         .popup-container {
             position: fixed;
             top: 0;
@@ -1124,12 +1086,15 @@
             text-decoration: none;
         }
         
-        /* PREMIUM FIELDS */
+        /* PREMIUM - убираем выбор длительности */
+        .js-premium-options {
+            display: none !important;
+        }
         .tm-field .tm-amount-input {
             height: auto;
             font-size: 15px;
             line-height: 20px;
-            padding: 14px 16px 14px 16px;
+            padding: 14px 16px;
             box-shadow: none !important;
             border: none;
             background: transparent;
@@ -1190,6 +1155,45 @@
         }
         .error .tm-search-error-icon { display: inline-block; }
         .error.icon-search:before { display: none; }
+        
+        /* STARS пакеты */
+        .tm-stars-options {
+            display: block !important;
+        }
+        .tm-stars-options .tm-form-radio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: -4px 0;
+        }
+        .tm-stars-options .tm-form-radio-item {
+            display: block;
+            position: relative;
+            padding: 0;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .tm-stars-options .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
+        .tm-stars-options .tm-form-radio-label {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            line-height: 18px;
+            padding: 8px 14px;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            box-shadow: 0 0 0 0px var(--accent-color);
+            transition: box-shadow .2s ease;
+            color: var(--field-color);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            gap: 8px;
+        }
+        .tm-stars-options .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
+        .tm-stars-options .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
+        .tm-stars-options .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
+        .tm-stars-options .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
     </style>
 </head>
 <body>
@@ -1316,7 +1320,7 @@
         </div>
     </div>
 
-    <!-- STARS (с пакетами как было) -->
+    <!-- STARS -->
     <div id="section-stars" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
@@ -1399,16 +1403,6 @@
                     <span class="tm-premium-boost-label icon-before icon-boost js-boost-value">0</span>
                 </div>
                 <div class="tm-search-field-error js-quantity-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <div class="js-premium-options">
-                    <label class="tm-main-form-label">Choose duration</label>
-                    <div class="tm-form-radio-items">
-                        <label class="tm-form-radio-item"><input type="radio" class="radio" name="months" value="12" checked><div class="tm-form-radio-label"><div class="tm-radio-label">1 year<span class="tm-radio-label-badge">-40%</span></div><div class="tm-value icon-before icon-ton">24.36</div><div class="tm-radio-desc">$35.99</div></div></label>
-                        <label class="tm-form-radio-item"><input type="radio" class="radio" name="months" value="6"><div class="tm-form-radio-label"><div class="tm-radio-label">6 months<span class="tm-radio-label-badge">-33%</span></div><div class="tm-value icon-before icon-ton">13.53</div><div class="tm-radio-desc">$19.99</div></div></label>
-                        <label class="tm-form-radio-item"><input type="radio" class="radio" name="months" value="3"><div class="tm-form-radio-label"><div class="tm-radio-label">3 months</div><div class="tm-value icon-before icon-ton">10.14</div><div class="tm-radio-desc">$14.99</div></div></label>
-                    </div>
-                </div>
             </div>
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Payment Method</label>
@@ -1620,7 +1614,7 @@ for (let i = 0; i < 103; i++) {
 }
 
 // ============================================================
-// ===== RENDER =====
+// ===== RENDER FUNCTIONS =====
 // ============================================================
 
 let offersPage = 0, numbersPage = 0, giftsPage = 0;
@@ -1641,7 +1635,7 @@ function renderOffers(search = '') {
     if (loadedOffers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`; return; }
     tbody.innerHTML = loadedOffers.map(item => `
         <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null)">
-            <td><a href="#" class="tm-username-link">@${item.name}</a></td>
+            <td><a href="#" class="tm-username-link" onclick="event.preventDefault();openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null);">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
@@ -1665,7 +1659,7 @@ function renderNumbers(search = '') {
     if (loadedNumbers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`; return; }
     tbody.innerHTML = loadedNumbers.map(item => `
         <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null)">
-            <td><a href="#" class="tm-username-link">${item.name}</a></td>
+            <td><a href="#" class="tm-username-link" onclick="event.preventDefault();openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null);">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
