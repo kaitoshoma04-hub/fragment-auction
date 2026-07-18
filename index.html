@@ -11,7 +11,6 @@
     <link href="auction.css@104.css" rel="stylesheet">
     
     <style>
-        /* Все стили те же самые, не меняю */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -717,7 +716,7 @@
         .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* PREMIUM - исправленный */
+        /* PREMIUM */
         .tm-form-radio-items {
             display: flex;
             gap: 12px;
@@ -778,13 +777,8 @@
         .tm-radio-desc { font-size: 12px; color: var(--table-text-color); }
         .tm-quantity { font-size: 13px; color: var(--table-text-color); }
         .tm-search-loading { display: none; }
+        .tm-premium-boost-label { display: none !important; }
         
-        /* Убираем ракетку */
-        .tm-premium-boost-label {
-            display: none !important;
-        }
-        
-        /* Строка количества подписок - нормальный дизайн */
         .tm-field.js-premium-quantity-field {
             border-radius: var(--def-border-radius);
             background: var(--field-bg-color);
@@ -806,10 +800,7 @@
         }
         .tm-field.js-premium-quantity-field .tm-amount-input:focus { outline: none; }
         
-        /* Дропдауны */
-        .btn-group.tm-dropdown {
-            position: relative;
-        }
+        .btn-group.tm-dropdown { position: relative; }
         .tm-dropdown .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -824,30 +815,21 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
         .tm-dropdown .dropdown-menu.show { display: block; }
-        .tm-dropdown .dropdown-menu li {
-            list-style: none;
-        }
-        .tm-dropdown .dropdown-menu .tm-currency-tab {
-            border-radius: 0;
-            padding: 8px 14px;
-        }
+        .tm-dropdown .dropdown-menu li { list-style: none; }
+        .tm-dropdown .dropdown-menu .tm-currency-tab { border-radius: 0; padding: 8px 14px; }
         .dropdown-toggle.icon-after:after {
             content: '▼';
             font-size: 10px;
             margin-left: 4px;
             opacity: 0.5;
         }
-        .tab-network {
-            font-size: 10px;
-            opacity: 0.6;
-            margin-left: 2px;
-        }
+        .tab-network { font-size: 10px; opacity: 0.6; margin-left: 2px; }
         .tab-icon-usdt-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdt-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdc-base { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdc-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
         
-        /* DETAIL POPUP - старый дизайн как у юзернеймов */
+        /* DETAIL POPUP */
         .popup-container {
             position: fixed;
             top: 0;
@@ -881,7 +863,6 @@
         }
         .popup-container.hide .popup { transform: scale(0.96); }
         .popup-container:not(.hide) .popup { transform: scale(1); }
-        
         .popup::-webkit-scrollbar { width: 4px; }
         .popup::-webkit-scrollbar-track { background: transparent; }
         .popup::-webkit-scrollbar-thumb { background: #3f4e60; border-radius: 4px; }
@@ -925,7 +906,6 @@
         .popup-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
         
         .popup-body { padding: 18px 24px 24px; flex: 1; overflow-y: auto; }
-        
         .popup-gift-image {
             width: 100%;
             max-width: 180px;
@@ -938,11 +918,7 @@
             align-items: center;
             justify-content: center;
         }
-        .popup-gift-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .popup-gift-image img { width: 100%; height: 100%; object-fit: cover; }
         
         .popup-bid-info {
             background: var(--table-bg-color);
@@ -1187,67 +1163,20 @@
             text-decoration: none;
         }
         
-        .tm-wallet {
-            font-family: monospace;
-            color: var(--accent-color);
-        }
+        .tm-wallet { font-family: monospace; color: var(--accent-color); }
         .tm-wallet .head { color: var(--accent-color); }
         .tm-wallet .tail { color: var(--table-text-color); }
         
-        /* FIX: центрирование заголовков Stars и Premium */
         .tm-main-intro {
             text-align: center !important;
             max-width: 680px;
             margin: 0 auto 20px;
         }
-        .tm-main-intro .tm-main-intro-header {
-            text-align: center !important;
-        }
-        .tm-main-intro .tm-main-intro-text {
-            text-align: center !important;
-        }
-        
-        /* Анимация загрузки */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-color);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-color);
-            font-size: 16px;
-        }
-        .loading-overlay .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-color);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .loading-overlay.hidden {
-            display: none;
-        }
+        .tm-main-intro .tm-main-intro-header { text-align: center !important; }
+        .tm-main-intro .tm-main-intro-text { text-align: center !important; }
     </style>
 </head>
 <body>
-
-<!-- LOADING OVERLAY -->
-<div class="loading-overlay" id="loading-overlay">
-    <div class="spinner"></div>
-    <div>Loading gifts...</div>
-    <div style="font-size:12px;margin-top:8px;color:var(--table-text-color);" id="loading-status">Checking images...</div>
-</div>
 
 <!-- HEADER -->
 <header class="tm-header">
@@ -1414,13 +1343,11 @@
         </div>
     </div>
 
-    <!-- PREMIUM - исправленный -->
+    <!-- PREMIUM -->
     <div id="section-premium" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
-            <p class="tm-main-intro-text">
-                Boost your Telegram channel by gifting Telegram Premium to your subscribers.
-            </p>
+            <p class="tm-main-intro-text">Boost your Telegram channel by gifting Telegram Premium to your subscribers.</p>
         </section>
         <form class="tm-section tm-main-search-form js-premium-form">
             <input type="hidden" name="recipient" value="" />
@@ -1445,9 +1372,7 @@
             </div>
             <div class="tm-main-form-group">
                 <div class="js-premium-options">
-                    <label class="tm-main-form-label">
-                        Choose duration
-                    </label>
+                    <label class="tm-main-form-label">Choose duration</label>
                     <div class="tm-form-radio-items">
                         <label class="tm-form-radio-item">
                             <input type="radio" class="radio" name="months" value="12" checked>
@@ -1494,30 +1419,9 @@
                             <span>USDT</span>
                         </label>
                         <ul class="dropdown-menu">
-                            <li>
-                                <label class="tm-currency-tab js-currency-item">
-                                    <input type="radio" class="radio" name="payment_method" value="usdt_eth">
-                                    <span class="tm-currency-tab-icon tab-icon-usdt"></span>
-                                    <span>USDT</span>
-                                    <span class="tab-network">ETH</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="tm-currency-tab js-currency-item">
-                                    <input type="radio" class="radio" name="payment_method" value="usdt_ton">
-                                    <span class="tm-currency-tab-icon tab-icon-usdt-ton"></span>
-                                    <span>USDT</span>
-                                    <span class="tab-network">TON</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="tm-currency-tab js-currency-item">
-                                    <input type="radio" class="radio" name="payment_method" value="usdt_pol">
-                                    <span class="tm-currency-tab-icon tab-icon-usdt-pol"></span>
-                                    <span>USDT</span>
-                                    <span class="tab-network">POL</span>
-                                </label>
-                            </li>
+                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_eth"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span><span class="tab-network">ETH</span></label></li>
+                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_ton"><span class="tm-currency-tab-icon tab-icon-usdt-ton"></span><span>USDT</span><span class="tab-network">TON</span></label></li>
+                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_pol"><span class="tm-currency-tab-icon tab-icon-usdt-pol"></span><span>USDT</span><span class="tab-network">POL</span></label></li>
                         </ul>
                     </div>
                     <div class="btn-group tm-dropdown">
@@ -1526,30 +1430,9 @@
                             <span>USDC</span>
                         </label>
                         <ul class="dropdown-menu">
-                            <li>
-                                <label class="tm-currency-tab js-currency-item">
-                                    <input type="radio" class="radio" name="payment_method" value="usdc_eth">
-                                    <span class="tm-currency-tab-icon tab-icon-usdc"></span>
-                                    <span>USDC</span>
-                                    <span class="tab-network">ETH</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="tm-currency-tab js-currency-item">
-                                    <input type="radio" class="radio" name="payment_method" value="usdc_base">
-                                    <span class="tm-currency-tab-icon tab-icon-usdc-base"></span>
-                                    <span>USDC</span>
-                                    <span class="tab-network">Base</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="tm-currency-tab js-currency-item">
-                                    <input type="radio" class="radio" name="payment_method" value="usdc_pol">
-                                    <span class="tm-currency-tab-icon tab-icon-usdc-pol"></span>
-                                    <span>USDC</span>
-                                    <span class="tab-network">POL</span>
-                                </label>
-                            </li>
+                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_eth"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span><span class="tab-network">ETH</span></label></li>
+                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_base"><span class="tm-currency-tab-icon tab-icon-usdc-base"></span><span>USDC</span><span class="tab-network">Base</span></label></li>
+                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_pol"><span class="tm-currency-tab-icon tab-icon-usdc-pol"></span><span>USDC</span><span class="tab-network">POL</span></label></li>
                         </ul>
                     </div>
                 </div>
@@ -1559,9 +1442,7 @@
             <button class="btn btn-primary btn-block js-giveaway-premium-btn">
                 <span class="tm-button-label js-prepay-premium-label">Buy Subscriptions</span>
             </button>
-            <div class="tm-main-form-link-wrap">
-                <a href="#">View Transactions History</a>
-            </div>
+            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
         </div>
     </div>
 
@@ -1632,7 +1513,6 @@
 // ===== ДАННЫЕ =====
 // ============================================================
 
-// Список всех коллекций
 const collectionNames = [
     'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
     'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
@@ -1728,13 +1608,12 @@ const attrVals = [
 const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
 
 // ============================================================
-// ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
+// ===== ГЕНЕРАЦИЯ 4855 ПОДАРКОВ =====
 // ============================================================
 
 let giftsData = [];
 const totalGifts = 4855;
 
-// Сначала генерируем все подарки
 for (let i = 0; i < totalGifts; i++) {
     const colIdx = i % collectionNames.length;
     const collection = collectionNames[colIdx];
@@ -1783,65 +1662,8 @@ for (let i = 0; i < totalGifts; i++) {
         attrs: attrs,
         owner: owners[i % owners.length],
         history: history,
-        date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString(),
-        imageLoaded: false,
-        imageChecked: false
+        date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString()
     });
-}
-
-// ============================================================
-// ===== ПРОВЕРКА КАРТИНОК И УДАЛЕНИЕ НЕГРУЗЯЩИХСЯ =====
-// ============================================================
-
-async function checkImagesAndFilter() {
-    const overlay = document.getElementById('loading-overlay');
-    const statusEl = document.getElementById('loading-status');
-    
-    let checked = 0;
-    const total = giftsData.length;
-    const validGifts = [];
-    
-    for (const gift of giftsData) {
-        checked++;
-        statusEl.textContent = `Checking ${checked}/${total} images... (${validGifts.length} valid)`;
-        
-        try {
-            const response = await fetch(gift.image, { method: 'HEAD', mode: 'no-cors' });
-            // no-cors режим не дает статус, но если изображение существует - оно загрузится
-            // Проверим через создание Image
-            const img = new Image();
-            const loaded = await new Promise((resolve) => {
-                img.onload = () => resolve(true);
-                img.onerror = () => resolve(false);
-                img.src = gift.image;
-                // Таймаут на случай зависания
-                setTimeout(() => resolve(false), 3000);
-            });
-            
-            if (loaded) {
-                validGifts.push(gift);
-            }
-        } catch (e) {
-            // Если ошибка - пропускаем
-        }
-        
-        // Обновляем прогресс каждые 10 штук
-        if (checked % 10 === 0) {
-            statusEl.textContent = `Checking ${checked}/${total} images... (${validGifts.length} valid)`;
-        }
-    }
-    
-    statusEl.textContent = `✅ Found ${validGifts.length} valid gifts out of ${total} total`;
-    
-    // Заменяем данные
-    giftsData = validGifts;
-    
-    // Скрываем оверлей
-    overlay.classList.add('hidden');
-    document.body.style.overflow = 'auto';
-    
-    // Инициализируем рендеринг
-    initApp();
 }
 
 // ============================================================
@@ -2341,32 +2163,24 @@ window.openDetail = function(name, type, price, minBid, bidStep, status, label, 
 // ===== ИНИЦИАЛИЗАЦИЯ =====
 // ============================================================
 
-function initApp() {
-    // Сбрасываем страницы
-    offersPage = 0;
-    numbersPage = 0;
-    giftsPage = 0;
-    loadedOffers = [];
-    loadedNumbers = [];
-    loadedGifts = [];
+offersPage = 0;
+numbersPage = 0;
+giftsPage = 0;
+loadedOffers = [];
+loadedNumbers = [];
+loadedGifts = [];
 
-    // Загружаем первую страницу каждого раздела
-    renderOffers('');
-    renderNumbers('');
-    renderGifts('all', '');
-    renderFilterCollections();
+renderOffers('');
+renderNumbers('');
+renderGifts('all', '');
+renderFilterCollections();
 
-    console.log('✅ Загружено юзернеймов:', offersData.length);
-    console.log('✅ Загружено номеров +888:', numbersData.length);
-    console.log('✅ Загружено подарков (только с рабочими картинками):', giftsData.length);
-    console.log('✅ Фильтр закрыт по умолчанию');
-    console.log('✅ В My Gifts теперь пепе по ссылке');
-    console.log('✅ У каждой коллекции разное количество подарков от 547 до 3485');
-}
-
-// Запускаем проверку картинок и инициализацию
-document.body.style.overflow = 'hidden';
-checkImagesAndFilter();
+console.log('✅ Загружено юзернеймов:', offersData.length);
+console.log('✅ Загружено номеров +888:', numbersData.length);
+console.log('✅ Загружено подарков:', giftsData.length);
+console.log('✅ Фильтр закрыт по умолчанию');
+console.log('✅ В My Gifts пепе по ссылке');
+console.log('✅ Всего моделей подарков: 4855');
 </script>
 
 </body>
