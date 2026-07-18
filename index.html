@@ -310,7 +310,7 @@
             opacity: 0;
         }
         
-        /* TABLE - С ОТСТУПАМИ МЕЖДУ СТРОКАМИ */
+        /* TABLE - С ОТСТУПАМИ */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -413,7 +413,7 @@
             border-radius: var(--def-border-radius);
         }
         
-        /* GIFT CARDS */
+        /* GIFT CARDS - LOTTIE В ЗАМОРОЖЕННОМ СОСТОЯНИИ */
         .tm-catalog-grid-wrap { 
             --gap: 12px;
             background: transparent;
@@ -466,11 +466,43 @@
             justify-content: center;
             overflow: hidden;
         }
-        .tm-grid-thumb {
+        /* Lottie в замороженном состоянии - не проигрывается */
+        .tm-grid-item-thumb .tm-lottie {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .tm-grid-item-thumb .tm-lottie img,
+        .tm-grid-item-thumb .tm-lottie canvas {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+        .tm-grid-item-thumb .tm-lottie.frozen {
+            pointer-events: none;
+        }
+        .tm-grid-item-thumb .tm-lottie.frozen canvas {
+            animation: none !important;
+            animation-play-state: paused !important;
+        }
+        .tm-grid-item-thumb .tm-lottie.frozen img {
+            filter: none;
+        }
+        /* Заглушка если Lottie не загрузился */
+        .tm-grid-item-thumb .tm-lottie-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            background: #1a2026;
+            color: #4db2ff;
+        }
+        
         .tm-grid-item-content {
             text-align: center;
             padding: 12px 8px 11px;
@@ -616,7 +648,7 @@
         }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* DETAIL POPUP - БЕЗ ПОЛЗУНКОВ, КНОПКИ ПО ЦЕНТРУ */
+        /* DETAIL POPUP - КНОПКИ ПО ЦЕНТРУ */
         .popup-container {
             position: fixed;
             top: 0;
@@ -649,7 +681,6 @@
         .popup-container.hide .popup { transform: scale(0.96); }
         .popup-container:not(.hide) .popup { transform: scale(1); }
         
-        /* Скрываем скролл у попапа */
         .popup::-webkit-scrollbar { width: 4px; }
         .popup::-webkit-scrollbar-track { background: transparent; }
         .popup::-webkit-scrollbar-thumb { background: #3f4e60; border-radius: 4px; }
@@ -708,7 +739,7 @@
             padding: 18px 24px 24px;
         }
         
-        /* Gift image в попапе */
+        /* Gift image в попапе - Lottie замороженный */
         .popup-gift-image {
             width: 100%;
             max-width: 200px;
@@ -720,11 +751,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
-        .popup-gift-image img {
+        .popup-gift-image .tm-lottie {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-gift-image .tm-lottie img,
+        .popup-gift-image .tm-lottie canvas {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        .popup-gift-image .tm-lottie.frozen {
+            pointer-events: none;
+        }
+        .popup-gift-image .tm-lottie.frozen canvas {
+            animation: none !important;
+            animation-play-state: paused !important;
+        }
+        .popup-gift-image .tm-lottie-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            background: #1a2026;
+            color: #4db2ff;
         }
         
         .popup-bid-info {
@@ -768,7 +825,6 @@
             margin-left: 4px;
         }
         
-        /* Атрибуты для подарков */
         .popup-attributes {
             background: var(--table-bg-color);
             border-radius: var(--def-border-radius);
@@ -819,7 +875,7 @@
             margin-top: 2px;
         }
         
-        /* КНОПКИ - ПО ЦЕНТРУ, МЕНЬШЕ */
+        /* КНОПКИ ПО ЦЕНТРУ */
         .popup-buttons {
             display: flex;
             gap: 10px;
@@ -1091,9 +1147,11 @@
             <div class="popup-status-badge avail" id="popup-status-badge">On auction</div>
         </div>
         <div class="popup-body">
-            <!-- Gift Image (показывается только для подарков) -->
+            <!-- Gift Image с Lottie -->
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
-                <img id="popup-gift-img" src="" alt="Gift">
+                <div class="tm-lottie frozen" id="popup-lottie-container">
+                    <div class="tm-lottie-fallback" id="popup-lottie-fallback">🎁</div>
+                </div>
             </div>
             
             <div class="popup-bid-info">
@@ -1115,10 +1173,7 @@
                 </div>
             </div>
             
-            <!-- Attributes (только для подарков) -->
-            <div class="popup-attributes" id="popup-attributes" style="display:none;">
-                <!-- JS заполняет -->
-            </div>
+            <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
             
             <div class="popup-countdown">
                 <span class="popup-countdown-label">Auction ends in</span>
@@ -1138,6 +1193,7 @@
                 <span class="popup-detail-value" id="popup-detail-owner">—</span>
             </div>
             
+            <!-- КНОПКИ ПО ЦЕНТРУ -->
             <div class="popup-buttons">
                 <button class="btn-primary" id="popup-bid-btn">Place Bid</button>
                 <button class="btn-secondary" id="popup-buy-btn">Buy Now</button>
@@ -1157,7 +1213,7 @@
 </footer>
 
 <script>
-// ========== BIG DATA ==========
+// ========== DATA ==========
 const offersData = [
     { id: 1, name: 'middlemen', type: 'Username', price: 8888, minBid: 9333, bidStep: 445, status: 'avail', label: 'On auction', date: 'Sep 7, 2025', bids: 12, endsIn: '2d 4h 16m' },
     { id: 2, name: 'heal', type: 'Username', price: 4444, minBid: 4666, bidStep: 222, status: 'avail', label: 'On auction', date: 'Sep 5, 2025', bids: 8, endsIn: '1d 3h 42m' },
@@ -1169,26 +1225,6 @@ const offersData = [
     { id: 8, name: 'light', type: 'Username', price: 1900, minBid: 1995, bidStep: 95, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 2, endsIn: '1d 14h 10m' },
     { id: 9, name: 'phantom', type: 'Username', price: 4500, minBid: 4725, bidStep: 225, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9, endsIn: '6d 2h 45m' },
     { id: 10, name: 'cyber', type: 'Username', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 5, endsIn: '3d 7h 20m' },
-    { id: 11, name: 'matrix', type: 'Username', price: 6100, minBid: 6405, bidStep: 305, status: 'avail', label: 'On auction', date: 'Aug 28, 2025', bids: 11, endsIn: '7d 12h 5m' },
-    { id: 12, name: 'neon', type: 'Username', price: 2700, minBid: 2835, bidStep: 135, status: 'avail', label: 'On auction', date: 'Aug 27, 2025', bids: 3, endsIn: '2d 20h 40m' },
-    { id: 13, name: 'vortex', type: 'Username', price: 3400, minBid: 3570, bidStep: 170, status: 'avail', label: 'On auction', date: 'Aug 26, 2025', bids: 6, endsIn: '4d 5h 15m' },
-    { id: 14, name: 'echo', type: 'Username', price: 1600, minBid: 1680, bidStep: 80, status: 'avail', label: 'On auction', date: 'Aug 25, 2025', bids: 1, endsIn: '1d 9h 30m' },
-    { id: 15, name: 'nova', type: 'Username', price: 5200, minBid: 5460, bidStep: 260, status: 'avail', label: 'On auction', date: 'Aug 24, 2025', bids: 8, endsIn: '5d 14h 50m' },
-    { id: 16, name: 'zen', type: 'Username', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 23, 2025', bids: 4, endsIn: '3d 1h 10m' },
-    { id: 17, name: 'flux', type: 'Username', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 22, 2025', bids: 7, endsIn: '4d 18h 25m' },
-    { id: 18, name: 'pulse', type: 'Username', price: 2900, minBid: 3045, bidStep: 145, status: 'avail', label: 'On auction', date: 'Aug 21, 2025', bids: 3, endsIn: '2d 6h 40m' },
-    { id: 19, name: 'core', type: 'Username', price: 4600, minBid: 4830, bidStep: 230, status: 'avail', label: 'On auction', date: 'Aug 20, 2025', bids: 6, endsIn: '6d 3h 30m' },
-    { id: 20, name: 'apex', type: 'Username', price: 5400, minBid: 5670, bidStep: 270, status: 'avail', label: 'On auction', date: 'Aug 19, 2025', bids: 9, endsIn: '7d 9h 15m' },
-    { id: 21, name: 'nexus', type: 'Username', price: 3900, minBid: 4095, bidStep: 195, status: 'avail', label: 'On auction', date: 'Aug 18, 2025', bids: 5, endsIn: '4d 2h 20m' },
-    { id: 22, name: 'prime', type: 'Username', price: 7200, minBid: 7560, bidStep: 360, status: 'avail', label: 'On auction', date: 'Aug 17, 2025', bids: 14, endsIn: '8d 5h 45m' },
-    { id: 23, name: 'elite', type: 'Username', price: 8300, minBid: 8715, bidStep: 415, status: 'avail', label: 'On auction', date: 'Aug 16, 2025', bids: 10, endsIn: '9d 2h 30m' },
-    { id: 24, name: 'alpha', type: 'Username', price: 6600, minBid: 6930, bidStep: 330, status: 'taken', label: 'Taken', date: 'Aug 15, 2025', bids: 8, endsIn: '—' },
-    { id: 25, name: 'omega', type: 'Username', price: 5800, minBid: 6090, bidStep: 290, status: 'avail', label: 'On auction', date: 'Aug 14, 2025', bids: 6, endsIn: '6d 14h 10m' },
-    { id: 26, name: 'legend', type: 'Username', price: 9100, minBid: 9555, bidStep: 455, status: 'avail', label: 'On auction', date: 'Aug 13, 2025', bids: 15, endsIn: '10d 3h 20m' },
-    { id: 27, name: 'myth', type: 'Username', price: 4700, minBid: 4935, bidStep: 235, status: 'avail', label: 'On auction', date: 'Aug 12, 2025', bids: 7, endsIn: '5d 8h 40m' },
-    { id: 28, name: 'solar', type: 'Username', price: 3600, minBid: 3780, bidStep: 180, status: 'avail', label: 'On auction', date: 'Aug 11, 2025', bids: 4, endsIn: '3d 11h 25m' },
-    { id: 29, name: 'lunar', type: 'Username', price: 3100, minBid: 3255, bidStep: 155, status: 'avail', label: 'On auction', date: 'Aug 10, 2025', bids: 5, endsIn: '4d 22h 15m' },
-    { id: 30, name: 'stellar', type: 'Username', price: 5900, minBid: 6195, bidStep: 295, status: 'avail', label: 'On auction', date: 'Aug 9, 2025', bids: 9, endsIn: '7d 6h 50m' },
 ];
 
 const numbersData = [
@@ -1197,134 +1233,36 @@ const numbersData = [
     { id: 103, name: '+888 999 0000', type: 'Number', price: 1800, minBid: 1890, bidStep: 90, status: 'taken', label: 'Taken', date: 'Sep 4, 2025', bids: 2, endsIn: '—' },
     { id: 104, name: '+888 555 1234', type: 'Number', price: 900, minBid: 945, bidStep: 45, status: 'avail', label: 'On auction', date: 'Sep 3, 2025', bids: 1, endsIn: '4d 3h 15m' },
     { id: 105, name: '+888 666 9999', type: 'Number', price: 3200, minBid: 3360, bidStep: 160, status: 'avail', label: 'On auction', date: 'Sep 2, 2025', bids: 7, endsIn: '3d 12h 20m' },
-    { id: 106, name: '+888 111 2222', type: 'Number', price: 1500, minBid: 1575, bidStep: 75, status: 'avail', label: 'On auction', date: 'Sep 1, 2025', bids: 4, endsIn: '2d 6h 10m' },
-    { id: 107, name: '+888 444 7777', type: 'Number', price: 2800, minBid: 2940, bidStep: 140, status: 'avail', label: 'On auction', date: 'Aug 31, 2025', bids: 6, endsIn: '5d 8h 45m' },
-    { id: 108, name: '+888 888 1111', type: 'Number', price: 4000, minBid: 4200, bidStep: 200, status: 'avail', label: 'On auction', date: 'Aug 30, 2025', bids: 9, endsIn: '6d 14h 30m' },
-    { id: 109, name: '+888 222 3333', type: 'Number', price: 1100, minBid: 1155, bidStep: 55, status: 'avail', label: 'On auction', date: 'Aug 29, 2025', bids: 2, endsIn: '1d 18h 20m' },
-    { id: 110, name: '+888 000 9999', type: 'Number', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 28, 2025', bids: 5, endsIn: '3d 4h 15m' },
-    { id: 111, name: '+888 333 4444', type: 'Number', price: 1600, minBid: 1680, bidStep: 80, status: 'avail', label: 'On auction', date: 'Aug 27, 2025', bids: 3, endsIn: '2d 12h 40m' },
-    { id: 112, name: '+888 555 6666', type: 'Number', price: 2700, minBid: 2835, bidStep: 135, status: 'avail', label: 'On auction', date: 'Aug 26, 2025', bids: 6, endsIn: '4d 7h 20m' },
-    { id: 113, name: '+888 777 9999', type: 'Number', price: 3500, minBid: 3675, bidStep: 175, status: 'avail', label: 'On auction', date: 'Aug 25, 2025', bids: 8, endsIn: '5d 11h 55m' },
-    { id: 114, name: '+888 111 0000', type: 'Number', price: 800, minBid: 840, bidStep: 40, status: 'avail', label: 'On auction', date: 'Aug 24, 2025', bids: 1, endsIn: '1d 3h 10m' },
-    { id: 115, name: '+888 222 5555', type: 'Number', price: 1900, minBid: 1995, bidStep: 95, status: 'taken', label: 'Taken', date: 'Aug 23, 2025', bids: 4, endsIn: '—' },
-    { id: 116, name: '+888 333 7777', type: 'Number', price: 2300, minBid: 2415, bidStep: 115, status: 'avail', label: 'On auction', date: 'Aug 22, 2025', bids: 5, endsIn: '3d 5h 30m' },
-    { id: 117, name: '+888 444 8888', type: 'Number', price: 3100, minBid: 3255, bidStep: 155, status: 'avail', label: 'On auction', date: 'Aug 21, 2025', bids: 7, endsIn: '4d 18h 40m' },
-    { id: 118, name: '+888 555 9999', type: 'Number', price: 2600, minBid: 2730, bidStep: 130, status: 'avail', label: 'On auction', date: 'Aug 20, 2025', bids: 4, endsIn: '2d 9h 15m' },
-    { id: 119, name: '+888 666 1111', type: 'Number', price: 1800, minBid: 1890, bidStep: 90, status: 'avail', label: 'On auction', date: 'Aug 19, 2025', bids: 3, endsIn: '3d 14h 25m' },
-    { id: 120, name: '+888 777 2222', type: 'Number', price: 2200, minBid: 2310, bidStep: 110, status: 'avail', label: 'On auction', date: 'Aug 18, 2025', bids: 5, endsIn: '4d 2h 35m' },
-    { id: 121, name: '+888 888 3333', type: 'Number', price: 3800, minBid: 3990, bidStep: 190, status: 'avail', label: 'On auction', date: 'Aug 17, 2025', bids: 8, endsIn: '6d 11h 20m' },
-    { id: 122, name: '+888 999 4444', type: 'Number', price: 2900, minBid: 3045, bidStep: 145, status: 'avail', label: 'On auction', date: 'Aug 16, 2025', bids: 6, endsIn: '5d 6h 10m' },
-    { id: 123, name: '+888 000 1111', type: 'Number', price: 700, minBid: 735, bidStep: 35, status: 'avail', label: 'On auction', date: 'Aug 15, 2025', bids: 1, endsIn: '1d 1h 40m' },
-    { id: 124, name: '+888 111 3333', type: 'Number', price: 1300, minBid: 1365, bidStep: 65, status: 'avail', label: 'On auction', date: 'Aug 14, 2025', bids: 2, endsIn: '2d 3h 55m' },
-    { id: 125, name: '+888 222 4444', type: 'Number', price: 1700, minBid: 1785, bidStep: 85, status: 'avail', label: 'On auction', date: 'Aug 13, 2025', bids: 3, endsIn: '3d 8h 30m' },
-    { id: 126, name: '+888 333 5555', type: 'Number', price: 2000, minBid: 2100, bidStep: 100, status: 'avail', label: 'On auction', date: 'Aug 12, 2025', bids: 4, endsIn: '2d 14h 45m' },
-    { id: 127, name: '+888 444 6666', type: 'Number', price: 2400, minBid: 2520, bidStep: 120, status: 'avail', label: 'On auction', date: 'Aug 11, 2025', bids: 5, endsIn: '4d 5h 20m' },
-    { id: 128, name: '+888 555 7777', type: 'Number', price: 3000, minBid: 3150, bidStep: 150, status: 'avail', label: 'On auction', date: 'Aug 10, 2025', bids: 6, endsIn: '5d 12h 10m' },
-    { id: 129, name: '+888 666 8888', type: 'Number', price: 3300, minBid: 3465, bidStep: 165, status: 'avail', label: 'On auction', date: 'Aug 9, 2025', bids: 7, endsIn: '6d 3h 35m' },
-    { id: 130, name: '+888 777 3333', type: 'Number', price: 2100, minBid: 2205, bidStep: 105, status: 'avail', label: 'On auction', date: 'Aug 8, 2025', bids: 4, endsIn: '3d 7h 50m' },
 ];
 
-// ВСЕ КОЛЛЕКЦИИ ПОДАРКОВ
-const collectionsList = [
-    'Artisan Bricks', 'Astral Shards', 'B-Day Candles', 'Berry Boxes', 'Big Years',
-    'Bling Binkies', 'Bonded Rings', 'Bow Ties', 'Bunny Muffins', 'Candy Canes',
-    'Chill Flames', 'Clover Pins', 'Cookie Hearts', 'Crystal Balls', 'Cupid Charms',
-    'Desk Calendars', 'Diamond Rings', 'Durov\'s Caps', 'Easter Eggs', 'Electric Skulls',
-    'Eternal Candles', 'Eternal Roses', 'Evil Eyes', 'Faith Amulets', 'Flying Brooms',
-    'Fresh Socks', 'Gem Signets', 'Genie Lamps', 'Ginger Cookies', 'Hanging Stars',
-    'Happy Brownies', 'Heart Lockets', 'Heroic Helmets', 'Hex Pots', 'Holiday Drinks',
-    'Homemade Cakes', 'Hypno Lollipops', 'Ice Creams', 'Input Keys', 'Instant Ramens',
-    'Ion Gems', 'Ionic Dryers', 'Jacks-in-the-Box', 'Jelly Bunnies', 'Jester Hats',
-    'Jingle Bells', 'Jolly Chimps', 'Joyful Bundles', 'Khabib\'s Papakhas', 'Kissed Frogs',
-    'Light Swords', 'Lol Pops', 'Loot Bags', 'Love Candles', 'Love Potions',
-    'Low Riders', 'Lunar Snakes', 'Lush Bouquets', 'Mad Pumpkins', 'Magic Potions',
-    'Mighty Arms', 'Mini Oscars', 'Money Pots', 'Mood Packs', 'Moon Pendants',
-    'Mousse Cakes', 'Nail Bracelets', 'Neko Helmets', 'Party Sparklers', 'Perfume Bottles',
-    'Pet Snakes', 'Plush Pepes', 'Pool Floats', 'Precious Peaches', 'Pretty Posies',
-    'Rare Birds', 'Record Players', 'Restless Jars', 'Sakura Flowers', 'Santa Hats',
-    'Scared Cats', 'Sharp Tongues', 'Signet Rings', 'Skull Flowers', 'Sky Stilettos',
-    'Sleigh Bells', 'Snake Boxes', 'Snoop Cigars', 'Snoop Doggs', 'Snow Globes',
-    'Snow Mittens', 'Spiced Wines', 'Spring Baskets', 'Spy Agarics', 'Star Notepads',
-    'Stellar Rockets', 'Surge Boards', 'Swag Bags', 'Swiss Watches', 'Tama Gadgets',
-    'Timeless Books', 'Top Hats', 'Toy Bears', 'Trapped Hearts', 'UFC Strikes',
-    'Valentine Boxes', 'Vice Creams', 'Victory Medals', 'Vintage Cigars', 'Voodoo Dolls',
-    'Westside Signs', 'Whip Cupcakes', 'Winter Wreaths', 'Witch Hats', 'Xmas Stockings'
+// Gifts с Lottie
+const giftsData = [
+    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/plushpepe-1821.tgs', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg', owner: 'UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Isg', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
+    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/plushpepe-1515.tgs', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg', owner: 'UQAL2kMK6J-vUj1P1RrF6lRG161pQdhYXXwb__hcEFxbXzw', attrs: { Model: 'Galaxy', Backdrop: 'Purple', Symbol: 'Dragon' } },
+    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/plushpepe-2658.tgs', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
+    { id: 4, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/swisswatch-7799.tgs', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Classic', Material: 'Gold', Band: 'Leather' } },
+    { id: 5, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/heartlocket-875.tgs', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg', owner: 'EQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', attrs: { Material: 'Gold', Gem: 'Ruby', Chain: 'Silver' } },
+    { id: 6, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/scaredcat-2920.tgs', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg', owner: 'UQCa8-iCRxjI-e38jJ-tF3YkyX1suJqghWynrZrjlUsKMzst', attrs: { Color: 'Orange', Expression: 'Surprised', Eyes: 'Big' } },
+    { id: 7, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/lootbag-11217.tgs', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg', owner: 'EQD_38Uzn8ZQJJ4jB9o89cp4pOkdp3k_KzpsWv84KpQ8TlsL', attrs: { Rarity: 'Legendary', Material: 'Velvet', Style: 'Retro' } },
+    { id: 8, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/sakuraflower-49643.tgs', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg', owner: 'EQCa7wMuLC-TDD_jZFTluCTfVMo9WhXJr_t3xIyazm78yAjR', attrs: { Color: 'Pink', Season: 'Spring', Bloom: 'Full' } },
+    { id: 9, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', lottie: 'https://nft.fragment.com/gift/lowrider-16593.tgs', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg', owner: 'EQD4aL6GYkycuVtfsbxEcCVmXBWbL5foTumHNX1oHXGyxeVJ', attrs: { Color: 'Purple', Style: 'Custom', Wheels: 'Spinner' } },
+    { id: 10, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', lottie: 'https://nft.fragment.com/gift/snoopdogg-12345.tgs', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg', owner: 'UQB_ziGN0OZ3yXptUqZrM6toMgB0jvS5_Ngm8_lm8FV72WxN', attrs: { Style: 'OG', Chain: 'Gold', Glasses: 'Shades' } },
 ];
 
-// Генерируем подарки для всех коллекций
-let giftsData = [];
-const collectionsWithGifts = {};
-
-// Добавляем существующие подарки
-const existingGifts = [
-    { id: 1, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1821', price: 88888, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1821.medium.jpg', owner: 'UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Isg', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
-    { id: 2, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#1515', price: 48000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-1515.medium.jpg', owner: 'UQAL2kMK6J-vUj1P1RrF6lRG161pQdhYXXwb__hcEFxbXzw', attrs: { Model: 'Galaxy', Backdrop: 'Purple', Symbol: 'Dragon' } },
-    { id: 3, name: 'Plush Pepe', collection: 'Plush Pepes', num: '#2658', price: 30000, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/plushpepe-2658.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Cozy Galaxy', Backdrop: 'Black', Symbol: 'Pegasus' } },
-    { id: 4, name: 'Swiss Watch', collection: 'Swiss Watches', num: '#7799', price: 13588, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/swisswatch-7799.medium.jpg', owner: 'EQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', attrs: { Model: 'Classic', Material: 'Gold', Band: 'Leather' } },
-    { id: 5, name: 'Heart Locket', collection: 'Heart Lockets', num: '#875', price: 12733, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/heartlocket-875.medium.jpg', owner: 'EQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', attrs: { Material: 'Gold', Gem: 'Ruby', Chain: 'Silver' } },
-    { id: 6, name: 'Scared Cat', collection: 'Scared Cats', num: '#2920', price: 12500, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/scaredcat-2920.medium.jpg', owner: 'UQCa8-iCRxjI-e38jJ-tF3YkyX1suJqghWynrZrjlUsKMzst', attrs: { Color: 'Orange', Expression: 'Surprised', Eyes: 'Big' } },
-    { id: 7, name: 'Loot Bag', collection: 'Loot Bags', num: '#11217', price: 11111, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lootbag-11217.medium.jpg', owner: 'EQD_38Uzn8ZQJJ4jB9o89cp4pOkdp3k_KzpsWv84KpQ8TlsL', attrs: { Rarity: 'Legendary', Material: 'Velvet', Style: 'Retro' } },
-    { id: 8, name: 'Sakura Flower', collection: 'Sakura Flowers', num: '#49643', price: 6753, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/sakuraflower-49643.medium.jpg', owner: 'EQCa7wMuLC-TDD_jZFTluCTfVMo9WhXJr_t3xIyazm78yAjR', attrs: { Color: 'Pink', Season: 'Spring', Bloom: 'Full' } },
-    { id: 9, name: 'Low Rider', collection: 'Low Riders', num: '#16593', price: 6666, status: 'sold', label: 'Sold', image: 'https://nft.fragment.com/gift/lowrider-16593.medium.jpg', owner: 'EQD4aL6GYkycuVtfsbxEcCVmXBWbL5foTumHNX1oHXGyxeVJ', attrs: { Color: 'Purple', Style: 'Custom', Wheels: 'Spinner' } },
-    { id: 10, name: 'Snoop Dogg', collection: 'Snoop Doggs', num: '#12345', price: 5555, status: 'avail', label: 'On auction', image: 'https://nft.fragment.com/gift/snoopdogg-12345.medium.jpg', owner: 'UQB_ziGN0OZ3yXptUqZrM6toMgB0jvS5_Ngm8_lm8FV72WxN', attrs: { Style: 'OG', Chain: 'Gold', Glasses: 'Shades' } },
-];
-
-// Генерируем подарки для каждой коллекции
-collectionsList.forEach(col => {
-    // Пропускаем уже существующие коллекции
-    if (existingGifts.some(g => g.collection === col)) return;
-    
-    const count = Math.floor(Math.random() * 5) + 1;
-    for (let i = 1; i <= count; i++) {
-        const num = Math.floor(Math.random() * 10000) + 1000;
-        const price = Math.floor(Math.random() * 5000) + 500;
-        const status = Math.random() > 0.3 ? 'sold' : 'avail';
-        const label = status === 'sold' ? 'Sold' : 'On auction';
-        giftsData.push({
-            id: giftsData.length + existingGifts.length + 1,
-            name: col.replace(/\s/g, ' '),
-            collection: col,
-            num: '#' + num,
-            price: price,
-            status: status,
-            label: label,
-            image: 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E',
-            owner: 'UQ' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-            attrs: { Rarity: ['Common','Uncommon','Rare','Epic','Legendary'][Math.floor(Math.random()*5)], Style: ['Classic','Modern','Vintage','Neon','Stealth'][Math.floor(Math.random()*5)] }
-        });
-    }
-});
-
-// Добавляем существующие подарки
-giftsData = [...existingGifts, ...giftsData];
-
-// ========== RENDER FUNCTIONS ==========
-let offersPage = 0;
-const OFFERS_PER_PAGE = 20;
-let numbersPage = 0;
-const NUMBERS_PER_PAGE = 20;
-let giftsPage = 0;
-const GIFTS_PER_PAGE = 12;
-
+// ========== RENDER ==========
 function renderOffers(search = '') {
     const filtered = offersData.filter(item => 
         item.name.toLowerCase().includes(search.toLowerCase()) ||
         item.type.toLowerCase().includes(search.toLowerCase())
     );
-    const start = 0;
-    const end = Math.min((offersPage + 1) * OFFERS_PER_PAGE, filtered.length);
-    const pageItems = filtered.slice(start, end);
-    
     const tbody = document.getElementById('offers-table-body');
     document.getElementById('offers-count').textContent = `(${filtered.length})`;
-    
-    if (pageItems.length === 0) {
+    if (filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`;
         return;
     }
-    
-    tbody.innerHTML = pageItems.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null)">
+    tbody.innerHTML = filtered.map(item => `
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null)">
             <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1333,13 +1271,6 @@ function renderOffers(search = '') {
             <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
-    
-    const btn = document.getElementById('offers-load-more');
-    if (end >= filtered.length) {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
 }
 
 function renderNumbers(search = '') {
@@ -1347,20 +1278,14 @@ function renderNumbers(search = '') {
         item.name.toLowerCase().includes(search.toLowerCase()) ||
         item.type.toLowerCase().includes(search.toLowerCase())
     );
-    const start = 0;
-    const end = Math.min((numbersPage + 1) * NUMBERS_PER_PAGE, filtered.length);
-    const pageItems = filtered.slice(start, end);
-    
     const tbody = document.getElementById('numbers-table-body');
     document.getElementById('numbers-count').textContent = `(${filtered.length})`;
-    
-    if (pageItems.length === 0) {
+    if (filtered.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`;
         return;
     }
-    
-    tbody.innerHTML = pageItems.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null)">
+    tbody.innerHTML = filtered.map(item => `
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null)">
             <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
@@ -1369,13 +1294,6 @@ function renderNumbers(search = '') {
             <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
-    
-    const btn = document.getElementById('numbers-load-more');
-    if (end >= filtered.length) {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
 }
 
 function renderGifts(collection = 'all', search = '') {
@@ -1386,32 +1304,39 @@ function renderGifts(collection = 'all', search = '') {
         return matchCollection && matchSearch;
     });
     
-    const start = 0;
-    const end = Math.min((giftsPage + 1) * GIFTS_PER_PAGE, filtered.length);
-    const pageItems = filtered.slice(start, end);
-    
     const grid = document.getElementById('gifts-grid');
     document.getElementById('gifts-count').textContent = `(${filtered.length})`;
     
-    if (pageItems.length === 0) {
+    if (filtered.length === 0) {
         grid.innerHTML = `<div style="width:100%;text-align:center;padding:40px 20px;color:var(--table-text-color);font-size:15px;">No gifts found</div>`;
         return;
     }
     
-    grid.innerHTML = pageItems.map(item => {
+    grid.innerHTML = filtered.map(item => {
+        // Используем Lottie с картинкой как fallback
+        const lottieUrl = item.lottie || '';
+        const imgUrl = item.image || '';
+        const num = item.num || '';
         const attrsStr = JSON.stringify(item.attrs || {});
         const ownerStr = item.owner || '';
+        const lottieData = lottieUrl + '|' + imgUrl;
+        
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${item.image}', '${item.collection}', ${attrsStr}, '${ownerStr}')">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', 'Today', 0, '—', '${lottieData}', '${item.collection}', ${attrsStr}, '${ownerStr}')">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <img src="${item.image}" class="tm-grid-thumb" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
-                    <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${item.num}</div>
+                    <div class="tm-lottie frozen" data-lottie="${lottieUrl}" data-fallback="${imgUrl}">
+                        <img src="${imgUrl}" class="tm-grid-thumb" loading="lazy" 
+                             onerror="this.style.display='none';this.parentElement.querySelector('.tm-lottie-fallback')?.style.display='flex';"
+                             style="width:100%;height:100%;object-fit:cover;">
+                        <div class="tm-lottie-fallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:48px;background:#1a2026;color:#4db2ff;">🎁</div>
+                    </div>
+                    <div class="tm-grid-item-num" style="position:absolute;bottom:0;left:0;border-radius:6px;background:rgba(0,0,0,0.6);font-size:10px;padding:2px 6px;color:#fff;margin:4px;">${num}</div>
                 </div>
                 <div class="tm-grid-item-content">
                     <div class="tm-grid-item-name">
                         <span class="item-name">${item.name}</span>
-                        <span class="item-num">&nbsp;${item.num}</span>
+                        <span class="item-num">&nbsp;${num}</span>
                     </div>
                     <div class="tm-grid-item-desc">${item.collection}</div>
                     <div class="tm-grid-item-values">
@@ -1422,13 +1347,6 @@ function renderGifts(collection = 'all', search = '') {
             </a>
         </div>
     `}).join('');
-    
-    const btn = document.getElementById('gifts-load-more');
-    if (end >= filtered.length) {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
 }
 
 function renderFilterCollections() {
@@ -1457,14 +1375,13 @@ function renderFilterCollections() {
         el.addEventListener('click', function() {
             container.querySelectorAll('.tm-main-filters-item').forEach(f => f.classList.remove('selected'));
             this.classList.add('selected');
-            giftsPage = 0;
             renderGifts(this.dataset.collection, document.getElementById('search-gifts').value);
         });
     });
 }
 
 // ========== DETAIL POPUP ==========
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, giftImage, collection, attrs, owner) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, lottieData, collection, attrs, owner) {
     document.getElementById('popup-title').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
@@ -1479,15 +1396,42 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     statusBadge.textContent = label || 'On auction';
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
-    // Gift image
-    const giftImgContainer = document.getElementById('popup-gift-image');
-    const giftImg = document.getElementById('popup-gift-img');
-    if (giftImage && type === 'Gift') {
-        giftImgContainer.style.display = 'flex';
-        giftImg.src = giftImage;
-        giftImg.alt = name;
+    // Gift Lottie/Image
+    const giftContainer = document.getElementById('popup-gift-image');
+    const lottieContainer = document.getElementById('popup-lottie-container');
+    const fallback = document.getElementById('popup-lottie-fallback');
+    
+    if (lottieData && type === 'Gift') {
+        giftContainer.style.display = 'flex';
+        const parts = lottieData.split('|');
+        const lottieUrl = parts[0] || '';
+        const imgUrl = parts[1] || '';
+        
+        // Показываем картинку как fallback для Lottie
+        if (imgUrl) {
+            fallback.style.display = 'none';
+            fallback.textContent = '🎁';
+            // Создаем img для превью
+            let img = lottieContainer.querySelector('img');
+            if (!img) {
+                img = document.createElement('img');
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                lottieContainer.appendChild(img);
+            }
+            img.src = imgUrl;
+            img.onerror = function() {
+                this.style.display = 'none';
+                fallback.style.display = 'flex';
+            };
+            img.style.display = 'block';
+        } else {
+            fallback.style.display = 'flex';
+            fallback.textContent = '🎁';
+        }
     } else {
-        giftImgContainer.style.display = 'none';
+        giftContainer.style.display = 'none';
     }
     
     // Attributes
@@ -1495,16 +1439,17 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     if (attrs && type === 'Gift') {
         attrsContainer.style.display = 'block';
         let attrsHtml = '';
+        const rarityPcts = ['0.4%', '1%', '2%', '5%', '10%'];
+        let i = 0;
         for (const [key, val] of Object.entries(attrs)) {
-            const rarity = Math.floor(Math.random() * 5) + 1;
-            const rarityText = ['Common','Uncommon','Rare','Epic','Legendary'][rarity-1];
-            const rarityPct = (Math.random() * 20 + 1).toFixed(1);
+            const rarity = rarityPcts[i % rarityPcts.length] || '1%';
             attrsHtml += `
                 <div class="popup-attr-row">
                     <span class="popup-attr-label">${key}</span>
-                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarityPct}%</span></span>
+                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
                 </div>
             `;
+            i++;
         }
         attrsContainer.innerHTML = attrsHtml;
     } else {
@@ -1558,15 +1503,12 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
 
 // ========== SEARCH ==========
 document.getElementById('search-offers').addEventListener('input', function() {
-    offersPage = 0;
     renderOffers(this.value);
 });
 document.getElementById('search-numbers').addEventListener('input', function() {
-    numbersPage = 0;
     renderNumbers(this.value);
 });
 document.getElementById('search-gifts').addEventListener('input', function() {
-    giftsPage = 0;
     const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
     const collection = selected ? selected.dataset.collection : 'all';
     renderGifts(collection, this.value);
@@ -1581,22 +1523,6 @@ document.querySelectorAll('.tm-search-clear').forEach(clear => {
             input.focus();
         }
     });
-});
-
-// ========== LOAD MORE ==========
-document.getElementById('offers-load-more').addEventListener('click', function() {
-    offersPage++;
-    renderOffers(document.getElementById('search-offers').value);
-});
-document.getElementById('numbers-load-more').addEventListener('click', function() {
-    numbersPage++;
-    renderNumbers(document.getElementById('search-numbers').value);
-});
-document.getElementById('gifts-load-more').addEventListener('click', function() {
-    giftsPage++;
-    const selected = document.querySelector('#gift-filter-content .tm-main-filters-item.selected');
-    const collection = selected ? selected.dataset.collection : 'all';
-    renderGifts(collection, document.getElementById('search-gifts').value);
 });
 
 // ========== FILTER TOGGLE ==========
