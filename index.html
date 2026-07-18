@@ -52,6 +52,7 @@
         a { color: var(--accent-color); text-decoration: none; }
         a:hover { color: var(--accent-color); text-decoration: underline; }
         
+        /* HEADER */
         .tm-header {
             display: flex;
             margin: 0 auto;
@@ -140,6 +141,7 @@
             margin-right: 6px;
         }
         
+        /* TABS */
         .tm-header-tabs-wrap {
             width: 100%;
             padding: 0 16px;
@@ -206,6 +208,7 @@
             .tm-header-tab { padding: 19px 0; margin-right: 26px; }
         }
         
+        /* MAIN */
         .tm-main {
             margin: 0 auto;
             width: 100%;
@@ -218,7 +221,45 @@
             .tm-main { padding: 90px 32px 70px; }
         }
         
-        /* ===== PREMIUM SECTION ===== */
+        /* ===== STARS ===== */
+        .tm-stars-options { display: block !important; }
+        .tm-stars-options .tm-form-radio-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: -4px 0;
+        }
+        .tm-stars-options .tm-form-radio-item {
+            display: block;
+            position: relative;
+            padding: 0;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .tm-stars-options .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
+        .tm-stars-options .tm-form-radio-label {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            line-height: 18px;
+            padding: 8px 14px;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            box-shadow: 0 0 0 0px var(--accent-color);
+            transition: box-shadow .2s ease;
+            color: var(--field-color);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            gap: 8px;
+        }
+        .tm-stars-options .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
+        .tm-stars-options .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
+        .tm-stars-options .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
+        .tm-stars-options .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
+        .tm-stars-options .tm-form-radio-label svg { vertical-align: middle; }
+        
+        /* ===== PREMIUM ===== */
         .tm-main-premium .tm-main-intro {
             padding: 20px 12px 10px;
             text-align: center;
@@ -231,6 +272,16 @@
             margin: 0;
         }
         .tm-main-intro-text { font-size: 14px; color: var(--text-color); margin-top: 4px; }
+        .tm-main-intro-header i.icon-telegram-stars {
+            display: inline-block;
+            width: 28px;
+            height: 36px;
+            background-image: url('data:image/svg+xml,%3Csvg height="36" viewBox="0 0 26 36" width="26" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z" fill="%23248bda"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
         
         .tm-main-search-form {
             max-width: 680px;
@@ -296,58 +347,54 @@
             background-image: url('data:image/svg+xml,%3Csvg height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5 17 12-12m-12 0 12 12" stroke="%238494a3" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
         }
         .tm-search-input:placeholder-shown ~ .tm-search-clear { visibility: hidden; opacity: 0; }
-        .tm-search-field-photo {
-            position: absolute;
-            left: 0;
-            top: 0;
-            margin: 9px 14px;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: none;
-        }
-        .tm-search-field-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .found .tm-search-field-photo { display: inline-block; }
         
-        .tm-premium-boost-label {
+        .icon-stars:before {
+            content: '';
             display: inline-block;
-            font-size: 14px;
-            line-height: 18px;
-            padding: 3px 6px;
-            font-weight: bold;
-            background-color: #9f53ff;
-            color: #fff;
-            border-radius: 6px;
-            margin: 9px 10px;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-        .icon-boost:before {
-            width: 11px;
-            height: 18px;
             vertical-align: top;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 11 18" width="11" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5.84.14-5.74 6.53c-.15.17-.13.43.04.58.07.07.17.1.27.1h2.14c.23 0 .41.19.41.41 0 .03 0 .05-.01.07l-.83 4.94c-.04.22.11.43.34.47.14.03.28-.03.38-.14l5.75-6.71c.15-.17.13-.43-.04-.58-.08-.06-.17-.1-.27-.1h-2.02c-.23 0-.41-.18-.41-.41 0-.02 0-.04 0-.06l.71-4.77c.03-.22-.13-.43-.35-.47-.14-.02-.28.04-.37.14z" fill="%23fff"/%3E%3C/svg%3E');
-            background-size: contain;
+            background-position: 0 center;
             background-repeat: no-repeat;
-            display: inline-block;
-        }
-        .tm-premium-boost-label.icon-boost:before { margin-right: 4px; }
-        .tm-search-error-icon {
-            display: none;
-            position: absolute;
-            left: 0;
-            top: 0;
-            margin: 11px 12px 11px 16px;
-            width: 20px;
+            background-size: contain;
+            width: 18px;
             height: 20px;
-            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="10" cy="10" fill="%23fff" r="9"/%3E%3Cpath d="M10 0c5.52 0 10 4.48 10 10s-4.48 10-10 10S0 15.52 0 10 4.48 0 10 0zm0 12.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm0-7.75c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1s1-.45 1-1v-5c0-.55-.45-1-1-1z" fill="%23ff5863"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-repeat: no-repeat;
+            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M6.02 4.99l2.21-4.42c.25-.51.86-.72 1.37-.46.2.1.36.27.46.47l2.08 4.26c.17.34.5.58.88.63l4.36.52c.59.08 1.02.62.95 1.22-.03.24-.14.47-.32.65l-3.45 3.42c-.14.13-.2.33-.18.53l.57 4.61c.09.66-.38 1.27-1.03 1.35-.25.03-.5-.02-.72-.14l-3.64-2c-.26-.14-.58-.15-.85-.01l-3.77 1.95c-.53.27-1.18.06-1.45-.48-.11-.2-.14-.43-.11-.65l.3-2.12c.15-1.04.79-1.93 1.71-2.41l4.19-2.15c.11-.06.15-.2.1-.31-.05-.09-.14-.14-.24-.12l-5.12.74c-.78.11-1.58-.11-2.19-.62l-1.71-1.4c-.49-.4-.56-1.12-.17-1.62.19-.22.45-.37.74-.41l4.38-.57c.28-.03.52-.21.65-.46z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
         }
-        .error .tm-search-error-icon { display: inline-block; }
-        .error.icon-search:before { display: none; }
+        .form-control-wrap {
+            display: flex;
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            position: relative;
+        }
+        .form-control-wrap .tm-amount-input {
+            height: auto;
+            font-size: 15px;
+            line-height: 20px;
+            padding: 14px 50px 14px 56px;
+            box-shadow: none !important;
+            border: none;
+            background: transparent;
+            color: var(--field-color);
+            width: 100%;
+            border-radius: var(--def-border-radius);
+            font-family: inherit;
+        }
+        .form-control-wrap .tm-amount-input:focus { outline: none; }
+        .form-control-wrap.icon-stars:before {
+            position: absolute;
+            margin: 14px 18px 14px 22px;
+            pointer-events: none;
+        }
+        .tm-stars-price {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--value-color);
+            pointer-events: none;
+        }
+        
         .tm-search-field-error {
             font-size: 12px;
             line-height: 15px;
@@ -355,54 +402,6 @@
             margin: 6px 12px -6px;
             color: var(--danger-color);
         }
-        
-        .tm-form-radio-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin: -4px 0;
-        }
-        .tm-form-radio-item {
-            display: block;
-            position: relative;
-            padding: 0;
-            margin-bottom: 0;
-            cursor: pointer;
-        }
-        .tm-form-radio-item input.radio { position: absolute; left: -5000px; }
-        .tm-form-radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            line-height: 18px;
-            padding: 8px 14px;
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            box-shadow: 0 0 0 0px var(--accent-color);
-            transition: box-shadow .2s ease;
-            color: var(--field-color);
-            white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-            gap: 8px;
-        }
-        .tm-form-radio-item input.radio:checked ~ .tm-form-radio-label { box-shadow: 0 0 0 2px var(--accent-color); }
-        .tm-form-radio-label .tm-radio-label { flex-grow: 1; }
-        .tm-form-radio-label .tm-radio-label-badge {
-            display: inline-block;
-            font-size: 11px;
-            line-height: 14px;
-            font-weight: bold;
-            padding: 2px 4px;
-            margin: 1px 4px 1px 8px;
-            vertical-align: top;
-            border-radius: 4px;
-            background-color: var(--field-accent-color);
-            white-space: nowrap;
-        }
-        .tm-form-radio-label .tm-value { font-weight: bold; color: var(--value-color); }
-        .tm-form-radio-label .tm-radio-desc { font-weight: normal; color: var(--table-text-color); }
-        .tm-form-radio-label .tm-quantity { width: 60px; font-weight: normal; color: var(--dropdown-secondary-color); }
         
         .tm-currency-tabs {
             display: flex;
@@ -477,7 +476,7 @@
         .tm-main-form-link-wrap { text-align: center; margin-top: 16px; font-size: 14px; }
         .tm-main-form-link-wrap a { color: var(--accent-color); }
         
-        /* TABLE */
+        /* TABLE - БЕЗ КОЛОНКИ ENDS IN */
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -716,7 +715,7 @@
             .tm-grid-item-status { font-size: 11px; line-height: 16px; padding: 2px 7px; }
         }
         
-        /* FILTERS */
+        /* FILTERS - ЗАКРЫТ ПО УМОЛЧАНИЮ */
         .tm-main-filters-wrap { 
             margin-bottom: 20px; 
             max-width: 960px; 
@@ -727,6 +726,16 @@
             background-color: var(--table-bg-color);
             border-radius: var(--def-border-radius);
             overflow: hidden;
+        }
+        .tm-main-filters-box.closed .tm-main-filters-content {
+            opacity: 0;
+            max-height: 0;
+            pointer-events: none;
+        }
+        .tm-main-filters-box.opened .tm-main-filters-content {
+            opacity: 1;
+            max-height: 500px;
+            pointer-events: auto;
         }
         .tm-main-filters-header {
             display: flex;
@@ -749,12 +758,6 @@
         .tm-main-filters-content {
             transition: opacity .2s ease, max-height .3s ease;
             overflow: hidden;
-            max-height: 500px;
-        }
-        .tm-main-filters-box.closed .tm-main-filters-content {
-            opacity: 0;
-            max-height: 0;
-            pointer-events: none;
         }
         .tm-main-filters-item {
             display: flex;
@@ -788,7 +791,7 @@
         .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* ===== DETAIL POPUP КАК НА FRAGMENT ===== */
+        /* DETAIL POPUP */
         .popup-container {
             position: fixed;
             top: 0;
@@ -804,7 +807,6 @@
             transition: opacity .25s ease;
         }
         .popup-container.hide { opacity: 0; pointer-events: none; }
-        
         .popup {
             background: var(--bg-color);
             border-radius: 14px;
@@ -862,10 +864,7 @@
             color: var(--text-color);
         }
         .popup-title .back-link:hover { color: #fff; }
-        .popup-title .back-link:after {
-            content: '←';
-            font-size: 20px;
-        }
+        .popup-title .back-link:after { content: '←'; font-size: 20px; }
         .popup-status-badge {
             display: inline-block;
             font-size: 11px;
@@ -966,17 +965,6 @@
         }
         .popup-countdown-label { font-size: 12px; color: var(--table-text-color); display: block; }
         .popup-countdown-timer { font-size: 18px; font-weight: bold; color: #fff; margin-top: 2px; }
-        
-        .popup-detail-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .popup-detail-row:last-child { border-bottom: none; }
-        .popup-detail-label { color: var(--table-text-color); font-size: 12px; }
-        .popup-detail-value { color: var(--value-color); font-size: 13px; font-weight: 500; }
-        .popup-detail-value .tm-wallet { color: var(--accent-color); font-size: 12px; font-family: monospace; }
         
         .popup-ownership {
             background: var(--table-bg-color);
@@ -1136,11 +1124,12 @@
             text-decoration: none;
         }
         
+        /* PREMIUM FIELDS */
         .tm-field .tm-amount-input {
             height: auto;
             font-size: 15px;
             line-height: 20px;
-            padding: 14px 50px 14px 16px;
+            padding: 14px 16px 14px 16px;
             box-shadow: none !important;
             border: none;
             background: transparent;
@@ -1150,6 +1139,57 @@
             font-family: inherit;
         }
         .tm-field .tm-amount-input:focus { outline: none; }
+        .tm-premium-boost-label {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 18px;
+            padding: 3px 6px;
+            font-weight: bold;
+            background-color: #9f53ff;
+            color: #fff;
+            border-radius: 6px;
+            margin: 9px 10px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .icon-boost:before {
+            width: 11px;
+            height: 18px;
+            vertical-align: top;
+            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 11 18" width="11" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5.84.14-5.74 6.53c-.15.17-.13.43.04.58.07.07.17.1.27.1h2.14c.23 0 .41.19.41.41 0 .03 0 .05-.01.07l-.83 4.94c-.04.22.11.43.34.47.14.03.28-.03.38-.14l5.75-6.71c.15-.17.13-.43-.04-.58-.08-.06-.17-.1-.27-.1h-2.02c-.23 0-.41-.18-.41-.41 0-.02 0-.04 0-.06l.71-4.77c.03-.22-.13-.43-.35-.47-.14-.02-.28.04-.37.14z" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+        }
+        .tm-premium-boost-label.icon-boost:before { margin-right: 4px; }
+        .tm-search-field-photo {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 9px 14px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: none;
+        }
+        .tm-search-field-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .found .tm-search-field-photo { display: inline-block; }
+        .tm-search-error-icon {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 11px 12px 11px 16px;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="10" cy="10" fill="%23fff" r="9"/%3E%3Cpath d="M10 0c5.52 0 10 4.48 10 10s-4.48 10-10 10S0 15.52 0 10 4.48 0 10 0zm0 12.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm0-7.75c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1s1-.45 1-1v-5c0-.55-.45-1-1-1z" fill="%23ff5863"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .error .tm-search-error-icon { display: inline-block; }
+        .error.icon-search:before { display: none; }
     </style>
 </head>
 <body>
@@ -1167,10 +1207,10 @@
             <div class="tm-header-tabs">
                 <button class="tm-header-tab" data-section="offers">Usernames</button>
                 <button class="tm-header-tab" data-section="numbers">Numbers</button>
-                <button class="tm-header-tab" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
+                <button class="tm-header-tab tab-active" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
                 <button class="tm-header-tab" data-section="mygifts">My Gifts</button>
                 <button class="tm-header-tab" data-section="stars">Stars</button>
-                <button class="tm-header-tab tab-active" data-section="premium">Premium</button>
+                <button class="tm-header-tab" data-section="premium">Premium</button>
                 <button class="tm-header-tab" data-section="ads">Ads</button>
             </div>
         </div>
@@ -1188,7 +1228,7 @@
 </header>
 
 <!-- MAIN -->
-<main class="tm-main tm-main-premium">
+<main class="tm-main">
 
     <!-- OFFERS -->
     <div id="section-offers" class="section-hidden">
@@ -1205,7 +1245,7 @@
         <div class="tm-table-scroll">
             <div class="tm-table-wrap">
                 <table class="tm-table">
-                    <thead><tr><th style="width:22%;">Username</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
+                    <thead><tr><th style="width:25%;">Username</th><th style="width:20%;">Type</th><th style="width:25%;">Price</th><th style="width:30%;">Status</th></tr></thead>
                     <tbody id="offers-table-body"></tbody>
                 </table>
             </div>
@@ -1228,7 +1268,7 @@
         <div class="tm-table-scroll">
             <div class="tm-table-wrap">
                 <table class="tm-table">
-                    <thead><tr><th style="width:22%;">Number</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
+                    <thead><tr><th style="width:25%;">Number</th><th style="width:20%;">Type</th><th style="width:25%;">Price</th><th style="width:30%;">Status</th></tr></thead>
                     <tbody id="numbers-table-body"></tbody>
                 </table>
             </div>
@@ -1237,7 +1277,7 @@
     </div>
 
     <!-- GIFTS -->
-    <div id="section-gifts" class="section-hidden">
+    <div id="section-gifts" class="section-active">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
@@ -1245,7 +1285,7 @@
             </div>
         </div>
         <div class="tm-main-filters-wrap">
-            <div class="tm-main-filters-box opened" id="gift-filters">
+            <div class="tm-main-filters-box closed" id="gift-filters">
                 <div class="tm-main-filters-header" id="gift-filters-toggle">
                     <span>Collections</span>
                     <span class="tm-main-filters-count" id="gift-filter-count">All</span>
@@ -1276,7 +1316,7 @@
         </div>
     </div>
 
-    <!-- STARS -->
+    <!-- STARS (с пакетами как было) -->
     <div id="section-stars" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
@@ -1292,13 +1332,31 @@
                 <div class="tm-search-field-error"></div>
             </div>
             <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Enter quantity of Telegram Stars</label>
+                <label class="tm-main-form-label">Choose quantity of Telegram Stars</label>
                 <div class="icon-before icon-stars form-control-wrap tm-coin-field">
                     <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 50 to 10,000,000" autocomplete="off" spellcheck="false">
                     <span class="tm-stars-price">~ $0.00</span>
                     <span class="tm-search-clear"></span>
                 </div>
                 <div class="tm-search-field-error"></div>
+            </div>
+            <div class="tm-main-form-group">
+                <div class="tm-stars-options">
+                    <label class="tm-main-form-label">Or select a package</label>
+                    <div class="tm-form-radio-items">
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="50" checked><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 50 Stars</span><span class="tm-value">0.51 TON</span><span class="tm-radio-desc">$0.75</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="100"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐ 100 Stars</span><span class="tm-value">1.02 TON</span><span class="tm-radio-desc">$1.50</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="250"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐⭐ 250 Stars</span><span class="tm-value">2.55 TON</span><span class="tm-radio-desc">$3.75</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="500"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐⭐⭐ 500 Stars</span><span class="tm-value">5.10 TON</span><span class="tm-radio-desc">$7.50</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="1000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐⭐⭐⭐⭐ 1,000 Stars</span><span class="tm-value">10.19 TON</span><span class="tm-radio-desc">$15.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="2500"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 2,500 Stars</span><span class="tm-value">25.49 TON</span><span class="tm-radio-desc">$37.50</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="5000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 5,000 Stars</span><span class="tm-value">50.97 TON</span><span class="tm-radio-desc">$75.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="10000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 10,000 Stars</span><span class="tm-value">101.95 TON</span><span class="tm-radio-desc">$150.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="25000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 25,000 Stars</span><span class="tm-value">254.86 TON</span><span class="tm-radio-desc">$375.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="50000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 50,000 Stars</span><span class="tm-value">509.73 TON</span><span class="tm-radio-desc">$750.00</span></div></div>
+                        <div class="tm-form-radio-item"><input type="radio" class="radio" name="stars" value="100000"><div class="tm-form-radio-label"><span class="tm-radio-label">⭐ 100,000 Stars</span><span class="tm-value">1,019.46 TON</span><span class="tm-radio-desc">$1,500.00</span></div></div>
+                    </div>
+                </div>
             </div>
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Payment Method</label>
@@ -1311,19 +1369,17 @@
         </form>
         <div class="tm-section" style="max-width:680px;margin:0 auto;">
             <button class="btn btn-primary btn-block js-stars-buy-btn">
-                <span class="tm-button-label">Buy Telegram Stars</span>
+                <span class="tm-button-label">Buy 50 Telegram Stars</span>
             </button>
             <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
         </div>
     </div>
 
-    <!-- ===== PREMIUM ===== -->
-    <div id="section-premium" class="section-active">
+    <!-- PREMIUM -->
+    <div id="section-premium" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
-            <p class="tm-main-intro-text">
-                Boost your Telegram channel by gifting Telegram Premium to your subscribers.
-            </p>
+            <p class="tm-main-intro-text">Boost your Telegram channel by gifting Telegram Premium to your subscribers.</p>
         </section>
         <form class="tm-section tm-main-search-form js-premium-form">
             <div class="tm-main-form-group">
@@ -1331,14 +1387,14 @@
                 <div class="icon-before icon-search tm-field tm-search-field js-premium-search-field">
                     <input type="search" class="tm-search-input" placeholder="Enter Telegram username or t.me link" autocomplete="off" spellcheck="false">
                     <span class="tm-search-clear"></span>
-                    <span class="icon-before icon-search-error tm-search-error-icon"></span>
+                    <span class="tm-search-error-icon"></span>
                     <span class="tm-search-field-photo js-premium-search-photo"></span>
                 </div>
                 <div class="tm-search-field-error js-search-field-error"></div>
             </div>
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Choose quantity of subscriptions</label>
-                <div class="tm-field js-premium-quantity-field">
+                <div class="tm-field js-premium-quantity-field" style="position:relative;">
                     <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 1 to 24000" autocomplete="off" spellcheck="false">
                     <span class="tm-premium-boost-label icon-before icon-boost js-boost-value">0</span>
                 </div>
@@ -1348,50 +1404,18 @@
                 <div class="js-premium-options">
                     <label class="tm-main-form-label">Choose duration</label>
                     <div class="tm-form-radio-items">
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="12" checked>
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">1 year<span class="tm-radio-label-badge">-40%</span></div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">24.36</div>
-                                <div class="tm-radio-desc">$35.99</div>
-                            </div>
-                        </label>
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="6">
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">6 months<span class="tm-radio-label-badge">-33%</span></div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">13.53</div>
-                                <div class="tm-radio-desc">$19.99</div>
-                            </div>
-                        </label>
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="3">
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">3 months</div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">10.14</div>
-                                <div class="tm-radio-desc">$14.99</div>
-                            </div>
-                        </label>
+                        <label class="tm-form-radio-item"><input type="radio" class="radio" name="months" value="12" checked><div class="tm-form-radio-label"><div class="tm-radio-label">1 year<span class="tm-radio-label-badge">-40%</span></div><div class="tm-value icon-before icon-ton">24.36</div><div class="tm-radio-desc">$35.99</div></div></label>
+                        <label class="tm-form-radio-item"><input type="radio" class="radio" name="months" value="6"><div class="tm-form-radio-label"><div class="tm-radio-label">6 months<span class="tm-radio-label-badge">-33%</span></div><div class="tm-value icon-before icon-ton">13.53</div><div class="tm-radio-desc">$19.99</div></div></label>
+                        <label class="tm-form-radio-item"><input type="radio" class="radio" name="months" value="3"><div class="tm-form-radio-label"><div class="tm-radio-label">3 months</div><div class="tm-value icon-before icon-ton">10.14</div><div class="tm-radio-desc">$14.99</div></div></label>
                     </div>
                 </div>
             </div>
             <div class="tm-main-form-group">
                 <label class="tm-main-form-label">Payment Method</label>
                 <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab">
-                        <input type="radio" class="radio" name="payment_method" value="ton" checked>
-                        <span class="tm-currency-tab-icon tab-icon-ton"></span>
-                        <span>GRAM</span>
-                        <span class="tab-network">TON</span>
-                    </label>
+                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>GRAM</span><span class="tab-network">TON</span></label>
                     <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
-                            <span class="tm-currency-tab-icon tab-icon-usdt"></span>
-                            <span>USDT</span>
-                        </label>
+                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
                         <ul class="dropdown-menu">
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_eth"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span><span class="tab-network">ETH</span></label></li>
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_ton"><span class="tm-currency-tab-icon tab-icon-usdt-ton"></span><span>USDT</span><span class="tab-network">TON</span></label></li>
@@ -1399,10 +1423,7 @@
                         </ul>
                     </div>
                     <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
-                            <span class="tm-currency-tab-icon tab-icon-usdc"></span>
-                            <span>USDC</span>
-                        </label>
+                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
                         <ul class="dropdown-menu">
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_eth"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span><span class="tab-network">ETH</span></label></li>
                             <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_base"><span class="tm-currency-tab-icon tab-icon-usdc-base"></span><span>USDC</span><span class="tab-network">Base</span></label></li>
@@ -1416,9 +1437,7 @@
             <button class="btn btn-primary btn-block js-giveaway-premium-btn" disabled>
                 <span class="tm-button-label js-prepay-premium-label">Buy Subscriptions</span>
             </button>
-            <div class="tm-main-form-link-wrap">
-                <a href="#">View Transactions History</a>
-            </div>
+            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
         </div>
     </div>
 
@@ -1435,7 +1454,7 @@
 
 </main>
 
-<!-- DETAIL POPUP (КАК НА FRAGMENT) -->
+<!-- DETAIL POPUP -->
 <div class="popup-container hide" id="detail-popup">
     <div class="popup">
         <div class="popup-header">
@@ -1451,24 +1470,19 @@
             <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
                 <img id="popup-gift-img" src="" alt="Gift">
             </div>
-            
             <div class="popup-bid-info">
                 <div class="popup-bid-row"><span class="popup-bid-label">Sale Price</span><span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span></div>
                 <div class="popup-bid-row"><span class="popup-bid-label">Owner</span><span class="popup-bid-value" id="popup-owner-value">—</span></div>
             </div>
-            
             <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
-            
             <div class="popup-countdown">
                 <span class="popup-countdown-label">Purchased on</span>
                 <div class="popup-countdown-timer" id="popup-countdown">—</div>
             </div>
-            
             <div class="popup-ownership" id="popup-ownership" style="display:none;">
                 <div class="popup-ownership-header">Ownership History</div>
                 <div id="popup-ownership-list"></div>
             </div>
-            
             <div class="popup-buttons">
                 <button class="btn-secondary" id="popup-bid-btn" style="display:none;">Place Bid</button>
                 <button class="btn-primary" id="popup-buy-btn">Buy Now</button>
@@ -1489,9 +1503,10 @@
 
 <script>
 // ============================================================
-// ===== ДАННЫЕ (как в предыдущей версии) =====
+// ===== ДАННЫЕ =====
 // ============================================================
 
+// Gifts
 const collectionSlugs = {
     'Plush Pepes': ['plushpepe-1821','plushpepe-1515','plushpepe-2658','plushpepe-1521','plushpepe-318'],
     'Swiss Watches': ['swisswatch-7799','swisswatch-1234','swisswatch-5678'],
@@ -1514,29 +1529,15 @@ const collectionSlugs = {
     'Easter Eggs': ['easteregg-123','easteregg-456','easteregg-789'],
     'B-Day Candles': ['bdaycandle-123','bdaycandle-456','bdaycandle-789']
 };
-
 const collectionNames = Object.keys(collectionSlugs);
 const collectionToName = {
-    'Plush Pepes': 'Plush Pepe',
-    'Swiss Watches': 'Swiss Watch',
-    'Heart Lockets': 'Heart Locket',
-    'Scared Cats': 'Scared Cat',
-    'Loot Bags': 'Loot Bag',
-    'Sakura Flowers': 'Sakura Flower',
-    'Low Riders': 'Low Rider',
-    'Snoop Doggs': 'Snoop Dogg',
-    'Eternal Roses': 'Eternal Rose',
-    'Diamond Rings': 'Diamond Ring',
-    'Witch Hats': 'Witch Hat',
-    'Toy Bears': 'Toy Bear',
-    'Ice Creams': 'Ice Cream',
-    'Homemade Cakes': 'Homemade Cake',
-    'Chill Flames': 'Chill Flame',
-    'Evil Eyes': 'Evil Eye',
-    'Santa Hats': 'Santa Hat',
-    'Candy Canes': 'Candy Cane',
-    'Easter Eggs': 'Easter Egg',
-    'B-Day Candles': 'B-Day Candle'
+    'Plush Pepes': 'Plush Pepe', 'Swiss Watches': 'Swiss Watch', 'Heart Lockets': 'Heart Locket',
+    'Scared Cats': 'Scared Cat', 'Loot Bags': 'Loot Bag', 'Sakura Flowers': 'Sakura Flower',
+    'Low Riders': 'Low Rider', 'Snoop Doggs': 'Snoop Dogg', 'Eternal Roses': 'Eternal Rose',
+    'Diamond Rings': 'Diamond Ring', 'Witch Hats': 'Witch Hat', 'Toy Bears': 'Toy Bear',
+    'Ice Creams': 'Ice Cream', 'Homemade Cakes': 'Homemade Cake', 'Chill Flames': 'Chill Flame',
+    'Evil Eyes': 'Evil Eye', 'Santa Hats': 'Santa Hat', 'Candy Canes': 'Candy Cane',
+    'Easter Eggs': 'Easter Egg', 'B-Day Candles': 'B-Day Candle'
 };
 const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
 const attrVals = [
@@ -1563,8 +1564,7 @@ for (let i = 0; i < 560; i++) {
     const price = Math.floor(Math.random() * 80000) + 3000;
     const num = '#' + (1000 + i * 7);
     const attrs = {};
-    const numAttrs = Math.floor(Math.random() * 3) + 2;
-    for (let a = 0; a < numAttrs; a++) {
+    for (let a = 0; a < Math.floor(Math.random() * 3) + 2; a++) {
         const keyIdx = (i + a) % attrKeys.length;
         const valIdx = (i + a * 3) % attrVals[keyIdx].length;
         attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
@@ -1597,7 +1597,7 @@ for (let i = 0; i < 643; i++) {
         id: i + 1, name: name.substring(0, 20), type: 'Username',
         price: price, minBid: Math.round(price * 1.05), bidStep: Math.round(price * 0.05),
         status: status, label: label, date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleDateString(),
-        bids: Math.floor(Math.random() * 15) + 1, endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
+        bids: Math.floor(Math.random() * 15) + 1
     });
 }
 
@@ -1615,12 +1615,12 @@ for (let i = 0; i < 103; i++) {
         id: 1000 + i, name: name, type: 'Number',
         price: price, minBid: Math.round(price * 1.05), bidStep: Math.round(price * 0.05),
         status: status, label: label, date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleDateString(),
-        bids: Math.floor(Math.random() * 10) + 1, endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
+        bids: Math.floor(Math.random() * 10) + 1
     });
 }
 
 // ============================================================
-// ===== RENDER FUNCTIONS =====
+// ===== RENDER =====
 // ============================================================
 
 let offersPage = 0, numbersPage = 0, giftsPage = 0;
@@ -1638,15 +1638,13 @@ function renderOffers(search = '') {
     loadedOffers = [...loadedOffers, ...pageItems];
     const tbody = document.getElementById('offers-table-body');
     document.getElementById('offers-count').textContent = `(${filtered.length})`;
-    if (loadedOffers.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`; return; }
+    if (loadedOffers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No offers found</td></tr>`; return; }
     tbody.innerHTML = loadedOffers.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null)">
             <td><a href="#" class="tm-username-link">@${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
-            <td class="hide-mobile">${item.endsIn || '—'}</td>
-            <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
     const btn = document.getElementById('offers-load-more');
@@ -1664,15 +1662,13 @@ function renderNumbers(search = '') {
     loadedNumbers = [...loadedNumbers, ...pageItems];
     const tbody = document.getElementById('numbers-table-body');
     document.getElementById('numbers-count').textContent = `(${filtered.length})`;
-    if (loadedNumbers.length === 0) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`; return; }
+    if (loadedNumbers.length === 0) { tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--table-text-color);font-size:15px;">No numbers found</td></tr>`; return; }
     tbody.innerHTML = loadedNumbers.map(item => `
-        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
+        <tr onclick="openDetail('${item.name}', '${item.type}', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}', '', '', '', null, null, null)">
             <td><a href="#" class="tm-username-link">${item.name}</a></td>
             <td>${item.type}</td>
             <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
             <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
-            <td class="hide-mobile">${item.endsIn || '—'}</td>
-            <td class="hide-mobile">${item.bids || 0}</td>
         </tr>
     `).join('');
     const btn = document.getElementById('numbers-load-more');
@@ -1702,7 +1698,7 @@ function renderGifts(collection = 'all', search = '') {
         const historyStr = JSON.stringify(item.history || []);
         const imgUrl = item.image || '';
         return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
+        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '${imgUrl}', '${item.collection}', ${attrsStr}, '${ownerStr}', ${historyStr})">
             <a href="#">
                 <div class="tm-grid-item-thumb">
                     <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'" />
@@ -1749,23 +1745,15 @@ function renderFilterCollections() {
 }
 
 // ============================================================
-// ===== DETAIL POPUP (КАК НА FRAGMENT) =====
+// ===== DETAIL POPUP =====
 // ============================================================
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
+function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, imageUrl, collection, attrs, owner, history) {
     document.getElementById('popup-title-text').textContent = type === 'Username' ? '@' + name : name;
     document.getElementById('popup-subtitle').textContent = type === 'Username' ? 'Telegram Username' : type === 'Number' ? 'Collectible Number for Telegram' : collection || 'Telegram Gift';
-    
-    const statusBadge = document.getElementById('popup-status-badge');
-    statusBadge.textContent = label || 'On auction';
-    statusBadge.className = 'popup-status-badge ' + (status || 'avail');
-    
-    // Sale Price
+    document.getElementById('popup-status-badge').textContent = label || 'On auction';
+    document.getElementById('popup-status-badge').className = 'popup-status-badge ' + (status || 'avail');
     document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
-    
-    // Owner
     document.getElementById('popup-owner-value').innerHTML = owner ? `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>` : '—';
-    
-    // Gift image
     const giftContainer = document.getElementById('popup-gift-image');
     const giftImg = document.getElementById('popup-gift-img');
     if (type === 'Gift' && imageUrl) {
@@ -1773,8 +1761,6 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
         giftImg.src = imageUrl;
         giftImg.onerror = function() { this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'; };
     } else { giftContainer.style.display = 'none'; }
-    
-    // Attributes
     const attrsContainer = document.getElementById('popup-attributes');
     if (attrs && type === 'Gift') {
         attrsContainer.style.display = 'block';
@@ -1787,58 +1773,28 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
         }
         attrsContainer.innerHTML = attrsHtml;
     } else { attrsContainer.style.display = 'none'; }
-    
-    // Purchased date
     document.getElementById('popup-countdown').textContent = date || '—';
-    
-    // Ownership History
     const ownershipContainer = document.getElementById('popup-ownership');
     const ownershipList = document.getElementById('popup-ownership-list');
     if (history && history.length > 0 && type === 'Gift') {
         ownershipContainer.style.display = 'block';
-        ownershipList.innerHTML = history.map(h => `
-            <div class="popup-ownership-item"><span>${h.price}</span><span>${h.date}</span><span class="owner">${h.buyer}</span></div>
-        `).join('');
+        ownershipList.innerHTML = history.map(h => `<div class="popup-ownership-item"><span>${h.price}</span><span>${h.date}</span><span class="owner">${h.buyer}</span></div>`).join('');
     } else { ownershipContainer.style.display = 'none'; }
-    
-    // Buttons
     document.getElementById('popup-bid-btn').style.display = status === 'avail' ? 'inline-block' : 'none';
     document.getElementById('popup-buy-btn').textContent = status === 'avail' ? 'Place Bid' : 'View Details';
-    
     document.getElementById('detail-popup').classList.remove('hide');
 }
 
-document.getElementById('popup-close').addEventListener('click', function() {
-    document.getElementById('detail-popup').classList.add('hide');
-});
-document.getElementById('detail-popup').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.add('hide');
-});
-document.getElementById('popup-back').addEventListener('click', function() {
-    document.getElementById('detail-popup').classList.add('hide');
-});
-document.getElementById('popup-bid-btn').addEventListener('click', function() {
-    alert('Place Bid clicked! (demo)');
-    document.getElementById('detail-popup').classList.add('hide');
-});
-document.getElementById('popup-buy-btn').addEventListener('click', function() {
-    alert('Buy Now clicked! (demo)');
-    document.getElementById('detail-popup').classList.add('hide');
-});
+document.getElementById('popup-close').addEventListener('click', function() { document.getElementById('detail-popup').classList.add('hide'); });
+document.getElementById('detail-popup').addEventListener('click', function(e) { if (e.target === this) this.classList.add('hide'); });
+document.getElementById('popup-back').addEventListener('click', function() { document.getElementById('detail-popup').classList.add('hide'); });
+document.getElementById('popup-bid-btn').addEventListener('click', function() { alert('Place Bid clicked! (demo)'); document.getElementById('detail-popup').classList.add('hide'); });
+document.getElementById('popup-buy-btn').addEventListener('click', function() { alert('Buy Now clicked! (demo)'); document.getElementById('detail-popup').classList.add('hide'); });
 
 // ============================================================
-// ===== PREMIUM =====
+// ===== TABS, SEARCH, LOAD MORE, FILTER TOGGLE =====
 // ============================================================
-document.querySelector('.js-giveaway-premium-btn')?.addEventListener('click', function() {
-    alert('Buy Subscriptions clicked! (demo)');
-});
-document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
-    alert('Buy Stars clicked! (demo)');
-});
 
-// ============================================================
-// ===== TABS =====
-// ============================================================
 document.querySelectorAll('.tm-header-tab').forEach(tab => {
     tab.addEventListener('click', function() {
         document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
@@ -1849,25 +1805,14 @@ document.querySelectorAll('.tm-header-tab').forEach(tab => {
             el.style.display = 'none';
         });
         const target = document.getElementById('section-' + section);
-        if (target) {
-            target.style.display = 'block';
-            target.classList.add('section-active');
-        }
+        if (target) { target.style.display = 'block'; target.classList.add('section-active'); }
     });
 });
 
-// ============================================================
-// ===== SEARCH =====
-// ============================================================
-document.getElementById('search-offers')?.addEventListener('input', function() {
-    offersPage = 0; loadedOffers = []; renderOffers(this.value);
-});
-document.getElementById('search-numbers')?.addEventListener('input', function() {
-    numbersPage = 0; loadedNumbers = []; renderNumbers(this.value);
-});
-document.getElementById('search-gifts')?.addEventListener('input', function() {
-    giftsPage = 0; loadedGifts = []; renderGifts(currentGiftsCollection, this.value);
-});
+document.getElementById('search-offers')?.addEventListener('input', function() { offersPage = 0; loadedOffers = []; renderOffers(this.value); });
+document.getElementById('search-numbers')?.addEventListener('input', function() { numbersPage = 0; loadedNumbers = []; renderNumbers(this.value); });
+document.getElementById('search-gifts')?.addEventListener('input', function() { giftsPage = 0; loadedGifts = []; renderGifts(currentGiftsCollection, this.value); });
+
 document.querySelectorAll('.tm-search-clear').forEach(clear => {
     clear.addEventListener('click', function() {
         const input = this.parentElement.querySelector('input');
@@ -1875,40 +1820,28 @@ document.querySelectorAll('.tm-search-clear').forEach(clear => {
     });
 });
 
-// ============================================================
-// ===== LOAD MORE =====
-// ============================================================
-document.getElementById('offers-load-more')?.addEventListener('click', function() {
-    offersPage++; renderOffers(currentOffersSearch);
-});
-document.getElementById('numbers-load-more')?.addEventListener('click', function() {
-    numbersPage++; renderNumbers(currentNumbersSearch);
-});
-document.getElementById('gifts-load-more')?.addEventListener('click', function() {
-    giftsPage++; renderGifts(currentGiftsCollection, currentGiftsSearch);
-});
+document.getElementById('offers-load-more')?.addEventListener('click', function() { offersPage++; renderOffers(currentOffersSearch); });
+document.getElementById('numbers-load-more')?.addEventListener('click', function() { numbersPage++; renderNumbers(currentNumbersSearch); });
+document.getElementById('gifts-load-more')?.addEventListener('click', function() { giftsPage++; renderGifts(currentGiftsCollection, currentGiftsSearch); });
 
-// ============================================================
-// ===== FILTER TOGGLE =====
-// ============================================================
 document.getElementById('gift-filters-toggle')?.addEventListener('click', function() {
     const box = document.getElementById('gift-filters');
-    box.classList.toggle('opened');
     box.classList.toggle('closed');
+    box.classList.toggle('opened');
 });
 
-// ============================================================
-// ===== LOGO HOME =====
-// ============================================================
+document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() { alert('Buy Stars clicked! (demo)'); });
+document.querySelector('.js-giveaway-premium-btn')?.addEventListener('click', function() { alert('Buy Subscriptions clicked! (demo)'); });
+
 document.getElementById('logo-home')?.addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
-    document.querySelector('.tm-header-tab[data-section="premium"]').classList.add('tab-active');
+    document.querySelector('.tm-header-tab[data-section="gifts"]').classList.add('tab-active');
     document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
         el.classList.remove('section-active', 'section-hidden');
         el.style.display = 'none';
     });
-    const target = document.getElementById('section-premium');
+    const target = document.getElementById('section-gifts');
     target.style.display = 'block';
     target.classList.add('section-active');
 });
