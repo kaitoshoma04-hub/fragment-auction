@@ -652,6 +652,12 @@
             border-radius: var(--def-border-radius);
             overflow: hidden;
         }
+        .tm-main-filters-box.closed .tm-main-filters-content {
+            display: none;
+        }
+        .tm-main-filters-box.opened .tm-main-filters-content {
+            display: block;
+        }
         .tm-main-filters-header {
             display: flex;
             justify-content: space-between;
@@ -671,13 +677,11 @@
         }
         .tm-main-filters-box.opened .tm-main-filters-header:after { transform: rotate(180deg); }
         .tm-main-filters-content {
-            transition: opacity .2s ease, max-height .3s ease;
+            transition: opacity .2s ease;
             overflow: hidden;
-            max-height: 500px;
         }
         .tm-main-filters-box.closed .tm-main-filters-content {
             opacity: 0;
-            max-height: 0;
             pointer-events: none;
         }
         .tm-main-filters-item {
@@ -1179,6 +1183,19 @@
         }
         .tm-wallet .head { color: var(--accent-color); }
         .tm-wallet .tail { color: var(--table-text-color); }
+        
+        /* FIX: центрирование заголовков Stars и Premium */
+        .tm-main-intro {
+            text-align: center !important;
+            max-width: 680px;
+            margin: 0 auto 20px;
+        }
+        .tm-main-intro .tm-main-intro-header {
+            text-align: center !important;
+        }
+        .tm-main-intro .tm-main-intro-text {
+            text-align: center !important;
+        }
     </style>
 </head>
 <body>
@@ -1308,7 +1325,7 @@
     <!-- STARS -->
     <div id="section-stars" class="section-hidden">
         <section class="tm-main-intro">
-            <h1 class="tm-main-intro-header">Buy Telegram Stars<i class="icon icon-telegram-stars"></i></h1>
+            <h1 class="tm-main-intro-header">Buy Telegram Stars</h1>
             <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
         </section>
         <form class="tm-section tm-main-search-form js-stars-form">
@@ -1351,7 +1368,7 @@
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
             <p class="tm-main-intro-text">
-                Boost your Telegram channel by gifting Telegram Premium to&nbsp;your&nbsp;subscribers.
+                Boost your Telegram channel by gifting Telegram Premium to your subscribers.
             </p>
         </section>
         <form class="tm-section tm-main-search-form js-premium-form">
@@ -2215,12 +2232,17 @@ document.getElementById('gifts-load-more')?.addEventListener('click', function()
 });
 
 // ============================================================
-// ===== FILTER TOGGLE =====
+// ===== FILTER TOGGLE - ИСПРАВЛЕННЫЙ =====
 // ============================================================
 document.getElementById('gift-filters-toggle')?.addEventListener('click', function() {
     const box = document.getElementById('gift-filters');
-    box.classList.toggle('opened');
-    box.classList.toggle('closed');
+    if (box.classList.contains('opened')) {
+        box.classList.remove('opened');
+        box.classList.add('closed');
+    } else {
+        box.classList.remove('closed');
+        box.classList.add('opened');
+    }
 });
 
 // ============================================================
@@ -2305,10 +2327,28 @@ window.openDetail = function(name, type, price, minBid, bidStep, status, label, 
     originalOpenDetail.call(this, name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, parsedAttrs, owner, parsedHistory);
 };
 
+// ============================================================
+// ===== ИНИЦИАЛИЗАЦИЯ - ЗАГРУЖАЕМ ВСЕ СРАЗУ =====
+// ============================================================
+// Сбрасываем страницы
+offersPage = 0;
+numbersPage = 0;
+giftsPage = 0;
+loadedOffers = [];
+loadedNumbers = [];
+loadedGifts = [];
+
+// Загружаем первую страницу каждого раздела
+renderOffers('');
+renderNumbers('');
+renderGifts('all', '');
+renderFilterCollections();
+
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
 console.log('✅ Фикс кликов по подаркам применен. Клик теперь открывает попап с картинкой.');
+console.log('✅ Фильтр работает, заголовки по центру, все загружается сразу.');
 </script>
 
 </body>
