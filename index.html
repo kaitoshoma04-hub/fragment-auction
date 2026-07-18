@@ -712,7 +712,7 @@
         .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
         .tm-footer-link:hover { text-decoration: underline; }
         
-        /* PREMIUM */
+        /* PREMIUM - исправленный */
         .tm-form-radio-items {
             display: flex;
             gap: 12px;
@@ -773,20 +773,35 @@
         .tm-radio-desc { font-size: 12px; color: var(--table-text-color); }
         .tm-quantity { font-size: 13px; color: var(--table-text-color); }
         .tm-search-loading { display: none; }
+        
+        /* Убираем ракетку */
         .tm-premium-boost-label {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--accent-color);
+            display: none !important;
         }
-        .icon-boost:before {
-            content: '🚀';
-            display: inline-block;
-            margin-right: 4px;
+        
+        /* Строка количества подписок - нормальный дизайн */
+        .tm-field.js-premium-quantity-field {
+            border-radius: var(--def-border-radius);
+            background: var(--field-bg-color);
+            position: relative;
         }
+        .tm-field.js-premium-quantity-field .tm-amount-input {
+            height: auto;
+            font-size: 15px;
+            line-height: 20px;
+            padding: 14px 50px 14px 20px;
+            box-shadow: none !important;
+            border: none;
+            background: transparent;
+            color: var(--field-color);
+            text-overflow: ellipsis;
+            width: 100%;
+            border-radius: var(--def-border-radius);
+            font-family: inherit;
+        }
+        .tm-field.js-premium-quantity-field .tm-amount-input:focus { outline: none; }
+        
+        /* Дропдауны */
         .btn-group.tm-dropdown {
             position: relative;
         }
@@ -827,7 +842,7 @@
         .tab-icon-usdc-base { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdc-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
         
-        /* DETAIL POPUP - улучшенный */
+        /* DETAIL POPUP - старый дизайн как у юзернеймов */
         .popup-container {
             position: fixed;
             top: 0;
@@ -846,7 +861,7 @@
         .popup {
             background: var(--bg-color);
             border-radius: 14px;
-            max-width: 560px;
+            max-width: 520px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -908,7 +923,7 @@
         
         .popup-gift-image {
             width: 100%;
-            max-width: 200px;
+            max-width: 180px;
             margin: 0 auto 14px;
             border-radius: 12px;
             overflow: hidden;
@@ -975,6 +990,27 @@
             border-radius: 4px;
             margin-left: 6px;
         }
+        
+        .popup-countdown {
+            background: var(--table-bg-color);
+            border-radius: var(--def-border-radius);
+            padding: 10px 14px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .popup-countdown-label { font-size: 12px; color: var(--table-text-color); display: block; }
+        .popup-countdown-timer { font-size: 18px; font-weight: bold; color: #fff; margin-top: 2px; }
+        
+        .popup-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .popup-detail-row:last-child { border-bottom: none; }
+        .popup-detail-label { color: var(--table-text-color); font-size: 12px; }
+        .popup-detail-value { color: var(--value-color); font-size: 13px; font-weight: 500; }
+        .popup-detail-value .tm-wallet { color: var(--accent-color); font-size: 12px; font-family: monospace; }
         
         .popup-ownership {
             background: var(--table-bg-color);
@@ -1137,69 +1173,12 @@
             text-decoration: none;
         }
         
-        /* Детальный просмотр внутри попапа */
-        .popup-detail-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+        .tm-wallet {
+            font-family: monospace;
+            color: var(--accent-color);
         }
-        .popup-detail-row:last-child { border-bottom: none; }
-        .popup-detail-label { color: var(--table-text-color); font-size: 12px; }
-        .popup-detail-value { color: var(--value-color); font-size: 13px; font-weight: 500; }
-        .popup-detail-value .tm-wallet { color: var(--accent-color); font-size: 12px; font-family: monospace; }
-        .popup-owner-row { display: flex; justify-content: space-between; padding: 4px 0; }
-        .tm-wallet { font-family: monospace; }
         .tm-wallet .head { color: var(--accent-color); }
         .tm-wallet .tail { color: var(--table-text-color); }
-        
-        .tm-section-auction-thumb-column {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .tm-section-auction-thumb {
-            flex: 0 0 200px;
-        }
-        .tm-section-auction-thumb img {
-            width: 100%;
-            border-radius: var(--def-border-radius);
-            background: #1a2026;
-        }
-        .tm-section-auction-info {
-            flex: 1;
-            min-width: 280px;
-        }
-        .tm-section-box {
-            background: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            padding: 16px 20px;
-            margin-bottom: 16px;
-        }
-        .tm-table-fixed {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .tm-table-fixed td {
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .tm-table-fixed tr:last-child td { border-bottom: none; }
-        .tm-table-fixed .table-cell { color: var(--table-text-color); }
-        .tm-table-fixed .table-cell-value { color: var(--value-color); font-weight: bold; }
-        .tm-rarity {
-            font-size: 11px;
-            color: var(--accent-color);
-            background: rgba(var(--accent-rgb),0.1);
-            padding: 1px 6px;
-            border-radius: 4px;
-            margin-left: 6px;
-        }
-        .tm-status-unavail { color: var(--danger-color); }
-        .tm-datetime { font-size: 12px; color: var(--table-text-color); }
-        .tm-row-selectable td { padding: 8px 0; text-align: center; }
-        .tm-row-selectable a { color: var(--accent-color); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -1367,7 +1346,7 @@
         </div>
     </div>
 
-    <!-- PREMIUM - ПЕРЕДЕЛАННЫЙ -->
+    <!-- PREMIUM - исправленный -->
     <div id="section-premium" class="section-hidden">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
@@ -1393,7 +1372,6 @@
                 <div class="tm-field js-premium-quantity-field">
                     <input inputmode="decimal" class="form-control tm-input tm-amount-input" name="quantity" value="" placeholder="Enter amount from 1 to 24000" autocomplete="off" spellcheck="false" />
                     <span class="tm-search-loading"><svg class="circle-progress-wrap" viewPort="0 0 22 22" width="22px" height="22px"><circle class="circle-progress" cx="50%" cy="50%" stroke-dashoffset="62"></circle></svg></span>
-                    <span class="tm-premium-boost-label icon-before icon-boost js-boost-value">0</span>
                 </div>
                 <div class="tm-search-field-error js-quantity-field-error"></div>
             </div>
@@ -1532,57 +1510,36 @@
 
 </main>
 
-<!-- DETAIL POPUP - улучшенный для детального просмотра -->
+<!-- DETAIL POPUP - старый дизайн как у юзернеймов -->
 <div class="popup-container hide" id="detail-popup">
     <div class="popup">
         <div class="popup-header">
             <button class="popup-close" id="popup-close">&times;</button>
-            <div class="popup-title" id="popup-title">Plush Pepe #2658</div>
-            <div class="popup-subtitle" id="popup-subtitle">Telegram Gift</div>
+            <div class="popup-title" id="popup-title">@username</div>
+            <div class="popup-subtitle" id="popup-subtitle">Telegram Username</div>
             <div class="popup-status-badge avail" id="popup-status-badge">On auction</div>
         </div>
-        <div class="popup-body" id="popup-body">
-            <!-- Детальный просмотр как на отдельной странице -->
-            <div id="popup-detail-view">
-                <div class="tm-section-auction-thumb-column">
-                    <div class="tm-section-auction-thumb">
-                        <img id="popup-detail-image" src="" alt="Gift" style="width:100%;border-radius:var(--def-border-radius);">
-                    </div>
-                    <div class="tm-section-auction-info">
-                        <div class="tm-section-box">
-                            <table class="tm-table-fixed">
-                                <tbody id="popup-detail-attributes"></tbody>
-                            </table>
-                        </div>
-                        <div class="tm-section-box">
-                            <table class="tm-table-fixed">
-                                <tbody>
-                                    <tr><td><span class="table-cell">Owner</span></td><td><span class="table-cell-value tm-wallet" id="popup-detail-owner">—</span></td></tr>
-                                    <tr><td><span class="table-cell">Status</span></td><td><span class="table-cell-value" id="popup-detail-status2">Available</span></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="tm-section-box">
-                            <table class="tm-table-fixed">
-                                <thead><tr><th>Sale Price</th><th>Owner</th></tr></thead>
-                                <tbody>
-                                    <tr><td><span class="table-cell-value tm-value icon-ton" id="popup-detail-price">0</span></td>
-                                    <td><span class="table-cell-value tm-wallet" id="popup-detail-owner2">—</span></td></tr>
-                                </tbody>
-                            </table>
-                            <div class="tm-datetime" id="popup-detail-date2">Purchased on Today</div>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top:16px;">
-                    <h4 style="color:var(--header-color);margin:0 0 8px;">Ownership History</h4>
-                    <div class="tm-table-wrap">
-                        <table class="tm-table">
-                            <thead><tr><th style="width:25%;">Sale price</th><th style="width:30%;">Date</th><th style="width:45%;">Buyer</th></tr></thead>
-                            <tbody id="popup-detail-history"></tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="popup-body">
+            <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
+                <img id="popup-gift-img" src="" alt="Gift">
+            </div>
+            <div class="popup-bid-info">
+                <div class="popup-bid-row"><span class="popup-bid-label">Highest Bid</span><span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span></div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Minimum Bid</span><span class="popup-bid-value icon-ton" id="popup-min-bid">0</span></div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Bid Step</span><span class="popup-bid-value icon-ton" id="popup-bid-step">0</span></div>
+                <div class="popup-bid-row"><span class="popup-bid-label">Total Bids</span><span class="popup-bid-value" id="popup-total-bids">0</span></div>
+            </div>
+            <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
+            <div class="popup-countdown">
+                <span class="popup-countdown-label">Auction ends in</span>
+                <div class="popup-countdown-timer" id="popup-countdown">--</div>
+            </div>
+            <div class="popup-detail-row"><span class="popup-detail-label">Status</span><span class="popup-detail-value" id="popup-detail-status">Available</span></div>
+            <div class="popup-detail-row"><span class="popup-detail-label">Listed</span><span class="popup-detail-value" id="popup-detail-date">Today</span></div>
+            <div class="popup-detail-row" id="popup-owner-row" style="display:none;"><span class="popup-detail-label">Owner</span><span class="popup-detail-value" id="popup-detail-owner">—</span></div>
+            <div class="popup-ownership" id="popup-ownership" style="display:none;">
+                <div class="popup-ownership-header">Ownership History</div>
+                <div id="popup-ownership-list"></div>
             </div>
             <div class="popup-buttons">
                 <button class="btn-primary" id="popup-bid-btn">Place Bid</button>
@@ -2091,7 +2048,7 @@ function renderFilterCollections() {
 }
 
 // ============================================================
-// ===== DETAIL POPUP - УЛУЧШЕННЫЙ =====
+// ===== DETAIL POPUP - СТАРЫЙ ДИЗАЙН КАК У ЮЗЕРНЕЙМОВ =====
 // ============================================================
 function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
     const isGift = type === 'Gift';
@@ -2100,69 +2057,77 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     document.getElementById('popup-title').textContent = title;
     document.getElementById('popup-subtitle').textContent = isGift ? (collection || 'Telegram Gift') : (type === 'Username' ? 'Telegram Username' : 'Collectible Number for Telegram');
     
+    document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
+    document.getElementById('popup-min-bid').textContent = (minBid || Math.round(price * 1.05)).toLocaleString();
+    document.getElementById('popup-bid-step').textContent = (bidStep || Math.round(price * 0.05)).toLocaleString();
+    document.getElementById('popup-total-bids').textContent = bids || 0;
+    document.getElementById('popup-detail-status').textContent = label || 'Available';
+    document.getElementById('popup-detail-date').textContent = date || 'Today';
+    document.getElementById('popup-countdown').textContent = endsIn || '—';
+    
     const statusBadge = document.getElementById('popup-status-badge');
     statusBadge.textContent = label || 'On auction';
     statusBadge.className = 'popup-status-badge ' + (status || 'avail');
     
-    // Детальный вид
-    const detailImg = document.getElementById('popup-detail-image');
+    // Gift image
+    const giftContainer = document.getElementById('popup-gift-image');
+    const giftImg = document.getElementById('popup-gift-img');
     if (isGift && imageUrl) {
-        detailImg.src = imageUrl;
-        detailImg.onerror = function() {
+        giftContainer.style.display = 'flex';
+        giftImg.src = imageUrl;
+        giftImg.onerror = function() {
             this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
         };
-        detailImg.style.display = 'block';
     } else {
-        detailImg.style.display = 'none';
+        giftContainer.style.display = 'none';
     }
     
-    // Атрибуты
-    const attrsContainer = document.getElementById('popup-detail-attributes');
+    // Attributes
+    const attrsContainer = document.getElementById('popup-attributes');
     if (isGift && attrs && Object.keys(attrs).length > 0) {
+        attrsContainer.style.display = 'block';
         let attrsHtml = '';
         let i = 0;
         for (const [key, val] of Object.entries(attrs)) {
             const rarity = rarityPcts[i % rarityPcts.length];
             attrsHtml += `
-                <tr>
-                    <td><span class="table-cell">${key}</span></td>
-                    <td><span class="table-cell-value">${val} <span class="tm-rarity">${rarity}</span></span></td>
-                </tr>
+                <div class="popup-attr-row">
+                    <span class="popup-attr-label">${key}</span>
+                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
+                </div>
             `;
             i++;
         }
         attrsContainer.innerHTML = attrsHtml;
     } else {
-        attrsContainer.innerHTML = `<tr><td colspan="2" style="text-align:center;color:var(--table-text-color);padding:8px 0;">No attributes</td></tr>`;
+        attrsContainer.style.display = 'none';
     }
     
     // Owner
+    const ownerRow = document.getElementById('popup-owner-row');
     const ownerEl = document.getElementById('popup-detail-owner');
-    const owner2El = document.getElementById('popup-detail-owner2');
-    const ownerDisplay = owner ? `<span class="head">${owner.slice(0,10)}</span><span class="tail">...${owner.slice(-6)}</span>` : '—';
-    ownerEl.innerHTML = ownerDisplay;
-    owner2El.innerHTML = ownerDisplay;
+    if (owner) {
+        ownerRow.style.display = 'flex';
+        ownerEl.innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
+    } else {
+        ownerRow.style.display = 'none';
+        ownerEl.textContent = '—';
+    }
     
-    // Status
-    document.getElementById('popup-detail-status2').textContent = label || 'Available';
-    document.getElementById('popup-detail-status2').style.color = status === 'avail' ? 'var(--success-color)' : 'var(--danger-color)';
-    
-    // Price
-    document.getElementById('popup-detail-price').textContent = price.toLocaleString();
-    document.getElementById('popup-detail-date2').textContent = 'Purchased on ' + (date || 'Today');
-    
-    // History
-    const historyBody = document.getElementById('popup-detail-history');
-    if (history && history.length > 0) {
-        historyBody.innerHTML = history.map(h => `
-            <tr>
-                <td><span class="table-cell-value">${h.price}</span></td>
-                <td><span class="tm-datetime">${h.date}</span></td>
-                <td><span class="tm-wallet"><span class="head">${h.buyer.slice(0,10)}</span><span class="tail">...${h.buyer.slice(-6)}</span></span></td>
-            </tr>
+    // Ownership history
+    const ownershipContainer = document.getElementById('popup-ownership');
+    const ownershipList = document.getElementById('popup-ownership-list');
+    if (isGift && history && history.length > 0) {
+        ownershipContainer.style.display = 'block';
+        ownershipList.innerHTML = history.map(h => `
+            <div class="popup-ownership-item">
+                <span>${h.price}</span>
+                <span>${h.date}</span>
+                <span class="owner">${h.buyer.slice(0,10)}...${h.buyer.slice(-6)}</span>
+            </div>
         `).join('');
     } else {
-        historyBody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--table-text-color);padding:12px 0;">No history</td></tr>`;
+        ownershipContainer.style.display = 'none';
     }
     
     document.getElementById('detail-popup').classList.remove('hide');
@@ -2316,7 +2281,7 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Раздел Premium переделан, детальный просмотр добавлен');
+console.log('✅ Ракетка убрана, строка количества подписок исправлена, детальный просмотр работает');
 </script>
 
 </body>
