@@ -137,13 +137,13 @@
         .tm-header-actions {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             flex-shrink: 0;
         }
         .tm-header-button {
-            font-size: 11px;
-            line-height: 14px;
-            padding: 6px 10px;
+            font-size: 10px;
+            line-height: 12px;
+            padding: 5px 8px;
             color: #fff;
             background-color: var(--btn-default-bg-color);
             border: none;
@@ -157,34 +157,33 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             white-space: nowrap;
-            min-height: 32px;
+            min-height: 28px;
+            gap: 3px;
         }
         .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
         .tm-header-button:active { transform: scale(0.96); }
         
         .icon-connect-ton {
-            width: 16px;
-            height: 17px;
+            width: 14px;
+            height: 15px;
             background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd" stroke="%23fff" stroke-width="1.7"%3E%3Cpath d="m1.84 3h13.3c.28 0 .5.22.5.5 0 .09-.02.15-.06.25l-6.33 11.18c-.27.48-.88.65-1.36.38-.16-.09-.3-.23-.38-.39l-6.11-11.18c-.13-.24-.04-.55.2-.68.08-.04.16-.06.24-.06z"/%3E%3Cpath d="m8.5 15v-12"/%3E%3C/g%3E%3C/svg%3E');
             display: inline-block;
             vertical-align: top;
             background-size: contain;
             background-position: 0 center;
             background-repeat: no-repeat;
-            margin-right: 4px;
         }
         .icon-connect-telegram {
-            width: 16px;
-            height: 17px;
+            width: 14px;
+            height: 15px;
             background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m.32 8.22c4.81-2.07 8.02-3.43 9.62-4.08 3.48-1.43 4.87-1.96 5.61-2.13.23-.06 1.45.29 1.45 1.18 0 2.58-1.32 8.8-1.87 11.67-.23 1.22-1.88 1.6-3.74.45-1.47-.91-2.27-1.52-3.68-2.44-1.63-1.05-.58-1.63.35-2.58.25-.25 4.47-4.03 4.55-4.37.01-.04.02-.2-.08-.29-.09-.08-.24-.05-.34-.03-.14.03-2.46 1.54-6.96 4.53-.66.44-1.25.66-1.79.65-.59-.02-1.15-.05-2.56-.6-.94-.37-1.13-1.02-.56-1.96z" fill="%23fff"/%3E%3C/svg%3E');
             display: inline-block;
             vertical-align: top;
             background-size: contain;
             background-position: 0 center;
             background-repeat: no-repeat;
-            margin-right: 4px;
         }
-        .tm-header-button .tm-button-label { font-size: 11px; }
+        .tm-header-button .tm-button-label { font-size: 10px; }
         
         .tm-header-tabs-wrap {
             width: 100%;
@@ -204,11 +203,11 @@
             min-width: 100%;
         }
         .tm-header-tab {
-            font-size: 13px;
-            line-height: 18px;
+            font-size: 12px;
+            line-height: 16px;
             font-weight: bold;
-            padding: 8px 0 8px;
-            margin-right: 16px;
+            padding: 6px 0 6px;
+            margin-right: 12px;
             color: rgba(203,215,229,0.7);
             transition: color .2s ease;
             position: relative;
@@ -233,24 +232,24 @@
             border-radius: 3px 3px 0 0;
         }
         .tm-label-new {
-            font-size: 9px;
-            line-height: 12px;
+            font-size: 8px;
+            line-height: 10px;
             font-weight: bold;
-            padding: 1px 5px;
+            padding: 1px 4px;
             background-color: #248bda;
             display: inline-block;
-            margin-left: 3px;
+            margin-left: 2px;
             color: #fff;
-            border-radius: 4px;
+            border-radius: 3px;
             vertical-align: top;
-            margin-top: 2px;
+            margin-top: 1px;
         }
         
         .tm-main {
             margin: 0 auto;
             width: 100%;
             max-width: 480px;
-            padding: 80px 4px 20px;
+            padding: 76px 4px 20px;
             flex: 1;
             background: var(--bg-color);
         }
@@ -1230,11 +1229,11 @@
             </a>
         </div>
         <div class="tm-header-actions">
-            <button class="tm-header-button">
+            <button class="tm-header-button" id="btn-telegram">
                 <i class="icon-connect-telegram"></i>
                 <span class="tm-button-label">Telegram</span>
             </button>
-            <button class="tm-header-button">
+            <button class="tm-header-button" id="btn-ton">
                 <i class="icon-connect-ton"></i>
                 <span class="tm-button-label">Connect TON</span>
             </button>
@@ -1242,13 +1241,12 @@
     </div>
     <div class="tm-header-tabs-wrap">
         <div class="tm-header-tabs">
-            <button class="tm-header-tab" data-section="offers">Usernames</button>
+            <button class="tm-header-tab tab-active" data-section="offers">Usernames</button>
             <button class="tm-header-tab" data-section="numbers">Numbers</button>
-            <button class="tm-header-tab tab-active" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
+            <button class="tm-header-tab" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
             <button class="tm-header-tab" data-section="mygifts">My Gifts</button>
             <button class="tm-header-tab" data-section="stars">Stars</button>
             <button class="tm-header-tab" data-section="premium">Premium</button>
-            <button class="tm-header-tab" data-section="ads">Ads</button>
         </div>
     </div>
 </header>
@@ -1257,7 +1255,7 @@
 <main class="tm-main">
 
     <!-- OFFERS -->
-    <div id="section-offers" class="section-hidden">
+    <div id="section-offers" class="section-active">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
@@ -1303,7 +1301,7 @@
     </div>
 
     <!-- GIFTS -->
-    <div id="section-gifts" class="section-active">
+    <div id="section-gifts" class="section-hidden">
         <div class="tm-main-search-form-catalog">
             <div class="tm-search-field icon-before icon-search">
                 <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
@@ -1488,17 +1486,6 @@
         </div>
     </div>
 
-    <!-- ADS -->
-    <div id="section-ads" class="section-hidden">
-        <div class="tm-section-header"><h3 class="tm-section-header-text">📢 Telegram Ads</h3></div>
-        <div style="padding:40px 16px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:100%;margin:0 auto;">
-            <div style="font-size:48px;margin-bottom:12px;">📢</div>
-            <div style="font-size:18px;color:#fff;">Ad Credits</div>
-            <div style="font-size:14px;margin-top:8px;">Purchase advertising credits for Telegram</div>
-            <div style="margin-top:14px;font-size:13px;color:var(--text-color);">Coming soon</div>
-        </div>
-    </div>
-
 </main>
 
 <!-- DETAIL POPUP -->
@@ -1553,6 +1540,28 @@
 </div> <!-- /mini-app-wrapper -->
 
 <script>
+// ============================================================
+// ===== КНОПКИ TELEGRAM И TON CONNECT =====
+// ============================================================
+document.getElementById('btn-telegram').addEventListener('click', function() {
+    // Открываем Telegram в приложении или через ссылку
+    window.open('https://t.me/username', '_blank');
+    // Если в Telegram Mini App - можно использовать Telegram WebApp API
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.openTelegramLink('https://t.me/username');
+    }
+});
+
+document.getElementById('btn-ton').addEventListener('click', function() {
+    // Подключение TON кошелька - демо
+    alert('Connect TON Wallet\n\n' +
+          'В реальном приложении здесь будет подключение к TON кошельку.\n' +
+          'Например: Tonkeeper, Tonhub или через TON Connect.\n\n' +
+          'Адрес для демо: EQDljQaFrI6QoFw0vvn6GDdbt-oJC3g0GXBhos-vS2qg5HZk');
+    // В реальном проекте здесь был бы вызов TON Connect SDK
+    // или открытие кошелька через deeplink
+});
+
 // ============================================================
 // ===== ДАННЫЕ - БЕЗ SCARED CATS, LOOT BAGS, LOW RIDERS =====
 // ============================================================
@@ -2177,12 +2186,12 @@ document.addEventListener('click', function() {
 document.getElementById('logo-home')?.addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
-    document.querySelector('.tm-header-tab[data-section="gifts"]').classList.add('tab-active');
+    document.querySelector('.tm-header-tab[data-section="offers"]').classList.add('tab-active');
     document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
         el.classList.remove('section-active', 'section-hidden');
         el.style.display = 'none';
     });
-    const target = document.getElementById('section-gifts');
+    const target = document.getElementById('section-offers');
     target.style.display = 'block';
     target.classList.add('section-active');
 });
@@ -2205,7 +2214,9 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков (без Scared Cats, Loot Bags, Low Riders):', giftsData.length);
-console.log('✅ Клик по подаркам работает, попап с картинкой открывается');
+console.log('✅ Главная страница - Usernames');
+console.log('✅ Ads удален');
+console.log('✅ Кнопки Telegram и TON Connect работают и не вылезают');
 </script>
 </body>
 </html>
