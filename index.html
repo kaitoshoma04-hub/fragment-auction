@@ -594,6 +594,7 @@
             text-align: center;
             padding: 8px 6px 10px;
             background: var(--table-bg-color);
+            pointer-events: none;
         }
         .tm-grid-item-name {
             font-size: 13px;
@@ -1206,6 +1207,12 @@
             text-decoration: none;
             color: inherit;
             cursor: pointer;
+        }
+        
+        .popup-gift-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -1872,16 +1879,14 @@ function renderGifts(collection = 'all', search = '') {
         return;
     }
     
-    grid.innerHTML = loadedGifts.map(item => {
-        const attrsStr = JSON.stringify(item.attrs || {}).replace(/"/g, '&quot;');
-        const ownerStr = item.owner || '';
-        const historyStr = JSON.stringify(item.history || []).replace(/"/g, '&quot;');
-        const imgUrl = item.image || '';
-        return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', '${attrsStr}', '${ownerStr}', '${historyStr}')">
+    grid.innerHTML = '';
+    loadedGifts.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'tm-grid-item';
+        div.innerHTML = `
             <div class="tm-grid-item-link">
                 <div class="tm-grid-item-thumb">
-                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'">
+                    <img src="${item.image}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'">
                     <div class="tm-grid-item-num">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
@@ -1896,8 +1901,28 @@ function renderGifts(collection = 'all', search = '') {
                     </div>
                 </div>
             </div>
-        </div>
-    `}).join('');
+        `;
+        div.addEventListener('click', function() {
+            openDetail(
+                item.name + ' ' + item.num,
+                'Gift',
+                item.price,
+                Math.round(item.price * 1.05),
+                Math.round(item.price * 0.05),
+                item.status,
+                item.label,
+                item.date,
+                0,
+                '—',
+                item.image,
+                item.collection,
+                JSON.stringify(item.attrs),
+                item.owner,
+                JSON.stringify(item.history)
+            );
+        });
+        grid.appendChild(div);
+    });
     
     const btn = document.getElementById('gifts-load-more');
     if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
@@ -1973,21 +1998,29 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     }
     
     const attrsContainer = document.getElementById('popup-attributes');
-    if (isGift && attrs && Object.keys(attrs).length > 0) {
-        attrsContainer.style.display = 'block';
-        let attrsHtml = '';
-        let i = 0;
-        for (const [key, val] of Object.entries(attrs)) {
-            const rarity = rarityPcts[i % rarityPcts.length];
-            attrsHtml += `
-                <div class="popup-attr-row">
-                    <span class="popup-attr-label">${key}</span>
-                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
-                </div>
-            `;
-            i++;
+    if (isGift && attrs) {
+        let parsedAttrs = attrs;
+        if (typeof attrs === 'string') {
+            try { parsedAttrs = JSON.parse(attrs); } catch(e) { parsedAttrs = {}; }
         }
-        attrsContainer.innerHTML = attrsHtml;
+        if (Object.keys(parsedAttrs).length > 0) {
+            attrsContainer.style.display = 'block';
+            let attrsHtml = '';
+            let i = 0;
+            for (const [key, val] of Object.entries(parsedAttrs)) {
+                const rarity = rarityPcts[i % rarityPcts.length];
+                attrsHtml += `
+                    <div class="popup-attr-row">
+                        <span class="popup-attr-label">${key}</span>
+                        <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
+                    </div>
+                `;
+                i++;
+            }
+            attrsContainer.innerHTML = attrsHtml;
+        } else {
+            attrsContainer.style.display = 'none';
+        }
     } else {
         attrsContainer.style.display = 'none';
     }
@@ -2004,15 +2037,23 @@ function openDetail(name, type, price, minBid, bidStep, status, label, date, bid
     
     const ownershipContainer = document.getElementById('popup-ownership');
     const ownershipList = document.getElementById('popup-ownership-list');
-    if (isGift && history && history.length > 0) {
-        ownershipContainer.style.display = 'block';
-        ownershipList.innerHTML = history.map(h => `
-            <div class="popup-ownership-item">
-                <span>${h.price}</span>
-                <span>${h.date}</span>
-                <span class="owner">${h.buyer.slice(0,10)}...${h.buyer.slice(-6)}</span>
-            </div>
-        `).join('');
+    if (isGift && history) {
+        let parsedHistory = history;
+        if (typeof history === 'string') {
+            try { parsedHistory = JSON.parse(history); } catch(e) { parsedHistory = []; }
+        }
+        if (parsedHistory && parsedHistory.length > 0) {
+            ownershipContainer.style.display = 'block';
+            ownershipList.innerHTML = parsedHistory.map(h => `
+                <div class="popup-ownership-item">
+                    <span>${h.price}</span>
+                    <span>${h.date}</span>
+                    <span class="owner">${h.buyer.slice(0,10)}...${h.buyer.slice(-6)}</span>
+                </div>
+            `).join('');
+        } else {
+            ownershipContainer.style.display = 'none';
+        }
     } else {
         ownershipContainer.style.display = 'none';
     }
@@ -2164,7 +2205,7 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков (без Scared Cats, Loot Bags, Low Riders):', giftsData.length);
-console.log('✅ Все разделы рабочие, клик по подаркам работает');
+console.log('✅ Клик по подаркам работает, попап с картинкой открывается');
 </script>
 </body>
 </html>
