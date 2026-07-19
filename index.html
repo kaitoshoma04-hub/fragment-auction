@@ -1,849 +1,440 @@
 <!DOCTYPE html>
-<html class="header-tabs">
+<html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="format-detection" content="telephone=no">
-    <title>Fragment - Buy Telegram Usernames &amp; Numbers</title>
-    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z' fill='%23fff'/%3E%3C/svg%3E" type="image/x-icon">
-    <link href="font-roboto.css@1.css" rel="stylesheet" type="text/css">
-    <link href="bootstrap.min.css@3.css" rel="stylesheet">
-    <link href="bootstrap-extra.css@2.css" rel="stylesheet">
-    <link href="auction.css@104.css" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gifts Mini App</title>
     <style>
-        :root {
-            --text-color: #8794a1;
-            --accent-color: #4db2ff;
-            --accent-rgb: 77,178,255;
-            --header-color: #fff;
-            --bg-color: #1a2026;
-            --bg-rgb: 26,32,38;
-            --header-bg-color: rgba(33,42,51,0.95);
-            --table-bg-color: #212a33;
-            --table-bg-rgb: 33,42,51;
-            --table-text-color: #8c9aa9;
-            --value-color: #fff;
-            --field-bg-color: #242e38;
-            --field-color: #fff;
-            --field-placeholder-color: #8a98a6;
-            --btn-primary-bg-color: #248bda;
-            --btn-primary-bg-hover-color: #207cc2;
-            --btn-default-bg-color: #293440;
-            --btn-default-bg-hover-color: #3f4e60;
-            --def-border-radius: 8px;
-            --header-height: 72px;
-            --danger-color: #ff5863;
-            --warning-color: #ff9953;
-            --success-color: #5aec8c;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        * { box-sizing: border-box; }
+        :root {
+            --bg: #1a2026;
+            --card: #212a33;
+            --text: #8794a1;
+            --white: #fff;
+            --accent: #4db2ff;
+            --green: #5aec8c;
+            --red: #ff5863;
+            --border: rgba(255,255,255,0.06);
+        }
         body {
             font-family: -apple-system, system-ui, sans-serif;
-            font-variant-ligatures: none;
-            -webkit-font-smoothing: antialiased;
-            background: var(--bg-color);
-            padding: 0;
-            margin: 0;
-            color: var(--text-color);
+            background: var(--bg);
+            color: var(--text);
             font-size: 13px;
             line-height: 1.5;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        a { color: var(--accent-color); text-decoration: none; }
-        
-        .mini-app-wrapper {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 0 6px;
-            background: var(--bg-color);
             min-height: 100vh;
-            position: relative;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            padding: 0 6px;
         }
-        
-        .tm-header {
+        .app {
+            max-width: 480px;
+            width: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            margin: 0 auto;
+            background: var(--bg);
+            position: relative;
+        }
+        /* HEADER */
+        .header {
             position: sticky;
-            left: 0;
-            right: 0;
             top: 0;
             z-index: 100;
-            background-color: var(--header-bg-color);
-            -webkit-backdrop-filter: blur(25px);
+            background: rgba(33,42,51,0.95);
             backdrop-filter: blur(25px);
-            height: auto;
-            min-height: var(--header-height);
-            padding: 6px 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            touch-action: manipulation;
-            max-width: 480px;
-            gap: 4px;
+            -webkit-backdrop-filter: blur(25px);
+            padding: 8px 4px 4px;
+            border-bottom: 1px solid var(--border);
             flex-shrink: 0;
         }
-        
-        .tm-header-top {
+        .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 0 2px;
+            padding: 0 2px 4px;
         }
-        
-        .tm-header-logo { 
-            display: flex; 
-            align-items: center; 
-            flex-shrink: 0; 
-        }
-        .tm-logo {
-            display: inline-flex;
-            padding: 8px 6px 8px 0;
-            align-items: center;
-            cursor: pointer;
-        }
-        .tm-logo-icon {
-            width: 20px;
-            height: 20px;
-            padding: 4px;
-            margin: -4px;
-            box-sizing: content-box;
-            background-image: url('data:image/svg+xml,%3Csvg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z" fill="%23fff"/%3E%3C/svg%3E');
-            background-size: cover;
-            background-position: 0 0;
-            background-repeat: no-repeat;
-            display: inline-block;
-            vertical-align: top;
-            pointer-events: none;
-        }
-        .tm-logo-text {
-            width: 75px;
-            height: 18px;
-            background-image: url('data:image/svg+xml,%3Csvg height="53" viewBox="0 0 226 53" width="226" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m23.84 48h6.82v-18.91h8.8v-6.2h-8.8v-12.09h11.22v-6.2h-18.04zm21.81 0h6.82v-18.6h2.36c3.1 0 4.28 1.3 4.28 5.33v7.94c0 3.53.24 4.21.62 5.33h6.94c-.68-1.61-.74-3.16-.74-5.27v-7.63c0-4.89-1.12-8.12-4.53-9.17v-.13c3.04-1.24 4.46-4.09 4.46-8.55v-2.67c0-6.69-3.03-9.98-10.1-9.98h-10.11zm6.82-24.8v-12.4h3.1c2.42 0 3.47 1.36 3.47 4.46v3.35c0 3.47-1.55 4.59-4.09 4.59zm16.86 24.8h6.32l1.24-8.49h7.75v-.13l1.24 8.62h6.82l-7.07-43.4h-9.23zm8.37-14.38l2.97-21.46h.13l3.04 21.46zm28.32 15c6.7 0 10.17-3.97 10.17-10.91v-14.2h-9.86v6.2h3.41v8.49c0 3.1-1.36 4.22-3.53 4.22s-3.53-1.12-3.53-4.22v-23.74c0-3.1 1.36-4.28 3.53-4.28s3.53 1.18 3.53 4.28v4.15h6.45v-3.72c0-6.94-3.47-10.91-10.17-10.91-6.69 0-10.16 3.97-10.16 10.91v22.82c0 6.94 3.47 10.91 10.16 10.91zm15.06-.62h5.95v-32.86h.13l4.96 32.86h5.7l4.96-32.86h.13v32.86h6.44v-43.4h-9.73l-4.34 31.06h-.12l-4.34-31.06h-9.74zm33.85 0h18.6v-6.2h-11.78v-13.33h9.36v-6.2h-9.36v-11.47h11.78v-6.2h-18.6zm22.99 0h6.08v-31.68h.12l8.18 31.68h7.01v-43.4h-6.08v25.98h-.12l-6.63-25.98h-8.56zm32.29 0h6.82v-37.2h7.13v-6.2h-21.08v6.2h7.13z" fill="%23fff"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-position: left center;
-            background-repeat: no-repeat;
-            display: inline-block;
-            vertical-align: top;
-            pointer-events: none;
-        }
-        
-        .tm-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-        .tm-header-button {
-            font-size: 11px;
-            line-height: 14px;
-            padding: 6px 10px;
-            color: #fff;
-            background-color: var(--btn-default-bg-color);
-            border: none;
-            border-radius: var(--def-border-radius);
-            display: inline-flex;
-            font-weight: bold;
-            justify-content: center;
-            cursor: pointer;
-            align-items: center;
-            transition: background .2s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            white-space: nowrap;
-            min-height: 32px;
-        }
-        .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
-        .tm-header-button:active { transform: scale(0.96); }
-        
-        .icon-connect-ton {
-            width: 16px;
-            height: 17px;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd" stroke="%23fff" stroke-width="1.7"%3E%3Cpath d="m1.84 3h13.3c.28 0 .5.22.5.5 0 .09-.02.15-.06.25l-6.33 11.18c-.27.48-.88.65-1.36.38-.16-.09-.3-.23-.38-.39l-6.11-11.18c-.13-.24-.04-.55.2-.68.08-.04.16-.06.24-.06z"/%3E%3Cpath d="m8.5 15v-12"/%3E%3C/g%3E%3C/svg%3E');
-            display: inline-block;
-            vertical-align: top;
-            background-size: contain;
-            background-position: 0 center;
-            background-repeat: no-repeat;
-            margin-right: 4px;
-        }
-        .icon-connect-telegram {
-            width: 16px;
-            height: 17px;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m.32 8.22c4.81-2.07 8.02-3.43 9.62-4.08 3.48-1.43 4.87-1.96 5.61-2.13.23-.06 1.45.29 1.45 1.18 0 2.58-1.32 8.8-1.87 11.67-.23 1.22-1.88 1.6-3.74.45-1.47-.91-2.27-1.52-3.68-2.44-1.63-1.05-.58-1.63.35-2.58.25-.25 4.47-4.03 4.55-4.37.01-.04.02-.2-.08-.29-.09-.08-.24-.05-.34-.03-.14.03-2.46 1.54-6.96 4.53-.66.44-1.25.66-1.79.65-.59-.02-1.15-.05-2.56-.6-.94-.37-1.13-1.02-.56-1.96z" fill="%23fff"/%3E%3C/svg%3E');
-            display: inline-block;
-            vertical-align: top;
-            background-size: contain;
-            background-position: 0 center;
-            background-repeat: no-repeat;
-            margin-right: 4px;
-        }
-        .tm-header-button .tm-button-label { font-size: 11px; }
-        
-        .tm-header-tabs-wrap {
-            width: 100%;
-            padding: 2px 0 0;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            display: flex;
-            align-items: center;
-        }
-        .tm-header-tabs-wrap::-webkit-scrollbar { display: none; }
-        .tm-header-tabs {
-            display: flex;
-            padding: 0;
-            gap: 0;
-            white-space: nowrap;
-            min-width: 100%;
-        }
-        .tm-header-tab {
-            font-size: 13px;
-            line-height: 18px;
-            font-weight: bold;
-            padding: 8px 0 8px;
-            margin-right: 16px;
-            color: rgba(203,215,229,0.7);
-            transition: color .2s ease;
-            position: relative;
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-family: inherit;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        .tm-header-tab:hover { color: rgba(203,215,229,0.9); }
-        .tm-header-tab.tab-active { color: #fff; }
-        .tm-header-tab.tab-active:after {
-            content: '';
-            display: block;
-            position: absolute;
-            height: 3px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #248bda;
-            border-radius: 3px 3px 0 0;
-        }
-        .tm-label-new {
-            font-size: 9px;
-            line-height: 12px;
-            font-weight: bold;
-            padding: 1px 5px;
-            background-color: #248bda;
-            display: inline-block;
-            margin-left: 3px;
-            color: #fff;
-            border-radius: 4px;
-            vertical-align: top;
-            margin-top: 2px;
-        }
-        
-        .tm-main {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 480px;
-            padding: 80px 4px 20px;
-            flex: 1;
-            background: var(--bg-color);
-        }
-        
-        .tm-main-intro-header {
-            font-size: 22px;
-            line-height: 30px;
-            font-weight: bold;
-            color: var(--header-color);
-            margin: 0;
-        }
-        .tm-main-intro-text { font-size: 14px; color: var(--text-color); margin-top: 6px; }
-        
-        .tm-main-search-form {
-            max-width: 100%;
-            margin: 0 auto 14px;
-        }
-        .tm-main-form-group { margin-bottom: 14px; }
-        .tm-main-form-label {
-            font-size: 13px;
-            line-height: 18px;
-            margin: 0 0 4px 4px;
-            color: var(--header-color);
-            display: block;
-        }
-        .tm-search-field {
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            position: relative;
-        }
-        .tm-search-field .tm-search-input {
-            height: auto;
-            font-size: 15px;
-            line-height: 20px;
-            padding: 12px 40px 12px 44px;
-            box-shadow: none !important;
-            border: none;
-            background: transparent;
-            color: var(--field-color);
-            text-overflow: ellipsis;
-            width: 100%;
-            border-radius: var(--def-border-radius);
-            font-family: inherit;
-        }
-        .tm-search-field .tm-search-input:focus { outline: none; }
-        .tm-search-field:before {
-            position: absolute;
-            margin: 12px 12px 12px 14px;
-            pointer-events: none;
-        }
-        .icon-search:before {
-            content: '';
-            display: inline-block;
-            vertical-align: top;
-            background-position: 0 center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            width: 18px;
-            height: 20px;
-            background-image: url('data:image/svg+xml,%3Csvg height="24" viewBox="0 0 20 24" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd" stroke="%238494a3" stroke-width="2"%3E%3Cellipse cx="11.66" cy="10.4" rx="6.34" ry="6.4"/%3E%3Cpath d="m2 21 5.34-5.39" stroke-linecap="round"/%3E%3C/g%3E%3C/svg%3E');
-        }
-        .tm-search-clear {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 12px;
-            cursor: pointer;
-            border-radius: var(--def-border-radius);
-        }
-        .tm-search-clear:before {
-            content: '';
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            background-image: url('data:image/svg+xml,%3Csvg height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5 17 12-12m-12 0 12 12" stroke="%238494a3" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
-            background-size: contain;
-        }
-        .tm-search-input:placeholder-shown ~ .tm-search-clear { visibility: hidden; opacity: 0; }
-        
-        .icon-stars:before {
-            content: '';
-            display: inline-block;
-            vertical-align: top;
-            background-position: 0 center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            width: 18px;
-            height: 20px;
-            background-image: url('data:image/svg+xml,%3Csvg height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M6.02 4.99l2.21-4.42c.25-.51.86-.72 1.37-.46.2.1.36.27.46.47l2.08 4.26c.17.34.5.58.88.63l4.36.52c.59.08 1.02.62.95 1.22-.03.24-.14.47-.32.65l-3.45 3.42c-.14.13-.2.33-.18.53l.57 4.61c.09.66-.38 1.27-1.03 1.35-.25.03-.5-.02-.72-.14l-3.64-2c-.26-.14-.58-.15-.85-.01l-3.77 1.95c-.53.27-1.18.06-1.45-.48-.11-.2-.14-.43-.11-.65l.3-2.12c.15-1.04.79-1.93 1.71-2.41l4.19-2.15c.11-.06.15-.2.1-.31-.05-.09-.14-.14-.24-.12l-5.12.74c-.78.11-1.58-.11-2.19-.62l-1.71-1.4c-.49-.4-.56-1.12-.17-1.62.19-.22.45-.37.74-.41l4.38-.57c.28-.03.52-.21.65-.46z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
-        }
-        .form-control-wrap {
-            display: flex;
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            position: relative;
-        }
-        .form-control-wrap .tm-amount-input {
-            height: auto;
-            font-size: 15px;
-            line-height: 20px;
-            padding: 12px 40px 12px 44px;
-            box-shadow: none !important;
-            border: none;
-            background: transparent;
-            color: var(--field-color);
-            width: 100%;
-            border-radius: var(--def-border-radius);
-            font-family: inherit;
-        }
-        .form-control-wrap .tm-amount-input:focus { outline: none; }
-        .form-control-wrap.icon-stars:before {
-            position: absolute;
-            margin: 12px 12px 12px 14px;
-            pointer-events: none;
-        }
-        .tm-stars-price {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--value-color);
-            pointer-events: none;
-        }
-        
-        .tm-search-field-error {
-            font-size: 12px;
-            line-height: 14px;
-            height: 14px;
-            margin: 4px 8px -4px;
-            color: var(--danger-color);
-        }
-        
-        .tm-currency-tabs {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .tm-currency-tab {
+        .logo {
             display: flex;
             align-items: center;
             gap: 4px;
-            padding: 8px 12px;
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            cursor: pointer;
-            font-size: 13px;
-            color: var(--field-color);
-            transition: box-shadow .2s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 38px;
-        }
-        .tm-currency-tab input.radio { position: absolute; left: -5000px; }
-        .tm-currency-tab:has(input:checked) { box-shadow: 0 0 0 2px var(--accent-color); }
-        .tm-currency-tab-icon {
-            width: 18px;
-            height: 18px;
-            display: inline-block;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        .tab-icon-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5V7.5l5 4.5-5 4.5z" fill="%234db2ff"/%3E%3C/svg%3E'); }
-        .tab-icon-usdt { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdc { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
-        
-        .btn-primary.btn-block {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            font-size: 15px;
-            background: var(--btn-primary-bg-color);
-            color: #fff;
-            border: none;
-            border-radius: var(--def-border-radius);
             font-weight: bold;
+            font-size: 16px;
+            color: var(--white);
             cursor: pointer;
-            transition: background .2s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 48px;
         }
-        .btn-primary.btn-block:hover { background: var(--btn-primary-bg-hover-color); }
-        .btn-primary.btn-block:active { transform: scale(0.97); }
-        .btn-primary.btn-block:disabled { opacity: 0.5; cursor: not-allowed; }
-        .tm-main-form-link-wrap { text-align: center; margin-top: 12px; font-size: 13px; }
-        .tm-main-form-link-wrap a { color: var(--accent-color); }
-        
-        .tm-table-wrap {
-            border-radius: var(--def-border-radius);
-            overflow: hidden;
-            background: var(--table-bg-color);
-            width: 100%;
-            max-width: 100%;
-            margin: 0 auto;
+        .logo-icon {
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml,%3Csvg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: cover;
         }
-        .tm-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 2px;
-            color: var(--table-text-color);
-            font-size: 12px;
-            padding: 2px 0;
+        .header-actions {
+            display: flex;
+            gap: 6px;
         }
-        .tm-table thead th {
-            font-size: 11px;
-            line-height: 14px;
-            font-weight: bold;
-            background-color: #293440;
-            padding: 8px 10px;
-            text-align: left;
-            color: var(--table-text-color);
-            border-bottom: none;
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            border-radius: 0;
-        }
-        .tm-table thead tr th:first-child { border-radius: 4px 0 0 4px; }
-        .tm-table thead tr th:last-child { border-radius: 0 4px 4px 0; }
-        .tm-table tbody tr {
-            cursor: pointer;
-            transition: background .15s ease;
-            display: table-row;
-            touch-action: manipulation;
-        }
-        .tm-table tbody tr td {
-            background: var(--table-bg-color);
-            padding: 8px 10px;
-            font-size: 12px;
-            line-height: 16px;
-            vertical-align: middle;
-            border: none;
-        }
-        .tm-table tbody tr td:first-child { border-radius: 4px 0 0 4px; }
-        .tm-table tbody tr td:last-child { border-radius: 0 4px 4px 4px; }
-        .tm-table tbody tr:hover td { background: #293440; }
-        .tm-table tbody tr:active td { background: #1f2933; }
-        
-        .tm-table .tm-value {
-            font-weight: bold;
-            color: var(--value-color);
-            font-size: 13px;
-        }
-        .tm-table .tm-value.icon-ton:before {
-            content: '';
-            display: inline-block;
-            vertical-align: top;
-            background-position: 0 center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            width: 14px;
-            height: 16px;
-            margin-right: 4px;
-            background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
-        }
-        .tm-status-badge {
-            display: inline-block;
+        .header-btn {
             font-size: 10px;
-            line-height: 14px;
+            padding: 5px 10px;
+            background: #293440;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
             font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
             white-space: nowrap;
         }
-        .tm-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
-        .tm-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
-        .tm-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
-        
-        .tm-username-link { color: #fff; font-weight: bold; font-size: 13px; }
-        .tm-username-link:hover { color: var(--accent-color); text-decoration: none; }
-        
-        .tm-table .hide-mobile { display: none; }
-        
-        .tm-table-scroll {
+        .header-btn:active {
+            transform: scale(0.96);
+        }
+        .header-tabs {
+            display: flex;
+            gap: 0;
             overflow-x: auto;
+            padding: 4px 0 0;
+            scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
-            border-radius: var(--def-border-radius);
         }
-        
-        .tm-catalog-grid-wrap { 
-            --gap: 8px;
-            background: transparent;
-            max-width: 100%;
-            margin: 0 auto;
+        .header-tabs::-webkit-scrollbar {
+            display: none;
         }
-        .tm-catalog-grid {
+        .header-tab {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 6px 0 8px;
+            margin-right: 14px;
+            color: rgba(203,215,229,0.6);
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .header-tab.active {
+            color: #fff;
+        }
+        .header-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #248bda;
+            border-radius: 3px 3px 0 0;
+        }
+        .tab-new {
+            font-size: 8px;
+            background: #248bda;
+            color: #fff;
+            padding: 1px 5px;
+            border-radius: 4px;
+            margin-left: 3px;
+            vertical-align: top;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            padding: 12px 2px 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .section {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+        .section.active {
+            display: flex;
+        }
+
+        /* SEARCH */
+        .search-wrap {
+            margin-bottom: 10px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px 36px 10px 40px;
+            background: #242e38;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            position: relative;
+        }
+        .search-input::placeholder {
+            color: #8a98a6;
+        }
+        .search-wrap {
+            position: relative;
+        }
+        .search-wrap:before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.5;
+        }
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #8a98a6;
+            font-size: 16px;
+            display: none;
+        }
+        .search-input:not(:placeholder-shown)~.search-clear {
+            display: block;
+        }
+
+        /* FILTERS */
+        .filters {
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 12px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 500;
+            user-select: none;
+            align-items: center;
+        }
+        .filters-header:after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform .2s;
+        }
+        .filters.open .filters-header:after {
+            transform: rotate(180deg);
+        }
+        .filters-body {
+            display: none;
+            padding: 0 4px 6px;
+        }
+        .filters.open .filters-body {
+            display: block;
+        }
+        .filter-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background .15s;
+            font-size: 12px;
+            color: #fff;
+        }
+        .filter-item:active {
+            background: #293440;
+        }
+        .filter-item.active {
+            background: #248bda;
+        }
+        .filter-item .count {
+            color: var(--text);
+        }
+        .filter-item.active .count {
+            color: #fff;
+        }
+
+        /* GRID */
+        .grid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0 8px;
+        }
+        .grid-header h3 {
+            color: #fff;
+            font-size: 16px;
+        }
+        .grid-header span {
+            color: var(--text);
+            font-size: 12px;
+        }
+        .grid {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
-            gap: var(--gap);
-            background: transparent;
+            gap: 8px;
+            flex: 1;
         }
-        .tm-catalog-grid .tm-grid-item {
-            flex: 0 0 calc(50% - var(--gap));
-            display: flex;
+        .grid-item {
+            flex: 0 0 calc(50% - 4px);
+            background: var(--card);
+            border-radius: 8px;
             overflow: hidden;
-            flex-direction: column;
-            border-radius: var(--def-border-radius);
-            background-color: var(--table-bg-color);
+            border: 1px solid var(--border);
             cursor: pointer;
-            transition: transform .15s ease, background .2s ease;
-            min-width: 100px;
-            border: 1px solid rgba(255,255,255,0.04);
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
+            transition: transform .15s;
         }
-        .tm-catalog-grid .tm-grid-item:active { transform: scale(0.96); }
+        .grid-item:active {
+            transform: scale(0.96);
+        }
         @media (min-width: 400px) {
-            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(33.33% - var(--gap)); }
+            .grid-item {
+                flex: 0 0 calc(33.33% - 6px);
+            }
         }
-        .tm-grid-item-thumb {
-            position: relative;
-            background: #1a2026;
+        .grid-thumb {
             aspect-ratio: 1;
+            background: #1a2026;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
             overflow: hidden;
         }
-        .tm-grid-item-thumb img {
+        .grid-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .tm-grid-item-thumb .tm-grid-item-num {
+        .grid-num {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            border-radius: 4px;
+            bottom: 4px;
+            left: 4px;
             background: rgba(0,0,0,0.7);
-            font-size: 9px;
-            padding: 2px 6px;
+            font-size: 8px;
             color: #fff;
-            margin: 4px;
+            padding: 1px 6px;
+            border-radius: 4px;
             backdrop-filter: blur(4px);
         }
-        .tm-grid-item-content {
+        .grid-info {
+            padding: 6px 6px 8px;
             text-align: center;
-            padding: 8px 6px 10px;
-            background: var(--table-bg-color);
         }
-        .tm-grid-item-name {
-            font-size: 13px;
-            line-height: 17px;
-            font-weight: bold;
-            color: var(--value-color);
-            display: flex;
-            justify-content: center;
-            white-space: nowrap;
-        }
-        .tm-grid-item-name .item-name { overflow: hidden; text-overflow: ellipsis; }
-        .tm-grid-item-name .item-num { flex-shrink: 0; font-size: 10px; opacity: 0.6; margin-left: 3px; }
-        .tm-grid-item-desc {
-            font-size: 10px;
-            line-height: 14px;
-            color: var(--table-text-color);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            margin-top: 2px;
-        }
-        .tm-grid-item-values {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            line-height: 16px;
-            gap: 3px 6px;
-            margin-top: 4px;
-        }
-        .tm-grid-item-value.tm-value {
+        .grid-name {
             font-size: 12px;
             font-weight: bold;
-            color: var(--value-color);
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .tm-grid-item-value.tm-value.icon-ton:before {
+        .grid-collection {
+            font-size: 9px;
+            color: var(--text);
+            margin-top: 1px;
+        }
+        .grid-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 3px;
+            flex-wrap: wrap;
+        }
+        .grid-price {
+            font-size: 11px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .grid-price:before {
             content: '';
             display: inline-block;
-            vertical-align: top;
-            background-position: 0 center;
-            background-repeat: no-repeat;
+            width: 10px;
+            height: 12px;
+            background: url("data:image/svg+xml,%3Csvg height='19' viewBox='0 0 15 19' width='15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z' fill='none' stroke='%234db2ff' stroke-width='1.5'/%3E%3C/svg%3E");
             background-size: contain;
-            width: 12px;
-            height: 14px;
-            margin-right: 3px;
-            background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
+            vertical-align: middle;
+            margin-right: 2px;
         }
-        .tm-grid-item-status {
-            display: inline-block;
-            font-size: 9px;
-            line-height: 12px;
+        .grid-status {
+            font-size: 8px;
             font-weight: bold;
-            padding: 2px 6px;
+            padding: 1px 6px;
             border-radius: 3px;
-            white-space: nowrap;
         }
-        .tm-grid-item-status.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
-        .tm-grid-item-status.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
-        .tm-grid-item-status.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
-        
-        .tm-main-filters-wrap { 
-            margin-bottom: 14px; 
-            max-width: 100%; 
-            margin-left: auto; 
-            margin-right: auto; 
+        .grid-status.avail {
+            color: var(--green);
+            background: rgba(90,236,140,0.12);
         }
-        .tm-main-filters-box {
-            background-color: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            overflow: hidden;
+        .grid-status.sold {
+            color: var(--red);
+            background: rgba(255,88,99,0.12);
         }
-        .tm-main-filters-box.closed .tm-main-filters-content { display: none; }
-        .tm-main-filters-box.opened .tm-main-filters-content { display: block; }
-        .tm-main-filters-header {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 14px;
-            cursor: pointer;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 500;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
-            align-items: center;
-        }
-        .tm-main-filters-header:after {
-            content: '';
-            width: 18px;
-            height: 18px;
-            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m3.5 7.2 5.11 5.15c.2.19.52.19.71 0l5.18-5.15" fill="none" stroke="%23838f9c" stroke-linecap="round" stroke-width="1.8"/%3E%3C/svg%3E');
-            background-size: contain;
-            transition: transform .2s ease;
-        }
-        .tm-main-filters-box.opened .tm-main-filters-header:after { transform: rotate(180deg); }
-        .tm-main-filters-content { transition: opacity .2s ease; overflow: hidden; }
-        .tm-main-filters-box.closed .tm-main-filters-content { opacity: 0; pointer-events: none; }
-        .tm-main-filters-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 14px;
-            cursor: pointer;
-            color: #fff;
-            border-top: 1px solid #1a2026;
-            transition: background .15s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            font-size: 13px;
-            min-height: 40px;
-            align-items: center;
-        }
-        .tm-main-filters-item:hover { background: #293440; }
-        .tm-main-filters-item.selected { background: #248bda; color: #fff; }
-        .tm-main-filters-name { font-size: 13px; line-height: 16px; }
-        .tm-main-filters-count { font-size: 13px; line-height: 16px; color: var(--table-text-color); }
-        .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
-        
-        .tm-footer {
-            background-color: #111417;
-            margin-top: auto;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            max-width: 480px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .load-more {
             width: 100%;
-            flex-shrink: 0;
-        }
-        .tm-footer-links {
-            display: flex;
-            font-size: 12px;
-            line-height: 16px;
-            padding: 14px 16px;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .tm-footer-link, .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
-        .tm-footer-link:hover { text-decoration: underline; }
-        
-        .tm-form-radio-items {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .tm-form-radio-item {
-            flex: 1;
-            min-width: 80px;
-            background: var(--field-bg-color);
-            border-radius: var(--def-border-radius);
-            padding: 10px 12px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color .2s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        .tm-form-radio-item:has(input:checked) { border-color: var(--accent-color); }
-        .tm-form-radio-item input[type="radio"] { position: absolute; left: -5000px; }
-        .tm-radio-label {
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--value-color);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        .tm-radio-label-badge {
-            font-size: 9px;
-            font-weight: bold;
-            background: var(--success-color);
-            color: #000;
-            padding: 0 6px;
-            border-radius: 4px;
-            line-height: 16px;
-        }
-        .tm-value.icon-before.icon-ton {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--value-color);
-            display: flex;
-            align-items: center;
-        }
-        .tm-value.icon-before.icon-ton:before {
-            content: '';
-            display: inline-block;
-            width: 14px;
-            height: 17px;
-            background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
-            background-size: contain;
-            background-repeat: no-repeat;
-            margin-right: 4px;
-        }
-        .mini-frac { font-size: 10px; opacity: 0.7; }
-        .tm-radio-desc { font-size: 11px; color: var(--table-text-color); }
-        .tm-quantity { font-size: 11px; color: var(--table-text-color); }
-        .tm-search-loading { display: none; }
-        .tm-premium-boost-label { display: none !important; }
-        
-        .tm-field.js-premium-quantity-field {
-            border-radius: var(--def-border-radius);
-            background: var(--field-bg-color);
-            position: relative;
-        }
-        .tm-field.js-premium-quantity-field .tm-amount-input {
-            height: auto;
-            font-size: 15px;
-            line-height: 20px;
-            padding: 12px 40px 12px 16px;
-            box-shadow: none !important;
+            padding: 12px;
+            margin-top: 12px;
+            background: #293440;
             border: none;
-            background: transparent;
-            color: var(--field-color);
-            text-overflow: ellipsis;
-            width: 100%;
-            border-radius: var(--def-border-radius);
-            font-family: inherit;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
+            transition: background .2s;
         }
-        .tm-field.js-premium-quantity-field .tm-amount-input:focus { outline: none; }
-        
-        .btn-group.tm-dropdown { position: relative; }
-        .tm-dropdown .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            z-index: 1000;
+        .load-more:active {
+            background: #3f4e60;
+        }
+        .load-more.hidden {
             display: none;
-            background: var(--field-bg-color);
-            border-radius: var(--def-border-radius);
-            padding: 4px 0;
-            min-width: 140px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.05);
         }
-        .tm-dropdown .dropdown-menu.show { display: block; }
-        .tm-dropdown .dropdown-menu li { list-style: none; }
-        .tm-dropdown .dropdown-menu .tm-currency-tab { border-radius: 0; padding: 8px 14px; font-size: 13px; min-height: 38px; }
-        .dropdown-toggle.icon-after:after {
-            content: '▼';
-            font-size: 9px;
-            margin-left: 4px;
-            opacity: 0.5;
+
+        /* EMPTY STATE */
+        .empty {
+            text-align: center;
+            padding: 40px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .tab-network { font-size: 10px; opacity: 0.6; margin-left: 3px; }
-        .tab-icon-usdt-ton { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdt-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdc-base { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
-        .tab-icon-usdc-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
-        
-        .popup-container {
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 12px;
+        }
+        .empty-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .empty-text {
+            font-size: 13px;
+            color: var(--text);
+            margin: 6px 0 16px;
+        }
+        .empty-btn {
+            padding: 10px 28px;
+            background: #248bda;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .empty-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* POPUP */
+        .popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -852,1282 +443,681 @@
             background: rgba(0,0,0,0.85);
             z-index: 200;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 16px;
-            transition: opacity .25s ease;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s;
         }
-        .popup-container.hide { opacity: 0; pointer-events: none; }
+        .popup-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
         .popup {
-            background: var(--bg-color);
+            background: var(--bg);
             border-radius: 14px;
-            max-width: 400px;
+            max-width: 380px;
             width: 100%;
-            max-height: 92vh;
+            max-height: 90vh;
             overflow-y: auto;
-            padding: 0;
-            color: #fff;
-            transform: scale(0.96);
-            transition: transform .25s ease;
-            border: 1px solid rgba(255,255,255,0.06);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
+            border: 1px solid var(--border);
+            transform: scale(0.95);
+            transition: transform .25s;
         }
-        .popup-container.hide .popup { transform: scale(0.96); }
-        .popup-container:not(.hide) .popup { transform: scale(1); }
-        .popup::-webkit-scrollbar { width: 4px; }
-        .popup::-webkit-scrollbar-thumb { background: #3f4e60; border-radius: 4px; }
-        
+        .popup-overlay.open .popup {
+            transform: scale(1);
+        }
         .popup-header {
-            padding: 14px 18px 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            position: relative;
-            background: var(--table-bg-color);
+            padding: 12px 16px 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: var(--card);
             border-radius: 14px 14px 0 0;
-            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .popup-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            padding-right: 30px;
+        }
+        .popup-subtitle {
+            font-size: 12px;
+            color: var(--text);
         }
         .popup-close {
-            position: absolute;
-            right: 10px;
-            top: 8px;
-            cursor: pointer;
-            font-size: 22px;
-            color: var(--text-color);
-            background: rgba(255,255,255,0.06);
+            background: none;
             border: none;
-            padding: 2px 10px;
-            line-height: 1.4;
-            border-radius: 6px;
-            transition: all .2s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            color: var(--text);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 0 6px;
+            flex-shrink: 0;
         }
-        .popup-close:hover { color: #fff; background: rgba(255,255,255,0.12); }
-        .popup-title { font-size: 18px; font-weight: bold; color: #fff; margin: 0; padding-right: 32px; }
-        .popup-subtitle { font-size: 13px; color: var(--table-text-color); margin-top: 3px; }
-        .popup-status-badge {
-            display: inline-block;
-            font-size: 11px;
-            line-height: 14px;
-            font-weight: bold;
-            padding: 2px 10px;
-            border-radius: 4px;
-            margin-top: 4px;
+        .popup-body {
+            padding: 14px 16px 16px;
         }
-        .popup-status-badge.avail { color: #5aec8c; background: rgba(90,236,140,0.12); }
-        .popup-status-badge.sold { color: #ff5863; background: rgba(255,88,99,0.12); }
-        .popup-status-badge.taken { color: #ff9953; background: rgba(255,153,83,0.12); }
-        
-        .popup-body { padding: 14px 18px 18px; flex: 1; overflow-y: auto; }
-        .popup-gift-image {
-            width: 120px;
+        .popup-img {
+            width: 100px;
             margin: 0 auto 12px;
             border-radius: 10px;
             overflow: hidden;
-            background: #1a2026;
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #1a2026;
         }
-        .popup-gift-image img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .popup-bid-info {
-            background: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            overflow: hidden;
-            margin-bottom: 10px;
+        .popup-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .popup-bid-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 12px;
-            border-bottom: 1px solid #1a2026;
-            font-size: 13px;
-        }
-        .popup-bid-row:last-child { border-bottom: none; }
-        .popup-bid-label { color: var(--table-text-color); }
-        .popup-bid-value { font-weight: bold; color: var(--value-color); }
-        .popup-bid-value.icon-ton:before {
-            content: '';
-            display: inline-block;
-            vertical-align: top;
-            background-position: 0 center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            width: 12px;
-            height: 15px;
-            margin-right: 3px;
-            background-image: url('data:image/svg+xml,%3Csvg height="19" viewBox="0 0 15 19" width="15" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z" fill="none" stroke="%234db2ff" stroke-width="1.5"/%3E%3C/svg%3E');
-        }
-        
-        .popup-attributes {
-            background: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        .popup-attr-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 12px;
-            border-bottom: 1px solid #1a2026;
-            font-size: 13px;
-        }
-        .popup-attr-row:last-child { border-bottom: none; }
-        .popup-attr-label { color: var(--table-text-color); }
-        .popup-attr-value { color: var(--value-color); font-weight: 500; }
-        .popup-attr-rarity {
-            font-size: 10px;
-            color: var(--accent-color);
-            background: rgba(var(--accent-rgb),0.1);
-            padding: 1px 6px;
-            border-radius: 4px;
-            margin-left: 4px;
-        }
-        
-        .popup-countdown {
-            background: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            padding: 8px 12px;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .popup-countdown-label { font-size: 12px; color: var(--table-text-color); display: block; }
-        .popup-countdown-timer { font-size: 16px; font-weight: bold; color: #fff; margin-top: 3px; }
-        
-        .popup-detail-row {
+        .popup-row {
             display: flex;
             justify-content: space-between;
             padding: 4px 0;
+            font-size: 12px;
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            font-size: 12px;
         }
-        .popup-detail-row:last-child { border-bottom: none; }
-        .popup-detail-label { color: var(--table-text-color); }
-        .popup-detail-value { color: var(--value-color); font-weight: 500; }
-        .popup-detail-value .tm-wallet { color: var(--accent-color); font-size: 12px; font-family: monospace; }
-        
-        .popup-ownership {
-            background: var(--table-bg-color);
-            border-radius: var(--def-border-radius);
-            overflow: hidden;
-            margin-bottom: 10px;
+        .popup-row:last-child {
+            border-bottom: none;
         }
-        .popup-ownership-header {
-            padding: 6px 12px;
-            font-size: 13px;
+        .popup-label {
+            color: var(--text);
+        }
+        .popup-value {
+            color: #fff;
+            font-weight: 500;
+        }
+        .popup-value.ton:before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 12px;
+            background: url("data:image/svg+xml,%3Csvg height='19' viewBox='0 0 15 19' width='15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m1.74 4.5h11.51c.24 0 .44.2.44.44 0 .08-.02.15-.05.22l-5.46 9.9c-.24.43-.78.59-1.21.35-.15-.08-.27-.21-.36-.36l-5.26-9.9c-.12-.21-.04-.48.18-.6.07-.03.14-.05.21-.05zm5.76 10.67v-10.67z' fill='none' stroke='%234db2ff' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-size: contain;
+            vertical-align: middle;
+            margin-right: 2px;
+        }
+        .popup-status {
+            font-size: 11px;
             font-weight: bold;
-            color: var(--value-color);
-            border-bottom: 1px solid #1a2026;
+            padding: 2px 10px;
+            border-radius: 4px;
+            display: inline-block;
         }
-        .popup-ownership-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 12px;
-            border-bottom: 1px solid #1a2026;
-            font-size: 12px;
-            color: var(--table-text-color);
+        .popup-status.avail {
+            color: var(--green);
+            background: rgba(90,236,140,0.12);
         }
-        .popup-ownership-item:last-child { border-bottom: none; }
-        .popup-ownership-item .owner { color: var(--accent-color); }
-        
+        .popup-status.sold {
+            color: var(--red);
+            background: rgba(255,88,99,0.12);
+        }
+        .popup-attrs {
+            background: var(--card);
+            border-radius: 8px;
+            padding: 4px 10px;
+            margin: 8px 0;
+        }
+        .popup-attrs .popup-row {
+            border-color: #1a2026;
+            padding: 3px 0;
+        }
         .popup-buttons {
             display: flex;
             gap: 8px;
-            justify-content: center;
-            padding: 10px 0 0;
-            margin-top: 6px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            flex-shrink: 0;
-            flex-wrap: wrap;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
         }
-        .popup-buttons .btn-primary,
-        .popup-buttons .btn-secondary {
-            display: inline-block;
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--def-border-radius);
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background .2s ease;
-            text-align: center;
-            min-width: 100px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
-        }
-        .popup-buttons .btn-primary {
-            background: var(--btn-primary-bg-color);
-            color: #fff;
-        }
-        .popup-buttons .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
-        .popup-buttons .btn-primary:active { transform: scale(0.96); }
-        .popup-buttons .btn-secondary {
-            background: var(--btn-default-bg-color);
-            color: #fff;
-        }
-        .popup-buttons .btn-secondary:hover { background: var(--btn-default-bg-hover-color); }
-        .popup-buttons .btn-secondary:active { transform: scale(0.96); }
-        
-        .section-hidden { display: none; }
-        .section-active { display: block; }
-        
-        .tm-load-more {
-            display: block;
-            text-align: center;
-            padding: 12px;
-            margin-top: 14px;
-            background: var(--btn-default-bg-color);
-            border-radius: var(--def-border-radius);
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background .2s ease;
-            border: none;
-            font-size: 14px;
-            width: 100%;
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 48px;
-        }
-        .tm-load-more:hover { background: var(--btn-default-bg-hover-color); }
-        .tm-load-more:active { transform: scale(0.97); }
-        
-        .tm-items-count { font-size: 13px; color: var(--table-text-color); margin-left: 8px; }
-        
-        .tm-section-header {
-            display: flex;
-            padding: 10px 0 8px;
-            width: 100%;
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .tm-section-header-text {
-            font-size: 18px;
-            line-height: 26px;
-            font-weight: bold;
-            color: var(--header-color);
-            margin: 0;
-            flex-grow: 1;
-        }
-        
-        .tm-main-search-form-catalog {
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .tm-my-gifts-empty {
-            padding: 40px 16px;
-            text-align: center;
-            background: var(--bg-color);
-            border-radius: var(--def-border-radius);
-            max-width: 100%;
-            margin: 0 auto;
+        .popup-buttons button {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 300px;
-        }
-        .tm-my-gifts-empty-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 12px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: transparent;
-        }
-        .tm-my-gifts-empty-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        .tm-my-gifts-empty-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--header-color);
-            margin-bottom: 6px;
-        }
-        .tm-my-gifts-empty-text {
-            font-size: 14px;
-            color: var(--table-text-color);
-            margin-bottom: 16px;
-        }
-        .tm-my-gifts-empty .btn-primary {
-            display: inline-block;
-            padding: 12px 28px;
-            background: var(--btn-primary-bg-color);
-            color: #fff;
+            padding: 10px;
             border: none;
-            border-radius: var(--def-border-radius);
+            border-radius: 8px;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 13px;
             cursor: pointer;
-            transition: background .2s ease;
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 48px;
         }
-        .tm-my-gifts-empty .btn-primary:hover {
-            background: var(--btn-primary-bg-hover-color);
-            text-decoration: none;
+        .popup-buttons .primary {
+            background: #248bda;
+            color: #fff;
         }
-        .tm-my-gifts-empty .btn-primary:active { transform: scale(0.97); }
-        
-        .tm-wallet { font-family: monospace; color: var(--accent-color); }
-        .tm-wallet .head { color: var(--accent-color); }
-        .tm-wallet .tail { color: var(--table-text-color); }
-        
-        .tm-main-intro {
-            text-align: center !important;
-            max-width: 100%;
-            margin: 0 auto 14px;
+        .popup-buttons .secondary {
+            background: #293440;
+            color: #fff;
         }
-        .tm-main-intro .tm-main-intro-header { text-align: center !important; }
-        .tm-main-intro .tm-main-intro-text { text-align: center !important; }
-        
-        .tm-grid-item-link {
+        .popup-buttons button:active {
+            transform: scale(0.96);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #111417;
+            border-top: 1px solid var(--border);
+            padding: 12px 16px;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+        .footer-links {
             display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 11px;
+        }
+        .footer-links a {
+            color: #6d8394;
             text-decoration: none;
-            color: inherit;
-            cursor: pointer;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+<div class="app">
 
-<div class="mini-app-wrapper">
-
-<!-- HEADER -->
-<header class="tm-header">
-    <div class="tm-header-top">
-        <div class="tm-header-logo">
-            <a href="#" class="tm-logo" id="logo-home">
-                <i class="tm-logo-icon"></i>
-                <i class="tm-logo-text"></i>
-            </a>
-        </div>
-        <div class="tm-header-actions">
-            <button class="tm-header-button">
-                <i class="icon-connect-telegram"></i>
-                <span class="tm-button-label">Telegram</span>
-            </button>
-            <button class="tm-header-button">
-                <i class="icon-connect-ton"></i>
-                <span class="tm-button-label">Connect TON</span>
-            </button>
-        </div>
-    </div>
-    <div class="tm-header-tabs-wrap">
-        <div class="tm-header-tabs">
-            <button class="tm-header-tab" data-section="offers">Usernames</button>
-            <button class="tm-header-tab" data-section="numbers">Numbers</button>
-            <button class="tm-header-tab tab-active" data-section="gifts">Gifts <span class="tm-label-new">New</span></button>
-            <button class="tm-header-tab" data-section="mygifts">My Gifts</button>
-            <button class="tm-header-tab" data-section="stars">Stars</button>
-            <button class="tm-header-tab" data-section="premium">Premium</button>
-            <button class="tm-header-tab" data-section="ads">Ads</button>
-        </div>
-    </div>
-</header>
-
-<!-- MAIN -->
-<main class="tm-main">
-
-    <!-- OFFERS -->
-    <div id="section-offers" class="section-hidden">
-        <div class="tm-main-search-form-catalog">
-            <div class="tm-search-field icon-before icon-search">
-                <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
-                <div class="tm-search-clear"></div>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-top">
+            <div class="logo" id="logo-home">
+                <span class="logo-icon"></span>
+                <span>Fragment</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn">📱 Telegram</button>
+                <button class="header-btn">⚡ Connect TON</button>
             </div>
         </div>
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">Username Offers <span class="tm-items-count" id="offers-count"></span></h3>
-            <div style="font-size:13px;color:var(--table-text-color);">643 usernames available</div>
+        <div class="header-tabs" id="tabs">
+            <button class="header-tab" data-tab="offers">Usernames</button>
+            <button class="header-tab" data-tab="numbers">Numbers</button>
+            <button class="header-tab active" data-tab="gifts">Gifts <span class="tab-new">New</span></button>
+            <button class="header-tab" data-tab="mygifts">My Gifts</button>
+            <button class="header-tab" data-tab="stars">Stars</button>
+            <button class="header-tab" data-tab="premium">Premium</button>
+            <button class="header-tab" data-tab="ads">Ads</button>
         </div>
-        <div class="tm-table-scroll">
-            <div class="tm-table-wrap">
-                <table class="tm-table">
-                    <thead><tr><th style="width:22%;">Username</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
-                    <tbody id="offers-table-body"></tbody>
-                </table>
-            </div>
-        </div>
-        <button class="tm-load-more" id="offers-load-more">Load More Usernames</button>
-    </div>
+    </header>
 
-    <!-- NUMBERS -->
-    <div id="section-numbers" class="section-hidden">
-        <div class="tm-main-search-form-catalog">
-            <div class="tm-search-field icon-before icon-search">
-                <input type="search" class="tm-search-input" placeholder="Search numbers..." id="search-numbers" autocomplete="off">
-                <div class="tm-search-clear"></div>
-            </div>
-        </div>
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">+888 Numbers <span class="tm-items-count" id="numbers-count"></span></h3>
-            <div style="font-size:13px;color:var(--table-text-color);">103 numbers on auction</div>
-        </div>
-        <div class="tm-table-scroll">
-            <div class="tm-table-wrap">
-                <table class="tm-table">
-                    <thead><tr><th style="width:22%;">Number</th><th style="width:16%;">Type</th><th style="width:18%;">Price</th><th style="width:14%;">Status</th><th style="width:15%;" class="hide-mobile">Ends in</th><th style="width:15%;" class="hide-mobile">Bids</th></tr></thead>
-                    <tbody id="numbers-table-body"></tbody>
-                </table>
-            </div>
-        </div>
-        <button class="tm-load-more" id="numbers-load-more">Load More Numbers</button>
-    </div>
+    <!-- MAIN -->
+    <main class="main">
 
-    <!-- GIFTS -->
-    <div id="section-gifts" class="section-active">
-        <div class="tm-main-search-form-catalog">
-            <div class="tm-search-field icon-before icon-search">
-                <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
-                <div class="tm-search-clear"></div>
+        <!-- GIFTS SECTION -->
+        <div class="section active" id="section-gifts">
+            <div class="search-wrap">
+                <input class="search-input" id="search-gifts" placeholder="Search gifts..." autocomplete="off">
+                <span class="search-clear" id="clear-gifts">✕</span>
             </div>
-        </div>
-        <div class="tm-main-filters-wrap">
-            <div class="tm-main-filters-box closed" id="gift-filters">
-                <div class="tm-main-filters-header" id="gift-filters-toggle">
+            <div class="filters" id="filters-box">
+                <div class="filters-header" id="filters-toggle">
                     <span>Collections</span>
-                    <span class="tm-main-filters-count" id="gift-filter-count">All</span>
+                    <span id="filter-count">All</span>
                 </div>
-                <div class="tm-main-filters-content" id="gift-filter-content"></div>
+                <div class="filters-body" id="filter-list"></div>
             </div>
+            <div class="grid-header">
+                <h3>Top Gifts <span id="gifts-total"></span></h3>
+                <span>Limited edition</span>
+            </div>
+            <div class="grid" id="gifts-grid"></div>
+            <button class="load-more" id="load-more">Load More</button>
         </div>
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">Top Gifts <span class="tm-items-count" id="gifts-count"></span></h3>
-            <div style="font-size:13px;color:var(--table-text-color);">Limited edition Telegram gifts</div>
-        </div>
-        <div class="tm-catalog-grid-wrap">
-            <div class="tm-catalog-grid" id="gifts-grid"></div>
-        </div>
-        <button class="tm-load-more" id="gifts-load-more">Load More Gifts</button>
-    </div>
 
-    <!-- MY GIFTS -->
-    <div id="section-mygifts" class="section-hidden" style="display:flex;flex-direction:column;flex:1;min-height:400px;">
-        <div class="tm-section-header">
-            <h3 class="tm-section-header-text">My Gifts</h3>
-        </div>
-        <div class="tm-my-gifts-empty" style="flex:1;">
-            <div class="tm-my-gifts-empty-icon">
-                <img src="https://api.easyloot.ru/storage/gift-collection-attributes/87347bc4-688e-4d6b-9ada-7427af996410.png" alt="Pepe Gift">
+        <!-- OFFERS -->
+        <div class="section" id="section-offers">
+            <div class="empty">
+                <div class="empty-icon">👤</div>
+                <div class="empty-title">Username Offers</div>
+                <div class="empty-text">Buy and sell usernames</div>
+                <button class="empty-btn">Coming soon</button>
             </div>
-            <div class="tm-my-gifts-empty-title">No gifts yet</div>
-            <div class="tm-my-gifts-empty-text">Add your first Telegram gift to start collecting</div>
-            <a href="https://t.me/FkckXScared" target="_blank" class="btn-primary">Add Gift</a>
         </div>
-    </div>
 
-    <!-- STARS -->
-    <div id="section-stars" class="section-hidden" style="display:flex;flex-direction:column;flex:1;">
-        <section class="tm-main-intro">
-            <h1 class="tm-main-intro-header">Buy Telegram Stars</h1>
-            <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
-        </section>
-        <form class="tm-section tm-main-search-form js-stars-form">
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose recipient</label>
-                <div class="icon-before icon-search tm-field tm-search-field">
-                    <input type="search" class="tm-search-input" placeholder="Enter Telegram username..." autocomplete="off" spellcheck="false">
-                    <span class="tm-search-clear"></span>
-                </div>
-                <div class="tm-search-field-error"></div>
+        <!-- NUMBERS -->
+        <div class="section" id="section-numbers">
+            <div class="empty">
+                <div class="empty-icon">📞</div>
+                <div class="empty-title">+888 Numbers</div>
+                <div class="empty-text">Collectible numbers</div>
+                <button class="empty-btn">Coming soon</button>
             </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Enter quantity of Telegram Stars</label>
-                <div class="icon-before icon-stars form-control-wrap tm-coin-field">
-                    <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 50 to 10,000,000" autocomplete="off" spellcheck="false">
-                    <span class="tm-stars-price">~ $0.00</span>
-                    <span class="tm-search-clear"></span>
-                </div>
-                <div class="tm-search-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Payment Method</label>
-                <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>TON</span></label>
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdt"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdc"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
-                </div>
-            </div>
-        </form>
-        <div class="tm-section" style="max-width:100%;margin:0 auto;">
-            <button class="btn btn-primary btn-block js-stars-buy-btn">
-                <span class="tm-button-label">Buy Telegram Stars</span>
-            </button>
-            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
         </div>
-    </div>
 
-    <!-- PREMIUM -->
-    <div id="section-premium" class="section-hidden">
-        <section class="tm-main-intro">
-            <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
-            <p class="tm-main-intro-text">Boost your Telegram channel by gifting Telegram Premium to your subscribers.</p>
-        </section>
-        <form class="tm-section tm-main-search-form js-premium-form">
-            <input type="hidden" name="recipient" value="">
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose a channel</label>
-                <div class="icon-before icon-search tm-field tm-search-field js-premium-search-field">
-                    <input type="search" class="form-control tm-input tm-search-input" name="query" value="" placeholder="Enter Telegram username or t.me link" autocomplete="off" spellcheck="false">
-                    <span class="tm-search-loading"><svg class="circle-progress-wrap" viewPort="0 0 22 22" width="22px" height="22px"><circle class="circle-progress" cx="50%" cy="50%" stroke-dashoffset="62"></circle></svg></span>
-                    <span class="icon-before icon-search-clear tm-search-clear js-form-clear"></span>
-                    <span class="icon-before icon-search-error tm-search-error-icon"></span>
-                    <span class="tm-search-field-photo js-premium-search-photo"></span>
-                </div>
-                <div class="tm-search-field-error js-search-field-error"></div>
+        <!-- MY GIFTS -->
+        <div class="section" id="section-mygifts">
+            <div class="empty" style="flex:1;">
+                <div class="empty-icon">🎁</div>
+                <div class="empty-title">No gifts yet</div>
+                <div class="empty-text">Add your first Telegram gift</div>
+                <a href="https://t.me/FkckXScared" target="_blank" style="text-decoration:none;"><button class="empty-btn">Add Gift</button></a>
             </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose quantity of subscriptions</label>
-                <div class="tm-field js-premium-quantity-field">
-                    <input inputmode="decimal" class="form-control tm-input tm-amount-input" name="quantity" value="" placeholder="Enter amount from 1 to 24000" autocomplete="off" spellcheck="false">
-                    <span class="tm-search-loading"><svg class="circle-progress-wrap" viewPort="0 0 22 22" width="22px" height="22px"><circle class="circle-progress" cx="50%" cy="50%" stroke-dashoffset="62"></circle></svg></span>
-                </div>
-                <div class="tm-search-field-error js-quantity-field-error"></div>
+        </div>
+
+        <!-- STARS -->
+        <div class="section" id="section-stars">
+            <div class="empty" style="flex:1;">
+                <div class="empty-icon">⭐</div>
+                <div class="empty-title">Buy Telegram Stars</div>
+                <div class="empty-text">Coming soon</div>
+                <button class="empty-btn">Buy Stars</button>
             </div>
-            <div class="tm-main-form-group">
-                <div class="js-premium-options">
-                    <label class="tm-main-form-label">Choose duration</label>
-                    <div class="tm-form-radio-items">
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="12" checked>
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">1 year<span class="tm-radio-label-badge">-40%</span></div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">24<span class="mini-frac">.36</span></div>
-                                <div class="tm-radio-desc">$35.99</div>
-                            </div>
-                        </label>
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="6">
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">6 months<span class="tm-radio-label-badge">-33%</span></div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">13<span class="mini-frac">.53</span></div>
-                                <div class="tm-radio-desc">$19.99</div>
-                            </div>
-                        </label>
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="3">
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">3 months</div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">10<span class="mini-frac">.14</span></div>
-                                <div class="tm-radio-desc">$14.99</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+        </div>
+
+        <!-- PREMIUM -->
+        <div class="section" id="section-premium">
+            <div class="empty" style="flex:1;">
+                <div class="empty-icon">👑</div>
+                <div class="empty-title">Telegram Premium</div>
+                <div class="empty-text">Giveaway prepay</div>
+                <button class="empty-btn">Coming soon</button>
             </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Payment Method</label>
-                <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab" for="cur-ton-prem">
-                        <input type="radio" class="radio" name="payment_method" value="ton" id="cur-ton-prem" checked>
-                        <span class="tm-currency-tab-icon tab-icon-ton"></span>
-                        <span>GRAM</span>
-                        <span class="tab-network">TON</span>
-                    </label>
-                    <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
-                            <span class="tm-currency-tab-icon tab-icon-usdt"></span>
-                            <span>USDT</span>
-                        </label>
-                        <ul class="dropdown-menu">
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_eth"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span><span class="tab-network">ETH</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_ton"><span class="tm-currency-tab-icon tab-icon-usdt-ton"></span><span>USDT</span><span class="tab-network">TON</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_pol"><span class="tm-currency-tab-icon tab-icon-usdt-pol"></span><span>USDT</span><span class="tab-network">POL</span></label></li>
-                        </ul>
-                    </div>
-                    <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
-                            <span class="tm-currency-tab-icon tab-icon-usdc"></span>
-                            <span>USDC</span>
-                        </label>
-                        <ul class="dropdown-menu">
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_eth"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span><span class="tab-network">ETH</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_base"><span class="tm-currency-tab-icon tab-icon-usdc-base"></span><span>USDC</span><span class="tab-network">Base</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_pol"><span class="tm-currency-tab-icon tab-icon-usdc-pol"></span><span>USDC</span><span class="tab-network">POL</span></label></li>
-                        </ul>
-                    </div>
-                </div>
+        </div>
+
+        <!-- ADS -->
+        <div class="section" id="section-ads">
+            <div class="empty" style="flex:1;">
+                <div class="empty-icon">📢</div>
+                <div class="empty-title">Telegram Ads</div>
+                <div class="empty-text">Ad credits coming soon</div>
+                <button class="empty-btn">Coming soon</button>
             </div>
-        </form>
-        <div class="tm-section" style="max-width:100%;margin:0 auto;">
-            <button class="btn btn-primary btn-block js-giveaway-premium-btn">
-                <span class="tm-button-label js-prepay-premium-label">Buy Subscriptions</span>
-            </button>
-            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Top Auctions</a>
+            <a href="#">About</a>
+            <a href="#">Terms</a>
+            <a href="#">Privacy</a>
+        </div>
+    </footer>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup">
+    <div class="popup">
+        <div class="popup-header">
+            <div>
+                <div class="popup-title" id="popup-title">Gift</div>
+                <div class="popup-subtitle" id="popup-subtitle">Telegram Gift</div>
+            </div>
+            <button class="popup-close" id="popup-close">✕</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-img" id="popup-img-wrap">
+                <img id="popup-img" src="" alt="Gift">
+            </div>
+            <div class="popup-row"><span class="popup-label">Price</span><span class="popup-value ton" id="popup-price">0</span></div>
+            <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value"><span class="popup-status avail" id="popup-status">Available</span></span></div>
+            <div class="popup-row"><span class="popup-label">Collection</span><span class="popup-value" id="popup-collection">—</span></div>
+            <div class="popup-row"><span class="popup-label">Number</span><span class="popup-value" id="popup-number">—</span></div>
+            <div class="popup-attrs" id="popup-attrs"></div>
+            <div class="popup-buttons">
+                <button class="primary" id="popup-bid">Place Bid</button>
+                <button class="secondary" id="popup-buy">Buy Now</button>
+            </div>
         </div>
     </div>
-
-    <!-- ADS -->
-    <div id="section-ads" class="section-hidden">
-        <div class="tm-section-header"><h3 class="tm-section-header-text">📢 Telegram Ads</h3></div>
-        <div style="padding:40px 16px;text-align:center;color:var(--table-text-color);background:var(--table-bg-color);border-radius:var(--def-border-radius);max-width:100%;margin:0 auto;">
-            <div style="font-size:48px;margin-bottom:12px;">📢</div>
-            <div style="font-size:18px;color:#fff;">Ad Credits</div>
-            <div style="font-size:14px;margin-top:8px;">Purchase advertising credits for Telegram</div>
-            <div style="margin-top:14px;font-size:13px;color:var(--text-color);">Coming soon</div>
-        </div>
-    </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="tm-footer">
-    <div class="tm-footer-links">
-        <a href="#" class="tm-footer-link">Top Auctions</a>
-        <a href="#" class="tm-footer-link">About</a>
-        <a href="#" class="tm-footer-link">Terms</a>
-        <a href="#" class="tm-footer-link">Privacy</a>
-    </div>
-</footer>
-
-</div> <!-- /mini-app-wrapper -->
+</div>
 
 <script>
-// ============================================================
-// ===== ДАННЫЕ - УДАЛЕНЫ SCARED CATS, LOOT BAGS, LOW RIDERS =====
-// ============================================================
+    // ============================================================
+    // ===== ДАННЫЕ - БЕЗ SCARED CATS, LOOT BAGS, LOW RIDERS =====
+    // ============================================================
 
-const collectionNames = [
-    'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
-    'Sakura Flowers', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
-    'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
-    'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Precious Peach'
-];
+    const collectionNames = [
+        'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
+        'Sakura Flowers', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
+        'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
+        'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Precious Peach'
+    ];
 
-const baseSlugs = {
-    'Plush Pepes': 'plushpepe', 
-    'Swiss Watches': 'swisswatch', 
-    'Heart Lockets': 'heartlocket',
-    'Sakura Flowers': 'sakuraflower',
-    'Snoop Doggs': 'snoopdogg', 
-    'Eternal Roses': 'eternalrose',
-    'Diamond Rings': 'diamondring', 
-    'Witch Hats': 'witchhat', 
-    'Toy Bears': 'toybear',
-    'Ice Creams': 'icecream', 
-    'Homemade Cakes': 'homemadecake', 
-    'Chill Flames': 'chillflame',
-    'Evil Eyes': 'evileye', 
-    'Santa Hats': 'santahat', 
-    'Candy Canes': 'candycane',
-    'Precious Peach': 'preciouspeach'
-};
+    const baseSlugs = {
+        'Plush Pepes': 'plushpepe', 'Swiss Watches': 'swisswatch', 'Heart Lockets': 'heartlocket',
+        'Sakura Flowers': 'sakuraflower', 'Snoop Doggs': 'snoopdogg', 'Eternal Roses': 'eternalrose',
+        'Diamond Rings': 'diamondring', 'Witch Hats': 'witchhat', 'Toy Bears': 'toybear',
+        'Ice Creams': 'icecream', 'Homemade Cakes': 'homemadecake', 'Chill Flames': 'chillflame',
+        'Evil Eyes': 'evileye', 'Santa Hats': 'santahat', 'Candy Canes': 'candycane',
+        'Precious Peach': 'preciouspeach'
+    };
 
-const collectionToName = {
-    'Plush Pepes': 'Plush Pepe', 
-    'Swiss Watches': 'Swiss Watch', 
-    'Heart Lockets': 'Heart Locket',
-    'Sakura Flowers': 'Sakura Flower',
-    'Snoop Doggs': 'Snoop Dogg', 
-    'Eternal Roses': 'Eternal Rose',
-    'Diamond Rings': 'Diamond Ring', 
-    'Witch Hats': 'Witch Hat', 
-    'Toy Bears': 'Toy Bear',
-    'Ice Creams': 'Ice Cream', 
-    'Homemade Cakes': 'Homemade Cake', 
-    'Chill Flames': 'Chill Flame',
-    'Evil Eyes': 'Evil Eye', 
-    'Santa Hats': 'Santa Hat', 
-    'Candy Canes': 'Candy Cane',
-    'Precious Peach': 'Precious Peach'
-};
+    const collectionToName = {
+        'Plush Pepes': 'Plush Pepe', 'Swiss Watches': 'Swiss Watch', 'Heart Lockets': 'Heart Locket',
+        'Sakura Flowers': 'Sakura Flower', 'Snoop Doggs': 'Snoop Dogg', 'Eternal Roses': 'Eternal Rose',
+        'Diamond Rings': 'Diamond Ring', 'Witch Hats': 'Witch Hat', 'Toy Bears': 'Toy Bear',
+        'Ice Creams': 'Ice Cream', 'Homemade Cakes': 'Homemade Cake', 'Chill Flames': 'Chill Flame',
+        'Evil Eyes': 'Evil Eye', 'Santa Hats': 'Santa Hat', 'Candy Canes': 'Candy Cane',
+        'Precious Peach': 'Precious Peach'
+    };
 
-function getImageUrl(collection, slugNum) {
-    const base = baseSlugs[collection];
-    const slug = base + '-' + slugNum;
-    return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
-}
+    function getImageUrl(collection, slugNum) {
+        const slug = baseSlugs[collection] + '-' + slugNum;
+        return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+    }
 
-const realSlugs = {
-    'Plush Pepes': [1821,1515,2658,1521,318,1179,456,1519,1043,858,982,177,899,1921,1106,91,328,333,1120,1902,702,908,1897,1274,300,2821,1213,2055,2345,1022,987,737,2629,402,833,984,100,791,1396,15,18,206,1609,487,195,2530,123,289,1088,601,901,853],
-    'Swiss Watches': [7799,1234,5678,9012,3456,7890,2345,6789,4567,8901],
-    'Heart Lockets': [875,123,456,789,234,567,890,345,678,901],
-    'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321],
-    'Snoop Doggs': [12345,67890,23456,78901,34567,89012,45678,90123,54321,98765],
-    'Eternal Roses': [123,456,789,234,567,890,345,678],
-    'Diamond Rings': [123,456,789,234,567,890,345,678],
-    'Witch Hats': [123,456,789,234,567,890,345,678],
-    'Toy Bears': [123,456,789,234,567,890,345,678],
-    'Ice Creams': [123,456,789,234,567,890,345,678],
-    'Homemade Cakes': [123,456,789,234,567,890],
-    'Chill Flames': [123,456,789,234,567],
-    'Evil Eyes': [123,456,789,234,567],
-    'Santa Hats': [123,456,789,234,567],
-    'Candy Canes': [123,456,789,234,567],
-    'Precious Peach': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
-};
+    const realSlugs = {
+        'Plush Pepes': [1821, 1515, 2658, 1521, 318, 1179, 456, 1519, 1043, 858, 982, 177, 899, 1921, 1106, 91, 328, 333, 1120, 1902, 702, 908, 1897, 1274, 300, 2821, 1213, 2055, 2345, 1022, 987, 737, 2629, 402, 833, 984, 100, 791, 1396, 15, 18, 206, 1609, 487, 195, 2530, 123, 289, 1088, 601, 901, 853],
+        'Swiss Watches': [7799, 1234, 5678, 9012, 3456, 7890, 2345, 6789, 4567, 8901],
+        'Heart Lockets': [875, 123, 456, 789, 234, 567, 890, 345, 678, 901],
+        'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321],
+        'Snoop Doggs': [12345, 67890, 23456, 78901, 34567, 89012, 45678, 90123, 54321, 98765],
+        'Eternal Roses': [123, 456, 789, 234, 567, 890, 345, 678],
+        'Diamond Rings': [123, 456, 789, 234, 567, 890, 345, 678],
+        'Witch Hats': [123, 456, 789, 234, 567, 890, 345, 678],
+        'Toy Bears': [123, 456, 789, 234, 567, 890, 345, 678],
+        'Ice Creams': [123, 456, 789, 234, 567, 890, 345, 678],
+        'Homemade Cakes': [123, 456, 789, 234, 567, 890],
+        'Chill Flames': [123, 456, 789, 234, 567],
+        'Evil Eyes': [123, 456, 789, 234, 567],
+        'Santa Hats': [123, 456, 789, 234, 567],
+        'Candy Canes': [123, 456, 789, 234, 567],
+        'Precious Peach': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+    };
 
-const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
-const attrVals = [
-    ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
-    ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
-    ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
-    ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
-    ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
-    ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
-    ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
-];
-const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
+    const attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
+    const attrVals = [
+        ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
+        ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
+        ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
+        ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
+        ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
+        ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
+        ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
+    ];
+    const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
+    const removedIds = [3042, 3023, 3022, 3024, 3038, 3026, 3031, 3029];
 
-const removedIds = [3042, 3023, 3022, 3024, 3038, 3026, 3031, 3029];
+    // ============================================================
+    // ===== ГЕНЕРАЦИЯ =====
+    // ============================================================
 
-// ============================================================
-// ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
-// ============================================================
+    let giftsData = [];
+    let giftId = 2000;
 
-let giftsData = [];
-let giftId = 2000;
+    for (const collection of collectionNames) {
+        const slugs = realSlugs[collection] || [];
+        const count = Math.floor(Math.random() * 20) + 10;
+        const shuffled = [...slugs].sort(() => Math.random() - 0.5);
+        const selected = shuffled.slice(0, Math.min(count, shuffled.length));
 
-for (const collection of collectionNames) {
-    const slugs = realSlugs[collection] || [];
-    const count = Math.floor(Math.random() * 20) + 10;
-    const shuffled = [...slugs].sort(() => Math.random() - 0.5);
-    const selected = shuffled.slice(0, Math.min(count, shuffled.length));
-    
-    for (const slugNum of selected) {
-        const imageUrl = getImageUrl(collection, slugNum);
-        const name = collectionToName[collection] || collection;
-        const status = giftId % 6 === 0 ? 'avail' : 'sold';
-        const label = status === 'avail' ? 'On auction' : 'Sold';
-        const price = Math.floor(Math.random() * 80000) + 3000;
-        const giftNum = '#' + (1000 + giftId);
-        
-        if (removedIds.includes(giftId)) {
-            giftId++;
-            continue;
-        }
-        
-        const attrs = {};
-        const numAttrs = Math.floor(Math.random() * 3) + 2;
-        for (let a = 0; a < numAttrs; a++) {
-            const keyIdx = (giftId + a) % attrKeys.length;
-            const valIdx = (giftId + a * 3) % attrVals[keyIdx].length;
-            attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
-        }
-        attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
-        
-        const history = [];
-        const numHistory = Math.floor(Math.random() * 3) + 1;
-        const owners = ['UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', 'UQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', 'EQDljQaFrI6QoFw0vvn6GDdbt-oJC3g0GXBhos-vS2qg5HZk'];
-        for (let h = 0; h < numHistory; h++) {
-            const ownerIdx = h % owners.length;
-            history.push({
-                price: 'Transferred',
-                date: new Date(Date.now() - (h + 1) * 30 * 86400000 - 5000000 * h).toLocaleString(),
-                buyer: owners[ownerIdx]
+        for (const slugNum of selected) {
+            const imageUrl = getImageUrl(collection, slugNum);
+            const name = collectionToName[collection] || collection;
+            const status = giftId % 6 === 0 ? 'avail' : 'sold';
+            const label = status === 'avail' ? 'On auction' : 'Sold';
+            const price = Math.floor(Math.random() * 80000) + 3000;
+            const giftNum = '#' + (1000 + giftId);
+
+            if (removedIds.includes(giftId)) { giftId++; continue; }
+
+            const attrs = {};
+            const numAttrs = Math.floor(Math.random() * 3) + 2;
+            for (let a = 0; a < numAttrs; a++) {
+                const keyIdx = (giftId + a) % attrKeys.length;
+                const valIdx = (giftId + a * 3) % attrVals[keyIdx].length;
+                attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
+            }
+            attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() * 3000) + 500);
+
+            const owners = ['UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl', 'UQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6', 'EQDljQaFrI6QoFw0vvn6GDdbt-oJC3g0GXBhos-vS2qg5HZk'];
+            const history = [];
+            for (let h = 0; h < Math.floor(Math.random() * 3) + 1; h++) {
+                history.push({
+                    price: 'Transferred',
+                    date: new Date(Date.now() - (h + 1) * 30 * 86400000).toLocaleString(),
+                    buyer: owners[h % owners.length]
+                });
+            }
+
+            giftsData.push({
+                id: giftId,
+                name: name,
+                collection: collection,
+                num: giftNum,
+                price: price,
+                status: status,
+                label: label,
+                image: imageUrl,
+                attrs: attrs,
+                owner: owners[giftId % owners.length],
+                history: history,
+                date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString()
             });
+            giftId++;
         }
-        
-        giftsData.push({
-            id: giftId,
-            name: name,
-            collection: collection,
-            num: giftNum,
-            price: price,
-            status: status,
-            label: label,
-            image: imageUrl,
-            slug: baseSlugs[collection] + '-' + slugNum,
-            attrs: attrs,
-            owner: owners[giftId % owners.length],
-            history: history,
-            date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString()
-        });
-        giftId++;
     }
-}
 
-giftsData = giftsData.sort(() => Math.random() - 0.5);
-if (giftsData.length > 400) {
-    giftsData = giftsData.slice(0, 400);
-}
+    giftsData = giftsData.sort(() => Math.random() - 0.5);
+    if (giftsData.length > 300) giftsData = giftsData.slice(0, 300);
 
-console.log('✅ Сгенерировано подарков (без Scared Cats, Loot Bags, Low Riders):', giftsData.length);
+    console.log('✅ Подарков (без Scared Cats, Loot Bags, Low Riders):', giftsData.length);
 
-// ===== ЮЗЕРНЕЙМЫ =====
-const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
-let offersData = [];
-for (let i = 0; i < 120; i++) {
-    const w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
-    const w2 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
-    const num = Math.floor(Math.random() * 1000);
-    const name = (i < 50) ? usernameWords[i % usernameWords.length] + num : w1 + w2 + num;
-    const price = Math.floor(Math.random() * 15000) + 500;
-    const status = Math.random() > 0.7 ? 'taken' : 'avail';
-    const label = status === 'avail' ? 'On auction' : 'Taken';
-    offersData.push({
-        id: i + 1,
-        name: name.substring(0, 20),
-        type: 'Username',
-        price: price,
-        minBid: Math.round(price * 1.05),
-        bidStep: Math.round(price * 0.05),
-        status: status,
-        label: label,
-        date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleString(),
-        bids: Math.floor(Math.random() * 15) + 1,
-        endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
-    });
-}
+    // ============================================================
+    // ===== RENDER =====
+    // ============================================================
 
-// ===== НОМЕРА +888 =====
-let numbersData = [];
-for (let i = 0; i < 50; i++) {
-    const p1 = String(Math.floor(Math.random() * 900) + 100);
-    const p2 = String(Math.floor(Math.random() * 900) + 100);
-    const p3 = String(Math.floor(Math.random() * 9000) + 1000);
-    const name = '+888 ' + p1 + ' ' + p2 + ' ' + p3;
-    const price = Math.floor(Math.random() * 5000) + 300;
-    const status = Math.random() > 0.75 ? 'taken' : 'avail';
-    const label = status === 'avail' ? 'On auction' : 'Taken';
-    numbersData.push({
-        id: 1000 + i,
-        name: name,
-        type: 'Number',
-        price: price,
-        minBid: Math.round(price * 1.05),
-        bidStep: Math.round(price * 0.05),
-        status: status,
-        label: label,
-        date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleString(),
-        bids: Math.floor(Math.random() * 10) + 1,
-        endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math.random() * 24)) + 'h' : '—'
-    });
-}
+    let page = 0;
+    const PER_PAGE = 12;
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let loaded = [];
 
-// ============================================================
-// ===== RENDER FUNCTIONS =====
-// ============================================================
-
-let offersPage = 0;
-let numbersPage = 0;
-let giftsPage = 0;
-const OFFERS_PER_PAGE = 20;
-const NUMBERS_PER_PAGE = 20;
-const GIFTS_PER_PAGE = 12;
-
-let loadedOffers = [];
-let loadedNumbers = [];
-let loadedGifts = [];
-let currentOffersSearch = '';
-let currentNumbersSearch = '';
-let currentGiftsSearch = '';
-let currentGiftsCollection = 'all';
-
-function renderOffers(search = '') {
-    currentOffersSearch = search;
-    const filtered = offersData.filter(item => 
-        item.name.toLowerCase().includes(search.toLowerCase())
-    );
-    if (offersPage === 0) loadedOffers = [];
-    const start = offersPage * OFFERS_PER_PAGE;
-    const end = Math.min(start + OFFERS_PER_PAGE, filtered.length);
-    const pageItems = filtered.slice(start, end);
-    loadedOffers = [...loadedOffers, ...pageItems];
-    
-    const tbody = document.getElementById('offers-table-body');
-    document.getElementById('offers-count').textContent = `(${filtered.length})`;
-    
-    if (loadedOffers.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--table-text-color);font-size:14px;">No offers found</td></tr>`;
-        return;
-    }
-    
-    tbody.innerHTML = loadedOffers.map(item => `
-        <tr onclick="openDetail('${item.name}', 'Username', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
-            <td><a href="#" class="tm-username-link">@${item.name}</a></td>
-            <td>${item.type}</td>
-            <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
-            <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
-            <td class="hide-mobile">${item.endsIn || '—'}</td>
-            <td class="hide-mobile">${item.bids || 0}</td>
-        </tr>
-    `).join('');
-    
-    const btn = document.getElementById('offers-load-more');
-    if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
-    else btn.style.display = 'block';
-}
-
-function renderNumbers(search = '') {
-    currentNumbersSearch = search;
-    const filtered = numbersData.filter(item => 
-        item.name.toLowerCase().includes(search.toLowerCase())
-    );
-    if (numbersPage === 0) loadedNumbers = [];
-    const start = numbersPage * NUMBERS_PER_PAGE;
-    const end = Math.min(start + NUMBERS_PER_PAGE, filtered.length);
-    const pageItems = filtered.slice(start, end);
-    loadedNumbers = [...loadedNumbers, ...pageItems];
-    
-    const tbody = document.getElementById('numbers-table-body');
-    document.getElementById('numbers-count').textContent = `(${filtered.length})`;
-    
-    if (loadedNumbers.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--table-text-color);font-size:14px;">No numbers found</td></tr>`;
-        return;
-    }
-    
-    tbody.innerHTML = loadedNumbers.map(item => `
-        <tr onclick="openDetail('${item.name}', 'Number', ${item.price}, ${item.minBid || Math.round(item.price * 1.05)}, ${item.bidStep || Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', ${item.bids || 0}, '${item.endsIn || '—'}', '', '', null, null, null)">
-            <td><a href="#" class="tm-username-link">${item.name}</a></td>
-            <td>${item.type}</td>
-            <td><span class="tm-value icon-ton">${item.price.toLocaleString()}</span></td>
-            <td><span class="tm-status-badge ${item.status}">${item.label}</span></td>
-            <td class="hide-mobile">${item.endsIn || '—'}</td>
-            <td class="hide-mobile">${item.bids || 0}</td>
-        </tr>
-    `).join('');
-    
-    const btn = document.getElementById('numbers-load-more');
-    if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
-    else btn.style.display = 'block';
-}
-
-function renderGifts(collection = 'all', search = '') {
-    currentGiftsCollection = collection;
-    currentGiftsSearch = search;
-    
-    const filtered = giftsData.filter(item => {
-        const matchCollection = collection === 'all' || item.collection === collection;
-        const matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
-                            item.collection.toLowerCase().includes(search.toLowerCase());
-        return matchCollection && matchSearch;
-    });
-    
-    if (giftsPage === 0) loadedGifts = [];
-    const start = giftsPage * GIFTS_PER_PAGE;
-    const end = Math.min(start + GIFTS_PER_PAGE, filtered.length);
-    const pageItems = filtered.slice(start, end);
-    loadedGifts = [...loadedGifts, ...pageItems];
-    
     const grid = document.getElementById('gifts-grid');
-    document.getElementById('gifts-count').textContent = `(${filtered.length})`;
-    
-    if (loadedGifts.length === 0) {
-        grid.innerHTML = `<div style="width:100%;text-align:center;padding:24px 12px;color:var(--table-text-color);font-size:14px;">No gifts found</div>`;
-        return;
-    }
-    
-    grid.innerHTML = loadedGifts.map(item => {
-        const attrsStr = JSON.stringify(item.attrs || {}).replace(/"/g, '&quot;');
-        const ownerStr = item.owner || '';
-        const historyStr = JSON.stringify(item.history || []).replace(/"/g, '&quot;');
-        const imgUrl = item.image || '';
-        return `
-        <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', '${attrsStr}', '${ownerStr}', '${historyStr}')">
-            <div class="tm-grid-item-link">
-                <div class="tm-grid-item-thumb">
-                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'">
-                    <div class="tm-grid-item-num">${item.num}</div>
-                </div>
-                <div class="tm-grid-item-content">
-                    <div class="tm-grid-item-name">
-                        <span class="item-name">${item.name}</span>
-                        <span class="item-num">${item.num}</span>
-                    </div>
-                    <div class="tm-grid-item-desc">${item.collection}</div>
-                    <div class="tm-grid-item-values">
-                        <div class="tm-grid-item-value tm-value icon-ton">${item.price.toLocaleString()}</div>
-                        <div class="tm-grid-item-status ${item.status}">${item.label}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `}).join('');
-    
-    const btn = document.getElementById('gifts-load-more');
-    if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
-    else btn.style.display = 'block';
-}
+    const totalSpan = document.getElementById('gifts-total');
+    const loadBtn = document.getElementById('load-more');
 
-function renderFilterCollections() {
-    const container = document.getElementById('gift-filter-content');
-    const collectionsMap = {};
-    giftsData.forEach(item => {
-        collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1;
-    });
-    
-    let html = `<div class="tm-main-filters-item selected" data-collection="all">
-        <span class="tm-main-filters-name">All Collections</span>
-        <span class="tm-main-filters-count">${giftsData.length}</span>
-    </div>`;
-    
-    const sorted = Object.keys(collectionsMap).sort((a,b) => collectionsMap[b] - collectionsMap[a]);
-    sorted.forEach(name => {
-        html += `<div class="tm-main-filters-item" data-collection="${name}">
-            <span class="tm-main-filters-name">${name}</span>
-            <span class="tm-main-filters-count">${collectionsMap[name]}</span>
-        </div>`;
-    });
-    
-    container.innerHTML = html;
-    document.getElementById('gift-filter-count').textContent = giftsData.length;
-    
-    container.querySelectorAll('.tm-main-filters-item').forEach(el => {
-        el.addEventListener('click', function() {
-            container.querySelectorAll('.tm-main-filters-item').forEach(f => f.classList.remove('selected'));
-            this.classList.add('selected');
-            giftsPage = 0;
-            loadedGifts = [];
-            renderGifts(this.dataset.collection, document.getElementById('search-gifts').value);
+    function getFiltered() {
+        return giftsData.filter(item => {
+            const matchFilter = currentFilter === 'all' || item.collection === currentFilter;
+            const matchSearch = item.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                item.collection.toLowerCase().includes(currentSearch.toLowerCase());
+            return matchFilter && matchSearch;
         });
-    });
-}
+    }
 
-// ============================================================
-// ===== DETAIL POPUP =====
-// ============================================================
-function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl, collection, attrs, owner, history) {
-    const isGift = type === 'Gift';
-    const title = isGift ? name : (type === 'Username' ? '@' + name : name);
-    
-    document.getElementById('popup-title').textContent = title;
-    document.getElementById('popup-subtitle').textContent = isGift ? (collection || 'Telegram Gift') : (type === 'Username' ? 'Telegram Username' : 'Collectible Number for Telegram');
-    
-    document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
-    document.getElementById('popup-min-bid').textContent = (minBid || Math.round(price * 1.05)).toLocaleString();
-    document.getElementById('popup-bid-step').textContent = (bidStep || Math.round(price * 0.05)).toLocaleString();
-    document.getElementById('popup-total-bids').textContent = bids || 0;
-    document.getElementById('popup-detail-status').textContent = label || 'Available';
-    document.getElementById('popup-detail-date').textContent = date || 'Today';
-    document.getElementById('popup-countdown').textContent = endsIn || '—';
-    
-    const statusBadge = document.getElementById('popup-status-badge');
-    statusBadge.textContent = label || 'On auction';
-    statusBadge.className = 'popup-status-badge ' + (status || 'avail');
-    
-    const giftContainer = document.getElementById('popup-gift-image');
-    const giftImg = document.getElementById('popup-gift-img');
-    if (isGift && imageUrl) {
-        giftContainer.style.display = 'flex';
-        giftImg.src = imageUrl;
-        giftImg.onerror = function() {
-            this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
-        };
-    } else {
-        giftContainer.style.display = 'none';
-    }
-    
-    const attrsContainer = document.getElementById('popup-attributes');
-    if (isGift && attrs && Object.keys(attrs).length > 0) {
-        attrsContainer.style.display = 'block';
-        let attrsHtml = '';
-        let i = 0;
-        for (const [key, val] of Object.entries(attrs)) {
-            const rarity = rarityPcts[i % rarityPcts.length];
-            attrsHtml += `
-                <div class="popup-attr-row">
-                    <span class="popup-attr-label">${key}</span>
-                    <span class="popup-attr-value">${val} <span class="popup-attr-rarity">${rarity}</span></span>
-                </div>
-            `;
-            i++;
+    function render() {
+        const filtered = getFiltered();
+        totalSpan.textContent = `(${filtered.length})`;
+
+        if (page === 0) loaded = [];
+        const start = page * PER_PAGE;
+        const end = Math.min(start + PER_PAGE, filtered.length);
+        const pageItems = filtered.slice(start, end);
+        loaded = [...loaded, ...pageItems];
+
+        if (loaded.length === 0) {
+            grid.innerHTML = `<div style="width:100%;text-align:center;padding:30px 12px;color:var(--text);font-size:14px;">No gifts found</div>`;
+            loadBtn.classList.add('hidden');
+            return;
         }
-        attrsContainer.innerHTML = attrsHtml;
-    } else {
-        attrsContainer.style.display = 'none';
-    }
-    
-    const ownerRow = document.getElementById('popup-owner-row');
-    const ownerEl = document.getElementById('popup-detail-owner');
-    if (owner) {
-        ownerRow.style.display = 'flex';
-        ownerEl.innerHTML = `<span class="tm-wallet">${owner.slice(0,10)}...${owner.slice(-6)}</span>`;
-    } else {
-        ownerRow.style.display = 'none';
-        ownerEl.textContent = '—';
-    }
-    
-    const ownershipContainer = document.getElementById('popup-ownership');
-    const ownershipList = document.getElementById('popup-ownership-list');
-    if (isGift && history && history.length > 0) {
-        ownershipContainer.style.display = 'block';
-        ownershipList.innerHTML = history.map(h => `
-            <div class="popup-ownership-item">
-                <span>${h.price}</span>
-                <span>${h.date}</span>
-                <span class="owner">${h.buyer.slice(0,10)}...${h.buyer.slice(-6)}</span>
+
+        grid.innerHTML = loaded.map(item => `
+            <div class="grid-item" data-id="${item.id}">
+                <div class="grid-thumb">
+                    <img src="${item.image}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'">
+                    <div class="grid-num">${item.num}</div>
+                </div>
+                <div class="grid-info">
+                    <div class="grid-name">${item.name}</div>
+                    <div class="grid-collection">${item.collection}</div>
+                    <div class="grid-bottom">
+                        <span class="grid-price">${item.price.toLocaleString()}</span>
+                        <span class="grid-status ${item.status}">${item.label}</span>
+                    </div>
+                </div>
             </div>
         `).join('');
-    } else {
-        ownershipContainer.style.display = 'none';
-    }
-    
-    document.getElementById('detail-popup').classList.remove('hide');
-}
 
-document.getElementById('popup-close').addEventListener('click', function() {
-    document.getElementById('detail-popup').classList.add('hide');
-});
-document.getElementById('detail-popup').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.add('hide');
-});
-document.getElementById('popup-bid-btn').addEventListener('click', function() {
-    alert('Place Bid clicked! (demo)');
-    document.getElementById('detail-popup').classList.add('hide');
-});
-document.getElementById('popup-buy-btn').addEventListener('click', function() {
-    alert('Buy Now clicked! (demo)');
-    document.getElementById('detail-popup').classList.add('hide');
-});
-
-// ============================================================
-// ===== TABS =====
-// ============================================================
-document.querySelectorAll('.tm-header-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
-        this.classList.add('tab-active');
-        const section = this.dataset.section;
-        document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
-            el.classList.remove('section-active', 'section-hidden');
-            el.style.display = 'none';
+        // Клик по подарку
+        document.querySelectorAll('.grid-item').forEach(el => {
+            el.addEventListener('click', function(e) {
+                const id = parseInt(this.dataset.id);
+                const item = giftsData.find(g => g.id === id);
+                if (item) openPopup(item);
+            });
         });
-        const target = document.getElementById('section-' + section);
-        if (target) {
-            target.style.display = 'block';
-            target.classList.add('section-active');
+
+        if (end >= filtered.length) {
+            loadBtn.classList.add('hidden');
+        } else {
+            loadBtn.classList.remove('hidden');
         }
-    });
-});
-
-// ===== SEARCH =====
-document.getElementById('search-offers')?.addEventListener('input', function() {
-    offersPage = 0;
-    loadedOffers = [];
-    renderOffers(this.value);
-});
-document.getElementById('search-numbers')?.addEventListener('input', function() {
-    numbersPage = 0;
-    loadedNumbers = [];
-    renderNumbers(this.value);
-});
-document.getElementById('search-gifts')?.addEventListener('input', function() {
-    giftsPage = 0;
-    loadedGifts = [];
-    renderGifts(currentGiftsCollection, this.value);
-});
-
-document.querySelectorAll('.tm-search-clear').forEach(clear => {
-    clear.addEventListener('click', function() {
-        const input = this.parentElement.querySelector('input');
-        if (input) {
-            input.value = '';
-            input.dispatchEvent(new Event('input'));
-            input.focus();
-        }
-    });
-});
-
-// ===== LOAD MORE =====
-document.getElementById('offers-load-more')?.addEventListener('click', function() {
-    offersPage++;
-    renderOffers(currentOffersSearch);
-});
-document.getElementById('numbers-load-more')?.addEventListener('click', function() {
-    numbersPage++;
-    renderNumbers(currentNumbersSearch);
-});
-document.getElementById('gifts-load-more')?.addEventListener('click', function() {
-    giftsPage++;
-    renderGifts(currentGiftsCollection, currentGiftsSearch);
-});
-
-// ===== FILTER TOGGLE =====
-document.getElementById('gift-filters-toggle')?.addEventListener('click', function() {
-    const box = document.getElementById('gift-filters');
-    if (box.classList.contains('opened')) {
-        box.classList.remove('opened');
-        box.classList.add('closed');
-    } else {
-        box.classList.remove('closed');
-        box.classList.add('opened');
     }
-});
 
-// ===== STARS / PREMIUM =====
-document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
-    alert('Buy Stars clicked! (demo)');
-});
-document.querySelector('.js-giveaway-premium-btn')?.addEventListener('click', function() {
-    alert('Buy Subscriptions clicked! (demo)');
-});
+    // ============================================================
+    // ===== POPUP =====
+    // ============================================================
 
-// ===== PREMIUM DROPDOWNS =====
-document.querySelectorAll('.tm-dropdown .dropdown-toggle').forEach(toggle => {
-    toggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const menu = this.parentElement.querySelector('.dropdown-menu');
-        if (menu) {
-            menu.classList.toggle('show');
+    function openPopup(item) {
+        document.getElementById('popup-title').textContent = item.name + ' ' + item.num;
+        document.getElementById('popup-subtitle').textContent = item.collection;
+        document.getElementById('popup-price').textContent = item.price.toLocaleString();
+        document.getElementById('popup-status').textContent = item.label;
+        document.getElementById('popup-status').className = 'popup-status ' + item.status;
+        document.getElementById('popup-collection').textContent = item.collection;
+        document.getElementById('popup-number').textContent = item.num;
+        const img = document.getElementById('popup-img');
+        img.src = item.image;
+        img.onerror = function() {
+            this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
+        };
+
+        const attrsContainer = document.getElementById('popup-attrs');
+        if (item.attrs && Object.keys(item.attrs).length > 0) {
+            let html = '';
+            let i = 0;
+            for (const [key, val] of Object.entries(item.attrs)) {
+                const rarity = rarityPcts[i % rarityPcts.length];
+                html += `<div class="popup-row"><span class="popup-label">${key}</span><span class="popup-value">${val} <span style="font-size:9px;color:var(--accent);background:rgba(77,178,255,0.1);padding:0 4px;border-radius:3px;">${rarity}</span></span></div>`;
+                i++;
+            }
+            attrsContainer.innerHTML = html;
+            attrsContainer.style.display = 'block';
+        } else {
+            attrsContainer.style.display = 'none';
         }
+
+        document.getElementById('popup').classList.add('open');
+    }
+
+    document.getElementById('popup-close').addEventListener('click', function() {
+        document.getElementById('popup').classList.remove('open');
     });
-});
-document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
-});
-
-// ===== LOGO HOME =====
-document.getElementById('logo-home')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelectorAll('.tm-header-tab').forEach(t => t.classList.remove('tab-active'));
-    document.querySelector('.tm-header-tab[data-section="gifts"]').classList.add('tab-active');
-    document.querySelectorAll('.section-active, .section-hidden').forEach(el => {
-        el.classList.remove('section-active', 'section-hidden');
-        el.style.display = 'none';
+    document.getElementById('popup').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
     });
-    const target = document.getElementById('section-gifts');
-    target.style.display = 'block';
-    target.classList.add('section-active');
-});
+    document.getElementById('popup-bid').addEventListener('click', function() {
+        alert('Place Bid clicked!');
+        document.getElementById('popup').classList.remove('open');
+    });
+    document.getElementById('popup-buy').addEventListener('click', function() {
+        alert('Buy Now clicked!');
+        document.getElementById('popup').classList.remove('open');
+    });
 
-// ============================================================
-// ===== ИНИЦИАЛИЗАЦИЯ =====
-// ============================================================
-offersPage = 0;
-numbersPage = 0;
-giftsPage = 0;
-loadedOffers = [];
-loadedNumbers = [];
-loadedGifts = [];
+    // ============================================================
+    // ===== FILTERS =====
+    // ============================================================
 
-renderOffers('');
-renderNumbers('');
-renderGifts('all', '');
-renderFilterCollections();
+    function renderFilters() {
+        const container = document.getElementById('filter-list');
+        const counts = {};
+        giftsData.forEach(item => {
+            counts[item.collection] = (counts[item.collection] || 0) + 1;
+        });
+        let html = `<div class="filter-item active" data-filter="all"><span>All Collections</span><span class="count">${giftsData.length}</span></div>`;
+        const sorted = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+        sorted.forEach(name => {
+            html += `<div class="filter-item" data-filter="${name}"><span>${name}</span><span class="count">${counts[name]}</span></div>`;
+        });
+        container.innerHTML = html;
 
-console.log('✅ Загружено юзернеймов:', offersData.length);
-console.log('✅ Загружено номеров +888:', numbersData.length);
-console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Удалены коллекции Scared Cats, Loot Bags, Low Riders');
-console.log('✅ Пофикшен клик по подаркам');
-console.log('✅ Футер теперь всегда внизу');
+        container.querySelectorAll('.filter-item').forEach(el => {
+            el.addEventListener('click', function() {
+                container.querySelectorAll('.filter-item').forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                page = 0;
+                render();
+                document.getElementById('filter-count').textContent = this.querySelector('span:last-child').textContent;
+            });
+        });
+    }
+
+    document.getElementById('filters-toggle').addEventListener('click', function() {
+        document.getElementById('filters-box').classList.toggle('open');
+    });
+
+    // ============================================================
+    // ===== SEARCH =====
+    // ============================================================
+
+    document.getElementById('search-gifts').addEventListener('input', function() {
+        currentSearch = this.value;
+        page = 0;
+        render();
+    });
+    document.getElementById('clear-gifts').addEventListener('click', function() {
+        const input = document.getElementById('search-gifts');
+        input.value = '';
+        currentSearch = '';
+        page = 0;
+        render();
+        input.focus();
+    });
+
+    // ============================================================
+    // ===== LOAD MORE =====
+    // ============================================================
+
+    document.getElementById('load-more').addEventListener('click', function() {
+        page++;
+        render();
+    });
+
+    // ============================================================
+    // ===== TABS =====
+    // ============================================================
+
+    document.querySelectorAll('.header-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.header-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const section = this.dataset.tab;
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById('section-' + section);
+            if (target) target.classList.add('active');
+        });
+    });
+
+    document.getElementById('logo-home').addEventListener('click', function() {
+        document.querySelectorAll('.header-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector('.header-tab[data-tab="gifts"]').classList.add('active');
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById('section-gifts').classList.add('active');
+    });
+
+    // ============================================================
+    // ===== INIT =====
+    // ============================================================
+
+    renderFilters();
+    render();
+
+    console.log('✅ Готово. Подарков без Scared Cats, Loot Bags, Low Riders:', giftsData.length);
 </script>
 </body>
 </html>
