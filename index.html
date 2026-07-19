@@ -63,6 +63,8 @@
             background: var(--bg-color);
             min-height: 100vh;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
         
         .tm-header {
@@ -84,6 +86,7 @@
             touch-action: manipulation;
             max-width: 480px;
             gap: 4px;
+            flex-shrink: 0;
         }
         
         .tm-header-top {
@@ -103,6 +106,7 @@
             display: inline-flex;
             padding: 8px 6px 8px 0;
             align-items: center;
+            cursor: pointer;
         }
         .tm-logo-icon {
             width: 20px;
@@ -246,8 +250,8 @@
             margin: 0 auto;
             width: 100%;
             max-width: 480px;
-            padding: 80px 4px 30px;
-            flex-grow: 1;
+            padding: 80px 4px 20px;
+            flex: 1;
             background: var(--bg-color);
         }
         
@@ -550,22 +554,15 @@
             border-radius: var(--def-border-radius);
             background-color: var(--table-bg-color);
             cursor: pointer;
-            transition: background .2s ease;
+            transition: transform .15s ease, background .2s ease;
             min-width: 100px;
             border: 1px solid rgba(255,255,255,0.04);
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
-        .tm-catalog-grid .tm-grid-item:active { transform: scale(0.97); }
+        .tm-catalog-grid .tm-grid-item:active { transform: scale(0.96); }
         @media (min-width: 400px) {
             .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(33.33% - var(--gap)); }
-        }
-        .tm-catalog-grid .tm-grid-item a {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
         }
         .tm-grid-item-thumb {
             position: relative;
@@ -597,6 +594,7 @@
             text-align: center;
             padding: 8px 6px 10px;
             background: var(--table-bg-color);
+            pointer-events: none;
         }
         .tm-grid-item-name {
             font-size: 13px;
@@ -716,11 +714,13 @@
         
         .tm-footer {
             background-color: #111417;
-            margin-top: 30px;
+            margin-top: auto;
             border-top: 1px solid rgba(255,255,255,0.04);
             max-width: 480px;
             margin-left: auto;
             margin-right: auto;
+            width: 100%;
+            flex-shrink: 0;
         }
         .tm-footer-links {
             display: flex;
@@ -1135,6 +1135,12 @@
             border-radius: var(--def-border-radius);
             max-width: 100%;
             margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
         }
         .tm-my-gifts-empty-icon {
             width: 100px;
@@ -1193,6 +1199,24 @@
         }
         .tm-main-intro .tm-main-intro-header { text-align: center !important; }
         .tm-main-intro .tm-main-intro-text { text-align: center !important; }
+        
+        .section-stars .tm-main {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .section-stars .tm-footer {
+            margin-top: auto;
+        }
+        
+        .tm-grid-item-link {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -1309,11 +1333,11 @@
     </div>
 
     <!-- MY GIFTS -->
-    <div id="section-mygifts" class="section-hidden">
+    <div id="section-mygifts" class="section-hidden" style="display:flex;flex-direction:column;flex:1;min-height:400px;">
         <div class="tm-section-header">
             <h3 class="tm-section-header-text">My Gifts</h3>
         </div>
-        <div class="tm-my-gifts-empty">
+        <div class="tm-my-gifts-empty" style="flex:1;">
             <div class="tm-my-gifts-empty-icon">
                 <img src="https://api.easyloot.ru/storage/gift-collection-attributes/87347bc4-688e-4d6b-9ada-7427af996410.png" alt="Pepe Gift">
             </div>
@@ -1324,7 +1348,7 @@
     </div>
 
     <!-- STARS -->
-    <div id="section-stars" class="section-hidden">
+    <div id="section-stars" class="section-hidden" style="display:flex;flex-direction:column;flex:1;">
         <section class="tm-main-intro">
             <h1 class="tm-main-intro-header">Buy Telegram Stars</h1>
             <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
@@ -1480,46 +1504,7 @@
 
 </main>
 
-<!-- DETAIL POPUP -->
-<div class="popup-container hide" id="detail-popup">
-    <div class="popup">
-        <div class="popup-header">
-            <button class="popup-close" id="popup-close">&times;</button>
-            <div class="popup-title" id="popup-title">@username</div>
-            <div class="popup-subtitle" id="popup-subtitle">Telegram Username</div>
-            <div class="popup-status-badge avail" id="popup-status-badge">On auction</div>
-        </div>
-        <div class="popup-body">
-            <div class="popup-gift-image" id="popup-gift-image" style="display:none;">
-                <img id="popup-gift-img" src="" alt="Gift">
-            </div>
-            <div class="popup-bid-info">
-                <div class="popup-bid-row"><span class="popup-bid-label">Highest Bid</span><span class="popup-bid-value icon-ton" id="popup-highest-bid">0</span></div>
-                <div class="popup-bid-row"><span class="popup-bid-label">Minimum Bid</span><span class="popup-bid-value icon-ton" id="popup-min-bid">0</span></div>
-                <div class="popup-bid-row"><span class="popup-bid-label">Bid Step</span><span class="popup-bid-value icon-ton" id="popup-bid-step">0</span></div>
-                <div class="popup-bid-row"><span class="popup-bid-label">Total Bids</span><span class="popup-bid-value" id="popup-total-bids">0</span></div>
-            </div>
-            <div class="popup-attributes" id="popup-attributes" style="display:none;"></div>
-            <div class="popup-countdown">
-                <span class="popup-countdown-label">Auction ends in</span>
-                <div class="popup-countdown-timer" id="popup-countdown">--</div>
-            </div>
-            <div class="popup-detail-row"><span class="popup-detail-label">Status</span><span class="popup-detail-value" id="popup-detail-status">Available</span></div>
-            <div class="popup-detail-row"><span class="popup-detail-label">Listed</span><span class="popup-detail-value" id="popup-detail-date">Today</span></div>
-            <div class="popup-detail-row" id="popup-owner-row" style="display:none;"><span class="popup-detail-label">Owner</span><span class="popup-detail-value" id="popup-detail-owner">—</span></div>
-            <div class="popup-ownership" id="popup-ownership" style="display:none;">
-                <div class="popup-ownership-header">Ownership History</div>
-                <div id="popup-ownership-list"></div>
-            </div>
-            <div class="popup-buttons">
-                <button class="btn-primary" id="popup-bid-btn">Place Bid</button>
-                <button class="btn-secondary" id="popup-buy-btn">Buy Now</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- FOOTER -->
+<!-- FOOTER - теперь всегда внизу -->
 <footer class="tm-footer">
     <div class="tm-footer-links">
         <a href="#" class="tm-footer-link">Top Auctions</a>
@@ -1533,12 +1518,12 @@
 
 <script>
 // ============================================================
-// ===== ДАННЫЕ - ТОЛЬКО РАБОЧИЕ URL ДЛЯ ПРОБЛЕМНЫХ КОЛЛЕКЦИЙ =====
+// ===== ДАННЫЕ - УДАЛЕНЫ SCARED CATS, LOOT BAGS, LOW RIDERS =====
 // ============================================================
 
 const collectionNames = [
-    'Plush Pepes', 'Swiss Watches', 'Heart Lockets', 'Scared Cats', 'Loot Bags',
-    'Sakura Flowers', 'Low Riders', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
+    'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
+    'Sakura Flowers', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
     'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
     'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Precious Peach'
 ];
@@ -1547,10 +1532,7 @@ const baseSlugs = {
     'Plush Pepes': 'plushpepe', 
     'Swiss Watches': 'swisswatch', 
     'Heart Lockets': 'heartlocket',
-    'Scared Cats': 'scaredcat', 
-    'Loot Bags': 'lootbag', 
     'Sakura Flowers': 'sakuraflower',
-    'Low Riders': 'lowrider', 
     'Snoop Doggs': 'snoopdogg', 
     'Eternal Roses': 'eternalrose',
     'Diamond Rings': 'diamondring', 
@@ -1569,10 +1551,7 @@ const collectionToName = {
     'Plush Pepes': 'Plush Pepe', 
     'Swiss Watches': 'Swiss Watch', 
     'Heart Lockets': 'Heart Locket',
-    'Scared Cats': 'Scared Cat', 
-    'Loot Bags': 'Loot Bag', 
     'Sakura Flowers': 'Sakura Flower',
-    'Low Riders': 'Low Rider', 
     'Snoop Doggs': 'Snoop Dogg', 
     'Eternal Roses': 'Eternal Rose',
     'Diamond Rings': 'Diamond Ring', 
@@ -1587,54 +1566,17 @@ const collectionToName = {
     'Precious Peach': 'Precious Peach'
 };
 
-// ===== ТОЛЬКО РАБОЧИЕ НОМЕРА ДЛЯ ПРОБЛЕМНЫХ КОЛЛЕКЦИЙ =====
-// Проверенные URL которые точно грузятся
-const workingUrls = {
-    'Scared Cats': [
-        'scaredcat-2920', 'scaredcat-17302', 'scaredcat-12345', 'scaredcat-23456',
-        'scaredcat-34567', 'scaredcat-45678', 'scaredcat-54321', 'scaredcat-98765'
-    ],
-    'Loot Bags': [
-        'lootbag-11217', 'lootbag-7631', 'lootbag-12345', 'lootbag-23456',
-        'lootbag-34567', 'lootbag-45678', 'lootbag-54321', 'lootbag-98765'
-    ],
-    'Low Riders': [
-        'lowrider-16593', 'lowrider-12345', 'lowrider-23456', 'lowrider-34567',
-        'lowrider-45678', 'lowrider-54321', 'lowrider-98765'
-    ],
-    'Sakura Flowers': [
-        'sakuraflower-49643', 'sakuraflower-12345', 'sakuraflower-23456',
-        'sakuraflower-34567', 'sakuraflower-45678', 'sakuraflower-54321'
-    ]
-};
-
-function getWorkingImageUrl(collection, slugNum) {
+function getImageUrl(collection, slugNum) {
     const base = baseSlugs[collection];
     const slug = base + '-' + slugNum;
-    
-    // Если коллекция в списке проблемных - проверяем есть ли в рабочем списке
-    if (workingUrls[collection]) {
-        if (workingUrls[collection].includes(slug)) {
-            return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
-        } else {
-            // Если нет в рабочем списке - используем fallback
-            return 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
-        }
-    }
-    
-    // Для остальных коллекций используем стандартный URL
     return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
 }
 
-// ===== НОМЕРА ПОДАРКОВ =====
 const realSlugs = {
     'Plush Pepes': [1821,1515,2658,1521,318,1179,456,1519,1043,858,982,177,899,1921,1106,91,328,333,1120,1902,702,908,1897,1274,300,2821,1213,2055,2345,1022,987,737,2629,402,833,984,100,791,1396,15,18,206,1609,487,195,2530,123,289,1088,601,901,853],
     'Swiss Watches': [7799,1234,5678,9012,3456,7890,2345,6789,4567,8901],
     'Heart Lockets': [875,123,456,789,234,567,890,345,678,901],
-    'Scared Cats': [2920, 17302, 12345, 23456, 34567, 45678, 54321, 98765],
-    'Loot Bags': [11217, 7631, 12345, 23456, 34567, 45678, 54321, 98765],
     'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321],
-    'Low Riders': [16593, 12345, 23456, 34567, 45678, 54321, 98765],
     'Snoop Doggs': [12345,67890,23456,78901,34567,89012,45678,90123,54321,98765],
     'Eternal Roses': [123,456,789,234,567,890,345,678],
     'Diamond Rings': [123,456,789,234,567,890,345,678],
@@ -1672,18 +1614,12 @@ let giftId = 2000;
 
 for (const collection of collectionNames) {
     const slugs = realSlugs[collection] || [];
-    let count;
-    if (collection === 'Scared Cats' || collection === 'Loot Bags' || collection === 'Low Riders' || collection === 'Sakura Flowers') {
-        count = Math.min(slugs.length, 8);
-    } else {
-        count = Math.floor(Math.random() * 20) + 10;
-    }
-    
+    const count = Math.floor(Math.random() * 20) + 10;
     const shuffled = [...slugs].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, Math.min(count, shuffled.length));
     
     for (const slugNum of selected) {
-        const imageUrl = getWorkingImageUrl(collection, slugNum);
+        const imageUrl = getImageUrl(collection, slugNum);
         const name = collectionToName[collection] || collection;
         const status = giftId % 6 === 0 ? 'avail' : 'sold';
         const label = status === 'avail' ? 'On auction' : 'Sold';
@@ -1735,17 +1671,12 @@ for (const collection of collectionNames) {
     }
 }
 
-// Перемешиваем
 giftsData = giftsData.sort(() => Math.random() - 0.5);
 if (giftsData.length > 400) {
     giftsData = giftsData.slice(0, 400);
 }
 
-console.log('✅ Сгенерировано подарков:', giftsData.length);
-console.log('✅ Scared Cats подарков (только рабочие):', giftsData.filter(g => g.collection === 'Scared Cats').length);
-console.log('✅ Loot Bags подарков (только рабочие):', giftsData.filter(g => g.collection === 'Loot Bags').length);
-console.log('✅ Low Riders подарков (только рабочие):', giftsData.filter(g => g.collection === 'Low Riders').length);
-console.log('✅ Sakura Flowers подарков (только рабочие):', giftsData.filter(g => g.collection === 'Sakura Flowers').length);
+console.log('✅ Сгенерировано подарков (без Scared Cats, Loot Bags, Low Riders):', giftsData.length);
 
 // ===== ЮЗЕРНЕЙМЫ =====
 const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
@@ -1919,7 +1850,7 @@ function renderGifts(collection = 'all', search = '') {
         const imgUrl = item.image || '';
         return `
         <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', '${attrsStr}', '${ownerStr}', '${historyStr}')">
-            <a href="#">
+            <div class="tm-grid-item-link">
                 <div class="tm-grid-item-thumb">
                     <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'">
                     <div class="tm-grid-item-num">${item.num}</div>
@@ -1935,7 +1866,7 @@ function renderGifts(collection = 'all', search = '') {
                         <div class="tm-grid-item-status ${item.status}">${item.label}</div>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
     `}).join('');
     
@@ -2204,8 +2135,9 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Оставлены только рабочие URL для Scared Cats, Loot Bags, Low Riders, Sakura Flowers');
-console.log('✅ Остальные коллекции используют стандартные URL');
+console.log('✅ Удалены коллекции Scared Cats, Loot Bags, Low Riders');
+console.log('✅ Пофикшен клик по подаркам');
+console.log('✅ Футер теперь всегда внизу');
 </script>
 </body>
 </html>
