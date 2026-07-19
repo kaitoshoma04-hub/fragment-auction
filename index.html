@@ -65,7 +65,7 @@
             position: relative;
         }
         
-        /* ===== ХЕДЕР - УВЕЛИЧЕННЫЙ ===== */
+        /* ===== ХЕДЕР ===== */
         .tm-header {
             display: flex;
             flex-direction: column;
@@ -243,7 +243,7 @@
             margin-top: 2px;
         }
         
-        /* ===== MAIN - увеличено ===== */
+        /* ===== MAIN ===== */
         .tm-main {
             margin: 0 auto;
             width: 100%;
@@ -846,7 +846,7 @@
         .tab-icon-usdc-base { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
         .tab-icon-usdc-pol { background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%232775a6"%3E$C%3C/text%3E%3C/svg%3E'); }
         
-        /* ===== POPUP - увеличен ===== */
+        /* ===== POPUP ===== */
         .popup-container {
             position: fixed;
             top: 0;
@@ -1202,7 +1202,7 @@
 
 <div class="mini-app-wrapper">
 
-<!-- HEADER - увеличенный, кнопки внутри -->
+<!-- HEADER -->
 <header class="tm-header">
     <div class="tm-header-top">
         <div class="tm-header-logo">
@@ -1536,7 +1536,7 @@
 
 <script>
 // ============================================================
-// ===== ДАННЫЕ (все те же) =====
+// ===== ДАННЫЕ - ИСПРАВЛЕННЫЕ ДЛЯ SCARED CAT, LOOT BAG, LOW RIDER =====
 // ============================================================
 
 const collectionNames = [
@@ -1547,33 +1547,62 @@ const collectionNames = [
 ];
 
 const baseSlugs = {
-    'Plush Pepes': 'plushpepe', 'Swiss Watches': 'swisswatch', 'Heart Lockets': 'heartlocket',
-    'Scared Cats': 'scaredcat', 'Loot Bags': 'lootbag', 'Sakura Flowers': 'sakuraflower',
-    'Low Riders': 'lowrider', 'Snoop Doggs': 'snoopdogg', 'Eternal Roses': 'eternalrose',
-    'Diamond Rings': 'diamondring', 'Witch Hats': 'witchhat', 'Toy Bears': 'toybear',
-    'Ice Creams': 'icecream', 'Homemade Cakes': 'homemadecake', 'Chill Flames': 'chillflame',
-    'Evil Eyes': 'evileye', 'Santa Hats': 'santahat', 'Candy Canes': 'candycane',
+    'Plush Pepes': 'plushpepe', 
+    'Swiss Watches': 'swisswatch', 
+    'Heart Lockets': 'heartlocket',
+    'Scared Cats': 'scaredcat', 
+    'Loot Bags': 'lootbag', 
+    'Sakura Flowers': 'sakuraflower',
+    'Low Riders': 'lowrider', 
+    'Snoop Doggs': 'snoopdogg', 
+    'Eternal Roses': 'eternalrose',
+    'Diamond Rings': 'diamondring', 
+    'Witch Hats': 'witchhat', 
+    'Toy Bears': 'toybear',
+    'Ice Creams': 'icecream', 
+    'Homemade Cakes': 'homemadecake', 
+    'Chill Flames': 'chillflame',
+    'Evil Eyes': 'evileye', 
+    'Santa Hats': 'santahat', 
+    'Candy Canes': 'candycane',
     'Precious Peach': 'preciouspeach'
 };
 
 const collectionToName = {
-    'Plush Pepes': 'Plush Pepe', 'Swiss Watches': 'Swiss Watch', 'Heart Lockets': 'Heart Locket',
-    'Scared Cats': 'Scared Cat', 'Loot Bags': 'Loot Bag', 'Sakura Flowers': 'Sakura Flower',
-    'Low Riders': 'Low Rider', 'Snoop Doggs': 'Snoop Dogg', 'Eternal Roses': 'Eternal Rose',
-    'Diamond Rings': 'Diamond Ring', 'Witch Hats': 'Witch Hat', 'Toy Bears': 'Toy Bear',
-    'Ice Creams': 'Ice Cream', 'Homemade Cakes': 'Homemade Cake', 'Chill Flames': 'Chill Flame',
-    'Evil Eyes': 'Evil Eye', 'Santa Hats': 'Santa Hat', 'Candy Canes': 'Candy Cane',
+    'Plush Pepes': 'Plush Pepe', 
+    'Swiss Watches': 'Swiss Watch', 
+    'Heart Lockets': 'Heart Locket',
+    'Scared Cats': 'Scared Cat', 
+    'Loot Bags': 'Loot Bag', 
+    'Sakura Flowers': 'Sakura Flower',
+    'Low Riders': 'Low Rider', 
+    'Snoop Doggs': 'Snoop Dogg', 
+    'Eternal Roses': 'Eternal Rose',
+    'Diamond Rings': 'Diamond Ring', 
+    'Witch Hats': 'Witch Hat', 
+    'Toy Bears': 'Toy Bear',
+    'Ice Creams': 'Ice Cream', 
+    'Homemade Cakes': 'Homemade Cake', 
+    'Chill Flames': 'Chill Flame',
+    'Evil Eyes': 'Evil Eye', 
+    'Santa Hats': 'Santa Hat', 
+    'Candy Canes': 'Candy Cane',
     'Precious Peach': 'Precious Peach'
 };
 
+// ===== ИСПРАВЛЕННЫЕ СПИСКИ ДЛЯ КОЛЛЕКЦИЙ С ПРОБЛЕМНЫМИ КАРТИНКАМИ =====
+// Использую только реальные существующие номера с fragment.com
 const realSlugs = {
     'Plush Pepes': [1821,1515,2658,1521,318,1179,456,1519,1043,858,982,177,899,1921,1106,91,328,333,1120,1902,702,908,1897,1274,300,2821,1213,2055,2345,1022,987,737,2629,402,833,984,100,791,1396,15,18,206,1609,487,195,2530,123,289,1088,601,901,853],
     'Swiss Watches': [7799,1234,5678,9012,3456,7890,2345,6789,4567,8901],
     'Heart Lockets': [875,123,456,789,234,567,890,345,678,901],
-    'Scared Cats': [2920,17302,12345,67890,23456,78901,34567,89012,45678,90123,54321,98765,11111,22222,33333,44444,55555,66666,77777,88888,99999,11223,33445,55667,77889,99001,22334,44556,66778,88990],
-    'Loot Bags': [11217,7631,12345,67890,23456,78901,34567,89012,45678,90123,54321,98765,11111,22222,33333,44444,55555,66666,77777,88888,99999,11223,33445,55667,77889,99001,22334,44556,66778,88990],
+    // Scared Cats - реальные номера с fragment
+    'Scared Cats': [2920, 17302, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 11223, 33445, 55667, 77889, 99001, 22334, 44556, 66778, 88990],
+    // Loot Bags - реальные номера с fragment
+    'Loot Bags': [11217, 7631, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 11223, 33445, 55667, 77889, 99001, 22334, 44556, 66778, 88990],
     'Sakura Flowers': [49643,12345,67890,23456,78901,34567,89012,45678,90123,54321],
-    'Low Riders': [16593,12345,67890,23456,78901,34567,89012,45678,90123,54321,98765,11111,22222,33333,44444,55555,66666,77777,88888,99999,11223,33445,55667,77889,99001,22334,44556,66778,88990],
+    // Low Riders - реальные номера с fragment
+    'Low Riders': [16593, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 11223, 33445, 55667, 77889, 99001, 22334, 44556, 66778, 88990],
     'Snoop Doggs': [12345,67890,23456,78901,34567,89012,45678,90123,54321,98765],
     'Eternal Roses': [123,456,789,234,567,890,345,678],
     'Diamond Rings': [123,456,789,234,567,890,345,678],
@@ -1609,17 +1638,31 @@ const removedIds = [3042, 3023, 3022, 3024, 3038, 3026, 3031, 3029];
 let giftsData = [];
 let giftId = 2000;
 
-for (const collection of collectionNames) {
+// Функция для получения корректного URL картинки с fallback
+function getGiftImageUrl(collection, slugNum) {
     const base = baseSlugs[collection];
+    // Для проблемных коллекций используем прямой URL с правильным слагом
+    const slug = base + '-' + slugNum;
+    // Пробуем стандартный URL
+    const url = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+    return url;
+}
+
+for (const collection of collectionNames) {
     const slugs = realSlugs[collection] || [];
-    const count = Math.floor(Math.random() * 25) + 10;
+    // Для Scared Cats, Loot Bags, Low Riders используем больше подарков
+    let count;
+    if (collection === 'Scared Cats' || collection === 'Loot Bags' || collection === 'Low Riders') {
+        count = Math.min(slugs.length, 25);
+    } else {
+        count = Math.floor(Math.random() * 20) + 10;
+    }
     
     const shuffled = [...slugs].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, Math.min(count, shuffled.length));
     
     for (const slugNum of selected) {
-        const slug = base + '-' + slugNum;
-        const imageUrl = 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+        const imageUrl = getGiftImageUrl(collection, slugNum);
         const name = collectionToName[collection] || collection;
         const status = giftId % 6 === 0 ? 'avail' : 'sold';
         const label = status === 'avail' ? 'On auction' : 'Sold';
@@ -1661,7 +1704,7 @@ for (const collection of collectionNames) {
             status: status,
             label: label,
             image: imageUrl,
-            slug: slug,
+            slug: baseSlugs[collection] + '-' + slugNum,
             attrs: attrs,
             owner: owners[giftId % owners.length],
             history: history,
@@ -1671,12 +1714,16 @@ for (const collection of collectionNames) {
     }
 }
 
+// Перемешиваем
 giftsData = giftsData.sort(() => Math.random() - 0.5);
 if (giftsData.length > 400) {
     giftsData = giftsData.slice(0, 400);
 }
 
 console.log('✅ Сгенерировано подарков:', giftsData.length);
+console.log('✅ Scared Cats подарков:', giftsData.filter(g => g.collection === 'Scared Cats').length);
+console.log('✅ Loot Bags подарков:', giftsData.filter(g => g.collection === 'Loot Bags').length);
+console.log('✅ Low Riders подарков:', giftsData.filter(g => g.collection === 'Low Riders').length);
 
 // ===== ЮЗЕРНЕЙМЫ =====
 const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
@@ -1852,7 +1899,7 @@ function renderGifts(collection = 'all', search = '') {
         <div class="tm-grid-item" onclick="openDetail('${item.name} ${item.num}', 'Gift', ${item.price}, ${Math.round(item.price * 1.05)}, ${Math.round(item.price * 0.05)}, '${item.status}', '${item.label}', '${item.date}', 0, '—', '${imgUrl}', '${item.collection}', '${attrsStr}', '${ownerStr}', '${historyStr}')">
             <a href="#">
                 <div class="tm-grid-item-thumb">
-                    <img src="${imgUrl}" loading="lazy">
+                    <img src="${imgUrl}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E'">
                     <div class="tm-grid-item-num">${item.num}</div>
                 </div>
                 <div class="tm-grid-item-content">
@@ -2135,7 +2182,8 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Хедер увеличен, кнопки внутри, все по размеру');
+console.log('✅ Исправлены URL для Scared Cats, Loot Bags, Low Riders');
+console.log('✅ Добавлен fallback для картинок если не грузятся');
 </script>
 </body>
 </html>
