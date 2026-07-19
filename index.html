@@ -275,11 +275,11 @@
             background: var(--bg-color);
         }
 
-        .tm-section-page {
+        /* Стили для секций - используем старую систему */
+        .section-hidden {
             display: none !important;
-            width: 100%;
         }
-        .tm-section-page.active {
+        .section-active {
             display: block !important;
         }
 
@@ -633,7 +633,6 @@
             color: var(--accent-color);
             text-decoration: none;
         }
-        /* Стиль для feds.t.me под юзернеймом */
         .tm-username-sub {
             display: block;
             font-size: 9px;
@@ -1705,7 +1704,7 @@
                     </button>
                     <button class="tm-header-button" id="btn-ton">
                         <i class="icon-connect-ton"></i>
-                        <span class="tm-button-label">TON</span>
+                        <span class="tm-button-label">Connect TON</span>
                     </button>
                 </div>
             </div>
@@ -1725,7 +1724,7 @@
         <main class="tm-main">
 
             <!-- OFFERS -->
-            <div id="section-offers" class="tm-section-page active">
+            <div id="section-offers" class="section-active">
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
@@ -1757,7 +1756,7 @@
             </div>
 
             <!-- NUMBERS -->
-            <div id="section-numbers" class="tm-section-page">
+            <div id="section-numbers" class="section-hidden">
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search numbers..." id="search-numbers" autocomplete="off">
@@ -1789,7 +1788,7 @@
             </div>
 
             <!-- GIFTS -->
-            <div id="section-gifts" class="tm-section-page">
+            <div id="section-gifts" class="section-hidden">
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search gifts..." id="search-gifts" autocomplete="off">
@@ -1816,7 +1815,7 @@
             </div>
 
             <!-- MY GIFTS -->
-            <div id="section-mygifts" class="tm-section-page" style="display:flex;flex-direction:column;flex:1;min-height:400px;">
+            <div id="section-mygifts" class="section-hidden" style="display:flex;flex-direction:column;flex:1;min-height:400px;">
                 <div class="tm-section-header">
                     <h3 class="tm-section-header-text">My Gifts</h3>
                 </div>
@@ -1831,7 +1830,7 @@
             </div>
 
             <!-- STARS -->
-            <div id="section-stars" class="tm-section-page" style="display:flex;flex-direction:column;flex:1;">
+            <div id="section-stars" class="section-hidden" style="display:flex;flex-direction:column;flex:1;">
                 <section class="tm-main-intro">
                     <h1 class="tm-main-intro-header">Buy Telegram Stars</h1>
                     <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
@@ -1872,7 +1871,7 @@
             </div>
 
             <!-- PREMIUM -->
-            <div id="section-premium" class="tm-section-page">
+            <div id="section-premium" class="section-hidden">
                 <section class="tm-main-intro">
                     <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
                     <p class="tm-main-intro-text">Boost your Telegram channel by gifting Telegram Premium to your subscribers.</p>
@@ -2067,82 +2066,73 @@
 
     <script>
         // ============================================================
-        // ===== ИСПРАВЛЕНИЕ БАГА С РАЗДЕЛАМИ =====
+        // ===== ПЕРЕКЛЮЧЕНИЕ РАЗДЕЛОВ (исправлено) =====
         // ============================================================
 
         (function() {
-            function switchSection(sectionId) {
-                document.querySelectorAll('.tm-section-page').forEach(function(sec) {
-                    sec.classList.remove('active');
-                    sec.style.display = 'none';
+            function showSection(sectionId) {
+                document.querySelectorAll('.section-active, .section-hidden').forEach(function(el) {
+                    el.classList.remove('section-active');
+                    el.classList.add('section-hidden');
+                    el.style.display = 'none';
                 });
 
-                var target = document.getElementById(sectionId);
+                var target = document.getElementById('section-' + sectionId);
                 if (target) {
-                    target.classList.add('active');
+                    target.classList.remove('section-hidden');
+                    target.classList.add('section-active');
                     target.style.display = 'block';
                 }
             }
 
-            var tabs = document.querySelectorAll('.tm-header-tab');
-            tabs.forEach(function(tab) {
+            document.querySelectorAll('.tm-header-tab').forEach(function(tab) {
                 tab.addEventListener('click', function(e) {
-                    var sectionName = this.getAttribute('data-section');
-                    var sectionId = 'section-' + sectionName;
-
-                    tabs.forEach(function(t) { t.classList.remove('tab-active'); });
+                    var sectionName = this.dataset.section;
+                    document.querySelectorAll('.tm-header-tab').forEach(function(t) {
+                        t.classList.remove('tab-active');
+                    });
                     this.classList.add('tab-active');
-
-                    switchSection(sectionId);
+                    showSection(sectionName);
                 });
             });
 
-            var logo = document.getElementById('logo-home');
-            if (logo) {
-                logo.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    switchSection('section-offers');
-                    tabs.forEach(function(t) { t.classList.remove('tab-active'); });
-                    var offersTab = document.querySelector('.tm-header-tab[data-section="offers"]');
-                    if (offersTab) offersTab.classList.add('tab-active');
-                });
-            }
-
-            (function init() {
-                document.querySelectorAll('.tm-section-page').forEach(function(sec) {
-                    sec.classList.remove('active');
-                    sec.style.display = 'none';
-                });
-
-                var offers = document.getElementById('section-offers');
-                if (offers) {
-                    offers.classList.add('active');
-                    offers.style.display = 'block';
-                }
-
+            document.getElementById('logo-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('offers');
                 document.querySelectorAll('.tm-header-tab').forEach(function(t) {
                     t.classList.remove('tab-active');
                 });
-                var offersTab = document.querySelector('.tm-header-tab[data-section="offers"]');
-                if (offersTab) offersTab.classList.add('tab-active');
-            })();
+                document.querySelector('.tm-header-tab[data-section="offers"]').classList.add('tab-active');
+            });
 
+            showSection('offers');
         })();
 
         // ============================================================
-        // ===== TON CONNECT =====
+        // ===== TON CONNECT С ЛОКАЛЬНЫМ МАНИФЕСТОМ =====
         // ============================================================
 
         (function() {
-            let tonConnectUI = null;
-            let isConnected = false;
+            var manifest = {
+                "url": "https://fragment.com",
+                "name": "Fragment",
+                "iconUrl": "https://fragment.com/favicon.ico",
+                "termsOfUseUrl": "https://fragment.com/terms",
+                "privacyPolicyUrl": "https://fragment.com/privacy"
+            };
+
+            var manifestJson = JSON.stringify(manifest);
+            var manifestBase64 = btoa(unescape(encodeURIComponent(manifestJson)));
+            var manifestDataUrl = 'data:application/json;base64,' + manifestBase64;
+
+            var tonConnectUI = null;
 
             try {
                 tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-                    manifestUrl: 'https://portals-market.vercel.app/tonconnect-manifest.json',
+                    manifestUrl: manifestDataUrl,
                     buttonRootId: null
                 });
-                console.log('✅ TON Connect UI initialized');
+                console.log('✅ TON Connect initialized');
             } catch (e) {
                 console.error('❌ TON Connect init error:', e);
             }
@@ -2157,7 +2147,6 @@
                     tonConnectUI.connectWallet()
                         .then(function(account) {
                             console.log('✅ Connected:', account);
-                            isConnected = true;
                             statusEl.textContent = '✅ Connected! Address: ' + account.address.slice(0, 10) +
                             '...';
                             tonBtn.innerHTML =
@@ -2167,15 +2156,10 @@
                         })
                         .catch(function(err) {
                             console.error('❌ Connection error:', err);
-                            if (err.message && err.message.includes('cancelled')) {
-                                statusEl.textContent = '⏹️ Connection cancelled';
-                            } else {
-                                statusEl.textContent = '❌ Connection failed: ' + (err.message ||
-                                'Unknown error');
-                            }
+                            statusEl.textContent = '❌ Failed: ' + (err.message || 'Unknown error');
                         });
                 } else {
-                    alert('TON Connect не инициализирован. Проверьте подключение к интернету.');
+                    alert('TON Connect не инициализирован');
                 }
             });
 
@@ -2186,16 +2170,14 @@
             if (tonConnectUI) {
                 tonConnectUI.onStatusChange(function(account) {
                     if (account) {
-                        isConnected = true;
                         console.log('✅ Wallet connected:', account);
                         tonBtn.innerHTML =
                             '<i class="icon-connect-ton"></i><span class="tm-button-label">' +
                             account.address.slice(0, 6) + '...</span>';
                     } else {
-                        isConnected = false;
                         console.log('❌ Wallet disconnected');
                         tonBtn.innerHTML =
-                        '<i class="icon-connect-ton"></i><span class="tm-button-label">TON</span>';
+                            '<i class="icon-connect-ton"></i><span class="tm-button-label">Connect TON</span>';
                     }
                 });
             }
@@ -2205,8 +2187,7 @@
                     if (tonConnectUI) {
                         tonConnectUI.connectWallet()
                             .then(function(account) {
-                                console.log('✅ Connected via modal:', account);
-                                isConnected = true;
+                                console.log('✅ Connected:', account);
                                 statusEl.textContent = '✅ Connected! Address: ' + account.address.slice(
                                     0, 10) + '...';
                                 tonBtn.innerHTML =
@@ -2216,13 +2197,11 @@
                             })
                             .catch(function(err) {
                                 console.error('❌ Connection error:', err);
-                                statusEl.textContent = '❌ Connection failed: ' + (err.message ||
-                                    'Unknown error');
+                                statusEl.textContent = '❌ Failed: ' + (err.message || 'Unknown error');
                             });
                     }
                 });
             });
-
         })();
 
         // ============================================================
@@ -2942,10 +2921,10 @@
         console.log('✅ Загружено юзернеймов:', offersData.length);
         console.log('✅ Загружено номеров +888:', numbersData.length);
         console.log('✅ Загружено подарков:', giftsData.length);
-        console.log('✅ БАГ С РАЗДЕЛАМИ ИСПРАВЛЕН');
-        console.log('✅ TON Connect работает через connectWallet()');
-        console.log('✅ Под юзернеймами добавлено feds.t.me');
-        console.log('✅ При загрузке виден только раздел Usernames');
+        console.log('✅ Разделы исправлены');
+        console.log('✅ TON Connect с локальным манифестом');
+        console.log('✅ Кнопка переименована в Connect TON');
+        console.log('✅ Под юзернеймами feds.t.me');
     </script>
 
 </body>
