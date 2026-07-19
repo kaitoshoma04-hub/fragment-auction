@@ -273,16 +273,6 @@
         .tm-section-page.active {
             display: block !important;
         }
-        .telegram-web-app .page,
-        .telegram-web-app body,
-        .telegram-web-app .tm-header,
-        .telegram-web-app .mini-app-wrapper {
-            padding: 0 !important;
-            margin: 0 !important;
-            overflow-x: hidden !important;
-            max-width: 100vw !important;
-            width: 100% !important;
-        }
         ::-webkit-scrollbar {
             width: 0 !important;
             height: 0 !important;
@@ -1628,6 +1618,46 @@
         .telegram-login-box .close-btn:hover {
             background: #3f4e60;
         }
+
+        /* Дополнительный стиль для кнопки Telegram в поп-апе */
+        .popup-tg-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #248bda;
+            border: none;
+            border-radius: var(--def-border-radius);
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background .2s ease;
+            text-align: center;
+            min-width: 100px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 44px;
+            text-decoration: none;
+        }
+        .popup-tg-link:hover {
+            background: #207cc2;
+            text-decoration: none;
+        }
+        .popup-tg-link:active {
+            transform: scale(0.96);
+        }
+        .popup-tg-link .icon-telegram-btn {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            vertical-align: middle;
+            background-image: url('data:image/svg+xml,%3Csvg height="18" viewBox="0 0 17 18" width="17" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m.32 8.22c4.81-2.07 8.02-3.43 9.62-4.08 3.48-1.43 4.87-1.96 5.61-2.13.23-.06 1.45.29 1.45 1.18 0 2.58-1.32 8.8-1.87 11.67-.23 1.22-1.88 1.6-3.74.45-1.47-.91-2.27-1.52-3.68-2.44-1.63-1.05-.58-1.63.35-2.58.25-.25 4.47-4.03 4.55-4.37.01-.04.02-.2-.08-.29-.09-.08-.24-.05-.34-.03-.14.03-2.46 1.54-6.96 4.53-.66.44-1.25.66-1.79.65-.59-.02-1.15-.05-2.56-.6-.94-.37-1.13-1.02-.56-1.96z" fill="%23fff"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .popup-tg-link .btn-label {
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -1650,7 +1680,7 @@
                     </button>
                     <button class="tm-header-button" id="btn-ton">
                         <i class="icon-connect-ton"></i>
-                        <span class="tm-button-label">TON</span>
+                        <span class="tm-button-label">Connect TON</span>
                     </button>
                 </div>
             </div>
@@ -1950,6 +1980,10 @@
                         <div id="popup-ownership-list"></div>
                     </div>
                     <div class="popup-buttons">
+                        <a href="#" class="popup-tg-link" id="popup-tg-link" target="_blank">
+                            <span class="icon-telegram-btn"></span>
+                            <span class="btn-label">Open in Telegram</span>
+                        </a>
                         <button class="btn-primary" id="popup-bid-btn">Place Bid</button>
                         <button class="btn-secondary" id="popup-buy-btn">Buy Now</button>
                     </div>
@@ -2008,35 +2042,33 @@
     </div>
 
     <script>
-        // ============================================================
-        // ===== ИСПРАВЛЕННАЯ ВЕРСИЯ: ВСЕ РАБОТАЕТ =====
-        // ============================================================
-
         (function() {
             'use strict';
 
-            // ---- ГЕНЕРАЦИЯ ДАННЫХ ----
+            // ---- ГЕНЕРАЦИЯ БОЛЬШОГО КОЛИЧЕСТВА ДАННЫХ ----
 
             var usernameWords = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa',
                 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi',
                 'omega', 'cyber', 'neo', 'zen', 'vortex', 'storm', 'shadow', 'light', 'dark', 'phantom', 'echo',
                 'nova', 'apex', 'prime', 'core', 'flux', 'pulse', 'zenith', 'blaze', 'frost', 'ember', 'spirit',
                 'crystal', 'amber', 'onyx', 'quartz', 'ruby', 'sapphire', 'jade', 'crimson', 'azure', 'emerald',
-                'golden', 'silver', 'platinum', 'diamond'
+                'golden', 'silver', 'platinum', 'diamond', 'quantum', 'neon', 'toxic', 'venom', 'cipher', 'dash',
+                'flash', 'glitch', 'haze', 'jinx', 'karma', 'lunar', 'mystic', 'noble', 'oasis', 'pulse', 'quest',
+                'rebel', 'solar', 'titan', 'ultra', 'vivid', 'wraith', 'xenon', 'yeti', 'zeno'
             ];
 
             var offersData = [];
-            for (var i = 0; i < 120; i++) {
+            for (var i = 0; i < 250; i++) {
                 var w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
                 var w2 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
-                var num = Math.floor(Math.random() * 1000);
-                var name = (i < 50) ? usernameWords[i % usernameWords.length] + num : w1 + w2 + num;
-                var price = Math.floor(Math.random() * 15000) + 500;
-                var status = Math.random() > 0.7 ? 'taken' : 'avail';
+                var num = Math.floor(Math.random() * 9999);
+                var name = (i < 80) ? usernameWords[i % usernameWords.length] + num : w1 + w2 + num;
+                var price = Math.floor(Math.random() * 25000) + 300;
+                var status = Math.random() > 0.65 ? 'avail' : 'taken';
                 var label = status === 'avail' ? 'On auction' : 'Taken';
                 offersData.push({
                     id: i + 1,
-                    name: name.substring(0, 20),
+                    name: name.substring(0, 24),
                     type: 'Username',
                     price: price,
                     minBid: Math.round(price * 1.05),
@@ -2044,20 +2076,20 @@
                     status: status,
                     label: label,
                     date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleString(),
-                    bids: Math.floor(Math.random() * 15) + 1,
-                    endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math
+                    bids: Math.floor(Math.random() * 25) + 1,
+                    endsIn: Math.random() > 0.4 ? (Math.floor(Math.random() * 14) + 1) + 'd ' + (Math.floor(Math
                         .random() * 24)) + 'h' : '—'
                 });
             }
 
             var numbersData = [];
-            for (var ni = 0; ni < 50; ni++) {
+            for (var ni = 0; ni < 150; ni++) {
                 var p1 = String(Math.floor(Math.random() * 900) + 100);
                 var p2 = String(Math.floor(Math.random() * 900) + 100);
                 var p3 = String(Math.floor(Math.random() * 9000) + 1000);
                 var nname = '+888 ' + p1 + ' ' + p2 + ' ' + p3;
-                var nprice = Math.floor(Math.random() * 5000) + 300;
-                var nstatus = Math.random() > 0.75 ? 'taken' : 'avail';
+                var nprice = Math.floor(Math.random() * 8000) + 200;
+                var nstatus = Math.random() > 0.7 ? 'avail' : 'taken';
                 var nlabel = nstatus === 'avail' ? 'On auction' : 'Taken';
                 numbersData.push({
                     id: 1000 + ni,
@@ -2069,13 +2101,13 @@
                     status: nstatus,
                     label: nlabel,
                     date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleString(),
-                    bids: Math.floor(Math.random() * 10) + 1,
-                    endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math
+                    bids: Math.floor(Math.random() * 15) + 1,
+                    endsIn: Math.random() > 0.4 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math
                         .random() * 24)) + 'h' : '—'
                 });
             }
 
-            // ---- ГЕНЕРАЦИЯ ПОДАРКОВ ----
+            // ---- ГЕНЕРАЦИЯ ПОДАРКОВ (оставляем как было) ----
 
             var collectionNames = [
                 'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
@@ -2280,16 +2312,17 @@
                 var html = '';
                 for (var oi = 0; oi < loadedOffers.length; oi++) {
                     var item = loadedOffers[oi];
+                    var tgLink = 'https://t.me/' + item.name;
                     html += '<tr onclick="window.openDetail(\'' + item.name + '\', \'Username\', ' + item.price + ', ' +
                         (item.minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item
                             .price * 0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item
                         .date + '\', ' + (item.bids || 0) + ', \'' + (item.endsIn || '—') +
-                        '\', \'\', \'\', null, null, null)">';
+                        '\', \'\', \'\', null, null, null, \'' + tgLink + '\')">';
                     html += '<td>';
-                    html += '<a href="#" class="tm-username-link">@' + item.name + '</a>';
+                    html += '<span class="tm-username-link">@' + item.name + '</span>';
                     html +=
-                        '<span class="tm-username-sub" onclick="event.stopPropagation(); window.open(\'https://t.me/' +
-                        item.name + '\', \'_blank\')">feds.t.me</span>';
+                        '<span class="tm-username-sub" onclick="event.stopPropagation(); window.open(\'' + tgLink +
+                        '\', \'_blank\')">' + tgLink + '</span>';
                     html += '</td>';
                     html += '<td>' + item.type + '</td>';
                     html += '<td><span class="tm-value icon-ton">' + item.price.toLocaleString() + '</span></td>';
@@ -2333,8 +2366,8 @@
                         (item.minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item
                             .price * 0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item
                         .date + '\', ' + (item.bids || 0) + ', \'' + (item.endsIn || '—') +
-                        '\', \'\', \'\', null, null, null)">';
-                    html += '<td><a href="#" class="tm-username-link">' + item.name + '</a></td>';
+                        '\', \'\', \'\', null, null, null, null)">';
+                    html += '<td><span class="tm-username-link">' + item.name + '</span></td>';
                     html += '<td>' + item.type + '</td>';
                     html += '<td><span class="tm-value icon-ton">' + item.price.toLocaleString() + '</span></td>';
                     html += '<td><span class="tm-status-badge ' + item.status + '">' + item.label + '</span></td>';
@@ -2418,7 +2451,8 @@
                                 item.collection,
                                 JSON.stringify(item.attrs),
                                 item.owner,
-                                JSON.stringify(item.history)
+                                JSON.stringify(item.history),
+                                null
                             );
                         };
                     })(item));
@@ -2472,7 +2506,7 @@
             // ---- POPUP ----
 
             window.openDetail = function(name, type, price, minBid, bidStep, status, label, date, bids, endsIn,
-                imageUrl, collection, attrs, owner, history) {
+                imageUrl, collection, attrs, owner, history, tgLink) {
                 var isGift = type === 'Gift';
                 var title = isGift ? name : (type === 'Username' ? '@' + name : name);
 
@@ -2575,6 +2609,16 @@
                     ownershipContainer.style.display = 'none';
                 }
 
+                // Настраиваем ссылку на Telegram
+                var tgLinkEl = document.getElementById('popup-tg-link');
+                if (tgLink && type === 'Username') {
+                    tgLinkEl.style.display = 'inline-block';
+                    tgLinkEl.href = tgLink;
+                    tgLinkEl.target = '_blank';
+                } else {
+                    tgLinkEl.style.display = 'none';
+                }
+
                 document.getElementById('detail-popup').classList.remove('hide');
             };
 
@@ -2650,17 +2694,33 @@
                 }
             });
 
-            // ---- TON CONNECT ----
+            // ---- TON CONNECT С ИСПРАВЛЕННЫМ МАНИФЕСТОМ ----
 
             (function() {
                 let tonConnectUI = null;
                 try {
+                    // Используем корректный манифест
+                    var manifestUrl = 'https://raw.githubusercontent.com/ton-connect/sdk/main/packages/demo/demo-manifest.json';
+                    // Или запасной вариант
+                    if (!manifestUrl) {
+                        manifestUrl = 'https://ton-connect.github.io/demo-manifest.json';
+                    }
+
                     tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-                        manifestUrl: 'https://portals-market.vercel.app/tonconnect-manifest.json',
+                        manifestUrl: manifestUrl,
                         buttonRootId: null
                     });
+                    console.log('✅ TON Connect UI initialized with manifest');
                 } catch (e) {
                     console.error('TON Connect init error:', e);
+                    // Пробуем без манифеста, но с прямым вызовом
+                    try {
+                        tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+                            buttonRootId: null
+                        });
+                    } catch (e2) {
+                        console.error('TON Connect fallback error:', e2);
+                    }
                 }
 
                 var tonBtn = document.getElementById('btn-ton');
@@ -2690,7 +2750,7 @@
                                 }
                             });
                     } else {
-                        alert('TON Connect не инициализирован.');
+                        alert('TON Connect не инициализирован. Попробуйте перезагрузить страницу.');
                     }
                 });
 
@@ -2708,7 +2768,7 @@
                         } else {
                             console.log('❌ Wallet disconnected');
                             tonBtn.innerHTML =
-                                '<i class="icon-connect-ton"></i><span class="tm-button-label">TON</span>';
+                                '<i class="icon-connect-ton"></i><span class="tm-button-label">Connect TON</span>';
                         }
                     });
                 }
@@ -2836,7 +2896,6 @@
             renderGifts('all', '');
             renderFilterCollections();
 
-            // Активируем только вкладку Usernames
             document.querySelectorAll('.tm-section-page').forEach(function(sec) {
                 sec.classList.remove('active');
                 sec.style.display = 'none';
@@ -2853,7 +2912,7 @@
             console.log('✅ Загружено юзернеймов:', offersData.length);
             console.log('✅ Загружено номеров +888:', numbersData.length);
             console.log('✅ Загружено подарков:', giftsData.length);
-            console.log('✅ ВСЕ РАБОТАЕТ КАК НАДО');
+            console.log('✅ ВСЕ ИСПРАВЛЕНО: больше данных, t.me ссылки в детальном просмотре, кнопка Connect TON');
 
         })();
     </script>
