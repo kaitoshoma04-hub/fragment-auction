@@ -56,9 +56,8 @@
         }
         a { color: var(--accent-color); text-decoration: none; }
         
-        /* ===== ОБЕРТКА - НА ВСЮ ШИРИНУ ===== */
         .mini-app-wrapper {
-            width: 100%;
+            max-width: 480px;
             margin: 0 auto;
             padding: 0 6px;
             background: var(--bg-color);
@@ -68,11 +67,10 @@
             flex-direction: column;
         }
         
-        /* ===== ХЕДЕР - НА ВСЮ ШИРИНУ ===== */
         .tm-header {
             display: flex;
             flex-direction: column;
-            margin: 0 -6px;
+            margin: 0 auto;
             position: sticky;
             left: 0;
             right: 0;
@@ -83,12 +81,12 @@
             backdrop-filter: blur(25px);
             height: auto;
             min-height: var(--header-height);
-            padding: 6px 10px 0;
+            padding: 6px 4px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             touch-action: manipulation;
+            max-width: 480px;
             gap: 4px;
             flex-shrink: 0;
-            width: 100%;
         }
         
         .tm-header-top {
@@ -247,7 +245,6 @@
             margin-top: 1px;
         }
         
-        /* ===== MAIN - КОНТЕНТ ПО ЦЕНТРУ ===== */
         .tm-main {
             margin: 0 auto;
             width: 100%;
@@ -718,6 +715,9 @@
             background-color: #111417;
             margin-top: auto;
             border-top: 1px solid rgba(255,255,255,0.04);
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
             width: 100%;
             flex-shrink: 0;
         }
@@ -1300,7 +1300,7 @@
 
 <div class="mini-app-wrapper">
 
-<!-- HEADER - НА ВСЮ ШИРИНУ -->
+<!-- HEADER -->
 <header class="tm-header">
     <div class="tm-header-top">
         <div class="tm-header-logo">
@@ -2348,7 +2348,7 @@ console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков (без Scared Cats, Loot Bags, Low Riders):', giftsData.length);
 console.log('✅ Главная страница - Usernames');
 console.log('✅ Кнопки Telegram и TON Connect работают');
-console.log('✅ Заголовок растянут на всю ширину экрана');
+console.log('✅ Заголовок в рамках мини аппа');
 </script>
 </body>
 </html>
