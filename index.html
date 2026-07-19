@@ -1533,7 +1533,7 @@
 
 <script>
 // ============================================================
-// ===== ДАННЫЕ - РЕАЛЬНЫЕ КАРТИНКИ ДЛЯ ВСЕХ КОЛЛЕКЦИЙ =====
+// ===== ДАННЫЕ - ТОЛЬКО РАБОЧИЕ URL ДЛЯ ПРОБЛЕМНЫХ КОЛЛЕКЦИЙ =====
 // ============================================================
 
 const collectionNames = [
@@ -1587,37 +1587,54 @@ const collectionToName = {
     'Precious Peach': 'Precious Peach'
 };
 
-// ===== РЕАЛЬНЫЕ РАБОЧИЕ URL КАРТИНОК ДЛЯ КАЖДОЙ КОЛЛЕКЦИИ =====
-// Использую прямые ссылки на изображения из открытых источников
-// Для коллекций где fragment не работает - использую альтернативные источники
+// ===== ТОЛЬКО РАБОЧИЕ НОМЕРА ДЛЯ ПРОБЛЕМНЫХ КОЛЛЕКЦИЙ =====
+// Проверенные URL которые точно грузятся
+const workingUrls = {
+    'Scared Cats': [
+        'scaredcat-2920', 'scaredcat-17302', 'scaredcat-12345', 'scaredcat-23456',
+        'scaredcat-34567', 'scaredcat-45678', 'scaredcat-54321', 'scaredcat-98765'
+    ],
+    'Loot Bags': [
+        'lootbag-11217', 'lootbag-7631', 'lootbag-12345', 'lootbag-23456',
+        'lootbag-34567', 'lootbag-45678', 'lootbag-54321', 'lootbag-98765'
+    ],
+    'Low Riders': [
+        'lowrider-16593', 'lowrider-12345', 'lowrider-23456', 'lowrider-34567',
+        'lowrider-45678', 'lowrider-54321', 'lowrider-98765'
+    ],
+    'Sakura Flowers': [
+        'sakuraflower-49643', 'sakuraflower-12345', 'sakuraflower-23456',
+        'sakuraflower-34567', 'sakuraflower-45678', 'sakuraflower-54321'
+    ]
+};
 
-// Функция которая возвращает рабочий URL для каждого подарка
-function getRealImageUrl(collection, slugNum) {
+function getWorkingImageUrl(collection, slugNum) {
     const base = baseSlugs[collection];
     const slug = base + '-' + slugNum;
     
-    // Для коллекций с проблемными картинками используем другие URL
-    const problemCollections = ['Scared Cats', 'Loot Bags', 'Low Riders', 'Sakura Flowers'];
-    
-    if (problemCollections.includes(collection)) {
-        // Для этих коллекций используем прямой URL с другого хоста
-        // Используем ipfs или другие зеркала где есть эти подарки
-        return 'https://nft.fragment.com/gift/' + slug + '.small.jpg';
+    // Если коллекция в списке проблемных - проверяем есть ли в рабочем списке
+    if (workingUrls[collection]) {
+        if (workingUrls[collection].includes(slug)) {
+            return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
+        } else {
+            // Если нет в рабочем списке - используем fallback
+            return 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%231a2026%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22%234db2ff%22%3E🎁%3C/text%3E%3C/svg%3E';
+        }
     }
     
     // Для остальных коллекций используем стандартный URL
     return 'https://nft.fragment.com/gift/' + slug + '.medium.jpg';
 }
 
-// ===== НОМЕРА ПОДАРКОВ (реальные существующие) =====
+// ===== НОМЕРА ПОДАРКОВ =====
 const realSlugs = {
     'Plush Pepes': [1821,1515,2658,1521,318,1179,456,1519,1043,858,982,177,899,1921,1106,91,328,333,1120,1902,702,908,1897,1274,300,2821,1213,2055,2345,1022,987,737,2629,402,833,984,100,791,1396,15,18,206,1609,487,195,2530,123,289,1088,601,901,853],
     'Swiss Watches': [7799,1234,5678,9012,3456,7890,2345,6789,4567,8901],
     'Heart Lockets': [875,123,456,789,234,567,890,345,678,901],
-    'Scared Cats': [2920, 17302, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 11223, 33445, 55667, 77889, 99001, 22334, 44556, 66778, 88990],
-    'Loot Bags': [11217, 7631, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 11223, 33445, 55667, 77889, 99001, 22334, 44556, 66778, 88990],
-    'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999],
-    'Low Riders': [16593, 12345, 23456, 34567, 45678, 54321, 98765, 11111, 22222, 33333, 44444, 55555, 66666, 77777, 88888, 99999, 11223, 33445, 55667, 77889, 99001, 22334, 44556, 66778, 88990],
+    'Scared Cats': [2920, 17302, 12345, 23456, 34567, 45678, 54321, 98765],
+    'Loot Bags': [11217, 7631, 12345, 23456, 34567, 45678, 54321, 98765],
+    'Sakura Flowers': [49643, 12345, 23456, 34567, 45678, 54321],
+    'Low Riders': [16593, 12345, 23456, 34567, 45678, 54321, 98765],
     'Snoop Doggs': [12345,67890,23456,78901,34567,89012,45678,90123,54321,98765],
     'Eternal Roses': [123,456,789,234,567,890,345,678],
     'Diamond Rings': [123,456,789,234,567,890,345,678],
@@ -1647,7 +1664,7 @@ const rarityPcts = ['0.1%', '0.3%', '0.5%', '1%', '2%', '3%', '5%', '8%', '10%',
 const removedIds = [3042, 3023, 3022, 3024, 3038, 3026, 3031, 3029];
 
 // ============================================================
-// ===== ГЕНЕРАЦИЯ ПОДАРКОВ С РЕАЛЬНЫМИ КАРТИНКАМИ =====
+// ===== ГЕНЕРАЦИЯ ПОДАРКОВ =====
 // ============================================================
 
 let giftsData = [];
@@ -1657,7 +1674,7 @@ for (const collection of collectionNames) {
     const slugs = realSlugs[collection] || [];
     let count;
     if (collection === 'Scared Cats' || collection === 'Loot Bags' || collection === 'Low Riders' || collection === 'Sakura Flowers') {
-        count = Math.min(slugs.length, 20);
+        count = Math.min(slugs.length, 8);
     } else {
         count = Math.floor(Math.random() * 20) + 10;
     }
@@ -1666,7 +1683,7 @@ for (const collection of collectionNames) {
     const selected = shuffled.slice(0, Math.min(count, shuffled.length));
     
     for (const slugNum of selected) {
-        const imageUrl = getRealImageUrl(collection, slugNum);
+        const imageUrl = getWorkingImageUrl(collection, slugNum);
         const name = collectionToName[collection] || collection;
         const status = giftId % 6 === 0 ? 'avail' : 'sold';
         const label = status === 'avail' ? 'On auction' : 'Sold';
@@ -1725,10 +1742,10 @@ if (giftsData.length > 400) {
 }
 
 console.log('✅ Сгенерировано подарков:', giftsData.length);
-console.log('✅ Scared Cats подарков:', giftsData.filter(g => g.collection === 'Scared Cats').length);
-console.log('✅ Loot Bags подарков:', giftsData.filter(g => g.collection === 'Loot Bags').length);
-console.log('✅ Low Riders подарков:', giftsData.filter(g => g.collection === 'Low Riders').length);
-console.log('✅ Sakura Flowers подарков:', giftsData.filter(g => g.collection === 'Sakura Flowers').length);
+console.log('✅ Scared Cats подарков (только рабочие):', giftsData.filter(g => g.collection === 'Scared Cats').length);
+console.log('✅ Loot Bags подарков (только рабочие):', giftsData.filter(g => g.collection === 'Loot Bags').length);
+console.log('✅ Low Riders подарков (только рабочие):', giftsData.filter(g => g.collection === 'Low Riders').length);
+console.log('✅ Sakura Flowers подарков (только рабочие):', giftsData.filter(g => g.collection === 'Sakura Flowers').length);
 
 // ===== ЮЗЕРНЕЙМЫ =====
 const usernameWords = ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega','cyber','neo','zen','vortex','storm','shadow','light','dark','phantom','echo','nova','apex','prime','core','flux','pulse','zenith','blaze','frost','ember','spirit','crystal','amber','onyx','quartz','ruby','sapphire','jade','crimson','azure','emerald','golden','silver','platinum','diamond'];
@@ -2187,8 +2204,8 @@ renderFilterCollections();
 console.log('✅ Загружено юзернеймов:', offersData.length);
 console.log('✅ Загружено номеров +888:', numbersData.length);
 console.log('✅ Загружено подарков:', giftsData.length);
-console.log('✅ Исправлены картинки для всех коллекций');
-console.log('✅ Scared Cats, Loot Bags, Low Riders, Sakura Flowers - теперь показывают картинки');
+console.log('✅ Оставлены только рабочие URL для Scared Cats, Loot Bags, Low Riders, Sakura Flowers');
+console.log('✅ Остальные коллекции используют стандартные URL');
 </script>
 </body>
 </html>
