@@ -81,7 +81,7 @@
             backdrop-filter: blur(25px);
             height: auto;
             min-height: var(--header-height);
-            padding: 6px 0 0;
+            padding: 6px 10px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             touch-action: manipulation;
             gap: 4px;
@@ -94,7 +94,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 10px;
+            padding: 0 2px;
         }
         
         .tm-header-logo { 
@@ -187,7 +187,7 @@
         
         .tm-header-tabs-wrap {
             width: 100%;
-            padding: 2px 10px 0;
+            padding: 2px 0 0;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
@@ -962,13 +962,17 @@
             color: #fff; font-weight: bold; font-size: 14px; cursor: pointer;
         }
         .telegram-login-box .close-btn:active { background: #3f4e60; }
+        
+        .stars-section-content, .premium-section-content {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="mini-app-wrapper">
 
-<!-- HEADER - БЕЗ ОТСТУПОВ -->
+<!-- HEADER -->
 <header class="tm-header">
     <div class="tm-header-top">
         <div class="tm-header-logo">
@@ -1093,145 +1097,25 @@
 
     <!-- STARS -->
     <div id="section-stars" class="section-hidden" style="display:flex;flex-direction:column;flex:1;">
-        <section class="tm-main-intro">
-            <h1 class="tm-main-intro-header">Buy Telegram Stars</h1>
-            <p class="tm-main-intro-text">Top up Stars Balance for yourself or your friends and colleagues.</p>
-        </section>
-        <form class="tm-section tm-main-search-form js-stars-form">
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose recipient</label>
-                <div class="icon-before icon-search tm-field tm-search-field">
-                    <input type="search" class="tm-search-input" placeholder="Enter Telegram username..." autocomplete="off" spellcheck="false">
-                    <span class="tm-search-clear"></span>
-                </div>
-                <div class="tm-search-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Enter quantity of Telegram Stars</label>
-                <div class="icon-before icon-stars form-control-wrap tm-coin-field">
-                    <input inputmode="decimal" class="tm-amount-input" placeholder="Enter amount from 50 to 10,000,000" autocomplete="off" spellcheck="false">
-                    <span class="tm-stars-price">~ $0.00</span>
-                    <span class="tm-search-clear"></span>
-                </div>
-                <div class="tm-search-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Payment Method</label>
-                <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="ton" checked><span class="tm-currency-tab-icon tab-icon-ton"></span><span>TON</span></label>
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdt"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span></label>
-                    <label class="tm-currency-tab"><input type="radio" class="radio" name="payment_method" value="usdc"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span></label>
-                </div>
-            </div>
-        </form>
-        <div class="tm-section" style="max-width:100%;margin:0 auto;">
-            <button class="btn btn-primary btn-block js-stars-buy-btn">
-                <span class="tm-button-label">Buy Telegram Stars</span>
-            </button>
-            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
+        <div style="text-align:center;padding:20px 0;">
+            <div style="font-size:24px;font-weight:bold;color:#fff;">⭐ Buy Stars</div>
+            <div style="font-size:14px;color:var(--text);margin-top:4px;">Coming soon</div>
+        </div>
+        <div class="empty" style="flex:1;padding:10px 16px;">
+            <div class="empty-icon">⭐</div>
+            <div class="empty-title">Telegram Stars</div>
+            <div class="empty-text">Purchase Stars for yourself or friends</div>
+            <button class="empty-btn">Coming Soon</button>
         </div>
     </div>
 
     <!-- PREMIUM -->
     <div id="section-premium" class="section-hidden">
-        <section class="tm-main-intro">
-            <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
-            <p class="tm-main-intro-text">Boost your Telegram channel by gifting Telegram Premium to your subscribers.</p>
-        </section>
-        <form class="tm-section tm-main-search-form js-premium-form">
-            <input type="hidden" name="recipient" value="">
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose a channel</label>
-                <div class="icon-before icon-search tm-field tm-search-field js-premium-search-field">
-                    <input type="search" class="form-control tm-input tm-search-input" name="query" value="" placeholder="Enter Telegram username or t.me link" autocomplete="off" spellcheck="false">
-                    <span class="tm-search-loading"><svg class="circle-progress-wrap" viewPort="0 0 22 22" width="22px" height="22px"><circle class="circle-progress" cx="50%" cy="50%" stroke-dashoffset="62"></circle></svg></span>
-                    <span class="icon-before icon-search-clear tm-search-clear js-form-clear"></span>
-                    <span class="icon-before icon-search-error tm-search-error-icon"></span>
-                    <span class="tm-search-field-photo js-premium-search-photo"></span>
-                </div>
-                <div class="tm-search-field-error js-search-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Choose quantity of subscriptions</label>
-                <div class="tm-field js-premium-quantity-field">
-                    <input inputmode="decimal" class="form-control tm-input tm-amount-input" name="quantity" value="" placeholder="Enter amount from 1 to 24000" autocomplete="off" spellcheck="false">
-                    <span class="tm-search-loading"><svg class="circle-progress-wrap" viewPort="0 0 22 22" width="22px" height="22px"><circle class="circle-progress" cx="50%" cy="50%" stroke-dashoffset="62"></circle></svg></span>
-                </div>
-                <div class="tm-search-field-error js-quantity-field-error"></div>
-            </div>
-            <div class="tm-main-form-group">
-                <div class="js-premium-options">
-                    <label class="tm-main-form-label">Choose duration</label>
-                    <div class="tm-form-radio-items">
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="12" checked>
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">1 year<span class="tm-radio-label-badge">-40%</span></div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">24<span class="mini-frac">.36</span></div>
-                                <div class="tm-radio-desc">$35.99</div>
-                            </div>
-                        </label>
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="6">
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">6 months<span class="tm-radio-label-badge">-33%</span></div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">13<span class="mini-frac">.53</span></div>
-                                <div class="tm-radio-desc">$19.99</div>
-                            </div>
-                        </label>
-                        <label class="tm-form-radio-item">
-                            <input type="radio" class="radio" name="months" value="3">
-                            <div class="tm-form-radio-label">
-                                <div class="tm-radio-label">3 months</div>
-                                <div class="tm-quantity"></div>
-                                <div class="tm-value icon-before icon-ton">10<span class="mini-frac">.14</span></div>
-                                <div class="tm-radio-desc">$14.99</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="tm-main-form-group">
-                <label class="tm-main-form-label">Payment Method</label>
-                <div class="tm-currency-tabs">
-                    <label class="tm-currency-tab" for="cur-ton-prem">
-                        <input type="radio" class="radio" name="payment_method" value="ton" id="cur-ton-prem" checked>
-                        <span class="tm-currency-tab-icon tab-icon-ton"></span>
-                        <span>GRAM</span>
-                        <span class="tab-network">TON</span>
-                    </label>
-                    <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
-                            <span class="tm-currency-tab-icon tab-icon-usdt"></span>
-                            <span>USDT</span>
-                        </label>
-                        <ul class="dropdown-menu">
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_eth"><span class="tm-currency-tab-icon tab-icon-usdt"></span><span>USDT</span><span class="tab-network">ETH</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_ton"><span class="tm-currency-tab-icon tab-icon-usdt-ton"></span><span>USDT</span><span class="tab-network">TON</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdt_pol"><span class="tm-currency-tab-icon tab-icon-usdt-pol"></span><span>USDT</span><span class="tab-network">POL</span></label></li>
-                        </ul>
-                    </div>
-                    <div class="btn-group tm-dropdown">
-                        <label class="tm-currency-tab dropdown-toggle icon-after" data-toggle="dropdown">
-                            <span class="tm-currency-tab-icon tab-icon-usdc"></span>
-                            <span>USDC</span>
-                        </label>
-                        <ul class="dropdown-menu">
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_eth"><span class="tm-currency-tab-icon tab-icon-usdc"></span><span>USDC</span><span class="tab-network">ETH</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_base"><span class="tm-currency-tab-icon tab-icon-usdc-base"></span><span>USDC</span><span class="tab-network">Base</span></label></li>
-                            <li><label class="tm-currency-tab js-currency-item"><input type="radio" class="radio" name="payment_method" value="usdc_pol"><span class="tm-currency-tab-icon tab-icon-usdc-pol"></span><span>USDC</span><span class="tab-network">POL</span></label></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class="tm-section" style="max-width:100%;margin:0 auto;">
-            <button class="btn btn-primary btn-block js-giveaway-premium-btn">
-                <span class="tm-button-label js-prepay-premium-label">Buy Subscriptions</span>
-            </button>
-            <div class="tm-main-form-link-wrap"><a href="#">View Transactions History</a></div>
+        <div class="empty">
+            <div class="empty-icon">👑</div>
+            <div class="empty-title">Telegram Premium</div>
+            <div class="empty-text">Prepay for giveaways</div>
+            <button class="empty-btn">Coming Soon</button>
         </div>
     </div>
 
@@ -1959,29 +1843,6 @@ document.getElementById('gift-filters-toggle')?.addEventListener('click', functi
     }
 });
 
-// ===== STARS / PREMIUM =====
-document.querySelector('.js-stars-buy-btn')?.addEventListener('click', function() {
-    alert('Buy Stars clicked! (demo)');
-});
-document.querySelector('.js-giveaway-premium-btn')?.addEventListener('click', function() {
-    alert('Buy Subscriptions clicked! (demo)');
-});
-
-// ===== PREMIUM DROPDOWNS =====
-document.querySelectorAll('.tm-dropdown .dropdown-toggle').forEach(toggle => {
-    toggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const menu = this.parentElement.querySelector('.dropdown-menu');
-        if (menu) {
-            menu.classList.toggle('show');
-        }
-    });
-});
-document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
-});
-
 // ===== LOGO HOME =====
 document.getElementById('logo-home')?.addEventListener('click', function(e) {
     e.preventDefault();
@@ -2017,6 +1878,7 @@ console.log('✅ Загружено подарков (без Scared Cats, Loot B
 console.log('✅ Главная страница - Usernames');
 console.log('✅ Кнопки Telegram и TON Connect работают');
 console.log('✅ Заголовок без отступов слева и справа');
+console.log('✅ Разделы Stars и Premium отдельные, без лишнего контента');
 </script>
 </body>
 </html>
