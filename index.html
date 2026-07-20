@@ -10,6 +10,8 @@
     <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z' fill='%23fff'/%3E%3C/svg%3E" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js">
     </script>
+    <script src="https://telegram.org/js/telegram-web-app.js">
+    </script>
     <style>
         :root {
             --text-color: #8794a1;
@@ -1344,90 +1346,30 @@
         .ton-manifest-iframe { display: none; }
         #section-mygifts .tm-section-header { display: none !important; }
 
-        /* Стили для виджета входа через Telegram */
-        .tg-login-widget-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            z-index: 9999;
-            display: none;
+        /* Кнопка Telegram с аватаркой */
+        .tm-header-button .tg-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: inline-block;
+            background: #293440;
+        }
+        .tm-header-button .tg-avatar.fallback {
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .tg-login-widget-container.open { display: flex; }
-        .tg-login-widget-box {
-            background: var(--bg-color);
-            border-radius: 16px;
-            max-width: 380px;
-            width: 100%;
-            padding: 28px 24px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
-            text-align: center;
-            position: relative;
-        }
-        .tg-login-widget-box .close-btn {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-        .tg-login-widget-box .close-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
-        .tg-login-widget-box .logo-icon {
-            font-size: 48px;
-            margin-bottom: 2px;
-            display: block;
-        }
-        .tg-login-widget-box .title {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 10px;
             color: #fff;
-            margin-bottom: 4px;
+            background: #4db2ff;
         }
-        .tg-login-widget-box .sub {
-            font-size: 13px;
-            color: var(--text-color);
-            margin-bottom: 20px;
-            line-height: 1.4;
+        .tm-header-button .tg-username {
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
         }
-        .tg-login-widget-box .continue-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            background: #248bda;
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background .2s ease, transform .1s ease;
-            font-family: inherit;
-            min-height: 52px;
-        }
-        .tg-login-widget-box .continue-btn:hover { background: #207cc2; }
-        .tg-login-widget-box .continue-btn:active { transform: scale(0.97); }
-        .tg-login-widget-box .phone-link {
-            display: block;
-            margin-top: 14px;
-            color: var(--text-color);
-            font-size: 13px;
-            text-decoration: none;
-            padding: 6px;
-            transition: color .2s ease;
-        }
-        .tg-login-widget-box .phone-link:hover { color: #fff; }
     </style>
 </head>
 <body>
@@ -1447,7 +1389,7 @@
                 <div class="tm-header-actions">
                     <button class="tm-header-button" id="btn-telegram">
                         <i class="icon-connect-telegram"></i>
-                        <span class="tm-button-label">Telegram</span>
+                        <span class="tm-button-label" id="tg-button-label">Telegram</span>
                     </button>
                     <button class="tm-header-button" id="btn-ton">
                         <i class="icon-connect-ton"></i>
@@ -1785,18 +1727,6 @@
             </div>
         </div>
 
-        <!-- TELEGRAM LOGIN WIDGET (как на скрине) -->
-        <div class="tg-login-widget-container" id="tg-login-overlay">
-            <div class="tg-login-widget-box">
-                <button class="close-btn" id="tg-close-overlay">&times;</button>
-                <span class="logo-icon">✈️</span>
-                <div class="title">Вход через Telegram</div>
-                <div class="sub">Сайту будут известны Ваши имя, публичная ссылка и фотография.</div>
-                <button class="continue-btn" id="tg-continue-btn">▲ Continue with Telegram</button>
-                <a href="#" class="phone-link" id="tg-phone-link">Or log in with a phone number ›</a>
-            </div>
-        </div>
-
         <footer class="tm-footer">
             <div class="tm-footer-links">
                 <a href="#" class="tm-footer-link">Top Auctions</a>
@@ -1810,119 +1740,58 @@
 
     <script>
         // ============================================================
-        // ==== TELEGRAM LOGIN WIDGET С ORIGIN ====
+        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ (БЕЗ OAuth) ====
         // ============================================================
 
-        var TELEGRAM_BOT_ID = '8992384950';
-        var SITE_ORIGIN = 'https://portals-market.vercel.app';
+        var tgUser = null;
+        var tgButton = document.getElementById('btn-telegram');
+        var tgLabel = document.getElementById('tg-button-label');
 
-        function onTelegramAuth(data) {
-            if (!data || data.error) {
-                console.error('Telegram auth error:', data?.error);
-                document.getElementById('tg-login-overlay').classList.remove('open');
-                return;
+        // Получаем данные пользователя из Telegram WebApp
+        if (window.Telegram && window.Telegram.WebApp) {
+            var webapp = window.Telegram.WebApp;
+            var initData = webapp.initDataUnsafe || {};
+
+            if (initData.user) {
+                tgUser = initData.user;
+                console.log('✅ Пользователь уже авторизован в Mini App:', tgUser);
+
+                // Обновляем кнопку — показываем аватарку и ник
+                var avatarHtml = '';
+                if (tgUser.photo_url) {
+                    avatarHtml = '<img class="tg-avatar" src="' + tgUser.photo_url + '" alt="avatar">';
+                } else {
+                    var firstChar = (tgUser.first_name || 'U').charAt(0).toUpperCase();
+                    avatarHtml = '<span class="tg-avatar fallback">' + firstChar + '</span>';
+                }
+                var username = tgUser.username ? '@' + tgUser.username : (tgUser.first_name || 'User');
+                tgButton.innerHTML = avatarHtml + ' <span class="tg-username">' + username + '</span>';
+
+                // Меняем поведение кнопки — теперь она показывает профиль
+                tgButton.onclick = function() {
+                    alert('✅ Вы авторизованы как:\n\n' +
+                        'ID: ' + tgUser.id + '\n' +
+                        'Имя: ' + (tgUser.first_name || '') + ' ' + (tgUser.last_name || '') + '\n' +
+                        'Username: @' + (tgUser.username || 'нет') + '\n\n' +
+                        'Выход осуществляется через Telegram');
+                };
+
+                // Расширяем Telegram WebApp
+                webapp.expand();
+            } else {
+                console.log('⚠️ Пользователь не авторизован в Mini App');
+                tgButton.onclick = function() {
+                    alert('❌ Откройте приложение через Telegram Mini App, чтобы авторизоваться автоматически.');
+                };
             }
-            console.log('✅ Telegram auth success:', data);
-            document.getElementById('tg-login-overlay').classList.remove('open');
-            alert('✅ Авторизация через Telegram успешна!\n\nID: ' + data.id + '\nИмя: ' + (data.first_name || '') + ' ' + (
-                data.last_name || '') + '\nUsername: @' + (data.username || 'нет'));
+        } else {
+            console.log('⚠️ Страница открыта не в Telegram Mini App');
+            tgButton.onclick = function() {
+                alert('❌ Откройте это приложение через Telegram Mini App для автоматической авторизации.\n\n' +
+                    'Или откройте бота: t.me/' + TELEGRAM_BOT_ID);
+                window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID, '_blank');
+            };
         }
-
-        // Кнопка Telegram — открываем виджет
-        document.getElementById('btn-telegram').addEventListener('click', function() {
-            // Сначала проверяем, есть ли уже загруженный скрипт
-            if (typeof Telegram !== 'undefined' && Telegram.Login) {
-                // Открываем окно авторизации напрямую через виджет
-                Telegram.Login.auth({
-                    client_id: TELEGRAM_BOT_ID,
-                    origin: SITE_ORIGIN,
-                    redirect_uri: SITE_ORIGIN,
-                    scope: ['profile', 'phone', 'write'],
-                    lang: 'ru'
-                }, function(data) {
-                    if (data && !data.error) {
-                        onTelegramAuth(data);
-                    } else {
-                        console.error('Auth error:', data?.error);
-                        // Показываем виджет как fallback
-                        document.getElementById('tg-login-overlay').classList.add('open');
-                    }
-                });
-            } else {
-                // Загружаем скрипт и показываем виджет
-                var script = document.createElement('script');
-                script.src = 'https://oauth.telegram.org/js/telegram-login.js?3';
-                script.setAttribute('data-client-id', TELEGRAM_BOT_ID);
-                script.setAttribute('data-onauth', 'onTelegramAuth(data)');
-                script.setAttribute('data-origin', SITE_ORIGIN);
-                script.setAttribute('data-request-access', 'write');
-                script.onload = function() {
-                    if (typeof Telegram !== 'undefined' && Telegram.Login) {
-                        Telegram.Login.auth({
-                            client_id: TELEGRAM_BOT_ID,
-                            origin: SITE_ORIGIN,
-                            redirect_uri: SITE_ORIGIN,
-                            scope: ['profile', 'phone', 'write'],
-                            lang: 'ru'
-                        }, function(data) {
-                            if (data && !data.error) {
-                                onTelegramAuth(data);
-                            } else {
-                                console.error('Auth error:', data?.error);
-                                document.getElementById('tg-login-overlay').classList.add('open');
-                            }
-                        });
-                    } else {
-                        document.getElementById('tg-login-overlay').classList.add('open');
-                    }
-                };
-                script.onerror = function() {
-                    document.getElementById('tg-login-overlay').classList.add('open');
-                };
-                document.head.appendChild(script);
-            }
-        });
-
-        // Закрытие виджета
-        document.getElementById('tg-close-overlay').addEventListener('click', function() {
-            document.getElementById('tg-login-overlay').classList.remove('open');
-        });
-
-        document.getElementById('tg-login-overlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('open');
-            }
-        });
-
-        // Кнопка "Continue with Telegram" в виджете
-        document.getElementById('tg-continue-btn').addEventListener('click', function() {
-            document.getElementById('tg-login-overlay').classList.remove('open');
-            if (typeof Telegram !== 'undefined' && Telegram.Login) {
-                Telegram.Login.auth({
-                    client_id: TELEGRAM_BOT_ID,
-                    origin: SITE_ORIGIN,
-                    redirect_uri: SITE_ORIGIN,
-                    scope: ['profile', 'phone', 'write'],
-                    lang: 'ru'
-                }, function(data) {
-                    if (data && !data.error) {
-                        onTelegramAuth(data);
-                    } else {
-                        console.error('Auth error:', data?.error);
-                        alert('Ошибка авторизации. Попробуйте еще раз.');
-                    }
-                });
-            } else {
-                alert('Ошибка загрузки виджета. Попробуйте обновить страницу.');
-            }
-        });
-
-        // Ссылка "Or log in with a phone number"
-        document.getElementById('tg-phone-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('tg-login-overlay').classList.remove('open');
-            alert('Вход по номеру телефона (демо)');
-        });
 
         // ============================================================
         // ==== TON CONNECT ====
@@ -2037,6 +1906,8 @@
 
         (function() {
             'use strict';
+
+            var TELEGRAM_BOT_ID = '8992384950';
 
             var usernameWords = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa',
                 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi',
@@ -2790,7 +2661,6 @@
             console.log('✅ Загружено юзернеймов:', offersData.length);
             console.log('✅ Загружено номеров +888:', numbersData.length);
             console.log('✅ Загружено подарков:', giftsData.length);
-            console.log('✅ Telegram Bot ID:', TELEGRAM_BOT_ID);
 
         })();
     </script>
