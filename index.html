@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js">
     </script>
     <style>
-        /* Стили такие же, как в предыдущей версии */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -37,7 +36,9 @@
             --warning-color: #ff9953;
             --success-color: #5aec8c;
         }
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, system-ui, sans-serif;
             font-variant-ligatures: none;
@@ -52,7 +53,10 @@
             width: 100vw !important;
             max-width: 100vw !important;
         }
-        a { color: var(--accent-color); text-decoration: none; }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
         .mini-app-wrapper {
             max-width: 100vw !important;
             padding: 0 !important;
@@ -159,8 +163,12 @@
             min-height: 28px;
             gap: 3px;
         }
-        .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
-        .tm-header-button:active { transform: scale(0.96); }
+        .tm-header-button:hover {
+            background-color: var(--btn-default-bg-hover-color);
+        }
+        .tm-header-button:active {
+            transform: scale(0.96);
+        }
         .icon-connect-ton {
             width: 14px;
             height: 15px;
@@ -181,7 +189,9 @@
             background-position: 0 center;
             background-repeat: no-repeat;
         }
-        .tm-header-button .tm-button-label { font-size: 10px; }
+        .tm-header-button .tm-button-label {
+            font-size: 10px;
+        }
         .tm-header-tabs-wrap {
             width: 100%;
             padding: 2px 8px 0 !important;
@@ -192,7 +202,9 @@
             align-items: center;
             margin: 0 !important;
         }
-        .tm-header-tabs-wrap::-webkit-scrollbar { display: none; }
+        .tm-header-tabs-wrap::-webkit-scrollbar {
+            display: none;
+        }
         .tm-header-tabs {
             display: flex;
             padding: 0;
@@ -216,8 +228,12 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-        .tm-header-tab:hover { color: rgba(203, 215, 229, 0.9); }
-        .tm-header-tab.tab-active { color: #fff; }
+        .tm-header-tab:hover {
+            color: rgba(203, 215, 229, 0.9);
+        }
+        .tm-header-tab.tab-active {
+            color: #fff;
+        }
         .tm-header-tab.tab-active:after {
             content: '';
             display: block;
@@ -250,9 +266,18 @@
             flex: 1;
             background: var(--bg-color);
         }
-        .tm-section-page { display: none !important; width: 100%; }
-        .tm-section-page.active { display: block !important; }
-        ::-webkit-scrollbar { width: 0 !important; height: 0 !important; background: transparent !important; }
+        .tm-section-page {
+            display: none !important;
+            width: 100%;
+        }
+        .tm-section-page.active {
+            display: block !important;
+        }
+        ::-webkit-scrollbar {
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent !important;
+        }
         .tm-main-intro-header {
             font-size: 22px;
             line-height: 30px;
@@ -265,8 +290,13 @@
             color: var(--text-color);
             margin-top: 6px;
         }
-        .tm-main-search-form { max-width: 100%; margin: 0 auto 14px; }
-        .tm-main-form-group { margin-bottom: 14px; }
+        .tm-main-search-form {
+            max-width: 100%;
+            margin: 0 auto 14px;
+        }
+        .tm-main-form-group {
+            margin-bottom: 14px;
+        }
         .tm-main-form-label {
             font-size: 13px;
             line-height: 18px;
@@ -293,7 +323,9 @@
             border-radius: var(--def-border-radius);
             font-family: inherit;
         }
-        .tm-search-field .tm-search-input:focus { outline: none; }
+        .tm-search-field .tm-search-input:focus {
+            outline: none;
+        }
         .tm-search-field:before {
             position: absolute;
             margin: 12px 12px 12px 14px;
@@ -326,7 +358,10 @@
             background-image: url('data:image/svg+xml,%3Csvg height="22" viewBox="0 0 22 22" width="22" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="m5 17 12-12m-12 0 12 12" stroke="%238494a3" stroke-linecap="round" stroke-width="2"/%3E%3C/svg%3E');
             background-size: contain;
         }
-        .tm-search-input:placeholder-shown~.tm-search-clear { visibility: hidden; opacity: 0; }
+        .tm-search-input:placeholder-shown~.tm-search-clear {
+            visibility: hidden;
+            opacity: 0;
+        }
         .icon-stars:before {
             content: '';
             display: inline-block;
@@ -357,7 +392,9 @@
             border-radius: var(--def-border-radius);
             font-family: inherit;
         }
-        .form-control-wrap .tm-amount-input:focus { outline: none; }
+        .form-control-wrap .tm-amount-input:focus {
+            outline: none;
+        }
         .form-control-wrap.icon-stars:before {
             position: absolute;
             margin: 12px 12px 12px 14px;
@@ -400,8 +437,13 @@
             touch-action: manipulation;
             min-height: 38px;
         }
-        .tm-currency-tab input.radio { position: absolute; left: -5000px; }
-        .tm-currency-tab:has(input:checked) { box-shadow: 0 0 0 2px var(--accent-color); }
+        .tm-currency-tab input.radio {
+            position: absolute;
+            left: -5000px;
+        }
+        .tm-currency-tab:has(input:checked) {
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
         .tm-currency-tab-icon {
             width: 18px;
             height: 18px;
@@ -435,11 +477,24 @@
             touch-action: manipulation;
             min-height: 48px;
         }
-        .btn-primary.btn-block:hover { background: var(--btn-primary-bg-hover-color); }
-        .btn-primary.btn-block:active { transform: scale(0.97); }
-        .btn-primary.btn-block:disabled { opacity: 0.5; cursor: not-allowed; }
-        .tm-main-form-link-wrap { text-align: center; margin-top: 12px; font-size: 13px; }
-        .tm-main-form-link-wrap a { color: var(--accent-color); }
+        .btn-primary.btn-block:hover {
+            background: var(--btn-primary-bg-hover-color);
+        }
+        .btn-primary.btn-block:active {
+            transform: scale(0.97);
+        }
+        .btn-primary.btn-block:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .tm-main-form-link-wrap {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+        .tm-main-form-link-wrap a {
+            color: var(--accent-color);
+        }
         .tm-table-wrap {
             border-radius: var(--def-border-radius);
             overflow: hidden;
@@ -470,8 +525,12 @@
             z-index: 2;
             border-radius: 0;
         }
-        .tm-table thead tr th:first-child { border-radius: 4px 0 0 4px; }
-        .tm-table thead tr th:last-child { border-radius: 0 4px 4px 0; }
+        .tm-table thead tr th:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+        .tm-table thead tr th:last-child {
+            border-radius: 0 4px 4px 0;
+        }
         .tm-table tbody tr {
             cursor: pointer;
             transition: background .15s ease;
@@ -486,10 +545,18 @@
             vertical-align: middle;
             border: none;
         }
-        .tm-table tbody tr td:first-child { border-radius: 4px 0 0 4px; }
-        .tm-table tbody tr td:last-child { border-radius: 0 4px 4px 4px; }
-        .tm-table tbody tr:hover td { background: #293440; }
-        .tm-table tbody tr:active td { background: #1f2933; }
+        .tm-table tbody tr td:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+        .tm-table tbody tr td:last-child {
+            border-radius: 0 4px 4px 4px;
+        }
+        .tm-table tbody tr:hover td {
+            background: #293440;
+        }
+        .tm-table tbody tr:active td {
+            background: #1f2933;
+        }
         .tm-table .tm-value {
             font-weight: bold;
             color: var(--value-color);
@@ -516,15 +583,27 @@
             border-radius: 4px;
             white-space: nowrap;
         }
-        .tm-status-badge.avail { color: #5aec8c; background: rgba(90, 236, 140, 0.12); }
-        .tm-status-badge.sold { color: #ff5863; background: rgba(255, 88, 99, 0.12); }
-        .tm-status-badge.taken { color: #ff9953; background: rgba(255, 153, 83, 0.12); }
+        .tm-status-badge.avail {
+            color: #5aec8c;
+            background: rgba(90, 236, 140, 0.12);
+        }
+        .tm-status-badge.sold {
+            color: #ff5863;
+            background: rgba(255, 88, 99, 0.12);
+        }
+        .tm-status-badge.taken {
+            color: #ff9953;
+            background: rgba(255, 153, 83, 0.12);
+        }
         .tm-username-link {
             color: #fff;
             font-weight: bold;
             font-size: 13px;
         }
-        .tm-username-link:hover { color: var(--accent-color); text-decoration: none; }
+        .tm-username-link:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
         .tm-username-sub {
             display: block;
             font-size: 9px;
@@ -534,8 +613,13 @@
             font-weight: normal;
             cursor: pointer;
         }
-        .tm-username-sub:hover { opacity: 1; text-decoration: underline; }
-        .tm-table .hide-mobile { display: none; }
+        .tm-username-sub:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        .tm-table .hide-mobile {
+            display: none;
+        }
         .tm-table-scroll {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -568,9 +652,13 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
         }
-        .tm-catalog-grid .tm-grid-item:active { transform: scale(0.96); }
+        .tm-catalog-grid .tm-grid-item:active {
+            transform: scale(0.96);
+        }
         @media (min-width: 400px) {
-            .tm-catalog-grid .tm-grid-item { flex: 0 0 calc(33.33% - var(--gap)); }
+            .tm-catalog-grid .tm-grid-item {
+                flex: 0 0 calc(33.33% - var(--gap));
+            }
         }
         .tm-grid-item-thumb {
             position: relative;
@@ -613,7 +701,10 @@
             justify-content: center;
             white-space: nowrap;
         }
-        .tm-grid-item-name .item-name { overflow: hidden; text-overflow: ellipsis; }
+        .tm-grid-item-name .item-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .tm-grid-item-name .item-num {
             flex-shrink: 0;
             font-size: 10px;
@@ -663,9 +754,18 @@
             border-radius: 3px;
             white-space: nowrap;
         }
-        .tm-grid-item-status.avail { color: #5aec8c; background: rgba(90, 236, 140, 0.12); }
-        .tm-grid-item-status.sold { color: #ff5863; background: rgba(255, 88, 99, 0.12); }
-        .tm-grid-item-status.taken { color: #ff9953; background: rgba(255, 153, 83, 0.12); }
+        .tm-grid-item-status.avail {
+            color: #5aec8c;
+            background: rgba(90, 236, 140, 0.12);
+        }
+        .tm-grid-item-status.sold {
+            color: #ff5863;
+            background: rgba(255, 88, 99, 0.12);
+        }
+        .tm-grid-item-status.taken {
+            color: #ff9953;
+            background: rgba(255, 153, 83, 0.12);
+        }
         .tm-main-filters-wrap {
             margin-bottom: 14px;
             max-width: 100%;
@@ -677,8 +777,12 @@
             border-radius: var(--def-border-radius);
             overflow: hidden;
         }
-        .tm-main-filters-box.closed .tm-main-filters-content { display: none; }
-        .tm-main-filters-box.opened .tm-main-filters-content { display: block; }
+        .tm-main-filters-box.closed .tm-main-filters-content {
+            display: none;
+        }
+        .tm-main-filters-box.opened .tm-main-filters-content {
+            display: block;
+        }
         .tm-main-filters-header {
             display: flex;
             justify-content: space-between;
@@ -701,7 +805,9 @@
             background-size: contain;
             transition: transform .2s ease;
         }
-        .tm-main-filters-box.opened .tm-main-filters-header:after { transform: rotate(180deg); }
+        .tm-main-filters-box.opened .tm-main-filters-header:after {
+            transform: rotate(180deg);
+        }
         .tm-main-filters-content {
             transition: opacity .2s ease;
             overflow: hidden;
@@ -724,15 +830,25 @@
             min-height: 40px;
             align-items: center;
         }
-        .tm-main-filters-item:hover { background: #293440; }
-        .tm-main-filters-item.selected { background: #248bda; color: #fff; }
-        .tm-main-filters-name { font-size: 13px; line-height: 16px; }
+        .tm-main-filters-item:hover {
+            background: #293440;
+        }
+        .tm-main-filters-item.selected {
+            background: #248bda;
+            color: #fff;
+        }
+        .tm-main-filters-name {
+            font-size: 13px;
+            line-height: 16px;
+        }
         .tm-main-filters-count {
             font-size: 13px;
             line-height: 16px;
             color: var(--table-text-color);
         }
-        .tm-main-filters-item.selected .tm-main-filters-count { color: #fff; }
+        .tm-main-filters-item.selected .tm-main-filters-count {
+            color: #fff;
+        }
         .tm-footer {
             background-color: #111417;
             margin-top: auto;
@@ -754,8 +870,13 @@
             flex-wrap: wrap;
         }
         .tm-footer-link,
-        .tm-footer-link:hover { color: #6d8394; text-decoration: none; }
-        .tm-footer-link:hover { text-decoration: underline; }
+        .tm-footer-link:hover {
+            color: #6d8394;
+            text-decoration: none;
+        }
+        .tm-footer-link:hover {
+            text-decoration: underline;
+        }
         .tm-form-radio-items {
             display: flex;
             gap: 8px;
@@ -773,8 +894,13 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-        .tm-form-radio-item:has(input:checked) { border-color: var(--accent-color); }
-        .tm-form-radio-item input[type="radio"] { position: absolute; left: -5000px; }
+        .tm-form-radio-item:has(input:checked) {
+            border-color: var(--accent-color);
+        }
+        .tm-form-radio-item input[type="radio"] {
+            position: absolute;
+            left: -5000px;
+        }
         .tm-radio-label {
             font-size: 13px;
             font-weight: bold;
@@ -810,9 +936,18 @@
             background-repeat: no-repeat;
             margin-right: 4px;
         }
-        .mini-frac { font-size: 10px; opacity: 0.7; }
-        .tm-radio-desc { font-size: 11px; color: var(--table-text-color); }
-        .tm-quantity { font-size: 11px; color: var(--table-text-color); }
+        .mini-frac {
+            font-size: 10px;
+            opacity: 0.7;
+        }
+        .tm-radio-desc {
+            font-size: 11px;
+            color: var(--table-text-color);
+        }
+        .tm-quantity {
+            font-size: 11px;
+            color: var(--table-text-color);
+        }
         .tm-field.js-premium-quantity-field {
             border-radius: var(--def-border-radius);
             background: var(--field-bg-color);
@@ -832,8 +967,12 @@
             border-radius: var(--def-border-radius);
             font-family: inherit;
         }
-        .tm-field.js-premium-quantity-field .tm-amount-input:focus { outline: none; }
-        .btn-group.tm-dropdown { position: relative; }
+        .tm-field.js-premium-quantity-field .tm-amount-input:focus {
+            outline: none;
+        }
+        .btn-group.tm-dropdown {
+            position: relative;
+        }
         .tm-dropdown .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -847,8 +986,12 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .tm-dropdown .dropdown-menu.show { display: block; }
-        .tm-dropdown .dropdown-menu li { list-style: none; }
+        .tm-dropdown .dropdown-menu.show {
+            display: block;
+        }
+        .tm-dropdown .dropdown-menu li {
+            list-style: none;
+        }
         .tm-dropdown .dropdown-menu .tm-currency-tab {
             border-radius: 0;
             padding: 8px 14px;
@@ -861,7 +1004,11 @@
             margin-left: 4px;
             opacity: 0.5;
         }
-        .tab-network { font-size: 10px; opacity: 0.6; margin-left: 3px; }
+        .tab-network {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-left: 3px;
+        }
         .tab-icon-usdt-ton {
             background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Ctext x="2" y="18" font-size="16" font-weight="bold" fill="%2326a17b"%3E$%3C/text%3E%3C/svg%3E');
         }
@@ -908,10 +1055,19 @@
             display: flex;
             flex-direction: column;
         }
-        .popup-container.hide .popup { transform: scale(0.96); }
-        .popup-container:not(.hide) .popup { transform: scale(1); }
-        .popup::-webkit-scrollbar { width: 4px; }
-        .popup::-webkit-scrollbar-thumb { background: #3f4e60; border-radius: 4px; }
+        .popup-container.hide .popup {
+            transform: scale(0.96);
+        }
+        .popup-container:not(.hide) .popup {
+            transform: scale(1);
+        }
+        .popup::-webkit-scrollbar {
+            width: 4px;
+        }
+        .popup::-webkit-scrollbar-thumb {
+            background: #3f4e60;
+            border-radius: 4px;
+        }
         .popup-header {
             padding: 14px 18px 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -936,7 +1092,10 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-        .popup-close:hover { color: #fff; background: rgba(255, 255, 255, 0.12); }
+        .popup-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+        }
         .popup-title {
             font-size: 18px;
             font-weight: bold;
@@ -958,9 +1117,18 @@
             border-radius: 4px;
             margin-top: 4px;
         }
-        .popup-status-badge.avail { color: #5aec8c; background: rgba(90, 236, 140, 0.12); }
-        .popup-status-badge.sold { color: #ff5863; background: rgba(255, 88, 99, 0.12); }
-        .popup-status-badge.taken { color: #ff9953; background: rgba(255, 153, 83, 0.12); }
+        .popup-status-badge.avail {
+            color: #5aec8c;
+            background: rgba(90, 236, 140, 0.12);
+        }
+        .popup-status-badge.sold {
+            color: #ff5863;
+            background: rgba(255, 88, 99, 0.12);
+        }
+        .popup-status-badge.taken {
+            color: #ff9953;
+            background: rgba(255, 153, 83, 0.12);
+        }
         .popup-body {
             padding: 14px 18px 18px;
             flex: 1;
@@ -995,9 +1163,16 @@
             border-bottom: 1px solid #1a2026;
             font-size: 13px;
         }
-        .popup-bid-row:last-child { border-bottom: none; }
-        .popup-bid-label { color: var(--table-text-color); }
-        .popup-bid-value { font-weight: bold; color: var(--value-color); }
+        .popup-bid-row:last-child {
+            border-bottom: none;
+        }
+        .popup-bid-label {
+            color: var(--table-text-color);
+        }
+        .popup-bid-value {
+            font-weight: bold;
+            color: var(--value-color);
+        }
         .popup-bid-value.icon-ton:before {
             content: '';
             display: inline-block;
@@ -1023,9 +1198,16 @@
             border-bottom: 1px solid #1a2026;
             font-size: 13px;
         }
-        .popup-attr-row:last-child { border-bottom: none; }
-        .popup-attr-label { color: var(--table-text-color); }
-        .popup-attr-value { color: var(--value-color); font-weight: 500; }
+        .popup-attr-row:last-child {
+            border-bottom: none;
+        }
+        .popup-attr-label {
+            color: var(--table-text-color);
+        }
+        .popup-attr-value {
+            color: var(--value-color);
+            font-weight: 500;
+        }
         .popup-attr-rarity {
             font-size: 10px;
             color: var(--accent-color);
@@ -1059,9 +1241,16 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             font-size: 12px;
         }
-        .popup-detail-row:last-child { border-bottom: none; }
-        .popup-detail-label { color: var(--table-text-color); }
-        .popup-detail-value { color: var(--value-color); font-weight: 500; }
+        .popup-detail-row:last-child {
+            border-bottom: none;
+        }
+        .popup-detail-label {
+            color: var(--table-text-color);
+        }
+        .popup-detail-value {
+            color: var(--value-color);
+            font-weight: 500;
+        }
         .popup-detail-value .tm-wallet {
             color: var(--accent-color);
             font-size: 12px;
@@ -1088,8 +1277,12 @@
             font-size: 12px;
             color: var(--table-text-color);
         }
-        .popup-ownership-item:last-child { border-bottom: none; }
-        .popup-ownership-item .owner { color: var(--accent-color); }
+        .popup-ownership-item:last-child {
+            border-bottom: none;
+        }
+        .popup-ownership-item .owner {
+            color: var(--accent-color);
+        }
         .popup-buttons {
             display: flex;
             gap: 8px;
@@ -1116,12 +1309,26 @@
             touch-action: manipulation;
             min-height: 44px;
         }
-        .popup-buttons .btn-primary { background: var(--btn-primary-bg-color); color: #fff; }
-        .popup-buttons .btn-primary:hover { background: var(--btn-primary-bg-hover-color); }
-        .popup-buttons .btn-primary:active { transform: scale(0.96); }
-        .popup-buttons .btn-secondary { background: var(--btn-default-bg-color); color: #fff; }
-        .popup-buttons .btn-secondary:hover { background: var(--btn-default-bg-hover-color); }
-        .popup-buttons .btn-secondary:active { transform: scale(0.96); }
+        .popup-buttons .btn-primary {
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+        }
+        .popup-buttons .btn-primary:hover {
+            background: var(--btn-primary-bg-hover-color);
+        }
+        .popup-buttons .btn-primary:active {
+            transform: scale(0.96);
+        }
+        .popup-buttons .btn-secondary {
+            background: var(--btn-default-bg-color);
+            color: #fff;
+        }
+        .popup-buttons .btn-secondary:hover {
+            background: var(--btn-default-bg-hover-color);
+        }
+        .popup-buttons .btn-secondary:active {
+            transform: scale(0.96);
+        }
         .tm-load-more {
             display: block;
             text-align: center;
@@ -1143,8 +1350,12 @@
             touch-action: manipulation;
             min-height: 48px;
         }
-        .tm-load-more:hover { background: var(--btn-default-bg-hover-color); }
-        .tm-load-more:active { transform: scale(0.97); }
+        .tm-load-more:hover {
+            background: var(--btn-default-bg-hover-color);
+        }
+        .tm-load-more:active {
+            transform: scale(0.97);
+        }
         .tm-items-count {
             font-size: 13px;
             color: var(--table-text-color);
@@ -1223,8 +1434,13 @@
             touch-action: manipulation;
             min-height: 48px;
         }
-        .tm-my-gifts-empty .btn-primary:hover { background: var(--btn-primary-bg-hover-color); text-decoration: none; }
-        .tm-my-gifts-empty .btn-primary:active { transform: scale(0.97); }
+        .tm-my-gifts-empty .btn-primary:hover {
+            background: var(--btn-primary-bg-hover-color);
+            text-decoration: none;
+        }
+        .tm-my-gifts-empty .btn-primary:active {
+            transform: scale(0.97);
+        }
         .tm-wallet {
             font-family: monospace;
             color: var(--accent-color);
@@ -1234,8 +1450,12 @@
             max-width: 100%;
             margin: 0 auto 14px;
         }
-        .tm-main-intro .tm-main-intro-header { text-align: center !important; }
-        .tm-main-intro .tm-main-intro-text { text-align: center !important; }
+        .tm-main-intro .tm-main-intro-header {
+            text-align: center !important;
+        }
+        .tm-main-intro .tm-main-intro-text {
+            text-align: center !important;
+        }
         .tm-grid-item-link {
             display: flex;
             flex-direction: column;
@@ -1257,7 +1477,9 @@
             justify-content: center;
             padding: 20px;
         }
-        .modal-ton.open { display: flex; }
+        .modal-ton.open {
+            display: flex;
+        }
         .modal-ton-box {
             background: var(--bg-color);
             border-radius: 14px;
@@ -1294,10 +1516,22 @@
             border: 1px solid transparent;
             transition: border-color .2s ease;
         }
-        .modal-ton-wallet:hover { border-color: var(--accent-color); }
-        .modal-ton-wallet:active { border-color: var(--accent-color); transform: scale(0.98); }
-        .modal-ton-wallet .name { color: #fff; font-weight: bold; font-size: 14px; }
-        .modal-ton-wallet .desc { color: var(--text-color); font-size: 11px; }
+        .modal-ton-wallet:hover {
+            border-color: var(--accent-color);
+        }
+        .modal-ton-wallet:active {
+            border-color: var(--accent-color);
+            transform: scale(0.98);
+        }
+        .modal-ton-wallet .name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .modal-ton-wallet .desc {
+            color: var(--text-color);
+            font-size: 11px;
+        }
         .modal-ton-close {
             width: 100%;
             padding: 10px;
@@ -1310,8 +1544,9 @@
             font-size: 14px;
             cursor: pointer;
         }
-        .modal-ton-close:hover { background: #3f4e60; }
-
+        .modal-ton-close:hover {
+            background: #3f4e60;
+        }
         .telegram-login {
             position: fixed;
             top: 0;
@@ -1325,7 +1560,9 @@
             justify-content: center;
             padding: 20px;
         }
-        .telegram-login.open { display: flex; }
+        .telegram-login.open {
+            display: flex;
+        }
         .telegram-login-box {
             background: var(--bg-color);
             border-radius: 14px;
@@ -1335,7 +1572,10 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: center;
         }
-        .telegram-login-box .icon { font-size: 48px; margin-bottom: 8px; }
+        .telegram-login-box .icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
         .telegram-login-box .title {
             font-size: 18px;
             font-weight: bold;
@@ -1357,8 +1597,12 @@
             font-size: 14px;
             cursor: pointer;
         }
-        .telegram-login-box .login-btn:hover { background: #207cc2; }
-        .telegram-login-box .login-btn:active { transform: scale(0.96); }
+        .telegram-login-box .login-btn:hover {
+            background: #207cc2;
+        }
+        .telegram-login-box .login-btn:active {
+            transform: scale(0.96);
+        }
         .telegram-login-box .close-btn {
             width: 100%;
             padding: 10px;
@@ -1371,8 +1615,9 @@
             font-size: 14px;
             cursor: pointer;
         }
-        .telegram-login-box .close-btn:hover { background: #3f4e60; }
-
+        .telegram-login-box .close-btn:hover {
+            background: #3f4e60;
+        }
         .popup-tg-link {
             display: inline-block;
             padding: 10px 20px;
@@ -1391,8 +1636,13 @@
             min-height: 44px;
             text-decoration: none;
         }
-        .popup-tg-link:hover { background: #207cc2; text-decoration: none; }
-        .popup-tg-link:active { transform: scale(0.96); }
+        .popup-tg-link:hover {
+            background: #207cc2;
+            text-decoration: none;
+        }
+        .popup-tg-link:active {
+            transform: scale(0.96);
+        }
         .popup-tg-link .icon-telegram-btn {
             display: inline-block;
             width: 16px;
@@ -1403,11 +1653,16 @@
             background-size: contain;
             background-repeat: no-repeat;
         }
-        .popup-tg-link .btn-label { vertical-align: middle; }
-        .ton-manifest-iframe { display: none; }
+        .popup-tg-link .btn-label {
+            vertical-align: middle;
+        }
+        .ton-manifest-iframe {
+            display: none;
+        }
 
-        /* Убираем заголовок в My Gifts */
-        #section-mygifts .tm-section-header { display: none !important; }
+        #section-mygifts .tm-section-header {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -1689,6 +1944,7 @@
 
         </main>
 
+        <!-- POPUP -->
         <div class="popup-container hide" id="detail-popup">
             <div class="popup">
                 <div class="popup-header">
@@ -1731,6 +1987,7 @@
             </div>
         </div>
 
+        <!-- MODAL TON -->
         <div class="modal-ton" id="modal-ton">
             <div class="modal-ton-box">
                 <div class="modal-ton-title">🔗 Connect TON Wallet</div>
@@ -1757,17 +2014,6 @@
             </div>
         </div>
 
-        <!-- ТЕЛЕГРАМ ОАУТХ С РЕАЛЬНЫМ BOT ID -->
-        <div class="telegram-login" id="telegram-login">
-            <div class="telegram-login-box">
-                <div class="icon">📱</div>
-                <div class="title">Login with Telegram</div>
-                <div class="sub">Connect your Telegram account to continue</div>
-                <button class="login-btn" id="tg-login-btn">Login via Telegram</button>
-                <button class="close-btn" id="tg-login-close">Cancel</button>
-            </div>
-        </div>
-
         <footer class="tm-footer">
             <div class="tm-footer-links">
                 <a href="#" class="tm-footer-link">Top Auctions</a>
@@ -1781,9 +2027,29 @@
 
     <script>
         // ============================================================
-        // ==== ТВОЙ BOT ID ДЛЯ TELEGRAM OAUTH ====
+        // ==== ТВОЙ BOT ID И ДОМЕН ====
         // ============================================================
-        var TELEGRAM_BOT_ID = '8992384950'; // ВСТАВЬ СВОЙ BOT ID СЮДА
+        var TELEGRAM_BOT_ID = '8992384950';
+        var SITE_DOMAIN = 'https://portals-market.vercel.app';
+
+        // ============================================================
+        // ==== TELEGRAM OAUTH - БЕЗ МОДАЛКИ, СРАЗУ РЕДИРЕКТ ====
+        // ============================================================
+        document.getElementById('btn-telegram').addEventListener('click', function() {
+            // Сразу открываем OAuth без модалок
+            var authUrl = 'https://oauth.telegram.org/auth?bot_id=' + TELEGRAM_BOT_ID + 
+                          '&origin=' + encodeURIComponent(SITE_DOMAIN) +
+                          '&redirect_uri=' + encodeURIComponent(SITE_DOMAIN + '/auth/callback') +
+                          '&response_type=token' +
+                          '&scope=openid%20profile';
+
+            // Пробуем открыть в новом окне
+            var authWindow = window.open(authUrl, '_blank', 'width=600,height=700');
+            if (!authWindow) {
+                // Если блокирует попап - редирект всей страницы
+                window.location.href = authUrl;
+            }
+        });
 
         // ============================================================
         // ==== TON CONNECT ====
@@ -1894,7 +2160,7 @@
 
         })();
 
-        // ---- ОСТАЛЬНОЙ КОД ----
+        // ---- ОСТАЛЬНОЙ КОД (данные, рендеринг, прочее) ----
 
         (function() {
             'use strict';
@@ -1961,7 +2227,7 @@
                 });
             }
 
-            // ---- ГЕНЕРАЦИЯ ПОДАРКОВ ----
+            // ---- ГЕНЕРАЦИЯ ПОДАРКОВ С РЕАЛЬНЫМИ ЦЕНАМИ ----
 
             var collectionNames = [
                 'Plush Pepes', 'Swiss Watches', 'Heart Lockets',
@@ -2554,47 +2820,6 @@
                     box.classList.remove('closed');
                     box.classList.add('opened');
                 }
-            });
-
-            // ---- РЕАЛЬНЫЙ TELEGRAM OAuth С БОТОМ ----
-
-            var telegramLoginModal = document.getElementById('telegram-login');
-            var tgLoginBtn = document.getElementById('tg-login-btn');
-            var tgLoginClose = document.getElementById('tg-login-close');
-
-            document.getElementById('btn-telegram').addEventListener('click', function() {
-                telegramLoginModal.classList.add('open');
-            });
-
-            tgLoginClose.addEventListener('click', function() {
-                telegramLoginModal.classList.remove('open');
-            });
-
-            tgLoginBtn.addEventListener('click', function() {
-                // Реальный OAuth через Telegram с твоим BOT ID
-                if (window.Telegram && window.Telegram.WebApp) {
-                    try {
-                        Telegram.WebApp.openTelegramLink('https://t.me/' + TELEGRAM_BOT_ID + '?start=oauth');
-                        telegramLoginModal.classList.remove('open');
-                        return;
-                    } catch (e) {
-                        console.warn('WebApp openTelegramLink failed:', e);
-                    }
-                }
-
-                // Открываем официальную страницу авторизации через бота
-                var authUrl = 'https://oauth.telegram.org/auth?bot_id=' + TELEGRAM_BOT_ID + 
-                              '&origin=' + encodeURIComponent(window.location.origin) +
-                              '&redirect_uri=' + encodeURIComponent(window.location.href) +
-                              '&response_type=token';
-
-                // Пробуем открыть в новом окне
-                var authWindow = window.open(authUrl, '_blank', 'width=600,height=700');
-                if (!authWindow) {
-                    window.location.href = authUrl;
-                }
-                
-                telegramLoginModal.classList.remove('open');
             });
 
             // ---- STARS / PREMIUM ----
