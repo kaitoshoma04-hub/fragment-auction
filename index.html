@@ -1370,6 +1370,92 @@
             white-space: nowrap;
             display: inline-block;
         }
+
+        /* Меню выхода */
+        .tg-logout-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .tg-logout-menu.open { display: flex; }
+        .tg-logout-box {
+            background: var(--bg-color);
+            border-radius: 14px;
+            max-width: 320px;
+            width: 100%;
+            padding: 24px 20px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+        .tg-logout-box .avatar-big {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            object-fit: cover;
+            display: block;
+            background: #293440;
+        }
+        .tg-logout-box .avatar-big.fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #fff;
+            background: #4db2ff;
+            margin: 0 auto 12px;
+        }
+        .tg-logout-box .name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+        .tg-logout-box .username {
+            font-size: 13px;
+            color: var(--text-color);
+            margin-bottom: 16px;
+        }
+        .tg-logout-box .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #ff5863;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background .2s ease;
+            font-family: inherit;
+            min-height: 44px;
+        }
+        .tg-logout-box .logout-btn:hover { background: #e04a55; }
+        .tg-logout-box .logout-btn:active { transform: scale(0.97); }
+        .tg-logout-box .cancel-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 13px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .tg-logout-box .cancel-btn:hover { color: #fff; }
     </style>
 </head>
 <body>
@@ -1727,6 +1813,17 @@
             </div>
         </div>
 
+        <!-- Меню выхода -->
+        <div class="tg-logout-menu" id="tg-logout-menu">
+            <div class="tg-logout-box">
+                <div id="logout-avatar-container"></div>
+                <div class="name" id="logout-name">User</div>
+                <div class="username" id="logout-username">@username</div>
+                <button class="logout-btn" id="logout-btn">Log out of your account</button>
+                <button class="cancel-btn" id="logout-cancel">Cancel</button>
+            </div>
+        </div>
+
         <footer class="tm-footer">
             <div class="tm-footer-links">
                 <a href="#" class="tm-footer-link">Top Auctions</a>
@@ -1740,58 +1837,128 @@
 
     <script>
         // ============================================================
-        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ (БЕЗ OAuth) ====
+        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ С ВЫХОДОМ ====
         // ============================================================
 
         var tgUser = null;
         var tgButton = document.getElementById('btn-telegram');
         var tgLabel = document.getElementById('tg-button-label');
+        var tgLogoutMenu = document.getElementById('tg-logout-menu');
+        var logoutBtn = document.getElementById('logout-btn');
+        var logoutCancel = document.getElementById('logout-cancel');
+        var logoutName = document.getElementById('logout-name');
+        var logoutUsername = document.getElementById('logout-username');
+        var logoutAvatar = document.getElementById('logout-avatar-container');
 
-        // Получаем данные пользователя из Telegram WebApp
-        if (window.Telegram && window.Telegram.WebApp) {
-            var webapp = window.Telegram.WebApp;
-            var initData = webapp.initDataUnsafe || {};
-
-            if (initData.user) {
-                tgUser = initData.user;
-                console.log('✅ Пользователь уже авторизован в Mini App:', tgUser);
-
-                // Обновляем кнопку — показываем аватарку и ник
+        // Функция обновления кнопки
+        function updateTelegramButton(user) {
+            if (user) {
                 var avatarHtml = '';
-                if (tgUser.photo_url) {
-                    avatarHtml = '<img class="tg-avatar" src="' + tgUser.photo_url + '" alt="avatar">';
+                if (user.photo_url) {
+                    avatarHtml = '<img class="tg-avatar" src="' + user.photo_url + '" alt="avatar">';
                 } else {
-                    var firstChar = (tgUser.first_name || 'U').charAt(0).toUpperCase();
+                    var firstChar = (user.first_name || 'U').charAt(0).toUpperCase();
                     avatarHtml = '<span class="tg-avatar fallback">' + firstChar + '</span>';
                 }
-                var username = tgUser.username ? '@' + tgUser.username : (tgUser.first_name || 'User');
+                var username = user.username ? '@' + user.username : (user.first_name || 'User');
                 tgButton.innerHTML = avatarHtml + ' <span class="tg-username">' + username + '</span>';
-
-                // Меняем поведение кнопки — теперь она показывает профиль
-                tgButton.onclick = function() {
-                    alert('✅ Вы авторизованы как:\n\n' +
-                        'ID: ' + tgUser.id + '\n' +
-                        'Имя: ' + (tgUser.first_name || '') + ' ' + (tgUser.last_name || '') + '\n' +
-                        'Username: @' + (tgUser.username || 'нет') + '\n\n' +
-                        'Выход осуществляется через Telegram');
-                };
-
-                // Расширяем Telegram WebApp
-                webapp.expand();
             } else {
-                console.log('⚠️ Пользователь не авторизован в Mini App');
-                tgButton.onclick = function() {
-                    alert('❌ Откройте приложение через Telegram Mini App, чтобы авторизоваться автоматически.');
-                };
+                tgButton.innerHTML = '<i class="icon-connect-telegram"></i><span class="tm-button-label">Telegram</span>';
             }
-        } else {
-            console.log('⚠️ Страница открыта не в Telegram Mini App');
-            tgButton.onclick = function() {
-                alert('❌ Откройте это приложение через Telegram Mini App для автоматической авторизации.\n\n' +
-                    'Или откройте бота: t.me/' + TELEGRAM_BOT_ID);
-                window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID, '_blank');
-            };
         }
+
+        // Функция открытия меню выхода
+        function openLogoutMenu(user) {
+            if (!user) return;
+
+            // Аватарка
+            if (user.photo_url) {
+                logoutAvatar.innerHTML = '<img class="avatar-big" src="' + user.photo_url + '" alt="avatar">';
+            } else {
+                var firstChar = (user.first_name || 'U').charAt(0).toUpperCase();
+                logoutAvatar.innerHTML = '<div class="avatar-big fallback">' + firstChar + '</div>';
+            }
+
+            logoutName.textContent = user.first_name || 'User';
+            logoutUsername.textContent = user.username ? '@' + user.username : '';
+
+            tgLogoutMenu.classList.add('open');
+        }
+
+        // Функция выхода
+        function logout() {
+            tgUser = null;
+            updateTelegramButton(null);
+            tgLogoutMenu.classList.remove('open');
+            // Сохраняем состояние
+            sessionStorage.removeItem('tg_user');
+        }
+
+        // Функция входа (получение данных из Mini App)
+        function loginWithTelegram() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                var webapp = window.Telegram.WebApp;
+                var initData = webapp.initDataUnsafe || {};
+
+                if (initData.user) {
+                    tgUser = initData.user;
+                    updateTelegramButton(tgUser);
+                    sessionStorage.setItem('tg_user', JSON.stringify(tgUser));
+                    webapp.expand();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Проверяем сохраненного пользователя
+        var savedUser = sessionStorage.getItem('tg_user');
+        if (savedUser) {
+            try {
+                tgUser = JSON.parse(savedUser);
+                updateTelegramButton(tgUser);
+            } catch (e) {
+                tgUser = null;
+            }
+        }
+
+        // Если нет сохраненного — пробуем авторизоваться через Mini App
+        if (!tgUser) {
+            loginWithTelegram();
+        }
+
+        // Обработчик клика по кнопке Telegram
+        tgButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (tgUser) {
+                // Если пользователь авторизован — открываем меню выхода
+                openLogoutMenu(tgUser);
+            } else {
+                // Если не авторизован — пробуем войти через Mini App
+                var success = loginWithTelegram();
+                if (!success) {
+                    alert('❌ Откройте приложение через Telegram Mini App для автоматической авторизации.\n\nИли откройте бота: @FkckXScared');
+                    window.open('tg://resolve?domain=FkckXScared', '_blank');
+                }
+            }
+        });
+
+        // Выход
+        logoutBtn.addEventListener('click', function() {
+            logout();
+        });
+
+        // Отмена
+        logoutCancel.addEventListener('click', function() {
+            tgLogoutMenu.classList.remove('open');
+        });
+
+        // Закрытие по клику вне
+        tgLogoutMenu.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('open');
+            }
+        });
 
         // ============================================================
         // ==== TON CONNECT ====
@@ -1906,8 +2073,6 @@
 
         (function() {
             'use strict';
-
-            var TELEGRAM_BOT_ID = '8992384950';
 
             var usernameWords = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa',
                 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'tau', 'upsilon', 'phi', 'chi', 'psi',
