@@ -186,10 +186,10 @@
         }
         .tm-header-button .tm-button-label { font-size: 10px; }
         
-        /* Кнопка выхода (выпадашка) */
+        /* Выпадашка с Log out */
         .logout-dropdown {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 4px);
             right: 0;
             background: var(--bg-color);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -199,7 +199,6 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             display: none;
             z-index: 1000;
-            margin-top: 4px;
         }
         .logout-dropdown.open { display: block; }
         .logout-dropdown .logout-item {
@@ -291,18 +290,27 @@
         .tm-section-page { display: none !important; width: 100%; }
         .tm-section-page.active { display: block !important; }
         ::-webkit-scrollbar { width: 0 !important; height: 0 !important; background: transparent !important; }
-        .tm-main-intro-header {
+        
+        .tm-section-intro {
+            text-align: center !important;
+            max-width: 100%;
+            margin: 0 auto 14px;
+        }
+        .tm-section-intro .tm-section-intro-header {
             font-size: 22px;
             line-height: 30px;
             font-weight: bold;
             color: var(--header-color);
             margin: 0;
+            text-align: center !important;
         }
-        .tm-main-intro-text {
+        .tm-section-intro .tm-section-intro-text {
             font-size: 14px;
             color: var(--text-color);
             margin-top: 6px;
+            text-align: center !important;
         }
+        
         .tm-main-search-form { max-width: 100%; margin: 0 auto 14px; }
         .tm-main-form-group { margin-bottom: 14px; }
         .tm-main-form-label {
@@ -1267,13 +1275,6 @@
             font-family: monospace;
             color: var(--accent-color);
         }
-        .tm-main-intro {
-            text-align: center !important;
-            max-width: 100%;
-            margin: 0 auto 14px;
-        }
-        .tm-main-intro .tm-main-intro-header { text-align: center !important; }
-        .tm-main-intro .tm-main-intro-text { text-align: center !important; }
         .tm-grid-item-link {
             display: flex;
             flex-direction: column;
@@ -1455,14 +1456,15 @@
 
             <!-- OFFERS -->
             <div id="section-offers" class="tm-section-page active">
+                <div class="tm-section-intro">
+                    <h1 class="tm-section-intro-header">Buy and Sell Usernames</h1>
+                    <p class="tm-section-intro-text">Secure your name with blockchain in an ecosystem of 1+ billion users and assign it as a link for your personal account, channel or group.</p>
+                </div>
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
                         <div class="tm-search-clear"></div>
                     </div>
-                </div>
-                <div class="tm-section-header">
-                    <h3 class="tm-section-header-text">Username Offers <span class="tm-items-count" id="offers-count"></span></h3>
                 </div>
                 <div class="tm-table-scroll">
                     <div class="tm-table-wrap">
@@ -1486,14 +1488,15 @@
 
             <!-- NUMBERS -->
             <div id="section-numbers" class="tm-section-page">
+                <div class="tm-section-intro">
+                    <h1 class="tm-section-intro-header">Buy and Sell Collectible Numbers</h1>
+                    <p class="tm-section-intro-text">Trade IDs not tied to a SIM card which allow logging into Telegram with your blockchain account. These numbers only work on Telegram.</p>
+                </div>
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search numbers..." id="search-numbers" autocomplete="off">
                         <div class="tm-search-clear"></div>
                     </div>
-                </div>
-                <div class="tm-section-header">
-                    <h3 class="tm-section-header-text">+888 Numbers <span class="tm-items-count" id="numbers-count"></span></h3>
                 </div>
                 <div class="tm-table-scroll">
                     <div class="tm-table-wrap">
@@ -1791,7 +1794,6 @@
         var logoutDropdown = document.getElementById('logout-dropdown');
         var logoutBtn = document.getElementById('logout-btn');
 
-        // Функция обновления кнопки
         function updateTelegramButton(user) {
             if (user) {
                 var avatarHtml = '';
@@ -1806,27 +1808,22 @@
             } else {
                 tgButton.innerHTML = '<i class="icon-connect-telegram"></i><span class="tm-button-label">Telegram</span>';
             }
-            // Скрываем дропдаун при обновлении
             logoutDropdown.classList.remove('open');
         }
 
-        // Переключение дропдауна
         function toggleDropdown(e) {
             e.stopPropagation();
             if (tgUser) {
                 logoutDropdown.classList.toggle('open');
             } else {
-                // Если не авторизован — пробуем войти
                 loginWithTelegram();
             }
         }
 
-        // Функция входа
         function loginWithTelegram() {
             if (window.Telegram && window.Telegram.WebApp) {
                 var webapp = window.Telegram.WebApp;
                 var initData = webapp.initDataUnsafe || {};
-
                 if (initData.user) {
                     tgUser = initData.user;
                     updateTelegramButton(tgUser);
@@ -1835,13 +1832,11 @@
                     return true;
                 }
             }
-            // Если не в Telegram — открываем бота
             alert('❌ Откройте приложение через Telegram Mini App для автоматической авторизации.\n\nИли откройте бота: @FkckXScared');
             window.open('tg://resolve?domain=FkckXScared', '_blank');
             return false;
         }
 
-        // Выход
         function logout() {
             tgUser = null;
             updateTelegramButton(null);
@@ -1849,7 +1844,6 @@
             logoutDropdown.classList.remove('open');
         }
 
-        // Проверяем сохраненного пользователя
         var savedUser = sessionStorage.getItem('tg_user');
         if (savedUser) {
             try {
@@ -1860,21 +1854,17 @@
             }
         }
 
-        // Если нет сохраненного — пробуем авторизоваться через Mini App
         if (!tgUser) {
             loginWithTelegram();
         }
 
-        // Клик по кнопке Telegram — переключаем дропдаун или входим
         tgButton.addEventListener('click', toggleDropdown);
 
-        // Кнопка выхода
         logoutBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             logout();
         });
 
-        // Закрытие дропдауна при клике вне
         document.addEventListener('click', function(e) {
             if (!tgButton.contains(e.target)) {
                 logoutDropdown.classList.remove('open');
