@@ -13,6 +13,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js">
     </script>
     <style>
+        /* Все стили остаются без изменений */
         :root {
             --text-color: #8794a1;
             --accent-color: #4db2ff;
@@ -1346,7 +1347,6 @@
         .ton-manifest-iframe { display: none; }
         #section-mygifts .tm-section-header { display: none !important; }
 
-        /* Кнопка Telegram с аватаркой */
         .tm-header-button .tg-avatar {
             width: 20px;
             height: 20px;
@@ -1369,6 +1369,12 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             display: inline-block;
+        }
+        .tm-section-description {
+            font-size: 14px;
+            color: var(--text-color);
+            margin: 6px 0 14px 0;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -1422,6 +1428,7 @@
                 <div class="tm-section-header">
                     <h3 class="tm-section-header-text">Username Offers <span class="tm-items-count" id="offers-count"></span></h3>
                 </div>
+                <div class="tm-section-description">Buy and Sell Usernames<br>Secure your name with blockchain in an ecosystem of 1+ billion users and assign it as a link for your personal account, channel or group.</div>
                 <div class="tm-table-scroll">
                     <div class="tm-table-wrap">
                         <table class="tm-table">
@@ -1453,6 +1460,7 @@
                 <div class="tm-section-header">
                     <h3 class="tm-section-header-text">+888 Numbers <span class="tm-items-count" id="numbers-count"></span></h3>
                 </div>
+                <div class="tm-section-description">Buy and Sell Collectible Numbers<br>Trade IDs not tied to a SIM card which allow logging into Telegram with your blockchain account. These numbers only work on Telegram.</div>
                 <div class="tm-table-scroll">
                     <div class="tm-table-wrap">
                         <table class="tm-table">
@@ -1740,61 +1748,82 @@
 
     <script>
         // ============================================================
-        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ (БЕЗ OAuth) ====
+        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ (ВЫХОД + ВХОД) ====
         // ============================================================
 
         var tgUser = null;
         var tgButton = document.getElementById('btn-telegram');
         var tgLabel = document.getElementById('tg-button-label');
 
-        // Получаем данные пользователя из Telegram WebApp
+        function updateTelegramButton(user) {
+            if (user) {
+                var avatarHtml = '';
+                if (user.photo_url) {
+                    avatarHtml = '<img class="tg-avatar" src="' + user.photo_url + '" alt="avatar">';
+                } else {
+                    var firstChar = (user.first_name || 'U').charAt(0).toUpperCase();
+                    avatarHtml = '<span class="tg-avatar fallback">' + firstChar + '</span>';
+                }
+                var username = user.username ? '@' + user.username : (user.first_name || 'User');
+                tgButton.innerHTML = avatarHtml + ' <span class="tg-username">' + username + '</span>';
+                tgButton.onclick = function() {
+                    // ВЫХОД: сбрасываем пользователя, показываем обычную кнопку
+                    tgUser = null;
+                    tgButton.innerHTML = '<i class="icon-connect-telegram"></i><span class="tm-button-label">Telegram</span>';
+                    tgButton.onclick = function() {
+                        // ВХОД: авторизуемся заново через WebApp
+                        if (window.Telegram && window.Telegram.WebApp) {
+                            var webapp = window.Telegram.WebApp;
+                            var initData = webapp.initDataUnsafe || {};
+                            if (initData.user) {
+                                tgUser = initData.user;
+                                updateTelegramButton(tgUser);
+                                webapp.expand();
+                            } else {
+                                alert('❌ Не удалось авторизоваться. Откройте приложение через Telegram.');
+                            }
+                        } else {
+                            alert('❌ Откройте это приложение через Telegram Mini App.');
+                        }
+                    };
+                };
+            } else {
+                tgButton.innerHTML = '<i class="icon-connect-telegram"></i><span class="tm-button-label">Telegram</span>';
+                tgButton.onclick = function() {
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        var webapp = window.Telegram.WebApp;
+                        var initData = webapp.initDataUnsafe || {};
+                        if (initData.user) {
+                            tgUser = initData.user;
+                            updateTelegramButton(tgUser);
+                            webapp.expand();
+                        } else {
+                            alert('❌ Не удалось авторизоваться. Откройте приложение через Telegram.');
+                        }
+                    } else {
+                        alert('❌ Откройте это приложение через Telegram Mini App.');
+                    }
+                };
+            }
+        }
+
+        // Инициализация: если пользователь уже авторизован, показываем аватарку
         if (window.Telegram && window.Telegram.WebApp) {
             var webapp = window.Telegram.WebApp;
             var initData = webapp.initDataUnsafe || {};
-
             if (initData.user) {
                 tgUser = initData.user;
-                console.log('✅ Пользователь уже авторизован в Mini App:', tgUser);
-
-                // Обновляем кнопку — показываем аватарку и ник
-                var avatarHtml = '';
-                if (tgUser.photo_url) {
-                    avatarHtml = '<img class="tg-avatar" src="' + tgUser.photo_url + '" alt="avatar">';
-                } else {
-                    var firstChar = (tgUser.first_name || 'U').charAt(0).toUpperCase();
-                    avatarHtml = '<span class="tg-avatar fallback">' + firstChar + '</span>';
-                }
-                var username = tgUser.username ? '@' + tgUser.username : (tgUser.first_name || 'User');
-                tgButton.innerHTML = avatarHtml + ' <span class="tg-username">' + username + '</span>';
-
-                // Меняем поведение кнопки — теперь она показывает профиль
-                tgButton.onclick = function() {
-                    alert('✅ Вы авторизованы как:\n\n' +
-                        'ID: ' + tgUser.id + '\n' +
-                        'Имя: ' + (tgUser.first_name || '') + ' ' + (tgUser.last_name || '') + '\n' +
-                        'Username: @' + (tgUser.username || 'нет') + '\n\n' +
-                        'Выход осуществляется через Telegram');
-                };
-
-                // Расширяем Telegram WebApp
+                updateTelegramButton(tgUser);
                 webapp.expand();
             } else {
-                console.log('⚠️ Пользователь не авторизован в Mini App');
-                tgButton.onclick = function() {
-                    alert('❌ Откройте приложение через Telegram Mini App, чтобы авторизоваться автоматически.');
-                };
+                updateTelegramButton(null);
             }
         } else {
-            console.log('⚠️ Страница открыта не в Telegram Mini App');
-            tgButton.onclick = function() {
-                alert('❌ Откройте это приложение через Telegram Mini App для автоматической авторизации.\n\n' +
-                    'Или откройте бота: t.me/' + TELEGRAM_BOT_ID);
-                window.open('tg://resolve?domain=' + TELEGRAM_BOT_ID, '_blank');
-            };
+            updateTelegramButton(null);
         }
 
         // ============================================================
-        // ==== TON CONNECT ====
+        // ==== TON CONNECT (без изменений) ====
         // ============================================================
 
         (function() {
@@ -2185,7 +2214,7 @@
                 var html = '';
                 for (var oi = 0; oi < loadedOffers.length; oi++) {
                     var item = loadedOffers[oi];
-                    var tgLink = 'https://t.me/' + item.name;
+                    var tgLink = item.name + '.t.me'; // Без https://
                     html += '<tr onclick="window.openDetail(\'' + item.name + '\', \'Username\', ' + item.price + ', ' +
                         (item.minBid || Math.round(item.price * 1.05)) + ', ' + (item.bidStep || Math.round(item
                             .price * 0.05)) + ', \'' + item.status + '\', \'' + item.label + '\', \'' + item
@@ -2194,7 +2223,7 @@
                     html += '<td>';
                     html += '<span class="tm-username-link">@' + item.name + '</span>';
                     html +=
-                        '<span class="tm-username-sub" onclick="event.stopPropagation(); window.open(\'' + tgLink +
+                        '<span class="tm-username-sub" onclick="event.stopPropagation(); window.open(\'https://' + tgLink +
                         '\', \'_blank\')">' + tgLink + '</span>';
                     html += '</td>';
                     html += '<td>' + item.type + '</td>';
@@ -2485,7 +2514,7 @@
                 var tgLinkEl = document.getElementById('popup-tg-link');
                 if (tgLink && type === 'Username') {
                     tgLinkEl.style.display = 'inline-block';
-                    tgLinkEl.href = tgLink;
+                    tgLinkEl.href = 'https://' + tgLink;
                     tgLinkEl.target = '_blank';
                 } else {
                     tgLinkEl.style.display = 'none';
@@ -2500,13 +2529,13 @@
             document.getElementById('detail-popup').addEventListener('click', function(e) {
                 if (e.target === this) this.classList.add('hide');
             });
+
+            // Кнопки Place Bid и Buy Now теперь ничего не делают
             document.getElementById('popup-bid-btn').addEventListener('click', function() {
-                alert('Place Bid clicked! (demo)');
-                document.getElementById('detail-popup').classList.add('hide');
+                // Ничего не происходит
             });
             document.getElementById('popup-buy-btn').addEventListener('click', function() {
-                alert('Buy Now clicked! (demo)');
-                document.getElementById('detail-popup').classList.add('hide');
+                // Ничего не происходит
             });
 
             // ---- SEARCH ----
