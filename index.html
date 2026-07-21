@@ -139,6 +139,7 @@
             align-items: center;
             gap: 4px;
             flex-shrink: 0;
+            position: relative;
         }
         .tm-header-button {
             font-size: 10px;
@@ -159,6 +160,7 @@
             white-space: nowrap;
             min-height: 28px;
             gap: 3px;
+            position: relative;
         }
         .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
         .tm-header-button:active { transform: scale(0.96); }
@@ -183,6 +185,41 @@
             background-repeat: no-repeat;
         }
         .tm-header-button .tm-button-label { font-size: 10px; }
+        
+        /* Кнопка выхода (выпадашка) */
+        .logout-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-color);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--def-border-radius);
+            padding: 4px 0;
+            min-width: 140px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+            margin-top: 4px;
+        }
+        .logout-dropdown.open { display: block; }
+        .logout-dropdown .logout-item {
+            display: block;
+            width: 100%;
+            padding: 8px 14px;
+            background: none;
+            border: none;
+            color: #ff5863;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: background .15s ease;
+            border-radius: 4px;
+        }
+        .logout-dropdown .logout-item:hover { background: rgba(255, 88, 99, 0.08); }
+        .logout-dropdown .logout-item:active { background: rgba(255, 88, 99, 0.15); }
+
         .tm-header-tabs-wrap {
             width: 100%;
             padding: 2px 8px 0 !important;
@@ -1346,7 +1383,6 @@
         .ton-manifest-iframe { display: none; }
         #section-mygifts .tm-section-header { display: none !important; }
 
-        /* Кнопка Telegram с аватаркой */
         .tm-header-button .tg-avatar {
             width: 20px;
             height: 20px;
@@ -1356,12 +1392,15 @@
             background: #293440;
         }
         .tm-header-button .tg-avatar.fallback {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 10px;
             color: #fff;
             background: #4db2ff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
         }
         .tm-header-button .tg-username {
             max-width: 80px;
@@ -1370,92 +1409,6 @@
             white-space: nowrap;
             display: inline-block;
         }
-
-        /* Меню выхода */
-        .tg-logout-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            backdrop-filter: blur(4px);
-        }
-        .tg-logout-menu.open { display: flex; }
-        .tg-logout-box {
-            background: var(--bg-color);
-            border-radius: 14px;
-            max-width: 320px;
-            width: 100%;
-            padding: 24px 20px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            text-align: center;
-        }
-        .tg-logout-box .avatar-big {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            margin: 0 auto 12px;
-            object-fit: cover;
-            display: block;
-            background: #293440;
-        }
-        .tg-logout-box .avatar-big.fallback {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: #fff;
-            background: #4db2ff;
-            margin: 0 auto 12px;
-        }
-        .tg-logout-box .name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 2px;
-        }
-        .tg-logout-box .username {
-            font-size: 13px;
-            color: var(--text-color);
-            margin-bottom: 16px;
-        }
-        .tg-logout-box .logout-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #ff5863;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background .2s ease;
-            font-family: inherit;
-            min-height: 44px;
-        }
-        .tg-logout-box .logout-btn:hover { background: #e04a55; }
-        .tg-logout-box .logout-btn:active { transform: scale(0.97); }
-        .tg-logout-box .cancel-btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            background: transparent;
-            border: none;
-            color: var(--text-color);
-            font-size: 13px;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .tg-logout-box .cancel-btn:hover { color: #fff; }
     </style>
 </head>
 <body>
@@ -1476,6 +1429,9 @@
                     <button class="tm-header-button" id="btn-telegram">
                         <i class="icon-connect-telegram"></i>
                         <span class="tm-button-label" id="tg-button-label">Telegram</span>
+                        <div class="logout-dropdown" id="logout-dropdown">
+                            <button class="logout-item" id="logout-btn">Log out of your account</button>
+                        </div>
                     </button>
                     <button class="tm-header-button" id="btn-ton">
                         <i class="icon-connect-ton"></i>
@@ -1813,17 +1769,6 @@
             </div>
         </div>
 
-        <!-- Меню выхода -->
-        <div class="tg-logout-menu" id="tg-logout-menu">
-            <div class="tg-logout-box">
-                <div id="logout-avatar-container"></div>
-                <div class="name" id="logout-name">User</div>
-                <div class="username" id="logout-username">@username</div>
-                <button class="logout-btn" id="logout-btn">Log out of your account</button>
-                <button class="cancel-btn" id="logout-cancel">Cancel</button>
-            </div>
-        </div>
-
         <footer class="tm-footer">
             <div class="tm-footer-links">
                 <a href="#" class="tm-footer-link">Top Auctions</a>
@@ -1837,18 +1782,14 @@
 
     <script>
         // ============================================================
-        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ С ВЫХОДОМ ====
+        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ С ВЫПАДАЮЩЕЙ КНОПКОЙ ====
         // ============================================================
 
         var tgUser = null;
         var tgButton = document.getElementById('btn-telegram');
         var tgLabel = document.getElementById('tg-button-label');
-        var tgLogoutMenu = document.getElementById('tg-logout-menu');
+        var logoutDropdown = document.getElementById('logout-dropdown');
         var logoutBtn = document.getElementById('logout-btn');
-        var logoutCancel = document.getElementById('logout-cancel');
-        var logoutName = document.getElementById('logout-name');
-        var logoutUsername = document.getElementById('logout-username');
-        var logoutAvatar = document.getElementById('logout-avatar-container');
 
         // Функция обновления кнопки
         function updateTelegramButton(user) {
@@ -1865,36 +1806,22 @@
             } else {
                 tgButton.innerHTML = '<i class="icon-connect-telegram"></i><span class="tm-button-label">Telegram</span>';
             }
+            // Скрываем дропдаун при обновлении
+            logoutDropdown.classList.remove('open');
         }
 
-        // Функция открытия меню выхода
-        function openLogoutMenu(user) {
-            if (!user) return;
-
-            // Аватарка
-            if (user.photo_url) {
-                logoutAvatar.innerHTML = '<img class="avatar-big" src="' + user.photo_url + '" alt="avatar">';
+        // Переключение дропдауна
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            if (tgUser) {
+                logoutDropdown.classList.toggle('open');
             } else {
-                var firstChar = (user.first_name || 'U').charAt(0).toUpperCase();
-                logoutAvatar.innerHTML = '<div class="avatar-big fallback">' + firstChar + '</div>';
+                // Если не авторизован — пробуем войти
+                loginWithTelegram();
             }
-
-            logoutName.textContent = user.first_name || 'User';
-            logoutUsername.textContent = user.username ? '@' + user.username : '';
-
-            tgLogoutMenu.classList.add('open');
         }
 
-        // Функция выхода
-        function logout() {
-            tgUser = null;
-            updateTelegramButton(null);
-            tgLogoutMenu.classList.remove('open');
-            // Сохраняем состояние
-            sessionStorage.removeItem('tg_user');
-        }
-
-        // Функция входа (получение данных из Mini App)
+        // Функция входа
         function loginWithTelegram() {
             if (window.Telegram && window.Telegram.WebApp) {
                 var webapp = window.Telegram.WebApp;
@@ -1908,7 +1835,18 @@
                     return true;
                 }
             }
+            // Если не в Telegram — открываем бота
+            alert('❌ Откройте приложение через Telegram Mini App для автоматической авторизации.\n\nИли откройте бота: @FkckXScared');
+            window.open('tg://resolve?domain=FkckXScared', '_blank');
             return false;
+        }
+
+        // Выход
+        function logout() {
+            tgUser = null;
+            updateTelegramButton(null);
+            sessionStorage.removeItem('tg_user');
+            logoutDropdown.classList.remove('open');
         }
 
         // Проверяем сохраненного пользователя
@@ -1927,36 +1865,19 @@
             loginWithTelegram();
         }
 
-        // Обработчик клика по кнопке Telegram
-        tgButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (tgUser) {
-                // Если пользователь авторизован — открываем меню выхода
-                openLogoutMenu(tgUser);
-            } else {
-                // Если не авторизован — пробуем войти через Mini App
-                var success = loginWithTelegram();
-                if (!success) {
-                    alert('❌ Откройте приложение через Telegram Mini App для автоматической авторизации.\n\nИли откройте бота: @FkckXScared');
-                    window.open('tg://resolve?domain=FkckXScared', '_blank');
-                }
-            }
-        });
+        // Клик по кнопке Telegram — переключаем дропдаун или входим
+        tgButton.addEventListener('click', toggleDropdown);
 
-        // Выход
-        logoutBtn.addEventListener('click', function() {
+        // Кнопка выхода
+        logoutBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
             logout();
         });
 
-        // Отмена
-        logoutCancel.addEventListener('click', function() {
-            tgLogoutMenu.classList.remove('open');
-        });
-
-        // Закрытие по клику вне
-        tgLogoutMenu.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('open');
+        // Закрытие дропдауна при клике вне
+        document.addEventListener('click', function(e) {
+            if (!tgButton.contains(e.target)) {
+                logoutDropdown.classList.remove('open');
             }
         });
 
