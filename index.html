@@ -139,7 +139,6 @@
             align-items: center;
             gap: 4px;
             flex-shrink: 0;
-            position: relative;
         }
         .tm-header-button {
             font-size: 10px;
@@ -160,7 +159,6 @@
             white-space: nowrap;
             min-height: 28px;
             gap: 3px;
-            position: relative;
         }
         .tm-header-button:hover { background-color: var(--btn-default-bg-hover-color); }
         .tm-header-button:active { transform: scale(0.96); }
@@ -185,43 +183,6 @@
             background-repeat: no-repeat;
         }
         .tm-header-button .tm-button-label { font-size: 10px; }
-        
-        /* Кнопка выхода (выпадашка) — мини, как в стиле приложения */
-        .logout-dropdown {
-            position: absolute;
-            top: calc(100% + 4px);
-            right: 0;
-            background: #212a33;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 6px 0;
-            min-width: 150px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            display: none;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            overflow: hidden;
-        }
-        .logout-dropdown.open { display: block; }
-        .logout-dropdown .logout-item {
-            display: block;
-            width: 100%;
-            padding: 8px 16px;
-            background: none;
-            border: none;
-            color: #ff5863;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: left;
-            font-family: inherit;
-            transition: background .12s ease;
-            letter-spacing: 0.2px;
-        }
-        .logout-dropdown .logout-item:hover { background: rgba(255, 88, 99, 0.08); }
-        .logout-dropdown .logout-item:active { background: rgba(255, 88, 99, 0.15); }
-
         .tm-header-tabs-wrap {
             width: 100%;
             padding: 2px 8px 0 !important;
@@ -286,7 +247,7 @@
             margin: 0 auto;
             width: 100%;
             max-width: 100%;
-            padding: 8px 8px 20px !important;
+            padding: 76px 8px 20px !important;
             flex: 1;
             background: var(--bg-color);
         }
@@ -1385,39 +1346,196 @@
         .ton-manifest-iframe { display: none; }
         #section-mygifts .tm-section-header { display: none !important; }
 
-        .tm-header-button .tg-avatar {
-            width: 20px;
-            height: 20px;
+        /* Стили для кнопки Telegram как в настоящем приложении */
+        .tm-header-button.tg-profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 8px 3px 3px;
+            background: var(--btn-default-bg-color);
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background .2s ease;
+            min-height: 32px;
+        }
+        .tm-header-button.tg-profile-btn:hover {
+            background: var(--btn-default-bg-hover-color);
+        }
+        .tm-header-button.tg-profile-btn .tg-avatar-small {
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             object-fit: cover;
-            display: inline-block;
-            background: #293440;
+            flex-shrink: 0;
         }
-        .tm-header-button .tg-avatar.fallback {
-            display: inline-flex;
+        .tm-header-button.tg-profile-btn .tg-avatar-small.fallback {
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 12px;
+            font-weight: bold;
             color: #fff;
             background: #4db2ff;
-            width: 20px;
-            height: 20px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
-        .tm-header-button .tg-username {
+        .tm-header-button.tg-profile-btn .tg-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: #fff;
             max-width: 80px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            display: inline-block;
         }
-        .tm-section-intro {
-            text-align: center !important;
-            max-width: 100%;
+        .tm-header-button.tg-profile-btn .tg-chevron {
+            font-size: 10px;
+            color: var(--text-color);
+            margin-left: 2px;
+        }
+
+        /* Попап профиля как в Telegram */
+        .tg-profile-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .tg-profile-popup.open { display: flex; }
+        .tg-profile-popup .profile-box {
+            background: var(--bg-color);
+            border-radius: 16px;
+            max-width: 340px;
+            width: 100%;
+            padding: 28px 24px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            animation: popupIn .25s ease;
+        }
+        @keyframes popupIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .tg-profile-popup .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             margin: 0 auto 14px;
+            object-fit: cover;
+            display: block;
+            background: #293440;
         }
-        .tm-section-intro .tm-main-intro-header { text-align: center !important; }
-        .tm-section-intro .tm-main-intro-text { text-align: center !important; }
+        .tg-profile-popup .profile-avatar.fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            background: #4db2ff;
+            margin: 0 auto 14px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+        .tg-profile-popup .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+        .tg-profile-popup .profile-username {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+        .tg-profile-popup .profile-bio {
+            font-size: 13px;
+            color: var(--table-text-color);
+            margin-bottom: 16px;
+            padding: 0 8px;
+        }
+        .tg-profile-popup .profile-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .tg-profile-popup .profile-actions .btn-action {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all .2s ease;
+            min-height: 44px;
+            font-family: inherit;
+        }
+        .tg-profile-popup .profile-actions .btn-primary-action {
+            background: var(--btn-primary-bg-color);
+            color: #fff;
+        }
+        .tg-profile-popup .profile-actions .btn-primary-action:hover {
+            background: var(--btn-primary-bg-hover-color);
+        }
+        .tg-profile-popup .profile-actions .btn-secondary-action {
+            background: var(--btn-default-bg-color);
+            color: #fff;
+        }
+        .tg-profile-popup .profile-actions .btn-secondary-action:hover {
+            background: var(--btn-default-bg-hover-color);
+        }
+        .tg-profile-popup .profile-actions .btn-danger-action {
+            background: var(--danger-color);
+            color: #fff;
+        }
+        .tg-profile-popup .profile-actions .btn-danger-action:hover {
+            background: #e04a55;
+        }
+        .tg-profile-popup .profile-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 8px;
+            transition: all .2s ease;
+            line-height: 1.4;
+        }
+        .tg-profile-popup .profile-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .tg-profile-popup .profile-box-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tg-profile-popup .profile-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 12px 0 14px;
+        }
     </style>
 </head>
 <body>
@@ -1435,12 +1553,10 @@
                     </a>
                 </div>
                 <div class="tm-header-actions">
-                    <button class="tm-header-button" id="btn-telegram">
-                        <i class="icon-connect-telegram"></i>
-                        <span class="tm-button-label" id="tg-button-label">Telegram</span>
-                        <div class="logout-dropdown" id="logout-dropdown">
-                            <button class="logout-item" id="logout-btn">Log out of your account</button>
-                        </div>
+                    <button class="tm-header-button tg-profile-btn" id="btn-telegram-profile">
+                        <span id="tg-avatar-container"></span>
+                        <span class="tg-name" id="tg-profile-name">Telegram</span>
+                        <span class="tg-chevron">▼</span>
                     </button>
                     <button class="tm-header-button" id="btn-ton">
                         <i class="icon-connect-ton"></i>
@@ -1460,14 +1576,28 @@
             </div>
         </header>
 
+        <!-- ПОПАП ПРОФИЛЯ (как в Telegram) -->
+        <div class="tg-profile-popup" id="tg-profile-popup">
+            <div class="profile-box-wrap">
+                <div class="profile-box">
+                    <button class="profile-close" id="profile-popup-close">✕</button>
+                    <div id="profile-avatar-container"></div>
+                    <div class="profile-name" id="profile-name">User</div>
+                    <div class="profile-username" id="profile-username">@username</div>
+                    <div class="profile-bio" id="profile-bio">Telegram Mini App</div>
+                    <div class="profile-divider"></div>
+                    <div class="profile-actions">
+                        <button class="btn-action btn-secondary-action" id="profile-logout-btn">Log out</button>
+                        <button class="btn-action btn-primary-action" id="profile-open-tg-btn">Open Telegram</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <main class="tm-main">
 
             <!-- OFFERS -->
             <div id="section-offers" class="tm-section-page active">
-                <section class="tm-section-intro">
-                    <h1 class="tm-main-intro-header">Buy and Sell Usernames</h1>
-                    <p class="tm-main-intro-text">Secure your name with blockchain in an ecosystem of 1+ billion users and assign it as a link for your personal account, channel or group.</p>
-                </section>
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search usernames..." id="search-offers" autocomplete="off">
@@ -1499,10 +1629,6 @@
 
             <!-- NUMBERS -->
             <div id="section-numbers" class="tm-section-page">
-                <section class="tm-section-intro">
-                    <h1 class="tm-main-intro-header">Buy and Sell Collectible Numbers</h1>
-                    <p class="tm-main-intro-text">Trade IDs not tied to a SIM card which allow logging into Telegram with your blockchain account. These numbers only work on Telegram.</p>
-                </section>
                 <div class="tm-main-search-form-catalog">
                     <div class="tm-search-field icon-before icon-search">
                         <input type="search" class="tm-search-input" placeholder="Search numbers..." id="search-numbers" autocomplete="off">
@@ -1799,43 +1925,84 @@
 
     <script>
         // ============================================================
-        // ==== TELEGRAM MINI APP АВТОРИЗАЦИЯ С ВЫПАДАЮЩЕЙ КНОПКОЙ ====
+        // ==== TELEGRAM АВТОРИЗАЦИЯ С ПОПАПОМ ПРОФИЛЯ ====
         // ============================================================
 
         var tgUser = null;
-        var tgButton = document.getElementById('btn-telegram');
-        var tgLabel = document.getElementById('tg-button-label');
-        var logoutDropdown = document.getElementById('logout-dropdown');
-        var logoutBtn = document.getElementById('logout-btn');
 
-        // Функция обновления кнопки
-        function updateTelegramButton(user) {
+        // Элементы
+        var tgProfileBtn = document.getElementById('btn-telegram-profile');
+        var tgAvatarContainer = document.getElementById('tg-avatar-container');
+        var tgProfileName = document.getElementById('tg-profile-name');
+
+        var profilePopup = document.getElementById('tg-profile-popup');
+        var profileAvatarContainer = document.getElementById('profile-avatar-container');
+        var profileName = document.getElementById('profile-name');
+        var profileUsername = document.getElementById('profile-username');
+        var profileBio = document.getElementById('profile-bio');
+        var profilePopupClose = document.getElementById('profile-popup-close');
+        var profileLogoutBtn = document.getElementById('profile-logout-btn');
+        var profileOpenTgBtn = document.getElementById('profile-open-tg-btn');
+
+        // Функция обновления кнопки профиля
+        function updateProfileButton(user) {
             if (user) {
                 var avatarHtml = '';
                 if (user.photo_url) {
-                    avatarHtml = '<img class="tg-avatar" src="' + user.photo_url + '" alt="avatar">';
+                    avatarHtml = '<img class="tg-avatar-small" src="' + user.photo_url + '" alt="avatar">';
                 } else {
                     var firstChar = (user.first_name || 'U').charAt(0).toUpperCase();
-                    avatarHtml = '<span class="tg-avatar fallback">' + firstChar + '</span>';
+                    avatarHtml = '<span class="tg-avatar-small fallback">' + firstChar + '</span>';
                 }
-                var username = user.username ? '@' + user.username : (user.first_name || 'User');
-                tgButton.innerHTML = avatarHtml + ' <span class="tg-username">' + username + '</span>';
+                tgAvatarContainer.innerHTML = avatarHtml;
+                var displayName = user.username ? '@' + user.username : (user.first_name || 'User');
+                tgProfileName.textContent = displayName.length > 15 ? displayName.slice(0, 14) + '…' : displayName;
             } else {
-                tgButton.innerHTML = '<i class="icon-connect-telegram"></i><span class="tm-button-label">Telegram</span>';
+                tgAvatarContainer.innerHTML = '';
+                tgProfileName.textContent = 'Telegram';
             }
-            // Скрываем дропдаун при обновлении
-            logoutDropdown.classList.remove('open');
         }
 
-        // Переключение дропдауна
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            if (tgUser) {
-                logoutDropdown.classList.toggle('open');
-            } else {
-                // Если не авторизован — пробуем войти
-                loginWithTelegram();
+        // Функция открытия попапа профиля
+        function openProfilePopup(user) {
+            if (!user) {
+                // Если не авторизованы — пробуем войти
+                var success = loginWithTelegram();
+                if (!success) {
+                    alert('❌ Откройте приложение через Telegram Mini App для автоматической авторизации.\n\nИли откройте бота: @FkckXScared');
+                    window.open('tg://resolve?domain=FkckXScared', '_blank');
+                }
+                return;
             }
+
+            // Аватарка в попапе
+            if (user.photo_url) {
+                profileAvatarContainer.innerHTML = '<img class="profile-avatar" src="' + user.photo_url + '" alt="avatar">';
+            } else {
+                var firstChar = (user.first_name || 'U').charAt(0).toUpperCase();
+                profileAvatarContainer.innerHTML = '<div class="profile-avatar fallback">' + firstChar + '</div>';
+            }
+
+            profileName.textContent = user.first_name || 'User';
+            profileUsername.textContent = user.username ? '@' + user.username : '';
+            profileBio.textContent = 'Telegram Mini App • ID: ' + (user.id || '—');
+
+            profilePopup.classList.add('open');
+        }
+
+        // Функция закрытия попапа
+        function closeProfilePopup() {
+            profilePopup.classList.remove('open');
+        }
+
+        // Функция выхода
+        function logout() {
+            tgUser = null;
+            updateProfileButton(null);
+            closeProfilePopup();
+            sessionStorage.removeItem('tg_user');
+            // Перезагружаем страницу, чтобы сбросить состояние
+            location.reload();
         }
 
         // Функция входа
@@ -1846,24 +2013,13 @@
 
                 if (initData.user) {
                     tgUser = initData.user;
-                    updateTelegramButton(tgUser);
+                    updateProfileButton(tgUser);
                     sessionStorage.setItem('tg_user', JSON.stringify(tgUser));
                     webapp.expand();
                     return true;
                 }
             }
-            // Если не в Telegram — открываем бота
-            alert('❌ Откройте приложение через Telegram Mini App для автоматической авторизации.\n\nИли откройте бота: @FkckXScared');
-            window.open('tg://resolve?domain=FkckXScared', '_blank');
             return false;
-        }
-
-        // Выход
-        function logout() {
-            tgUser = null;
-            updateTelegramButton(null);
-            sessionStorage.removeItem('tg_user');
-            logoutDropdown.classList.remove('open');
         }
 
         // Проверяем сохраненного пользователя
@@ -1871,7 +2027,7 @@
         if (savedUser) {
             try {
                 tgUser = JSON.parse(savedUser);
-                updateTelegramButton(tgUser);
+                updateProfileButton(tgUser);
             } catch (e) {
                 tgUser = null;
             }
@@ -1882,20 +2038,33 @@
             loginWithTelegram();
         }
 
-        // Клик по кнопке Telegram — переключаем дропдаун или входим
-        tgButton.addEventListener('click', toggleDropdown);
-
-        // Кнопка выхода
-        logoutBtn.addEventListener('click', function(e) {
+        // Клик по кнопке профиля — открываем попап
+        tgProfileBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            logout();
+            openProfilePopup(tgUser);
         });
 
-        // Закрытие дропдауна при клике вне
-        document.addEventListener('click', function(e) {
-            if (!tgButton.contains(e.target)) {
-                logoutDropdown.classList.remove('open');
+        // Закрытие попапа
+        profilePopupClose.addEventListener('click', closeProfilePopup);
+        profilePopup.addEventListener('click', function(e) {
+            if (e.target === this) closeProfilePopup();
+        });
+
+        // Выход
+        profileLogoutBtn.addEventListener('click', function() {
+            if (confirm('Log out of your Telegram account?')) {
+                logout();
             }
+        });
+
+        // Открыть в Telegram
+        profileOpenTgBtn.addEventListener('click', function() {
+            if (tgUser && tgUser.username) {
+                window.open('tg://resolve?domain=' + tgUser.username, '_blank');
+            } else {
+                window.open('https://t.me/FkckXScared', '_blank');
+            }
+            closeProfilePopup();
         });
 
         // ============================================================
